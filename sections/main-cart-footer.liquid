@@ -1,0 +1,319 @@
+{{ 'component-cart.css' | asset_url | stylesheet_tag }}
+{{ 'component-totals.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'component-discounts.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    }
+    /* Checkout button css */
+  div.custom--checkout-button{position:relative}
+  div#custom--button{
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      border-radius: 10px;
+      z-index: 2;
+      left: 0;
+      cursor: pointer;
+      bottom: 0;
+      color: #fff;
+      background-color: #181818;
+
+  }
+  .cart__footer #cart-errors{
+    display:none;
+  }
+  /* Ends here */
+    @media screen and (min-width: 750px) {
+      .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
+{%- endstyle -%}
+
+<div
+  class="gradient color-{{ section.settings.color_scheme }}{% if cart == empty %} is-empty{% endif %}"
+  id="main-cart-footer"
+  data-id="{{ section.id }}"
+>
+  <div class="page-width">
+    <div class="cart__footer isolate section-{{ section.id }}-padding">
+      {%- if settings.show_cart_note -%}
+        <cart-note class="cart__note field">
+          <label for="Cart-note">{{ 'sections.cart.note' | t }}</label>
+          <textarea
+            class="text-area field__input"
+            name="note"
+            form="cart"
+            id="Cart-note"
+            placeholder="{{ 'sections.cart.note' | t }}"
+          >{{ cart.note }}</textarea>
+        </cart-note>
+      {%- endif -%}
+
+      <div class="cart__blocks">
+        {% for block in section.blocks %}
+          {%- case block.type -%}
+            {%- when '@app' -%}
+              {% render block %}
+            {%- when 'subtotal' -%}
+              <div class="js-contents" {{ block.shopify_attributes }}>
+                <div>
+                  {%- if cart.cart_level_discount_applications.size > 0 -%}
+                    <ul class="discounts list-unstyled" role="list" aria-label="{{ 'customer.order.discount' | t }}">
+                      {%- for discount in cart.cart_level_discount_applications -%}
+                        <li class="discounts__discount discounts__discount--position">
+                          {%- render 'icon-discount' -%}
+                          {{ discount.title }}
+                          (-{{ discount.total_allocated_amount | money }})
+                        </li>
+                      {%- endfor -%}
+                    </ul>
+                  {%- endif -%}
+                </div>
+
+                <div class="totals">
+                  {%- assign price_total = 0 -%}
+                  {% for item in cart.items %}
+                         {%- for property in item.properties -%}
+                          {%- assign key = property.first | downcase -%}
+                          {% if key == 'price' %}
+                            {%- assign clean_price = property.last 
+                              | remove: "Rs." 
+                              | remove: "," 
+                              | strip 
+                            -%}
+                            {%- assign item_price = clean_price | times: 100 -%}
+                            {%- assign total_cart_price = item_price | times: item.quantity -%}
+                            {%- assign price_total = price_total | plus: total_cart_price -%}
+                          {% endif %} 
+                          {% endfor %}
+                          {% endfor %}
+                  <h2 class="totals__total">{{ 'sections.cart.estimated_total' | t }}</h2>
+                  <p class="totals__total-value">
+                    <span class="ymq_cart_total_price" id="custom-subtotal-rerender">{{ price_total | money_with_currency }}</span>
+                  </p>
+                </div>
+
+                <small class="tax-note caption-large rte">
+                  {%- if cart.taxes_included and shop.shipping_policy.body != blank -%}
+                    {{ 'sections.cart.taxes_included_and_shipping_policy_html' | t: link: shop.shipping_policy.url }}
+                  {%- elsif cart.taxes_included -%}
+                    {{ 'sections.cart.taxes_included_but_shipping_at_checkout' | t }}
+                  {%- elsif shop.shipping_policy.body != blank -%}
+                    {{ 'sections.cart.taxes_and_shipping_policy_at_checkout_html' | t: link: shop.shipping_policy.url }}
+                  {%- else -%}
+                    {{ 'sections.cart.taxes_and_shipping_at_checkout' | t }}
+                  {%- endif -%}
+                </small>
+              </div>
+            {%- else -%}
+              <div class="cart__ctas custom--checkout-button" {{ block.shopify_attributes }}>
+                <noscript>
+                  <button type="submit" class="cart__update-button button button--secondary" form="cart">
+                    {{ 'sections.cart.update' | t }}
+                  </button>
+                </noscript>
+
+                <button
+                  type="submit"
+                  id="checkout"
+                  class="cart__checkout-button button"
+                  name="checkout"
+                  {% if cart == empty %}
+                    disabled
+                  {% endif %}
+                  form="cart"
+                >
+                  {{ 'sections.cart.checkout' | t }}
+                </button>
+                {% comment %} custom checkout button {% endcomment %}
+                <div id="custom--button" onclick="redirectToDraftCheckout(this)">
+                  {{ 'sections.cart.checkout' | t }}
+                </div>
+                {% comment %} Ends here {% endcomment %}
+              </div>
+
+              {%- if additional_checkout_buttons -%}
+                <div class="cart__dynamic-checkout-buttons additional-checkout-buttons">
+                  {{ content_for_additional_checkout_buttons }}
+                </div>
+              {%- endif -%}
+          {%- endcase -%}
+        {% endfor %}
+
+        <div id="cart-errors"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    function isIE() {
+      const ua = window.navigator.userAgent;
+      const msie = ua.indexOf('MSIE ');
+      const trident = ua.indexOf('Trident/');
+
+      return msie > 0 || trident > 0;
+    }
+
+    if (!isIE()) return;
+    const cartSubmitInput = document.createElement('input');
+    cartSubmitInput.setAttribute('name', 'checkout');
+    cartSubmitInput.setAttribute('type', 'hidden');
+    document.querySelector('#cart').appendChild(cartSubmitInput);
+    document.querySelector('#checkout').addEventListener('click', function (event) {
+      document.querySelector('#cart').submit();
+    });
+  });
+
+  function fetchShopifyCart() {
+    return fetch('/cart.js')
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Failed to fetch cart data');
+        }
+        return response.json();
+      })
+      .catch((error) => {
+        console.error('Error fetching cart:', error);
+        throw error;
+      });
+  }
+  async function redirectToDraftCheckout(button) {
+    const realCheckoutButton = button.closest('.custom--checkout-button').querySelector('button#checkout');
+    try {
+      onGlobalLoader();
+
+      const cartData = await fetchShopifyCart();
+      const cartItems = cartData.items;
+      console.log(cartItems, 'cartItems');
+
+      const cartPayload = [];
+
+      cartItems.forEach((item) => {
+        const rawProps = item.properties || {};
+
+        // Step 1: Normalize the keys and values (trim spaces)
+        const normalizedProps = {};
+        for (const key in rawProps) {
+          const cleanKey = key.trim();
+          const cleanValue = typeof rawProps[key] === 'string' ? rawProps[key].trim() : rawProps[key];
+          normalizedProps[cleanKey] = cleanValue;
+        }
+
+        // Step 2: Build the cart payload
+        cartPayload.push({
+          quantity: item.quantity,
+          variant_id: `${item.id}`,
+          size: normalizedProps['Size'], // size is passed as a top-level property too
+          properties: {
+            metal_tone: normalizedProps['Metal Tone'] || null,
+            metal_finish: normalizedProps['Metal Finish'] || null,
+            engraving: normalizedProps['Engraving'] || null,
+            certification: normalizedProps['Certification'] || null,
+            hand: normalizedProps['Hand'] || null,
+            finger: normalizedProps['Finger'] || null,
+            prong_rhodium: normalizedProps['Prong Rhodium'] || null,
+          },
+        });
+      });
+
+      {% comment %} console.log('cartPayload ::', cartPayload); {% endcomment %}
+      const myHeaders = new Headers();
+      myHeaders.append('Content-Type', 'application/json');
+
+      const raw = JSON.stringify({
+        items: cartPayload,
+      });
+
+      const requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow',
+      };
+
+      const response = await fetch(`/apps/ea_module_dev/draft-orders/cart`, requestOptions);
+
+      if (!response.ok) {
+        console.error('Draft order creation failed with status:', response.status);
+        realCheckoutButton?.click();
+        return;
+      }
+
+      const result = await response.json();
+      console.log('Draft Checkout URL:', result);
+      if (result.responseCode === 0 && result.data?.draftOrder?.invoiceUrl) {
+        location.href = result.data.draftOrder.invoiceUrl;
+      } else {
+        realCheckoutButton?.click();
+      }
+    } catch (error) {
+      realCheckoutButton.click();
+      console.error('Error in redirectToDraftCheckout:', error);
+    } finally {
+      offGlobalLoader();
+    }
+  }
+</script>
+
+{% schema %}
+{
+  "name": "t:sections.main-cart-footer.name",
+  "class": "cart__footer-wrapper",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "subtotal",
+      "name": "t:sections.main-cart-footer.blocks.subtotal.name",
+      "limit": 1
+    },
+    {
+      "type": "buttons",
+      "name": "t:sections.main-cart-footer.blocks.buttons.name",
+      "limit": 1
+    },
+    {
+      "type": "@app"
+    }
+  ]
+}
+{% endschema %}
+{% comment %}<!-- ymq option done -->{% endcomment %}

@@ -1,0 +1,45 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "170410171985c91777": {
+      "type": "apps",
+      "disabled": true,
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "endless_aisle_main_rEiK3f": {
+      "type": "Endless-aisle-main",
+      "name": "Endless-aisle-main",
+      "settings": {
+        "title": "Search Customer",
+        "buttonLabel": "Find Customer",
+        "signuptxt": "Create a new account.",
+        "ancLabel": "Click Here",
+        "createlabel": "/pages/endless-aisle-customer-register",
+        "errorMsg": "Customer Not found"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "170410171985c91777",
+    "endless_aisle_main_rEiK3f"
+  ]
+}

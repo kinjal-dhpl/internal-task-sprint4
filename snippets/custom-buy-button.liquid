@@ -1,0 +1,97 @@
+ <style>
+  .new_buy_button {
+    width: 100%;
+    padding: 15px 0;
+    background: black;
+    color: white;
+    font-size: 16px;
+    border-radius: 16px;
+    cursor: pointer;
+    max-width: 44rem;
+    margin-bottom:0;
+  }
+ </style>
+
+ <button class="new_buy_button" onclick="redirectToPdpDraftCheckout(this)">Buy it now</button>
+
+ <script>
+    console.log('hello from buy-buttons');
+    async function redirectToPdpDraftCheckout(button) {
+      console.log('pdp checkout button clicked');
+      try {
+        onGlobalLoader();
+
+        // --- 1. Extract variantId & size from URL ---
+        const urlParams = new URLSearchParams(window.location.search);
+        const variantId = urlParams.get('variant');
+        const size = urlParams.get('size');
+
+        if (!variantId) {
+          console.error('Variant ID not found in URL');
+          return;
+        }
+
+        // --- 2. Extract properties from hidden inputs ---
+        const inputs = document.querySelectorAll('.add-to-cart-form-input-box .ymq-hidden-input');
+
+        const normalizedProps = {};
+        inputs.forEach((input) => {
+          const name = input.getAttribute('name') || '';
+          const value = (input.value || '').trim();
+
+          // match both "properties[Key]" and "empty-properties[Key]"
+          const match = name.match(/(?:^| )properties\[(.+?)\]/i);
+          if (match) {
+            const cleanKey = match[1].trim();
+            normalizedProps[cleanKey] = value;
+          }
+        });
+
+        // --- 3. Build the payload ---
+        const cartPayload = [
+          {
+            quantity: 1,
+            variant_id: variantId,
+            size: size,
+            properties: {
+              metal_tone: normalizedProps['Metal Tone'] || null,
+              metal_finish: normalizedProps['Metal Finish'] || null,
+              engraving: normalizedProps['Engraving'] || null,
+              certification: normalizedProps['Certification'] || null,
+              hand: normalizedProps['Hand'] || null,
+              finger: normalizedProps['Finger'] || null,
+              prong_rhodium: normalizedProps['Prong Rhodium'] || null,
+            },
+          },
+        ];
+
+        console.log(cartPayload[0].properties, 'cartPayload');
+
+        // --- 4. Send API request ---
+        const response = await fetch(`/apps/ea_module_dev/draft-orders/cart`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ items: cartPayload }),
+        });
+
+        console.log(response, 'response');
+        if (!response.ok) {
+          console.error('Draft order creation failed with status:', response.status);
+          return;
+        }
+
+        const result = await response.json();
+        console.log('Draft Checkout URL:', result.data.draftOrder);
+
+        if (result.responseCode === 0 && result.data?.draftOrder?.invoiceUrl) {
+          location.href = result.data.draftOrder.invoiceUrl;
+        } else {
+          console.error('Draft order API did not return invoiceUrl');
+        }
+      } catch (err) {
+        console.error('Error in redirectToPdpDraftCheckout:', err);
+      } finally {
+        offGlobalLoader();
+      }
+    }
+  </script>

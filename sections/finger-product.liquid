@@ -1,0 +1,390 @@
+<h2 data-aos="fade-zoom-in" class="title__black">{{ section.settings.title }}</h2>
+<p data-aos="fade-zoom-in">{{ section.settings.subtitle }}</p>
+
+<div data-aos="fade-up" class="step-3__wrapper">
+
+    <!-- Image at the top -->
+    <div class="image-container" style="text-align: center;">
+        <img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/Untitled_design_50.png?v=1727953570">
+    </div>
+
+    <!-- GENDER TITLE ABOVE GENDER BUTTONS -->
+    <div class="gender-title" style="text-align: center; padding-top: 20px;">
+        Gender
+    </div>
+
+    <!-- GENDER BUTTONS -->
+    <div class="gender-tab" style="text-align: center; padding-top: 20px;">
+        <button class="genderlinks active" onclick="openGender(event, 'Female')" id="defaultFemale">Female</button>
+        <button class="genderlinks" onclick="openGender(event, 'Male')" id="defaultMale">Male</button>
+    </div>
+
+    <!-- Title 2 (Placed between Gender buttons and Gold/Platinum buttons) -->
+    <h2 data-aos="fade-zoom-in" class="title__grad title__padding">{{ section.settings.title2 }}</h2>
+
+    <!-- TABS FOR FEMALE -->
+    <div class="tab" id="FemaleTab">
+        <button class="tablinks active" style="margin-top: 10px;" onclick="openMetalTab(event, 'GoldFemale')" id="defaultOpenFemale">
+          <img class="normal" src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/gold-normal.png?v=1716771760" />
+          <img class="selected" src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/gold-icon.png?v=1716694579" />
+          Gold
+        </button>
+        <button class="tablinks" style="margin-top: 10px;" onclick="openMetalTab(event, 'PlatinumFemale')">
+          <img class="normal" src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/platinum-selected.png?v=1716771760" />
+          <img class="selected" src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/platinum-selected.png?v=1716771760" />
+          Platinum
+        </button>
+    </div>
+
+    <!-- TABS FOR MALE -->
+    <div class="tab" id="MaleTab" style="display:none;">
+        <button class="tablinks" style="margin-top: 10px;" onclick="openMetalTab(event, 'GoldMale')" id="defaultOpenMale">
+          <img class="normal" src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/gold-normal.png?v=1716771760" />
+          <img class="selected" src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/gold-icon.png?v=1716694579" />
+          Gold
+        </button>
+        <button class="tablinks" style="margin-top: 10px;" onclick="openMetalTab(event, 'PlatinumMale')">
+          <img class="normal" src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/platinum-selected.png?v=1716771760" />
+          <img class="selected" src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/platinum-selected.png?v=1716771760" />
+          Platinum
+        </button>
+    </div>
+
+    <!-- TAB CONTENT FOR FEMALE GOLD -->
+    <div id="GoldFemale" class="tabcontent">
+          <div class="step-3__grid">
+                <div class="step-3__grid-2">
+                  <ul class="pro__grid">
+                      {% assign sorted_products = collections['2001-Gold-Ring'].products | sort: 'price' %}
+                      {% for product in sorted_products limit: 6 %}
+                       <li>
+                        <a class="shop-now" href="javascript:void(0);">
+                          <p>{{ product.metafields.custom.landing_name }}</p>
+                          <span class="price">{{ product.price | money_with_currency }}</span>
+                          <div class="cl-pu__grid">
+                              <div>
+                                  <img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/diamond-white.png?v=1717361495" />
+                                  <p>{{ product.metafields.custom.landing_clarity }}</p>
+                              </div>
+                              <div>
+                                  <img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/gold-icon.png?v=1716694579" />
+                                  <p>{{ product.metafields.custom.landing_purity }}</p>
+                              </div>
+                          </div>
+                        </a>                              
+                       </li>
+                      {% endfor %}
+                   </ul>
+                </div>
+            </div>
+    </div>
+
+    <!-- TAB CONTENT FOR FEMALE PLATINUM -->
+    <div id="PlatinumFemale" class="tabcontent" style="display:none;">
+          <div class="step-3__grid">
+                <div class="step-3__grid-2">
+                    <ul class="pro__grid">
+                      {% for product in collections['2001-Platinum-Ring'].products limit: 8 %}
+                       <li>
+                        <a class="shop-now" href="javascript:void(0);">  
+                          <p>{{ product.metafields.custom.landing_name }}</p>
+                          <span class="price">{{ product.price | money_with_currency }}</span>
+                          <div class="cl-pu__grid">
+                              <div>
+                                  <img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/diamond-white.png?v=1717361495" />
+                                  <p>{{ product.metafields.custom.landing_clarity }}</p>
+                              </div>
+                              <div>
+                                  <img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/gold-icon.png?v=1716694579" />
+                                  <p>{{ product.metafields.custom.landing_purity }}</p>
+                              </div>
+                          </div>
+                        </a>                              
+                       </li>
+                      {% endfor %}
+                   </ul>
+                </div>
+            </div>
+    </div>
+
+    <!-- TAB CONTENT FOR MALE GOLD -->
+    <div id="GoldMale" class="tabcontent" style="display:none;">
+          <div class="step-3__grid">
+                <div class="step-3__grid-2">
+                  <ul class="pro__grid">
+                      {% assign sorted_products = collections['1089-Gold-Ring'].products | sort: 'price' %}
+                      {% for product in sorted_products limit: 6 %}
+                       <li>
+                        <a class="shop-now" href="javascript:void(0);">
+                          <p>{{ product.metafields.custom.landing_name }}</p>
+                          <span class="price">{{ product.price | money_with_currency }}</span>
+                          <div class="cl-pu__grid">
+                              <div>
+                                  <img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/diamond-white.png?v=1717361495" />
+                                  <p>{{ product.metafields.custom.landing_clarity }}</p>
+                              </div>
+                              <div>
+                                  <img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/gold-icon.png?v=1716694579" />
+                                  <p>{{ product.metafields.custom.landing_purity }}</p>
+                              </div>
+                          </div>
+                        </a>                              
+                       </li>
+                      {% endfor %}
+                   </ul>
+                </div>
+            </div>
+    </div>
+
+    <!-- TAB CONTENT FOR MALE PLATINUM -->
+    <div id="PlatinumMale" class="tabcontent" style="display:none;">
+          <div class="step-3__grid">
+                <div class="step-3__grid-2">
+                    <ul class="pro__grid">
+                      {% for product in collections['1089-Platinum-Ring'].products limit: 8 %}
+                       <li>
+                        <a class="shop-now" href="javascript:void(0);">  
+                          <p>{{ product.metafields.custom.landing_name }}</p>
+                          <span class="price">{{ product.price | money_with_currency }}</span>
+                          <div class="cl-pu__grid">
+                              <div>
+                                  <img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/diamond-white.png?v=1717361495" />
+                                  <p>{{ product.metafields.custom.landing_clarity }}</p>
+                              </div>
+                              <div>
+                                  <img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/gold-icon.png?v=1716694579" />
+                                  <p>{{ product.metafields.custom.landing_purity }}</p>
+                              </div>
+                          </div>
+                        </a>                              
+                       </li>
+                      {% endfor %}
+                   </ul>
+                </div>
+            </div>
+    </div>
+
+    <!-- PRODUCT SPECIFICATION IMAGE BASED ON GENDER -->
+    <div style="background-color: white; padding: 20px; margin-top: 20px;">
+        <h2 class="title__grad title__padding" style="text-align: center;">Product Specification</h2>
+        <div id="productImageContainer" style="text-align: center;">
+            <!-- Image will be updated dynamically based on gender and button selection -->
+        </div>
+    </div>
+
+</div>
+
+<script>
+function openMetalTab(evt, metalTabName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(metalTabName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+
+function openGender(evt, gender) {
+  var maleTab = document.getElementById("MaleTab");
+  var femaleTab = document.getElementById("FemaleTab");
+  var goldFemale = document.getElementById("GoldFemale");
+  var platinumFemale = document.getElementById("PlatinumFemale");
+  var goldMale = document.getElementById("GoldMale");
+  var platinumMale = document.getElementById("PlatinumMale");
+
+  // Reset button styles for gender
+  var genderButtons = document.getElementsByClassName('genderlinks');
+  for (var i = 0; i < genderButtons.length; i++) {
+    genderButtons[i].classList.remove('active');
+  }
+
+  // Show/Hide the relevant content and update button styles
+  if (gender === 'Male') {
+      maleTab.style.display = "block";
+      femaleTab.style.display = "none";
+      goldFemale.style.display = "none";
+      platinumFemale.style.display = "none";
+      goldMale.style.display = "block";
+      platinumMale.style.display = "none";
+      document.getElementById("defaultOpenMale").click(); // Automatically click the Gold button for Male
+      evt.currentTarget.classList.add('active');
+      
+      // Update the Product Specification image for Male
+      document.getElementById("productImageContainer").innerHTML = '<img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/Gold_600_x_250_px_400_x_300_px_Instagram_Post_3.jpg?v=1728211967" style="max-width: 100%; height: auto;" />';
+  } else {
+      maleTab.style.display = "none";
+      femaleTab.style.display = "block";
+      goldFemale.style.display = "block";
+      platinumFemale.style.display = "none";
+      goldMale.style.display = "none";
+      platinumMale.style.display = "none";
+      document.getElementById("defaultOpenFemale").click(); // Automatically click the Gold button for Female
+      evt.currentTarget.classList.add('active');
+      
+      // Update the Product Specification image for Female
+      document.getElementById("productImageContainer").innerHTML = '<img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/2_1.jpg?v=1728471968" style="max-width: 100%; height: auto;" />';
+  }
+}
+
+// Automatically open the female tab and show female gold products on load
+window.onload = function() {
+  document.getElementById("defaultFemale").click();
+  document.getElementById("defaultOpenFemale").click();
+}
+</script>
+
+
+<style>
+  .genderlinks {
+      width: 120px;
+      height: 50px;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      border: 2px solid #d1d1d1;
+      background-color: #fff;
+      cursor: pointer;
+      font-size: 16px;
+      color: #000;
+      margin: 0 10px;
+      box-sizing: border-box;
+      border-radius: 8px;
+      z-index: 2;
+  }
+
+  .genderlinks.active {
+      background-color: #333333;
+      color: #fff;
+      border: 2px solid #333333;
+  }
+
+  .tablinks {
+      width: 120px;
+      height: 50px;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      border: 2px solid #d1d1d1;
+      background-color: #f9f9f9;
+      cursor: pointer;
+      font-size: 16px;
+      color: #333;
+      margin: 0 10px;
+      box-sizing: border-box;
+      border-radius: 8px;
+      vertical-align: middle;
+      z-index: 2;
+  }
+
+  .tablinks.active {
+      background-color: #fff;
+      color: #000;
+      border-color: #000;
+  }
+
+  .image-container img {
+      max-width: 200px;
+      display: block;
+      margin: 0 auto;
+  }
+
+  .gender-title {
+      font-family: 'oregon-ldo-medium';
+      font-size: 24px;
+      text-align: center;
+      color: #000;
+      letter-spacing: 1.5px;
+      margin-top: 20px;
+      z-index: 2;
+  }
+
+  .tablinks img, .genderlinks img {
+      display: inline-block;
+      vertical-align: middle;
+  }
+
+  .title__padding {
+      padding-top: 50px;
+      margin-bottom: 40px; /* Add some space below the title */
+      letter-spacing: 1.5px;
+      z-index: 2;
+  }
+
+  /* Gender buttons */
+  .gender-tab {
+      text-align: center;
+      padding-top: 20px;
+  }
+
+  /* Gold and Platinum buttons */
+  .tab {
+      padding-top: 110px; /* Adjusted value to ensure buttons are below title2 */
+      text-align: center;
+      z-index: 2;
+  }
+
+  .step-3__wrapper {
+      margin-bottom: -10px !important;
+  }
+
+  .step-3__grid {
+      padding-top: -100px !important; 
+      transform: translateY(-20px); /* Adjusted the value for spacing below Gold/Platinum buttons */
+      z-index: 1;
+  }
+
+  /* Product Specification Section */
+  .product-specification {
+      background-color: #fff;
+      padding: 10px;
+      margin-top: 10px;
+      text-align: center;
+  }
+
+  .product-specification img {
+      max-width: 100%;
+      height: auto;
+  }
+
+  .title__black {
+    padding-top: 5px;  
+    margin-top: 5px;  
+  }
+
+  .step-3__grid {
+    padding-top: 35px;
+    padding-bottom: 0px;
+  }
+</style>
+
+
+{% schema %}
+{
+  "name": "Fingerprint Product",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "title2",
+      "label": "Title 2"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Sub Title"
+    }
+  ],
+  "presets": [{ "name": "Fingerprint Product" }],
+  "tag": "div",
+  "class": "step-3 page-width"
+}
+{% endschema %}

@@ -1,0 +1,262 @@
+<style>
+
+    #otpModal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 9999;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .modal-content {
+        background: white;
+        border-radius: 12px;
+        padding: 32px;
+        max-width: 400px;
+        width: 100%;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateY(-20px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .modal-header {
+        margin-bottom: 24px;
+    }
+
+    .modal-title {
+        font-size: 24px;
+        font-weight: 600;
+        color: #111827;
+        margin-bottom: 8px;
+    }
+
+    .modal-description {
+        font-size: 14px;
+        color: #6b7280;
+        line-height: 1.5;
+    }
+
+    .phone-display {
+        background: #f3f4f6;
+        padding: 12px 16px;
+        border-radius: 8px;
+        margin-bottom: 24px;
+        font-size: 16px;
+        font-weight: 500;
+        color: #374151;
+        text-align: center;
+    }
+
+    .otp-input-container {
+        display: none;
+        margin-bottom: 20px;
+    }
+
+    .otp-input-container.active {
+        display: block;
+    }
+
+    .otp-label {
+        display: block;
+        font-size: 14px;
+        font-weight: 500;
+        color: #374151;
+        margin-bottom: 8px;
+    }
+
+    .otp-input {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #d1d5db;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: border-color 0.2s;
+    }
+
+    .otp-input:focus {
+        outline: none;
+        border-color: #3b82f6;
+    }
+
+    .otp-input.error {
+        border-color: #ef4444;
+    }
+
+    .error-message {
+        color: #ef4444;
+        font-size: 13px;
+        margin-top: 6px;
+        display: none;
+    }
+
+    .error-message.active {
+        display: block;
+    }
+
+    .button {
+        width: 100%;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+        margin-bottom: 12px;
+    }
+
+    .button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    .button-primary {
+        background: #3b82f6;
+        color: white;
+    }
+
+    .button-primary:hover:not(:disabled) {
+        background: #2563eb;
+    }
+
+    .button-secondary {
+        background: transparent;
+        color: #3b82f6;
+        border: 2px solid #3b82f6;
+    }
+
+    .button-secondary:hover:not(:disabled) {
+        background: #eff6ff;
+    }
+
+    .resend-container {
+        display: none;
+        text-align: center;
+        margin-top: 16px;
+    }
+
+    .resend-container.active {
+        display: block;
+    }
+
+    .resend-text {
+        font-size: 14px;
+        color: #6b7280;
+        margin-bottom: 8px;
+    }
+
+    .resend-button {
+        background: none;
+        border: none;
+        color: #3b82f6;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        text-decoration: underline;
+    }
+
+    .resend-button:hover:not(:disabled) {
+        color: #2563eb;
+    }
+
+    .resend-button:disabled {
+        color: #9ca3af;
+        cursor: not-allowed;
+    }
+
+    .loading {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: white;
+        animation: spin 0.6s linear infinite;
+    }
+
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+
+    .close-button {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        background: none;
+        border: none;
+        font-size: 24px;
+        color: #9ca3af;
+        cursor: pointer;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+        transition: all 0.2s;
+    }
+
+    .close-button:hover {
+        background: #f3f4f6;
+        color: #374151;
+    }
+
+    .modal-content {
+        position: relative;
+    }
+</style>
+
+<div id="otpModal">
+    <div class="modal-content">
+        <button class="close-button" onclick="closeOTPModal()">&times;</button>
+        
+        <div class="modal-header">
+            <h2 class="modal-title">Verify Phone Number</h2>
+            <p class="modal-description">We'll send a one-time password to verify your phone number</p>
+        </div>
+
+        <div class="phone-display" id="phoneDisplay">+91 XXXXX XXXXX</div>
+
+        <div class="otp-input-container" id="otpInputContainer">
+            <label class="otp-label" for="otpInput">Enter OTP</label>
+            <input 
+                type="text" 
+                id="otpInput" 
+                class="otp-input" 
+                placeholder="Enter 4-digit OTP"
+                maxlength="4"
+                pattern="[0-9]*"
+                inputmode="numeric"
+            >
+            <p class="error-message" id="errorMessage"></p>
+        </div>
+
+        <button class="button button-primary" id="primaryButton" onclick="handlePrimaryAction()">
+            <span id="buttonText">Send OTP</span>
+        </button>
+
+        <div class="resend-container" id="resendContainer">
+            <p class="resend-text">Didn't receive the code?</p>
+            <button class="resend-button" id="resendButton" onclick="handleResendOTP()">
+                Resend OTP <span id="resendTimer"></span>
+            </button>
+        </div>
+    </div>
+</div>
+

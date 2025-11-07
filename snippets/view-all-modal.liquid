@@ -1,0 +1,242 @@
+<div id="productDetailsModal" class="product-details-modal">
+  <div class="product-modal-content">
+    <button class="product-close-btn" onclick="closeProductDetailsModal()">&times;</button>
+    
+    <div class="product-modal-header">
+      <h2>Product Details</h2>
+    </div>
+
+    <div class="product-modal-body">
+      <!-- Product attributes will be dynamically inserted here -->
+      <div class="product-attributes"></div>
+      
+      <!-- Product images will be dynamically inserted here -->
+      <div class="product-images-section">
+        <h3>Product Images</h3>
+        <div class="product-images-grid"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+/* Modal Backdrop */
+.product-details-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 10000;
+  justify-content: center;
+  align-items: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+  backdrop-filter: blur(2px);
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.product-details-modal.show {
+  display: flex;
+  animation: fadeIn 0.2s ease;
+}
+
+/* Modal Content Box */
+.product-modal-content {
+  background: #fff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  animation: slideIn 0.3s ease;
+}
+
+/* Modal Header */
+.product-modal-header {
+  padding: 24px 28px;
+  border-bottom: 1px solid #e0e0e0;
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 10;
+  border-radius: 12px 12px 0 0;
+}
+
+.product-modal-header h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+/* Close Button */
+.product-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: #999;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  z-index: 11;
+}
+
+.product-close-btn:hover {
+  background: #f5f5f5;
+  color: #333;
+}
+
+/* Modal Body */
+.product-modal-body {
+  padding: 28px;
+}
+
+/* Attributes Grid */
+.attributes-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.attribute-row {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 16px;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  align-items: center;
+}
+
+.attribute-key {
+  font-weight: 600;
+  color: #333;
+  font-size: 14px;
+}
+
+.attribute-value {
+  color: #666;
+  font-size: 14px;
+  word-break: break-word;
+}
+
+/* Images Section */
+.product-images-section {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.product-images-section h3 {
+  margin: 0 0 20px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.product-images-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.product-image-item {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #f5f5f5;
+  border: 1px solid #e0e0e0;
+}
+
+.product-image-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.product-image-item:hover img {
+  transform: scale(1.05);
+}
+
+/* No Data Message */
+.no-data {
+  text-align: center;
+  color: #999;
+  padding: 40px 20px;
+  font-size: 15px;
+}
+
+/* View All Button */
+.view-all-product-details {
+  color: #007bff;
+  cursor: pointer;
+  font-weight: 500;
+  transition: color 0.2s ease;
+  margin-top: 8px;
+}
+
+.view-all-product-details:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .product-modal-content {
+    max-width: 95%;
+    margin: auto;
+  }
+  
+  .attribute-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  
+  .product-images-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+  }
+  
+  .product-modal-header,
+  .product-modal-body {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-images-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+</style>

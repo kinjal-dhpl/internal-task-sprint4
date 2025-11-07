@@ -1,0 +1,268 @@
+{% schema %}
+{
+  "name": "Custom Design Process",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "design_image_1",
+      "label": "Design Image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "design_image_2",
+      "label": "Design Image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "design_image_3",
+      "label": "Design Image 3"
+    },
+     {
+      "type": "image_picker",
+      "id": "design_image_4",
+      "label": "Design Image 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "design_image_5",
+      "label": "Design Image 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "design_image_6",
+      "label": "Design Image 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "model_image_1",
+      "label": "3D Model Image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "model_image_2",
+      "label": "3D Model Image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "model_image_3",
+      "label": "3D Model Image 3"
+    },
+     {
+      "type": "image_picker",
+      "id": "model_image_4",
+      "label": "3D Model Image 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "model_image_5",
+      "label": "3D Model Image 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "model_image_6",
+      "label": "3D Model Image 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "production_image_1",
+      "label": "Production Image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "production_image_2",
+      "label": "Production Image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "production_image_3",
+      "label": "Production Image 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "production_image_4",
+      "label": "Production Image 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "production_image_5",
+      "label": "Production Image 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "production_image_6",
+      "label": "Production Image 6"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Design Process"
+    }
+  ]
+}
+{% endschema %}
+
+<section class="custom-design-process">
+  <div class="process-container">
+    
+    <div class="process-step">
+      <div class="process-image">
+        <img class="slideshow" id="designSlideshow" src="{{ section.settings.design_image_1 | image_url }}" alt="Design">
+      </div>
+      <div class="process-text">
+        <h3>Design Your Dream Ring</h3>
+        <p>Visit our studio, meet our experts, share your design and ideas, and create your perfect ring design.</p>
+      </div>
+    </div>
+
+    <div class="process-step">
+      <div class="process-image">
+        <img class="slideshow" id="modelSlideshow" src="{{ section.settings.model_image_1 | image_url }}" alt="3D Model">
+      </div>
+      <div class="process-text">
+        <h3>Try Before You Buy</h3>
+        <p>Get a 3D render & a prototype in silver with American diamonds to see and feel your design before finalizing.</p>
+      </div>
+    </div>
+
+    <div class="process-step">
+      <div class="process-image">
+        <img class="slideshow" id="productionSlideshow" src="{{ section.settings.production_image_1 | image_url }}" alt="Production">
+      </div>
+      <div class="process-text">
+        <h3>Crafted & Delivered</h3>
+        <p>Your diamond ring is crafted with precision and delivered in just 15 days!</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+.custom-design-process {
+  display: flex;
+  justify-content: center;
+  padding: 50px 20px;
+  background-color: #ffffff;
+}
+
+.process-container {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1200px;
+  width: 100%;
+}
+
+/* Default (Desktop) Layout */
+.process-step {
+  display: flex;
+  align-items: center;
+  width: 30%;
+  margin-bottom: 20px;
+}
+
+/* Image Styling */
+.process-image img {
+  width: 120px; /* Adjusted image size */
+  height: auto;
+  border-radius: 10px;
+}
+
+/* Text Styling */
+.process-text {
+  padding-left: 15px;
+    display: flex;
+  flex-direction: column;
+  justify-content: center; /* Ensures headings stay aligned */
+   font-family: "oregon-ldo-medium";
+}
+
+.process-text h3 {
+  font-size: 22px;
+  margin-bottom: 0px;
+  min-height: 50px; /* Forces equal heading heights */
+   line-height: 1;
+  display: flex;
+  align-items: center; /* Aligns text vertically */
+  font-family: "oregon-ldo-medium";
+}
+
+.process-text p {
+  font-size: 17px;
+  color: #666;
+  font-family: "oregon-ldo-medium";
+   margin-bottom: 0px; 
+  margin-top:0px;
+}
+
+  @media screen and (max-width: 768px) {
+  .custom-design-process {
+    padding: 0px 0px; /* Reduced top & bottom padding */
+  }
+
+  .process-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .process-step {
+    width: 100%;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+  }
+
+  .process-image img {
+    width: 100px; /* Slightly smaller images for mobile */
+    padding-left:5px;
+  }
+
+  .process-text {
+    padding-left: 10px;
+     font-family: "oregon-ldo-medium";
+  }
+    .process-text p {
+  font-size: 18px;
+  color: #666;
+  font-family: "oregon-ldo-medium";
+  margin-bottom: 5px; /* Reduced gap between description and next heading */
+}
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  function cycleImages(imageId, images) {
+    let index = 0;
+    setInterval(() => {
+      index = (index + 1) % images.length;
+      document.getElementById(imageId).src = images[index];
+    }, 3000); // Change every 2 seconds
+  }
+
+  cycleImages("designSlideshow", [
+    "{{ section.settings.design_image_1 | image_url }}",
+    "{{ section.settings.design_image_2 | image_url }}",
+    "{{ section.settings.design_image_3 | image_url }}",
+      "{{ section.settings.design_image_4 | image_url }}",
+    "{{ section.settings.design_image_5 | image_url }}",
+    "{{ section.settings.design_image_6 | image_url }}"
+  ]);
+
+  cycleImages("modelSlideshow", [
+    "{{ section.settings.model_image_1 | image_url }}",
+    "{{ section.settings.model_image_2 | image_url }}",
+    "{{ section.settings.model_image_3 | image_url }}",
+    "{{ section.settings.model_image_4 | image_url }}",
+    "{{ section.settings.model_image_5 | image_url }}",
+    "{{ section.settings.model_image_6 | image_url }}"
+  ]);
+
+  cycleImages("productionSlideshow", [
+    "{{ section.settings.production_image_1 | image_url }}",
+    "{{ section.settings.production_image_2 | image_url }}",
+    "{{ section.settings.production_image_3 | image_url }}",
+      "{{ section.settings.production_image_4 | image_url }}",
+    "{{ section.settings.production_image_5 | image_url }}",
+    "{{ section.settings.production_image_6 | image_url }}"
+  ]);
+});
+</script>

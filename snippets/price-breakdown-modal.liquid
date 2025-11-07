@@ -1,0 +1,640 @@
+<!-- price-breakdown-modal -->
+<style>
+  .drawer-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .drawer-backdrop.show {
+    display: block;
+    opacity: 1;
+  }
+
+  .drawer-modal {
+    background: white;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 400px;
+    max-width: 100%;
+    height: 100%;
+    z-index: 1001;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    overflow-y: auto;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .drawer-modal.open {
+    transform: translateX(0);
+  }
+
+  .modal-secondheading {
+    text-align: center;
+    margin-bottom: 0;
+  }
+
+  .pointer-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .pointer-info p {
+    margin: 0;
+  }
+
+  .price-breakdown-option .pointer-info .pointer-heading, 
+  .price-breakdown-option .pointer-info .pointer-price {
+    font-weight: bold;        
+  }
+
+  .price-breakdown-option .pointer-details {
+    width: 100%;
+    background: #eaf1f7;
+    padding: 2px 10px;
+    border-radius: 7px;
+    margin-top: 5px;
+  }
+
+  @media (max-width: 768px) {
+    .drawer-modal {
+      width: 100%;
+    }
+  }
+
+  .price-breakdown-option {
+    background: #f0f8ff;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+
+  .modal-header h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  .modal-subheading {
+    font-size: 14px;
+    margin: 0px;
+    color: #555;
+  }
+
+  .price-row {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+
+  .center-label {
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 20px;
+    margin-top: 0px;
+  }
+
+  .modal-footer {
+    font-weight: bold;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #ddd;
+  }
+
+  .modal-close-btn {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #666;
+  }
+
+  .modal-close-btn:hover {
+    background: #f0f0f0;
+    color: #333;
+  }
+
+  #solitaireDiamondInfo .pointer-details {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .pointer-type {
+    text-transform: capitalize;
+  }
+
+  .loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #BE868C;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+</style>
+
+<!-- Modal Drawer -->
+<section id="drawerBackdrop" class="drawer-backdrop" onclick="closePriceBreakupModal()"></section>
+<div id="drawerModal" class="drawer-modal" role="dialog" aria-modal="true">
+  <button class="modal-close-btn" onclick="closePriceBreakupModal()" aria-label="Close modal">×</button>
+  <div class="modal-header">
+    <h2>Price Breakdown</h2>
+    <p class="modal-subheading">Detailed breakdown of price components</p>
+    <h3 class="modal-secondheading">Tempting - Price Breakdown</h3>
+  </div>
+  <div id="drawerContent">
+    <!-- Dynamic content will be loaded here -->
+  </div>
+</div>
+
+<script>
+  // Enhanced modal functions for price-breakdown-modal
+  function renderDrawerContent() {
+    try {
+      const variantId = window.ProductState?.selectedVariantId;
+      const sizeElement = document.getElementById('custom-size-selector');
+      const size = sizeElement ? sizeElement.value : window.ProductState?.selectedSize || '12';
+      
+      console.log('🔍 Rendering drawer content:', { variantId, size, ProductState: window.ProductState });
+      
+      if (!variantId) {
+        console.error('❌ No variant ID found');
+        showModalErrorState("No variant selected");
+        return;
+      }
+      
+      if (!size) {
+        console.error('❌ No size found');
+        showModalErrorState("No size selected");
+        return;
+      }
+      
+      // Show loading state
+      showModalLoadingState();
+      
+      // Get metafield data first
+      const metafieldConfig = getMetafieldConfig(variantId, size);
+      console.log('📦 Metafield config:', metafieldConfig);
+      
+      // Fetch API data
+      fetchPriceDataAndRender(variantId, size, metafieldConfig);
+      
+    } catch (error) {
+      console.error('❌ Error rendering drawer content:', error);
+      showModalErrorState("Error loading price breakdown");
+    }
+  }
+
+  function showModalLoadingState() {
+    const loadingHTML = `
+      <div class="loading-state" style="text-align: center; padding: 40px;">
+        <div style="font-size: 18px; margin-bottom: 10px;">Loading price breakdown...</div>
+        <div class="loading-spinner"></div>
+      </div>
+    `;
+    document.getElementById('drawerContent').innerHTML = loadingHTML;
+  }
+
+  function getMetafieldConfig(variantId, size) {
+    try {
+      // Get metafield config from the cached data
+      return window.ProductState?.variantConfigsBySize?.[variantId]?.[size] || null;
+    } catch (error) {
+      console.error('❌ Error getting metafield config:', error);
+      return null;
+    }
+  }
+
+  function fetchPriceDataAndRender(variantId, size, metafieldConfig) {
+    console.log('🔍 Fetching price data for variant:', variantId, 'size:', size);
+    
+    try {
+      // Get cached data from ProductState (same data used by variant-size-meta-info)
+      const cachedData = window.ProductState?.productPricingBySize?.[size];
+      
+      if (!cachedData || !cachedData.data || !Array.isArray(cachedData.data)) {
+        console.error('❌ No cached data found for size:', size);
+        showModalErrorState("Price data not available. Please wait for the page to finish loading.");
+        return;
+      }
+      
+      console.log('✅ Found cached data:', cachedData);
+      
+      // Find the variant in the cached data
+      const variantData = cachedData.data.find(v => {
+        const vid = v.variantId.toString();
+        return vid === variantId.toString() || 
+               vid === `gid://shopify/ProductVariant/${variantId}` ||
+               vid.replace('gid://shopify/ProductVariant/', '') === variantId.toString();
+      });
+      
+      if (!variantData) {
+        console.error('❌ Variant not found in cached data:', variantId);
+        showModalErrorState("Variant data not found");
+        return;
+      }
+      
+      console.log('✅ Found variant data:', variantData);
+      
+      const configKey = `config_size_${size}`;
+      const apiConfig = variantData.price?.[configKey];
+      
+      if (!apiConfig) {
+        console.error('❌ No price config found for size:', size);
+        showModalErrorState("Price configuration not available");
+        return;
+      }
+      
+      console.log('✅ API Config:', apiConfig);
+      
+      // Merge API data with metafield data
+      const mergedConfig = mergeConfigs(apiConfig, metafieldConfig);
+      console.log('✅ Merged Config:', mergedConfig);
+      
+      renderModalWithConfig(mergedConfig, variantId, size);
+      
+    } catch (error) {
+      console.error('❌ Error fetching price data:', error);
+      
+      // Fallback to metafield data only
+      if (metafieldConfig) {
+        console.log('⚠️ Falling back to metafield config');
+        renderModalWithConfig(metafieldConfig, variantId, size, true);
+      } else {
+        showModalErrorState("Unable to load price data");
+      }
+    }
+  }
+
+  function mergeConfigs(apiConfig, metafieldConfig) {
+    console.log(apiConfig,'mergeConfigs')
+    console.log(metafieldConfig,'mergeConfigs')
+    if (!metafieldConfig) return apiConfig;
+    
+    // Merge configurations - API prices take precedence, metafield data fills gaps
+    return {
+      // Price data from API
+      total_price_with_gst: apiConfig.total_price_with_gst || metafieldConfig.total_price_with_gst,
+      total_price_without_gst: apiConfig.total_price_without_gst || metafieldConfig.total_price_without_gst,
+      making_charges: apiConfig.making_charges || metafieldConfig.making_charges,
+      gst: apiConfig.gst || metafieldConfig.gst,
+      metal_price: apiConfig.metal_price,
+      
+      // Merge metal information (prioritize API data)
+      metal: {
+        type: apiConfig.metal?.type || metafieldConfig.metal?.type || 'Gold',
+        purity: apiConfig.metal?.purity || metafieldConfig.metal?.purity || '',
+        weight: apiConfig.metal?.weight || metafieldConfig.metal?.weight || '',
+        price: apiConfig.metal_price || apiConfig.metal?.price || metafieldConfig.metal?.price || 0
+      },
+      
+      // Merge diamond information (API provides color and clarity at root level)
+      diamond: {
+        type: apiConfig.diamond?.type || metafieldConfig.diamond?.type || 'Natural',
+        color: apiConfig.diamond?.color || metafieldConfig.diamond?.color || '',
+        clarity: apiConfig.diamond?.clarity || metafieldConfig.diamond?.clarity || '',
+        certificate: apiConfig.diamond?.certificate || metafieldConfig.diamond?.certificate || '',
+        round: apiConfig.diamond?.round || metafieldConfig.diamond?.round || [],
+        others: apiConfig.diamond?.others || metafieldConfig.diamond?.others || []
+      },
+      
+      // Merge solitaire information (API response uses 'solitare', metafield uses 'solitaire')
+      solitaire: mergeSolitaireData(apiConfig.solitare, metafieldConfig.solitaire),
+      
+      // Merge gemstone information
+      gemstone: apiConfig.gemstone || metafieldConfig.gemstone || []
+    };
+  }
+
+  function mergeSolitaireData(apiSolitaire, metafieldSolitaire) {
+    if (!apiSolitaire && !metafieldSolitaire) return null;
+    
+    // Handle API solitaire structure vs metafield structure
+    if (apiSolitaire && apiSolitaire.details) {
+      return {
+        type: metafieldSolitaire?.type || 'Natural',
+        details: apiSolitaire.details[0], // API has array, take first
+        total_price: apiSolitaire.details.reduce((sum, item) => sum + (item.price || 0), 0)
+      };
+    } else if (metafieldSolitaire && metafieldSolitaire.details) {
+      return {
+        type: metafieldSolitaire.type || 'Natural',
+        details: metafieldSolitaire.details[0], // Metafield also has array
+        total_price: metafieldSolitaire.details.reduce((sum, item) => sum + (item.price || 0), 0)
+      };
+    }
+    
+    return null;
+  }
+
+  function renderModalWithConfig(config, variantId, size, isMetafieldOnly = false) {
+    try {
+      // Create modal content structure
+      const contentHTML = `
+        <p class="center-label" id="drawerSubtitle">${getSubtitle(config)}</p>
+        ${renderDiamondSection(config)}
+        ${renderSolitaireSection(config)}
+        ${renderGemstonesSection(config)}
+        ${renderMetalSection(config)}
+        ${renderMakingChargesSection(config)}
+        ${renderGSTSection(config)}
+        ${renderTotalSection(config)}
+      `;
+      
+      document.getElementById('drawerContent').innerHTML = contentHTML;
+      
+      // Add warning if using metafield data only
+      {% comment %} if (isMetafieldOnly) {
+        addMetafieldWarning();
+      } {% endcomment %}
+      
+    } catch (error) {
+      console.error('❌ Error in renderModalWithConfig:', error);
+      showModalErrorState("Error displaying price breakdown");
+    }
+  }
+
+  function getSubtitle(config) {
+    const metalPurity = config.metal?.purity || '';
+    const diamondClarity = config.diamond?.clarity || '';
+    const diamondColor = config.diamond?.color || '';
+    return `${metalPurity} | ${diamondClarity}-${diamondColor}`;
+  }
+
+  function renderDiamondSection(config) {
+    console.log(config,'renderDiamondSection')
+    const diamonds = config.diamond;
+    if (!diamonds || (!diamonds.round?.length && !diamonds.others?.length)) {
+      return '';
+    }
+    
+    const totalPrice = getTotalDiamondPrice(diamonds);
+    const totalCarat = getTotalDiamondCarat(diamonds);
+    
+    return `
+      <div class="price-breakdown-option" id="diamondInfo">
+        <div class="pointer-info">
+          <p class="pointer-heading">Diamonds</p>
+          <p class="pointer-price">₹${formatPrice(totalPrice)}</p>
+        </div>
+        <small class="pointer-type">${diamonds.type || 'Natural'}</small>
+        <div class="pointer-details">
+          <small>${totalCarat} Carat | ${diamonds.clarity || ''}-${diamonds.color || ''}</small>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderSolitaireSection(config) {
+    const solitaire = config.solitaire;
+    if (!solitaire || !solitaire.details) {
+      return '';
+    }
+    
+    const details = solitaire.details;
+    const price = solitaire.total_price || details.price || 0;
+    
+    return `
+      <div class="price-breakdown-option" id="solitaireDiamondInfo">
+        <div class="pointer-info">
+          <p class="pointer-heading">Solitaire Diamond</p>
+          <p class="pointer-price">₹${formatPrice(price)}</p>
+        </div>
+        <small class="pointer-type">${solitaire.type || 'Natural'}</small>
+        <div class="pointer-details">
+          <small class="carat-details">${details.carat || ''} Carat</small>
+          <small class="grade-details">${details.clarity || ''}-${details.color || ''}</small>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderGemstonesSection(config) {
+    const gemstones = config.gemstone;
+    if (!gemstones?.length) {
+      return '';
+    }
+    
+    const totalPrice = gemstones.reduce((sum, gem) => sum + (gem.price || 0), 0);
+    const totalCarat = gemstones.reduce((sum, gem) => sum + (parseFloat(gem.carat) || 0), 0);
+    
+    return `
+      <div class="price-breakdown-option" id="gemstonesInfo">
+        <div class="pointer-info">
+          <p class="pointer-heading">Gemstones</p>
+          <p class="pointer-price">₹${formatPrice(totalPrice)}</p>
+        </div>
+        <small class="pointer-type">${gemstones.length} stone(s)</small>
+        <div class="pointer-details">
+          <small>${totalCarat.toFixed(2)} Total Carat</small>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderMetalSection(config) {
+    const metal = config.metal;
+    const price = metal?.price || 0;
+    
+    return `
+      <div class="price-breakdown-option" id="metalInfo">
+        <div class="pointer-info">
+          <p class="pointer-heading">Metal</p>
+          <p class="pointer-price">₹${formatPrice(price)}</p>
+        </div>
+        <small class="pointer-type">${metal?.type || 'Gold'}</small>
+        <div class="pointer-details">
+          <small>${metal?.purity || ''} | ${metal?.weight || ''}</small>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderMakingChargesSection(config) {
+    const makingCharges = config.making_charges || 0;
+    
+    return `
+      <div class="price-breakdown-option" id="makingCharges">
+        <div class="pointer-info">
+          <p class="pointer-heading">Making Charges</p>
+          <p class="pointer-price">₹${formatPrice(makingCharges)}</p>
+        </div>
+        <small class="pointer-type">Labour, craftmanship, certification logistics</small>
+        <div class="pointer-details">
+          <small>Professional crafting & quality assurance</small>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderGSTSection(config) {
+    const gst = config.gst || 0;
+    
+    return `
+      <div class="price-breakdown-option" id="GSTCharges">
+        <div class="pointer-info">
+          <p class="pointer-heading">GST</p>
+          <p class="pointer-price">₹${formatPrice(gst)}</p>
+        </div>
+        <small class="pointer-type">Goods and services tax (3%)</small>
+        <div class="pointer-details">
+          <small>As per government regulations</small>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderTotalSection(config) {
+    const totalPrice = config.total_price_with_gst || 0;
+    
+    return `
+      <div class="modal-footer price-row">
+        <span>Total Price</span>
+        <span id="totalPrice">₹${formatPrice(totalPrice)}</span>
+      </div>
+    `;
+  }
+
+  function addMetafieldWarning() {
+    const warningHTML = `
+      <div style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 10px; border-radius: 5px; margin-bottom: 15px;">
+        <small style="color: #856404;">⚠️ Showing cached price data. Live prices may vary.</small>
+      </div>
+    `;
+    document.getElementById('drawerContent').insertAdjacentHTML('afterbegin', warningHTML);
+  }
+
+  function showModalErrorState(message = "Unable to load price breakdown") {
+    document.getElementById('drawerContent').innerHTML = `
+      <div style="text-align: center; padding: 40px; color: #666;">
+        <h3>${message}</h3>
+        <p>Please try selecting a different variant or size.</p>
+      </div>
+    `;
+  }
+
+  // Utility functions
+  function getTotalDiamondPrice(diamonds) {
+    let total = 0;
+    if (diamonds.round?.length) {
+      total += diamonds.round.reduce((sum, d) => sum + (d.total_price || d.price || 0), 0);
+    }
+    if (diamonds.others?.length) {
+      total += diamonds.others.reduce((sum, d) => sum + (d.total_price || d.price || 0), 0);
+    }
+    return total;
+  }
+
+  function getTotalDiamondCarat(diamonds) {
+    let total = 0;
+    if (diamonds.round?.length) {
+      total += diamonds.round.reduce((sum, d) => sum + (parseFloat(d.carat) || 0), 0);
+    }
+    if (diamonds.others?.length) {
+      total += diamonds.others.reduce((sum, d) => sum + (parseFloat(d.carat) || 0), 0);
+    }
+    return total.toFixed(2);
+  }
+
+  function formatPrice(price) {
+    return Number(price || 0).toLocaleString('en-IN');
+  }
+
+  // Modal control functions
+  function openPriceBreakupModal() {
+    const backdrop = document.getElementById('drawerBackdrop');
+    const modal = document.getElementById('drawerModal');
+    
+    if (!backdrop || !modal) {
+      console.error('Modal elements not found');
+      return;
+    }
+    
+    // Check if ProductState is initialized
+    if (!window.ProductState || !window.ProductState.isInitialized) {
+      console.error('❌ ProductState not initialized yet');
+      showModalErrorState("Please wait for the page to finish loading");
+      backdrop.classList.add('show');
+      setTimeout(() => {
+        modal.classList.add('open');
+      }, 10);
+      document.body.style.overflow = 'hidden';
+      return;
+    }
+    
+    // Show backdrop with fade-in animation
+    backdrop.classList.add('show');
+    
+    // Add small delay for smooth animation
+    setTimeout(() => {
+      modal.classList.add('open');
+    }, 10);
+    
+    // Render content
+    renderDrawerContent();
+    
+    // Prevent body scroll
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closePriceBreakupModal() {
+    const backdrop = document.getElementById('drawerBackdrop');
+    const modal = document.getElementById('drawerModal');
+    
+    if (!backdrop || !modal) {
+      console.error('Modal elements not found');
+      return;
+    }
+    
+    // Hide modal first
+    modal.classList.remove('open');
+    
+    // Hide backdrop after animation completes
+    setTimeout(() => {
+      backdrop.classList.remove('show');
+    }, 300);
+    
+    // Restore body scroll
+    document.body.style.overflow = '';
+  }
+
+  // Close modal on escape key
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+      const modal = document.getElementById('drawerModal');
+      if (modal && modal.classList.contains('open')) {
+        closePriceBreakupModal();
+      }
+    }
+  });
+
+  // Make functions globally available
+  window.openPriceBreakupModal = openPriceBreakupModal;
+  window.closePriceBreakupModal = closePriceBreakupModal;
+</script>

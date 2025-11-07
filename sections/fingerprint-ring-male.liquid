@@ -1,0 +1,140 @@
+<h2 data-aos="fade-zoom-in" class="title__black">{{ section.settings.title }}</h2>
+<h2 data-aos="fade-zoom-in" class="title__grad">{{ section.settings.title2 }}</h2>
+<p data-aos="fade-zoom-in">{{ section.settings.subtitle }}</p>
+
+<div data-aos="fade-up" class="step-3__wrapper">
+    <!-- TABS  -->
+    <div class="tab">
+        <button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen">
+          <img class="normal" src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/gold-normal.png?v=1716771760" />
+          <img class="selected" src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/gold-icon.png?v=1716694579" />
+          Gold
+        </button>
+        <button class="tablinks" onclick="openCity(event, 'Paris')">
+          <!-- <img class="normal" src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/gold-normal.png?v=1716771760" /> -->
+          <img class="normal" src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/platinum-selected.png?v=1716771760" />
+          <img class="selected" src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/platinum-selected.png?v=1716771760" />
+          Platinum
+        </button>
+    </div>
+    <!-- TAB CONTENT  -->
+    <div id="London" class="tabcontent">
+          <div class="step-3__grid">
+                <div>
+                    <img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/Untitled_design_50.png?v=1727953570">
+                </div>
+                <div class="step-3__grid-2">
+                  <ul class="pro__grid">
+                      {% assign sorted_products = collections['1088-Gold-Ring'].products | sort: 'price' %}
+                      {% for product in sorted_products limit: 6 %}
+                       <li>
+                        <a class="shop-now" href="javascript:void(0);">
+                          <p>{{ product.metafields.custom.landing_name }}</p>
+                          <span class="price">{{ product.price | money_with_currency }}</span>
+                          <div class="cl-pu__grid">
+                              <div>
+                                  <!-- <img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/clarity.png?v=1716772762" /> -->
+                                  <img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/diamond-white.png?v=1717361495" />
+                                  <p>{{ product.metafields.custom.landing_clarity }}</p>
+                              </div>
+                              <div>
+                                  <!-- <img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/Drop.png?v=1716772762" /> -->
+                                  <img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/gold-icon.png?v=1716694579" />
+                                  <p>{{ product.metafields.custom.landing_purity }}</p>
+                              </div>
+                          </div>
+                        </a>                              
+                       </li>
+                      {% endfor %}
+                   </ul>
+                </div>
+            </div>
+    </div>    
+    <div id="Paris" class="tabcontent">
+          <div class="step-3__grid">
+                <div>
+                     <img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/Untitled_design_53.png?v=1727953926">
+                </div>
+                <div class="step-3__grid-2">
+                    <ul class="pro__grid">
+                      {% for product in collections['1088-Platinum-Ring'].products limit: 8 %}
+                       <li>
+                        <a class="shop-now" href="javascript:void(0);">  
+                          <p>{{ product.metafields.custom.landing_name }}</p>
+                          <span class="price">{{ product.price | money_with_currency }}</span>
+                          <div class="cl-pu__grid">
+                              <div>
+                                  <!-- <img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/clarity.png?v=1716772762" /> -->
+                                  <img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/diamond-white.png?v=1717361495" />
+                                  <p>{{ product.metafields.custom.landing_clarity }}</p>
+                              </div>
+                              <div>
+                                  <!-- <img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/Drop.png?v=1716772762" /> -->
+                                  <img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/gold-icon.png?v=1716694579" />
+                                  <p>{{ product.metafields.custom.landing_purity }}</p>
+                              </div>
+                          </div>
+                        </a>                              
+                       </li>
+                      {% endfor %}
+                   </ul>
+                </div>
+            </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  function openCity(evt, cityName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+  }
+  
+  // Get the element with id="defaultOpen" and click on it
+  document.getElementById("defaultOpen").click();
+</script>
+
+
+{% schema %}
+  {
+    "name": "Fingerprint Product",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title"
+      },
+      {
+        "type": "text",
+        "id": "title2",
+        "label": "Title 2"
+      },
+      {
+        "type": "text",
+        "id": "subtitle",
+        "label": "Sub Title"
+      }
+    ],
+    "presets": [{ "name": "Fingerprint Step 3" }],
+    "tag": "div",
+    "class": "step-3 page-width"
+  }
+{% endschema %}

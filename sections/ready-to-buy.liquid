@@ -1,0 +1,118 @@
+<h3 data-aos="fade-zoom-in">{{ section.settings.title }}</h3>
+<p data-aos="fade-zoom-in">{{ section.settings.subtitle }}</p>
+<div class="ready-to-buy__grid">
+    <div class="ready-to-buy__each ready-to-buy__each1">
+     {% assign col_blocks = section.blocks | where: 'type', 'col' %}
+     {% for block in col_blocks %}
+          <img src="{{ block.settings.image | image_url }}" width="100%" height="auto">
+          <span>{{ block.settings.text1 }} {{ block.settings.text2 }}</span>
+          <a href="{{ block.settings.button_url }}">{{ block.settings.button }}
+            <!-- <img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/button-arrow.png?v=1716427947" height="12.5px" width="15px">  -->
+          </a>
+      {% endfor %}
+    </div>
+
+    {% assign row_blocks = section.blocks | where: 'type', 'row' %}
+    {% for block in row_blocks %}
+       <div class="ready-to-buy__each ready-to-buy__each2">
+           <div>
+              <div>
+                <span>{{ block.settings.text1 }} {{ block.settings.text2 }}</span>
+              </div>
+              <a href="{{ block.settings.button_url }}">{{ block.settings.button }}
+                <!-- <img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/button-arrow.png?v=1716427947" height="12.5px" width="15px">  -->
+              </a>
+          </div>
+           <div>
+               <img src="{{ block.settings.image | image_url }}" width="auto" height="auto">
+            </div>
+      </div>
+  {% endfor %}
+   
+</div>
+
+
+{% schema %}
+  {
+    "name": "Ready to buy",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title"
+      },
+      {
+        "type": "text",
+        "id": "subtitle",
+        "label": "Sub Title"
+      }
+    ],
+    "blocks": [
+         {
+          "name": "Col",
+           "type": "col",
+           "limit": 1,
+           "settings":[{
+              "type": "image_picker",
+              "id": "image",
+              "label": "Image" 
+             },
+             {
+              "type": "text",
+              "id": "text1",
+              "label": "Text Top" 
+             },
+             {
+              "type": "text",
+              "id": "text2",
+              "label": "Text Bottom" 
+             },
+             {
+              "type": "text",
+              "id": "button",
+              "label": "Button text" 
+             },
+             {
+              "type": "text",
+              "id": "button_url",
+              "label": "Button URL" 
+             }
+          ]
+       },
+      {
+          "name": "Row",
+           "type": "row",
+           "limit": 2,
+           "settings":[{
+              "type": "image_picker",
+              "id": "image",
+              "label": "Image" 
+             },
+             {
+              "type": "text",
+              "id": "text1",
+              "label": "Text Top" 
+             },
+             {
+              "type": "text",
+              "id": "text2",
+              "label": "Text Bottom" 
+             },
+             {
+              "type": "text",
+              "id": "button",
+              "label": "Button text" 
+             },
+             {
+              "type": "text",
+              "id": "button_url",
+              "label": "Button URL" 
+             }
+          ]
+       }
+    ],
+    "presets": [{ "name": "Ready To Buy" }],
+    "tag": "div",
+    "class": "ready-to-buy page-width"
+  }
+{% endschema %}

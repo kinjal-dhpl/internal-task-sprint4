@@ -1,0 +1,594 @@
+<style>
+  .location-form-wrapper {
+    display: flex;
+    z-index: 25;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    visibility: hidden;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    pointer-events: none;
+  }
+  .timestamp.mobile {
+      display: none;
+    }
+    .timestamp.desktop {
+      display: block;
+    }
+  .location-form-wrapper.open {
+    visibility: visible;
+    opacity: 1;
+    filter: alpha(opacity=1);
+    pointer-events: auto;
+  }
+  .main__location-form-wrapper {
+    width: 90%;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    pointer-events: none; 
+  }
+  .location-content-wrapper {
+    pointer-events: auto; 
+    height: auto;
+    width: 100%;
+    margin: auto;
+    background: #ffffff;
+    box-shadow: 0px 0px 8px 0px #0000001a;
+    padding: 30px;
+    text-align: center;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    -ms-transform: scale(0.7);
+    -webkit-transform: scale(0.7);
+    transform: scale(0.7);
+    border-radius: 20px;
+    z-index: 2;
+    max-height: 90%;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .location-content-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+  .location-content-wrapper .location__inner_content-wrapper {
+    padding: 0 20.5px;
+    overflow-y: auto;
+  }
+  .location-content-wrapper .location__inner_content-wrapper .title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 0;
+  }
+  .location-content-wrapper .location__inner_content-wrapper .title .title_heading-wrapper {
+    display: flex;
+    gap: 13px;
+    align-items: center;
+    margin: 0;
+    justify-content: center;
+    flex: 1 1 auto;
+  }
+  .location-content-wrapper .location__inner_content-wrapper .title svg path {
+    stroke: #183761;
+  }
+  .location-content-wrapper .location__inner_content-wrapper .title p {
+    font-size: 2.4rem;
+    line-height: 1.36;
+    letter-spacing: 0;
+    color: #183761;
+    margin-top: 0;
+    font-weight: 700;
+  }
+  .location-content-wrapper .location__inner_content-wrapper p {
+    color: #000000;
+    font-size: 1.6rem;
+    line-height: 1.36;
+    letter-spacing: 0;
+    font-weight: 400;
+    margin-top: 20px;
+  }
+  .location-content-wrapper .popup_heading {
+    display: flex;
+    gap:0;
+    align-items: center;
+    justify-content: space-between;
+    line-height: 0;
+  }
+  .location-content-wrapper .popup_heading h3{
+    margin:0;
+  }
+  .location-content-wrapper .popup_heading span {
+    cursor: pointer;
+  }
+  .location-content-wrapper .location__inner_content-wrapper .mobile__view-button {
+    display: none;
+  }
+  .location-content-wrapper .location__inner_content-wrapper .location--input-field {
+    margin-bottom: 0px;
+  }
+  .location-content-wrapper .location__inner_content-wrapper .location--input-field .button-wrapper {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+  .location-content-wrapper .location__inner_content-wrapper .location--input-field .input__arrow-wrapper {
+    margin-top: 32.45px;
+    display: flex;
+    align-items: center;
+  }
+  .location-content-wrapper
+    .location__inner_content-wrapper
+    .location--input-field
+    .input__arrow-wrapper
+    .update__pincode_wrapper {
+    background: #183761;
+    padding: 14.3px 18px;
+    color: #fff;
+    line-height: 1.5;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    cursor: pointer;
+  }
+  .location-content-wrapper .location__inner_content-wrapper .location--input-field input {
+    width: 100%;
+    border: 0.8px solid #cecece;
+    padding: 15.5px 18px;
+    color: #00000080;
+    letter-spacing: 0;
+    font-size: 1.2rem;
+    line-height: 1.5;
+    font-weight: 400;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+  }
+  .location-content-wrapper .location__inner_content-wrapper .location--input-field input:focus,
+  .location-content-wrapper .location__inner_content-wrapper .location--input-field input:focus-visible {
+    box-shadow: none;
+    outline: none;
+    outline-offset: 0;
+  }
+  .location-content-wrapper .location__inner_content-wrapper .location--input-field .button-wrapper span {
+    color: #183761;
+    font-size: 2rem;
+    line-height: 1.36;
+    letter-spacing: 0;
+    font-weight: 500;
+  }
+  .location-form-wrapper.open .location-content-wrapper {
+    opacity: 1;
+    filter: alpha(opacity=100);
+    -ms-transform: scale(1);
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+  .location-form-wrapper .backgroundDiv {
+    position: fixed;
+    visibility: visible; 
+    background: #80808040;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0; 
+    transition: opacity 0.3s ease-in-out; 
+    pointer-events: none;
+  }
+  div.backgroundDiv:empty {
+    display: block;
+  }
+  .location-form-wrapper.open .backgroundDiv {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Timeline CSS */
+  .progress-wrapper {
+    overflow-x: auto;
+    padding: 20px 0 40px;
+    scrollbar-width: thin;
+    scrollbar-color: #000  #f1f1f1;
+  }
+
+  .progress-container {
+    display: flex;
+    align-items: flex-start;
+    position: relative;
+    gap: 40px;
+    padding-top: 20px;
+    min-width: max-content;
+    overflow:hidden;
+  }
+
+  .progress-container::before {
+    content: '';
+    position: absolute;
+    top: 60px;
+    left: 0;
+    height: 4px;
+    width: 100%;
+    background-color: #ccc;
+    z-index: 0;
+  }
+
+  .progress-container::after {
+    content: '';
+    position: absolute;
+    top: 60px; /* Should match ::before */
+    left: 0;
+    height: 4px;
+    width: var(--progress-width, 0%);
+    background-color: green;
+    z-index: 0;
+    transition: width 0.5s ease-in-out; /* Smoother transition */
+  }
+
+  .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 0 0 auto;
+    z-index: 1;
+    position: relative;
+  }
+
+  .step:first-child{
+    align-items: flex-start;
+  }
+
+  .step:last-child{
+    align-items: flex-end;
+  }
+
+  div.circle:empty{
+    display:block;
+  }
+
+  .circle {
+    background-color: white;
+    border: 2px solid #000;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    margin-top: 6px;
+  }
+
+  .circle.active {
+    background-color: green;
+    border-color: green;
+  }
+
+  .partial {
+    background-color: gray;
+  }
+
+  .label {
+    font-size: 12px;
+    text-align: center;
+    white-space: nowrap;
+    font-weight:700;
+    color:#000;
+    margin-bottom: 5px;
+  }
+
+  /* Timestamp styling */
+  .timestamp {
+    font-size: 12px;
+    color: #666;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    margin-top: 5px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .step.active .timestamp {
+    opacity: 1;
+    color: #28a745;
+    font-weight: 500;
+  }
+  .desktop__view-button svg {
+    width: 2.1rem;
+  }
+  .progress-container.vertical-timeline .timestamp.mobile {
+    display: none;
+    margin-top: 0;
+  }
+  @media screen and (min-width: 1024px) {
+    .main__location-form-wrapper {
+      width: 70%;
+    }
+  }
+
+  @media(max-width:768px) {
+    .timestamp.mobile {
+      display: block;
+    }
+    .timestamp.desktop {
+      display: none;
+    }
+    .location-content-wrapper{
+      overflow-x: hidden;
+      overflow-y: auto;
+      padding:20px;
+    }
+
+    .progress-container.vertical-timeline {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      gap: 40px;
+    }
+
+    .progress-container.vertical-timeline::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 1.4%;
+      transform: translateX(-1.6%);
+      width: 4px;
+      height:98%;
+      background-color: #ccc;
+      z-index: 0;
+    }
+
+    .progress-container.vertical-timeline::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 1.4%;
+    transform: translateX(-1.6%);
+    width: 4px;
+    height: var(--progress-height, 0%);
+    background-color: green;
+    z-index: 0;
+    transition: height 0.5s ease-in-out; /* Smoother transition */
+  }
+
+    .progress-container.vertical-timeline .step {
+      position: relative;
+      display: flex;
+      flex-direction: row-reverse;
+      align-items: flex-start;
+      z-index: 1;
+      margin: 0;
+      overflow: visible;
+      height: 50px;
+    }
+
+    .progress-container.vertical-timeline .circle {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: white;
+      border: 2px solid #000;
+      margin-top:0;
+      flex-shrink: 0;
+    }
+
+    .progress-container.vertical-timeline .circle.active {
+      background: green;
+      border-color: green;
+    }
+
+    .progress-container.vertical-timeline .label {
+      margin-top: 0;
+      margin-left: 15px;
+      text-align: left;
+      white-space: normal;
+      line-height: 1.2;
+    }
+
+    .progress-container.vertical-timeline .timestamp.desktop {
+      margin-left: 15px;
+      text-align: left;
+      white-space: normal;
+      margin-top: 2px;
+      display: none;
+    }
+    .progress-container.vertical-timeline .timestamp.mobile {
+      margin-left: 15px;
+      text-align: left;
+      margin-top: 2px;
+      display: block;
+      position: absolute;
+      white-space: nowrap;
+      bottom: 0;
+      left: 14px;
+    }
+  }
+
+  @media(max-width:500px){
+    .progress-container.vertical-timeline::before {
+      left: 2.4%;
+      transform: translateX(-2.3%);
+    }
+
+    .progress-container.vertical-timeline::after {
+      left: 2.4%;
+      transform: translateX(-2.3%);
+    }
+
+    .progress-container.vertical-timeline .step {
+      gap: 10px;
+    }
+    .progress-container.vertical-timeline .label {
+      margin-left: 0;
+    }
+  }
+
+  @media(max-width:408px){
+    .progress-container.vertical-timeline::before {
+      left: 2.7%;
+      transform: translateX(-2.7%);
+    }
+
+    .progress-container.vertical-timeline::after {
+      left: 2.7%;
+      transform: translateX(-2.7%);
+    }
+  }
+
+</style>
+
+<div class="location-form-wrapper" id="global_location__popup-wrapper">
+  <div class="backgroundDiv" onclick="hideFormPopup()"></div>
+  <div class="main__location-form-wrapper">
+    <div class="location-content-wrapper">
+      <div class="popup_heading">
+        <h3>Order Status</h3>
+        <span class="desktop__view-button" onclick="hideFormPopup()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="31" viewBox="0 0 30 31" fill="none">
+            <path d="M10.5801 20.2298L19.4201 11.3923M10.5801 11.3923L19.4201 20.2298" stroke="black" stroke-width="1.875" stroke-linecap="round"/>
+          </svg>
+        </span>
+      </div>
+      <div class="location__inner_content-wrapper">
+        <div class="location--input-field">
+          <!-- Timeline dots -->
+          <div class="progress-wrapper">
+            <div class="progress-container">
+              <div class="step" data-status="order sent">
+                <div class="timestamp mobile"></div>
+                <div class="label">Order Sent</div>
+                <div class="circle"></div>
+                <div class="timestamp desktop"></div>
+              </div>
+              <div class="step" data-status="order placed at factory">
+                <div class="timestamp mobile"></div>
+                <div class="label">Order Placed AT Factory</div>
+                <div class="circle"></div>
+                <div class="timestamp desktop"></div>
+              </div>
+              <div class="step" data-status="cad">
+                <div class="timestamp mobile"></div>
+                <div class="label">CAD</div>
+                <div class="circle"></div>
+                <div class="timestamp desktop"></div>
+              </div>
+              <div class="step" data-status="wax/dcc/rpt">
+                <div class="timestamp mobile"></div>
+                <div class="label">Wax/DCC/RPT</div>
+                <div class="circle"></div>
+                <div class="timestamp desktop"></div>
+              </div>
+              <div class="step" data-status="casting">
+                <div class="timestamp mobile"></div>
+                <div class="label">Casting</div>
+                <div class="circle"></div>
+                <div class="timestamp desktop"></div>
+              </div>
+              <div class="step" data-status="filing">
+                <div class="timestamp mobile"></div>
+                <div class="label">Filing</div>
+                <div class="circle"></div>
+                <div class="timestamp desktop"></div>
+              </div>
+              <div class="step" data-status="electro polish">
+                <div class="timestamp mobile"></div>
+                <div class="label">Electro Polish</div>
+                <div class="circle"></div>
+                <div class="timestamp desktop"></div>
+              </div>
+              <div class="step" data-status="pre-polish">
+                <div class="timestamp mobile"></div>
+                <div class="label">Pre-Polish</div>
+                <div class="circle"></div>
+                <div class="timestamp desktop"></div>
+              </div>
+              <div class="step" data-status="diamond setting">
+                <div class="timestamp mobile"></div>
+                <div class="label">Diamond Setting</div>
+                <div class="circle"></div>
+                <div class="timestamp desktop"></div>
+              </div>
+              <div class="step" data-status="final polishing">
+                <div class="timestamp mobile"></div>
+                <div class="label">Final Polishing</div>
+                <div class="circle"></div>
+                <div class="timestamp desktop"></div>
+              </div>
+              <div class="step" data-status="rhodium plating">
+                <div class="timestamp mobile"></div>
+                <div class="label">Rhodium Plating</div>
+                <div class="circle"></div>
+                <div class="timestamp desktop"></div>
+              </div>
+              <div class="step" data-status="diamond certification">
+                <div class="timestamp mobile"></div>
+                <div class="label">Diamond Certification</div>
+                <div class="circle"></div>
+                <div class="timestamp desktop"></div>
+              </div>
+              <div class="step" data-status="hall mark & huid">
+                <div class="timestamp mobile"></div>
+                <div class="label">Hall Mark & HUID</div>
+                <div class="circle"></div>
+                <div class="timestamp desktop"></div>
+              </div>
+              <div class="step" data-status="quality check">
+                <div class="timestamp mobile"></div>
+                <div class="label">Quality Check</div>
+                <div class="circle"></div>
+                <div class="timestamp desktop"></div>
+              </div>
+              <div class="step" data-status="dispatched">
+                <div class="timestamp mobile"></div>
+                <div class="label">Dispatched</div>
+                <div class="circle"></div>
+                <div class="timestamp desktop"></div>
+              </div>
+              <div class="step" data-status="at store">
+                <div class="timestamp mobile"></div>
+                <div class="label">At Store</div>
+                <div class="circle"></div>
+                <div class="timestamp desktop"></div>
+              </div>
+              <div class="step" data-status="quality check Success">
+                <div class="timestamp mobile"></div>
+                <div class="label">Quality Check Success</div>
+                <div class="circle"></div>
+                <div class="timestamp desktop"></div>
+              </div>
+              <div class="step" data-status="ready for delivery">
+                <div class="timestamp mobile"></div>
+                <div class="label">Ready For Delivery</div>
+                <div class="circle"></div>
+                <div class="timestamp desktop"></div>
+              </div>
+              <div class="step" data-status="shipping">
+                <div class="timestamp mobile"></div>
+                <div class="label">Shipping</div>
+                <div class="circle"></div>
+                <div class="timestamp desktop"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

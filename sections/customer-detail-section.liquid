@@ -1,0 +1,3384 @@
+{% render 'endless-aisle-redirection' %}
+<style>
+  div.customerPrimaryWrapper {
+      display: none;
+      justify-content: space-between;
+      align-items: center;margin: 5rem 0 2.5rem;
+  }
+  #payment-backButton {display: none;justify-content: center;gap: 10px;}
+  th.first--th-child{padding-left:1.5rem!important;}
+  th.last--th-child ,td.product--total{text-align: end!important;padding-right: 1.5rem!important;}
+  .table--heading{font-size: 16px;color: #1c1c1c;font-family: oregon-ldo-medium;margin:0;}
+  .hide--content{
+     display: none;
+  }
+  .row--divider{display: block!important;height: 1px;background-color:rgba(237, 237, 237, 1);margin:5px 0;}
+  span.order--subtotal ,span.order--shipping ,span.order--discount , span.order--total {
+    display: flex;justify-content: space-between;align-items: center;
+  }
+  .CustomerAddressBlock , .CustomerprofileBlock , .CustomerorderBlock , .CustomerOrderHistoryBlock {background-color: #fff;padding: 2rem;margin-bottom: 2.5rem;display: none;}
+  p.Heading--label{margin: 0;font-size: 20px;color: #1c1c1c; font-family:oregon-ldo-medium;letter-spacing: normal;}
+  .custom-footer{margin-top: 0!important;}
+  .content-for-layout{background-color:#F6F3EF;}
+  div.customerAddressHeader , div.customerprofileHeader , div.customerorderHeader ,div.customerOrderHistoryHeader{
+      display: flex;justify-content: space-between;align-items: center;cursor: pointer;
+  }
+  .addressBlockaccordian , .profileBlockaccordian , .orderBlockaccordian{
+      max-height: 0px;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+  }
+  .addressContainer p:first-child {
+    color: #1c1c1c;
+  }
+  .addressContainer p:not(:first-of-type) {
+  color: #221F20BF;
+  }
+  div.input-groups {
+      display: flex;
+      flex-direction: column;
+
+  }
+  .input-groups input:read-only{
+      background-color: #F4F4F4;
+      color: #676767;
+  }
+  .profileBlockaccordian .input-groups input:focus-visible{
+      box-shadow: none;
+      outline: 0;
+  }
+  p.partialpaymentInfo {
+      text-align: center;
+      margin: 10px 0 0;
+      color: #be877b;
+      font-size: 16px;
+      letter-spacing: normal;
+      font-family: oregon-ldo-medium;
+  }
+  .input-groups input {
+      height: 40px;
+      font-size: 16px;
+      border: 1px solid #EDEDED;padding-left: 10px;
+          letter-spacing: normal;font-family: oregon-ldo-medium;
+  }
+  .input-groups label{
+      font-size: 16px;color: #1c1c1c;
+      font-family: oregon-ldo-medium;
+  }
+  .profileBlockaccordian .input-groups{
+    margin-bottom: 10px;
+  }
+  .addressContainer p , .status-selector-label {
+    margin: 4px;
+    font-size: 16px;
+    font-family: oregon-ldo-medium;
+    letter-spacing: normal;
+    line-height: 1;
+    color: #000;
+  }
+  select#status-selector {
+      height: 40px;
+      padding: 0.5rem;
+      font-size: 16px;
+      cursor: pointer;
+      font-family: oregon-ldo-medium;
+      letter-spacing: normal;
+      line-height: 1;
+      border:1px solid #EDEDED;
+      background-color:#F4F4F4;
+  }
+  select#status-selector.disabled{
+      pointer-events: none;
+      opacity: 0.6;
+      cursor: not-allowed;
+  }
+  .order--header-main-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+  }
+  #status-selector:focus-visible{
+    outline: 0;
+    box-shadow: unset;
+
+  }
+  .status-wrapper {
+      display: flex;
+      gap: 5px;
+      flex-direction: column;
+  }
+  .addressContainer {
+      background-color: #F4F4F4;
+      padding: 1rem;
+  }
+  .addressBlock {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+  }
+  div.logoutBtnBreak {
+      height: 40px;align-items: center;justify-content: center;
+      display: flex; width: 125px; color: #1c1c1c;
+      border: 1px solid #1c1c1c;cursor: pointer;font-size: 16px;
+      letter-spacing: normal;
+              line-height: 28px;
+              font-family: oregon-ldo-medium;
+  }
+  div.customerNAME {
+      font-size: 24px;
+      color: #1c1c1c;
+      letter-spacing: 1.5px;
+      font-family: oregon-ldo-medium;
+      font-weight: 600;
+  }
+  div.customerNAME span{
+      font-weight: unset!important;
+  }
+  label.status--label{
+    font-size: 18px;
+    color: #1c1c1c;
+   font-family: oregon-ldo-medium;
+  }
+  .payment-summary span {
+      font-size: 16px;
+      color: #1c1c1c;
+      font-family: oregon-ldo-medium;
+  }
+  .product--status{
+    cursor:pointer;
+  }
+  .product--status p{
+      margin: 0;
+      background: #000;
+      color: #fff;
+      text-align: center;
+      border-radius: 5px;
+  }
+  .customerAddressHeader .accordian-icon , .customerprofileHeader .accordian-icon ,.customerorderHeader .accordian-icon , .customerOrderHistoryHeader .accordian-icon{
+      transition: transform 0.3s ease;
+      transform: rotate(-180deg);
+  }
+  .customerAddressHeader.open .accordian-icon , .customerprofileHeader.open .accordian-icon , .customerorderHeader.open .accordian-icon , .customerOrderHistoryHeader.open .accordian-icon {
+      transform: rotate(0deg);
+  }
+  .customerAddressHeader.open + .addressBlockaccordian , .customerprofileHeader.open + .profileBlockaccordian , .customerorderHeader.open + .orderBlockaccordian , .customerOrderHistoryHeader.open + .orderBlockaccordian  {
+     max-height:450px;
+     margin-top: 1.5rem;
+     display: block;
+     overflow-y: auto;
+  }
+  /* Order table Css */
+  .order-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px;
+  }
+  .order-table  thead tr {
+        background-color: rgba(244, 244, 244, 1);
+  }
+  .order-table th, .order-table td {
+    padding: 12px 16px;
+    text-align: left;
+    font-family: oregon-ldo-medium;
+  }
+  .order--detail--page--body {
+    border-bottom: 1px solid #eee;
+  }
+  .order-table th {
+    color: #1c1c1c;
+    font-weight: 600;
+    font-size: 16px;
+    border-bottom: 1px solid #eee;
+  }
+  tbody.order--history--body tr td {
+      color: #1c1c1c;
+  }
+  .order-table td a {
+    color: #3f51b5;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .order--detail--section{
+    margin-bottom: 2.5rem;
+  }
+  .badge {
+    display: inline-block;
+    padding: 4px 10px;
+    font-size: 13px;
+    border-radius: 6px;
+    font-weight: 500;
+  }
+  p.add1{
+    font-size: 16px;color: #1c1c1c;
+    margin: 0.8rem 0;
+  }
+  p.add2 ,.phone1{
+    font-size: 14px;color: #1c1c1c; margin:0;
+  }
+  .badge.pending {
+    background-color: #fff2cc;
+    color: #c39700;
+  }
+  .badge.paid {
+    background-color: #d0f0d3;
+    color: #388e3c;
+  }
+  .badge.processing {
+    background-color: #fff2cc;
+    color: #c39700;
+  }
+  .badge.unfufilled {
+    background-color: #fff2cc;
+    color: #c39700;
+  }
+  .badge.pending {
+    background-color: #fff2cc;
+    color: #c39700;
+  }
+  .badge.completed {
+    background-color: #fff2cc;
+    color: #c39700;
+  }
+  /* Ends here */
+  .d--none{display: none!important;}
+  button.update--btn {
+    background-color: #c39700;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    font-weight: 500;
+    font-size: 16px;
+    opacity: 0.8;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  button.update--btn:hover {
+    opacity: 1;
+  }
+  button.submit--profile {
+    background-color: #388e3c;
+    color: white;
+    font-size: 16px;
+    border: none;
+    opacity: 0.8;
+    padding: 8px 16px;
+    font-weight: 500;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .updateProfilewrapper {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 2rem 0 0.5rem;
+  }
+  button.submit--profile:hover {
+   opacity: 1;
+  }
+  .order-navigation-buttons {
+      display:flex;
+      justify-content: space-between;
+      margin: 2.5rem auto;width: 50%;
+    }
+    .order-navigation-buttons  button {
+      height: 40px;display: flex;justify-content: center;align-items: center;
+      font-size: 16px;
+      letter-spacing: normal;
+              line-height: 28px;
+              font-family: oregon-ldo-medium;
+    }
+    .back-button {
+      padding: 0.75rem 2rem;
+      background-color: #1c1c1c;
+      border: 1px solid #1c1c1c;
+      color: #fff;
+      cursor: pointer;
+      width: 48%;
+    }
+
+    .continue-button {
+      padding: 0.75rem 2rem;
+      background-color: #1c1c1c;
+      border: none;
+      color: white;
+      cursor: pointer;
+      width: 48%;
+
+    }
+    .continue-button.disabled{
+        opacity: 0.6;
+        pointer-events: none;
+    }
+    .order-wrapper {
+        display: flex;
+        gap:2.5rem;
+        flex-direction: column;
+      }
+      .order-details-panel {
+        flex: 3;
+      }
+      .order-payment-panel {
+        flex: 1;
+        background: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+      }
+  .order--subheader{display: flex;gap:1.5rem;align-items: center;}
+
+      .order--detail-head{
+        font-size: 20px;color: #1c1c1c;margin:0;
+            letter-spacing: normal;font-family: oregon-ldo-medium;
+      }
+      td.product-info div {
+        display: flex;
+        flex-direction: column;
+       }
+       span.product-order-title {
+          font-size: 16px;
+          color: #1c1c1c;
+        font-family: oregon-ldo-medium;
+      }
+      .order-status-badge {
+        background: #fdf4e2;
+        font-family: oregon-ldo-medium;
+        color: #b26a00;
+        padding: 0.3rem 0.6rem;
+        border-radius: 4px;
+        font-size:12px;
+      }
+      .order-date-text {
+        font-size: 14px;
+        color: rgba(0, 0, 0, 0.6);
+       font-family: oregon-ldo-medium;
+      }
+      .order-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+      }
+      .order-placement-container .product--summary--detail {
+          max-height: 400px;
+          overflow: auto;
+      }
+      .order-table th,
+      .order-table td {
+        padding: 0.75rem 0.5rem;
+        text-align: left;
+      }
+      .product-info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .product-properties .item-props-elem{
+      margin:0;
+      }
+      .order-summary-totals{
+      display: flex;
+      justify-content: flex-end;
+      flex-direction: column;
+  }
+      .order-details .order-summary span {
+          font-size: 18px;
+          font-family: oregon-ldo-medium;
+          letter-spacing: normal;
+      }
+
+      .letter-spacing-two{
+          letter-spacing: 2px!important;
+      }
+      .order-summary-totals span {
+      font-size: 16px;
+      color: #1c1c1c;
+       letter-spacing:0.75px;font-family: oregon-ldo-medium;
+  }
+      .product-info img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+      }
+      .product-color-label {
+      font-size: 12px;
+      font-family: oregon-ldo-medium;
+      color: rgba(72, 72, 72, 1);
+  }
+  td.product--sku--num , td.product--price ,td.product--quantity,td.product--total {
+      font-size: 16px;
+      color: rgba(72, 72, 72, 1);
+  }
+      .order-summary-totals {
+        font-weight: bold;
+        padding: 1.5rem;
+        background-color: rgba(244, 244, 244, 1);
+        text-align: right;
+      }
+      .address-section-wrapper {
+        display: flex;
+        margin-top: 2.5rem;
+        font-family: oregon-ldo-medium;
+      }
+      .address-box {
+        background: white;
+        padding: 1.5rem;
+        width: 50%;
+
+      }
+      .address-box h4 {
+        margin: 0.5rem 0;
+        font-size: 20px;color: #1c1c1c;
+      }
+      .custom--div--child {
+        background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+      }
+      .payment-status-badge {
+        background: #fdf4e2;
+        color: #b26a00;
+        padding: 0.4rem 0.8rem;
+        border-radius: 4px;
+        margin-bottom: 1rem;
+        font-size: 14px;
+        display: inline-block;
+        font-family: oregon-ldo-medium;
+      }
+   .payment-status-badge.paid{
+      background-color: #d0f0d3!important;
+      color: #388e3c!important;
+   }
+   .order-placement-container .product-info {
+      display: flex;
+      flex-direction: column;
+      gap: unset;
+      align-items: unset;
+    }
+    .order-placement-container .cart--product--summary {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom:2.5rem;
+
+  }
+
+    .order-placement-container .product-info .title , .order-placement-container .product-info .quantext ,.order-placement-container .product-info .product-price {
+      margin: 0;
+      font-size: 18px;
+      font-family: oregon-ldo-medium;
+
+    }
+    .order-placement-container .product-info .title , .order-placement-container .product-info .quantext{
+       letter-spacing:normal;
+    }
+    .order-placement-container .product-info .product-price {
+      letter-spacing:2px;
+    }
+      .payment-summary {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+      }
+      select.payment-dropdown{
+      font-family: oregon-ldo-medium;
+      font-size: 16px;
+      color: #1c1c1c;
+      }
+       select.payment-dropdown:focus-visible{
+        box-shadow: unset;
+        outline: 0;
+       }
+      .payment-dropdown {
+        width: 100%;
+        margin: 0.5rem 0 1rem;
+        padding: 0.5rem;
+      }
+      .payment-button {
+              display: block;
+              background: #1c1c1c;
+              color: white;
+              border: none;
+              letter-spacing: normal;
+              width: 100%;
+              font-size: 16px;
+              line-height: 28px;
+              font-family: oregon-ldo-medium;
+              padding: 0.75rem;
+              cursor: pointer;
+       }
+       button.payment-button.disable{
+        opacity: 0.5;pointer-events: none;cursor: not-allowed;
+       }
+        td.order--name{ cursor: pointer; text-decoration: underline;}
+       .order-table-wrapper{overflow-x: auto;}
+       .visually-hidden{display: none!important;}
+       button.create--order-button{
+              display: block;
+              background: #1c1c1c;
+              color: white;
+              border: none;
+              letter-spacing: normal;
+              width:max-content;
+              font-size: 16px;
+              line-height: 28px;
+              font-family: oregon-ldo-medium;
+              padding: 0.75rem 2.5rem;
+              cursor: pointer;
+       }
+       div.order--place-wrapper {
+          display: none;
+          justify-content: center;
+          align-items: center;
+          margin: 2.5rem 0;
+       }
+     @media(max-width:1100px){
+      .order-navigation-buttons{
+        width: 100%;
+      }
+      .order-wrapper {
+       flex-direction: column-reverse;
+      }
+      .payment-button{
+        width:60%;
+        margin: auto;
+      }
+      .table-wrapper-fixess{
+        max-width:820px;
+        overflow-x: auto;
+      }
+     }
+  @media(max-width:800px){
+      .addressBlock { grid-template-columns: 1fr;}
+      p.Heading--label{font-size:16px;}
+
+  }
+
+  @media(max-width:450px){
+    .order-navigation-buttons{
+    flex-wrap:wrap;
+    gap:20px;
+    }
+  .back-button, .continue-button{
+    width:100%;
+  }
+  }
+
+  {% comment %} toggle button css {% endcomment %}
+  .dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-toggle {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  background: #fff;
+  min-width: 160px;
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.2);
+  border-radius: 4px;
+  z-index: 999;
+}
+
+.dropdown-menu div {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.dropdown-menu div:hover {
+  background: #f2f2f2;
+}
+
+.dropdown.show .dropdown-menu {
+  display: block;
+}
+.markpaid.disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+.order--detail--page--body tr td, .order--detail--page--body tr td p, .order--detail--page--body tr td span {
+  font-family: oregon-ldo-medium;
+  text-transform: capitalize;
+} 
+.product-details div p, .order--detail--page--body tr td {
+  font-size: 14px; 
+  margin: 0;
+}
+.order--detail--page--body tr:not(:last-child) {
+  border-bottom: 1px solid rgba(0,0,0,.1);
+}
+.tracking_view_button button {
+    width: 100%;
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 0;
+}
+.tracking_view_button button:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+.red-text {
+  color: #BC4C2A;
+}
+.green-text {
+  color: #458D07;
+}
+.view-all-product-details {
+  text-decoration: underline;  
+  cursor: pointer;
+}
+</style>
+<style>
+/* Status Dropdown Container */
+.product--status-select {
+  padding: 8px;
+}
+
+/* Modern Select Styling */
+.status-dropdown {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  
+  width: 100%;
+  padding: 10px 36px 10px 14px;
+  
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  
+  background-color: #fff;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 18px;
+  
+  border: 1.5px solid #e0e0e0;
+  border-radius: 8px;
+  
+  cursor: pointer;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+/* Hover State */
+.status-dropdown:hover:not(:disabled) {
+  border-color: #007bff;
+  background-color: #f8f9ff;
+}
+
+/* Focus State */
+.status-dropdown:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+  background-color: #fff;
+}
+
+/* Disabled State */
+.status-dropdown:disabled {
+  background-color: #f5f5f5;
+  color: #999;
+  cursor: not-allowed;
+  opacity: 0.6;
+  border-color: #e0e0e0;
+}
+
+/* Selected Option Styling */
+.status-dropdown option {
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* First option (Select Status) styling */
+.status-dropdown option:first-child {
+  color: #999;
+}
+
+/* Option hover - Firefox only */
+.status-dropdown option:hover {
+  background-color: #f0f0f0;
+}
+
+/* Make it more compact on smaller screens */
+@media (max-width: 768px) {
+  .status-dropdown {
+    font-size: 13px;
+    padding: 8px 32px 8px 12px;
+  }
+}
+.details-back-logout {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.backFromDetails {
+  background: black;
+  color: white;
+  padding: 5px 20px;
+  cursor: pointer;
+}
+</style>
+
+<div class="WholeCustomerDetailWrapper page-width">
+  <div class="customerPrimaryWrapper">
+    <div class="customerNAME">Name: <span></span></div>
+    <div class="details-back-logout">
+      <div class="logoutBtnBreak" onclick="logoutUser(this)">Logout</div>
+    </div>
+  </div>
+  <div class="pageSlides" data-index="1">
+    <div class="customerDetailMainBlock">
+      <div class="CustomerAddressBlock">
+        <div class="customerAddressHeader open" onclick="openAccording(this)">
+          <p class="Heading--label">Customer Address</p>
+          <span class="accordian-icon">{% render 'accordian-arrow' %}</span>
+        </div>
+        <div class="addressBlockaccordian">
+          <div class="addressBlock"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="CustomerprofileBlock">
+      <div class="customerprofileHeader open" onclick="openAccording(this)">
+        <p class="Heading--label">Customer Profile Information</p>
+        <span class="accordian-icon">{% render 'accordian-arrow' %}</span>
+      </div>
+      <div class="profileBlockaccordian parentElement">
+        {% comment %}
+          don't remove this code <div class ="updateProfilewrapper">
+              <button class="update--btn" onclick="editProfile(this)">Edit Profile</button>
+              <button class="submit--profile d--none">Submit</button>
+          </div>
+        {% endcomment %}
+      </div>
+    </div>
+    <div class="CustomerOrderHistoryBlock">
+      <div class="customerOrderHistoryHeader open" onclick="openAccording(this)">
+        <p class="Heading--label">Order History</p>
+        <span class="accordian-icon">{% render 'accordian-arrow' %}</span>
+      </div>
+      <div class="orderBlockaccordian">
+        <div class="order-table-wrapper">
+          <table class="order-table">
+            <thead>
+              <tr>
+                <th>Order id</th>
+                <th>Date</th>
+                <th>Items</th>
+                <th>Total Paid</th>
+              </tr>
+            </thead>
+            <tbody class="order--history--body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="order--place-wrapper">
+      <button class="create--order-button" onclick="createNewOrder(this)">CREATE NEW ORDER</button>
+    </div>
+  </div>
+  <div class="pageSlides visually-hidden" data-index="2">
+    <div class="order--detail--section">
+      <div class="order-wrapper">
+        <div class="order-details-panel">
+          <div class="custom--div--child">
+            <div class="order--header-main-wrap">
+              <div class="order-header"></div>
+              <div class="backFromDetails" onclick="paymentPageHandler('shipping')">Back</div>
+            </div>
+            <div class="table-wrapper-fixess">
+              <table class="order-table">
+                <thead class="table_header">
+                  <tr>
+                    <th class="first--th-child"><p class="table--heading">Line Item Name</p></th>
+                    <th><p class="table--heading">Product</p></th>
+                    <th><p class="table--heading">Product Details</p></th>
+                    <th><p class="table--heading">SKU</p></th>
+                    <th><p class="table--heading">Quantity</p></th>
+                    <th><p class="table--heading">Current Status</p></th>
+                    <th><p class="table--heading">Payment Status</p></th>
+                    <th><p class="table--heading">Paid</p></th>
+                    <th><p class="table--heading">Est. Total</p></th>
+                    <th><p class="table--heading">Remaining Balance</p></th>
+                    <th><p class="table--heading">Order Status</p></th>
+                    <th><p class="table--heading">Actions</p></th>
+                    {% comment %} <th><p class="table--heading">PRICE</p></th> {% endcomment %}
+                    {% comment %} <th><p class="table--heading">STATUS</p></th> {% endcomment %}
+                    {% comment %} <th class="last--th-child"><p class="table--heading">TOTAL</p></th> {% endcomment %}
+                  </tr>
+                </thead>
+                <tbody class="order--detail--page--body"></tbody>
+              </table>
+            </div>
+
+            <div class="order-summary-totals"></div>
+          </div>
+          <div class="address-section-wrapper"></div>
+        </div>
+
+        <div class="order-payment-panel">
+          <span class="payment-status-badge"></span>
+          <div style="display:flex; justify-content: space-between; align-items: center;">
+            <p style="font-size: 14px;">Paid: </p>
+            <p class="payment-summary paid--status" style="font-size: 14px;"></p>
+          </div>
+          <div style="display:flex; justify-content: space-between;">
+            <p style="font-size: 14px;">Balance: </p>
+            <p class="payment-summary balance--status" style="font-size: 14px;"></p>
+          </div>
+          <div class="payment-button-holder">
+            <button class="payment-button send-email">Send Payment Link</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% comment %} <div class="order-navigation-buttons">
+      <button class="back-button" onclick="activeSlide('backStep', 2)">BACK TO DASHBOARD</button>
+    </div> {% endcomment %}
+  </div>
+  <div class="pageSlides visually-hidden" data-index="3">
+    {% render 'order-placement-module' %}
+    <div class="order-navigation-buttons" id="shipping-backButton">
+      <button class="back-button" onclick="activeSlide('backStep',3)">BACK</button>
+      <button class="continue-button" onclick="validateFormAndCreatePayload()">PROCEED TO PAYMENT</button>
+    </div>
+    <div class="order-navigation-buttons" id="payment-backButton">
+      <button class="back-button" onclick="paymentPageHandler('shipping')">BREAK SYNC</button>
+      <button class="continue-button" onclick="completeOrder()">PLACE ORDER</button>
+    </div>
+  </div>
+</div>
+
+{% comment %} Modals {% endcomment %}
+{% render 'order-status-popup' %}
+{% render 'tracking_order' %}
+{% render 'otp_modal' %}
+{% render 'manually_mark_paid' %}
+{% render 'send-email' %}
+{% render 'view-all-modal' %}
+{% render 'error-modal' %}
+
+
+<script>
+function hideFormPopup() {
+  let LocaPopupElem = document.querySelector('#global_location__popup-wrapper');
+  document.querySelector('body').classList.remove('overflow-hidden');
+  if (LocaPopupElem) {
+    LocaPopupElem.classList.remove('open');
+  }
+  // Reset all steps
+  document.querySelectorAll('.progress-container .step').forEach((step) => {
+    const circle = step.querySelector('.circle');
+    const timestampMobile = step.querySelector('.timestamp.mobile');
+    const timestampDesktop = step.querySelector('.timestamp.desktop');
+    circle.classList.remove('active');
+    step.classList.remove('active');
+    timestampMobile.textContent = '';
+    timestampDesktop.textContent = '';
+  });
+}
+
+function formatTimestamp(timestampString) {
+  try {
+    const date = new Date(timestampString);
+
+    // Format date as DD/MM/YYYY
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+
+    // Format time as HH:MM AM/PM
+    let hours = date.getHours();
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+
+    return `${day}/${month}/${year}\n${hours}:${minutes} ${ampm}`;
+  } catch (e) {
+    console.error('Error formatting timestamp:', e);
+    return '';
+  }
+}
+
+function createStepElement(label, timestamp = null) {
+  const step = document.createElement('div');
+  step.className = 'step';
+  step.setAttribute('data-status', label.toLowerCase());
+  
+  step.innerHTML = `
+    <div class="timestamp mobile"></div>
+    <div class="label">${label}</div>
+    <div class="circle"></div>
+    <div class="timestamp desktop"></div>
+  `;
+  
+  return step;
+}
+
+function showpincodePopup(event, lineItemId, allTimelineData) {
+  console.log('Line Item ID:', lineItemId);
+  console.log('All Timeline Data:', allTimelineData);
+
+  // Parse allTimelineData if it's a string
+  let timelineData = allTimelineData;
+  if (typeof allTimelineData === 'string') {
+    try {
+      timelineData = JSON.parse(allTimelineData);
+    } catch (e) {
+      console.error('Error parsing all timeline data:', e);
+      return;
+    }
+  }
+
+  if (!Array.isArray(timelineData)) {
+    console.error('Timeline data is not an array:', timelineData);
+    return;
+  }
+
+  // Find the timeline for the specific line item
+  const lineItemData = timelineData.find((item) => item.lineItemId == lineItemId);
+
+  if (!lineItemData) {
+    console.error('No timeline data found for line item:', lineItemId);
+    return;
+  }
+
+  const timeline = lineItemData.timeline;
+
+  if (!Array.isArray(timeline)) {
+    console.error('Timeline is not an array for line item:', lineItemId);
+    return;
+  }
+
+  console.log('Found timeline for line item:', timeline);
+
+  let LocpopupElement = document.querySelector('#global_location__popup-wrapper');
+  const container = document.querySelector('.progress-container');
+
+  // Get all hardcoded steps
+  const hardcodedSteps = Array.from(document.querySelectorAll('.progress-container .step'));
+  const hardcodedStatuses = hardcodedSteps.map(step => ({
+    element: step,
+    status: step.querySelector('.label').textContent.trim().toLowerCase()
+  }));
+
+  console.log('Hardcoded statuses:', hardcodedStatuses.map(s => s.status));
+
+  // CHANGE 1: Check if "Delivered" exists in timeline data
+  const hasDelivered = timeline.some(item => 
+    item.status && item.status.trim().toLowerCase() === 'delivered'
+  );
+  console.log('Has Delivered status:', hasDelivered);
+
+  // Build the final timeline by merging hardcoded and timeline data
+  const finalTimeline = [];
+  let timelineIndex = 0;
+  let lastHardcodedIndex = -1;
+
+  for (let i = 0; i < timeline.length; i++) {
+    const currentTimelineStatus = timeline[i].status.trim().toLowerCase();
+    
+    // Find this status in hardcoded list (starting from last position)
+    let foundInHardcoded = false;
+    let hardcodedPosition = -1;
+    
+    for (let j = lastHardcodedIndex + 1; j < hardcodedStatuses.length; j++) {
+      if (hardcodedStatuses[j].status === currentTimelineStatus) {
+        hardcodedPosition = j;
+        foundInHardcoded = true;
+        break;
+      }
+    }
+
+    if (foundInHardcoded) {
+      // Fill in all skipped hardcoded statuses between last and current
+      for (let k = lastHardcodedIndex + 1; k < hardcodedPosition; k++) {
+        finalTimeline.push({
+          status: hardcodedStatuses[k].status,
+          displayStatus: hardcodedSteps[k].querySelector('.label').textContent.trim(),
+          timestamp: timeline[i].timestamp,
+          isSkipped: true,
+          isHardcoded: true
+        });
+      }
+      
+      // Add the current matched status
+      finalTimeline.push({
+        status: currentTimelineStatus,
+        displayStatus: timeline[i].status.trim(),
+        timestamp: timeline[i].timestamp,
+        isSkipped: false,
+        isHardcoded: true
+      });
+      
+      lastHardcodedIndex = hardcodedPosition;
+    } else {
+      // This is a new status not in hardcoded list (duplicate or new)
+      finalTimeline.push({
+        status: currentTimelineStatus,
+        displayStatus: timeline[i].status.trim(),
+        timestamp: timeline[i].timestamp,
+        isSkipped: false,
+        isHardcoded: false,
+        isDuplicate: true
+      });
+    }
+  }
+
+  console.log('Final timeline:', finalTimeline);
+
+  // Clear container and rebuild
+  container.innerHTML = '';
+
+  // Add all timeline items to DOM
+  finalTimeline.forEach((item, index) => {
+    const step = createStepElement(item.displayStatus, item.timestamp);
+    
+    // Mark as active
+    const circle = step.querySelector('.circle');
+    circle.classList.add('active');
+    step.classList.add('active');
+    
+    // Set timestamp
+    const timestampDesktop = step.querySelector('.timestamp.desktop');
+    const timestampMobile = step.querySelector('.timestamp.mobile');
+    
+    if (item.timestamp) {
+      const formattedTimestamp = formatTimestamp(item.timestamp);
+      timestampDesktop.textContent = formattedTimestamp;
+      timestampMobile.textContent = formattedTimestamp;
+      
+      if (item.isSkipped) {
+        console.log(`Status "${item.displayStatus}" was skipped, using next status timestamp`);
+      }
+    } else {
+      timestampDesktop.textContent = '-';
+      timestampMobile.textContent = '-';
+    }
+    
+    container.appendChild(step);
+  });
+
+  // Add remaining hardcoded statuses that weren't reached
+  // CHANGE 1: Skip "Shipping" if "Delivered" already exists in timeline
+  for (let i = lastHardcodedIndex + 1; i < hardcodedStatuses.length; i++) {
+    const statusLabel = hardcodedSteps[i].querySelector('.label').textContent.trim().toLowerCase();
+    
+    // Skip "Shipping" if order has reached "Delivered"
+    if (statusLabel === 'shipping' && hasDelivered) {
+      console.log('Skipping "Shipping" status as order already Delivered');
+      continue;
+    }
+    
+    const step = createStepElement(
+      hardcodedSteps[i].querySelector('.label').textContent.trim()
+    );
+    container.appendChild(step);
+  }
+
+  // Get all steps for progress bar calculation
+  const allSteps = document.querySelectorAll('.progress-container .step');
+  const activeSteps = finalTimeline.length;
+
+  // Reset container orientation
+  container.classList.remove('vertical-timeline');
+
+  const isMobile = window.innerWidth <= 768;
+  if (isMobile) {
+    container.classList.add('vertical-timeline');
+  }
+
+  // Update progress bar
+  if (activeSteps > 0) {
+    const totalSteps = allSteps.length - 1;
+    const highestActiveIndex = activeSteps - 1;
+
+    if (isMobile) {
+      const percentage = totalSteps > 0 ? (highestActiveIndex / totalSteps) * 100 : 0;
+      container.style.setProperty('--progress-height', percentage + '%');
+      container.style.removeProperty('--progress-width');
+    } else {
+      const stepWidth = totalSteps > 0 ? 100 / totalSteps : 0;
+      const percentage = Math.max(0, (highestActiveIndex + 0.1) * stepWidth);
+      container.style.setProperty('--progress-width', percentage + '%');
+      container.style.removeProperty('--progress-height');
+    }
+  } else {
+    container.style.setProperty('--progress-width', '0%');
+    container.style.setProperty('--progress-height', '0%');
+  }
+
+  document.querySelector('body').classList.add('overflow-hidden');
+  if (LocpopupElement) {
+    LocpopupElement.classList.add('open');
+  }
+}
+
+// CHANGE 2: Add event listener to close modal on backdrop click
+document.addEventListener('DOMContentLoaded', function() {
+  const modalWrapper = document.getElementById('global_location__popup-wrapper');
+  
+  if (modalWrapper) {
+    modalWrapper.addEventListener('click', function(e) {
+      // Check if the click was directly on the wrapper (backdrop), not on child elements
+      if (e.target === modalWrapper) {
+        hideFormPopup();
+      }
+    });
+  }
+});
+</script>
+
+
+<script>
+// Close dropdown when clicking outside or on buttons inside
+document.addEventListener("click", function(e) {
+  const isDropdownBtn = e.target.matches(".dropdown-toggle");
+  const isInsideDropdown = e.target.closest(".dropdown");
+  const isDropdownMenuButton = e.target.closest(".dropdown-menu button, .dropdown-menu p, .dropdown-menu div[onclick]");
+  
+  // If clicking outside dropdown, close all
+  if (!isDropdownBtn && !isInsideDropdown) {
+    document.querySelectorAll(".dropdown.show").forEach(d => d.classList.remove("show"));
+  } 
+  // If clicking the toggle button, toggle the dropdown
+  else if (isDropdownBtn) {
+    const dropdown = e.target.closest(".dropdown");
+    dropdown.classList.toggle("show");
+  }
+  // If clicking a button/action inside dropdown menu, close it
+  else if (isDropdownMenuButton) {
+    // Close the dropdown after action is triggered
+    const dropdown = e.target.closest(".dropdown");
+    if (dropdown) {
+      dropdown.classList.remove("show");
+    }
+  }
+});
+</script>
+
+
+<script>
+    function openAccording(accordian){
+        accordian.classList.toggle('open');
+    }
+    
+    const currentStep = sessionStorage.getItem('currentStep');
+    if(currentStep === 'payment'){
+       onGlobalLoader();
+      
+       const userNameEle = document.querySelector('div.customerNAME');
+       const userNameValue = sessionStorage.getItem('customerName');
+        if(userNameValue) {
+            userNameEle.querySelector('span').innerText = userNameValue;
+            document.querySelector('.customerPrimaryWrapper').style.display = 'flex';
+        }
+        const draftOrderID = sessionStorage.getItem("draftOrderID");
+        const invoiceURL =  sessionStorage.getItem("invoiceUrl");
+
+      paymentPageHandler("payment", draftOrderID ,invoiceURL)
+      activeSlide('step', 3);
+    } else {
+        const customerGid = sessionStorage.getItem('EndlessAisleCustomerID');
+        if(customerGid){
+           fetchCustomerData(customerGid,'forward');
+        }
+    }
+    
+    function fetchCustomerData(customerID,calledForm) {
+        onGlobalLoader();
+        const requestOptions = {
+          method: "GET",
+          redirect: "follow"
+        };
+        fetch(`/apps/ea_module_dev/customers/${customerID}`, requestOptions)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+              offGlobalLoader();
+            }
+            return response.json(); 
+          })
+          .then((result) => {
+            const customerData = result.data.customer;
+            if(customerData){
+              createUserData(customerData , customerID,calledForm);
+              console.log('customerData :::', customerData)
+            }
+            
+          })
+          .catch((error) => {
+            console.error("Fetch error -->", error); 
+            offGlobalLoader();
+          });
+    }
+
+    function createUserData(customer , customer_id,calledForm){
+        const userEmail = customer.email;
+        const userPhone = customer.phone;
+        const userNameEle = document.querySelector('div.customerNAME');
+        const userNameValue = customer.firstName + (customer.lastName ? (' ' +  customer.lastName ) : '');
+        if(userNameValue) {
+            userNameEle.querySelector('span').innerText = userNameValue;
+            sessionStorage.setItem('customerName',userNameValue);
+            document.querySelector('.customerPrimaryWrapper').style.display = 'flex';
+        }
+     const addressMainGrid = document.querySelector('div.addressBlockaccordian .addressBlock');
+const customerAddress = customer?.addressesV2?.nodes;
+
+
+
+if (Array.isArray(customerAddress) && customerAddress.length > 0 && addressMainGrid) {
+  let addressBlockEle = '';
+  let addressExist = false;
+
+  customerAddress.forEach(address => {
+    const {
+      firstName,
+      lastName,
+      address1,
+      address2,
+      city,
+      province,
+      country,
+      zip,
+      phone
+    } = address || {};
+
+    // Collect available address parts
+    const lines = [];
+    if (address1) lines.push(address1);
+    if (address2) lines.push(address2);
+    if (city || province || zip) {
+      lines.push([city, province, zip].filter(Boolean).join(', '));
+    }
+    if (country) lines.push(country);
+    if (phone) lines.push(`${phone}`);
+
+    if (lines.length > 0) {
+      addressExist = true;
+      addressBlockEle += `
+        <div class="addressContainer">
+          ${lines.map(line => `<p>${line}</p>`).join('')}
+        </div>`;
+    }
+  });
+
+  if (addressExist) {
+    addressMainGrid.innerHTML = addressBlockEle;
+    const customerAddressBlock = document.querySelector('div.CustomerAddressBlock');
+    if (customerAddressBlock) {
+      customerAddressBlock.style.display = 'block';
+    }
+  }
+}
+
+        
+        //Address block Ends here
+        // Info block starts from here
+          const userProfilData = `<div class="input-groups" ${userNameValue ? '' : 'style="display:none"'}>
+                  <label for="name">${userNameValue ? 'Name' : '' }</label>
+                  <input type="text" id="email" readonly default-value="${userNameValue || '' }" value="${userNameValue || '' }"/>
+              </div>
+              <div class="input-groups" ${userEmail ? '' : 'style="display:none"'}>
+                  <label for="email">${userEmail ? 'Email' : ''}</label>
+                  <input type="text" id="name" readonly default-value="${userEmail || ''}" value="${userEmail || ''}"/>
+              </div>
+              <div class="input-groups" ${userPhone ? '' : 'style="display:none"'}>
+                  <label for="phone">${userPhone ? 'Phone Number' : ''}</label>
+                  <input type="text" id="phone" readonly default-value="${userPhone || ''}" value="${userPhone || ''}"/>
+              </div>
+              <div id="customerRelatedData" customer-id ="${customer_id}" customer-email = "${userEmail}"></div>
+              `
+            if(userNameValue|| userEmail || userPhone ){
+                document.querySelector('div.profileBlockaccordian').innerHTML = userProfilData;
+                document.querySelector('.CustomerprofileBlock').style.display = 'block';
+            }
+         
+       
+        const orders = customer.orders.nodes;
+        if(orders && orders.length > 0){
+            let orderItemEle = '';
+            orders.forEach(order=>{
+              const orderID = order.id;
+              const orderName = order.name;
+              const orderCreated = order.createdAt;
+              const formattedDate = new Intl.DateTimeFormat('en-US', {
+                  month: 'long',
+                  day: '2-digit',
+                  year: 'numeric'
+                }).format(new Date(orderCreated));
+              const fulfillmentStatus = order.displayFulfillmentStatus;
+              const paymentStatus = order.displayFinancialStatus;
+              const lineItems = order.lineItems.nodes;
+              let itemCount = 0;
+              if(lineItems.length > 0){
+                lineItems.forEach(item=>{
+                  // Exclude items with ConfigSize in their title
+                  if(!item.title?.includes('ConfigSize')){
+                    itemCount += Number(item.quantity);
+                  }
+                });
+              }
+              // Calculate paid amount: totalPrice - totalOutstanding
+              const totalPrice = Number(order.totalPriceSet?.shopMoney?.amount || 0);
+              const totalOutstanding = Number(order.totalOutstandingSet?.shopMoney?.amount || 0);
+              const paidAmount = totalPrice - totalOutstanding;
+              const orderTotalReceived = paidAmount.toLocaleString('en-IN', {
+                                            maximumFractionDigits: 2
+                                          });
+              orderItemEle += `<tr>
+                                    <td class="order--name" onclick="openOrderDetail('${orderID.split('/Order/')[1]}')"> ${orderName || ''}</td>
+                                    <td>${formattedDate || ''}</td>
+                                    <td>${itemCount || ''}</td>
+                                    <td>Rs. ${(() => {
+  const str = String(orderTotalReceived || '0');
+  const cleaned = str.replace(/[^\d.]/g, '');
+  const num = parseFloat(cleaned);
+  return !isNaN(num) ? num.toFixed(2) : '0.00';
+})()}</td>
+
+                                </tr>`
+                                console.log(typeof(orderTotalReceived),'orderTotalReceived')
+            });
+          document.querySelector('tbody.order--history--body').innerHTML = orderItemEle;
+          document.querySelector('div.CustomerOrderHistoryBlock').style.display = 'block';
+        }
+      
+      const cartActiveCount = "{{ cart.item_count}}";
+      const newOrderButtonEle = document.querySelector('div.order--place-wrapper');
+      if(cartActiveCount >= 1 && calledForm !=='prev'){
+         newOrderButtonEle.style.display = 'flex';
+      } else {
+        newOrderButtonEle.style.display = 'none';
+      }
+        // Ends here
+        offGlobalLoader();
+      }
+          
+   
+    function openOrderDetail(orderID) {
+      console.log('called openOrderDetail')
+      document.querySelector('.payment-button-holder').innerHTML = `<button class="payment-button send-email" onclick="openEmailModal('${orderID}')">Send Payment Link</button>`;
+            onGlobalLoader();
+            const requestOptions = {
+              method: "GET",
+              redirect: "follow"
+            };
+            fetch(`/apps/ea_module_dev/orders/${orderID}`, requestOptions)
+              .then((response) => {
+                if (!response.ok) {
+                  throw new Error(`HTTP error! Status: ${response.status}`);
+                  offGlobalLoader();
+                }
+                return response.json(); 
+              })
+              .then((result) => {
+                   const orderData =  result.data.order;
+                    if(orderData.lineItems.edges.length > 0){
+                      createOrderDetail(orderData, orderID);
+                    } else {
+                       offGlobalLoader();
+                    }
+                   
+              })
+              .catch((error) => {
+                console.error("Fetch error -->", error); 
+                offGlobalLoader();
+              });
+    }
+
+    function createOrderDetail(orderData , order_id){
+      console.log('orderData:::',orderData);
+      const orderStatusSelector = document.querySelector('#status-selector');
+      if (orderStatusSelector) {
+        if(orderData.displayFulfillmentStatus === 'Received at store'){
+          orderStatusSelector.classList.remove('disabled');
+        } else {
+          orderStatusSelector.classList.add('disabled');
+        }
+        orderStatusSelector.setAttribute('order-Id',order_id)
+      }
+
+      const orderHeadEle = document.querySelector('div.order-header');
+      const orderCreateAt = orderData.createdAt;
+      const formattedOrderDate = new Intl.DateTimeFormat('en-US', {
+        month: 'long',
+        day: '2-digit',
+        year: 'numeric'
+      }).format(new Date(orderCreateAt));
+      const orderHeadHTML = `<div class="order--subheader">
+                              <h2 class="order--detail-head">Order ${orderData.name || ''}</h2>
+                              {% comment %} <span class="order-status-badge">${orderData.displayFulfillmentStatus || ''}</span> {% endcomment %}
+                            </div>
+                            <div class="order-date-text">${formattedOrderDate || ''}</div>`
+      
+      if(orderHeadHTML) {
+          orderHeadEle.innerHTML = orderHeadHTML;
+      } 
+      let orderRowEntry = '';
+
+        // Parse the metafield value from orderData
+      let timelineArray = [];
+      let currentStatusArray = [];
+      let paymentStatusArray = [];
+      let trackingArray = [];
+      let orderId = orderData.id.split('/').pop();
+      if (orderData.metafields?.edges?.length) {
+        let trackingMeta = orderData.metafields?.edges?.find(edge => edge.node.key === 'order_tracking');
+        if (trackingMeta) {
+          try {
+            trackingArray = JSON.parse(trackingMeta.node.value);
+          } catch (err) {
+            console.error('Error parsing order_tracking:', err);
+          }
+        }
+        let timelineNode = orderData.metafields.edges.find(edge => edge.node.key === "order_status_timeline");
+        if (timelineNode) {
+          try {
+            timelineArray = JSON.parse(timelineNode.node.value);
+          } catch (err) {
+            console.error("Error parsing order_status_timeline JSON:", err);
+          }
+        }
+        let currentStatusMeta = orderData.metafields.edges.find(edge => edge.node.key === "current_status");
+        if (currentStatusMeta) {
+          try {
+            currentStatusArray = JSON.parse(currentStatusMeta.node.value);
+          } catch (err) {
+            console.error("Error parsing currnet_status JSON:", err);
+          }
+        }
+        let paymentStatusMeta = orderData.metafields.edges.find(edge => edge.node.key === "payment_status_tracking");
+        if (paymentStatusMeta) {
+          try {
+            paymentStatusArray = JSON.parse(paymentStatusMeta.node.value);
+          } catch (err) {
+            console.error("Error parsing payment_status_tracking JSON:", err);
+          }
+        }
+      }
+      orderData.lineItems.edges.forEach(edge => {
+        const item = edge.node;
+        if(item.name.includes('_ConfigSize-')) return;
+        let itemIdOnly = item.id.split('/').pop();
+
+        console.log(paymentStatusArray,'paymentStatusArray')
+
+
+        const lineItemTimeline = timelineArray?.find(item => item?.lineItemId === itemIdOnly) || null;
+        const lineItemPayment = paymentStatusArray?.find(item => item?.lineitem_id === itemIdOnly) || null;
+        const lineItemCurrentStatus = currentStatusArray?.find(c => c.lineItemId === itemIdOnly);
+        {% comment %} console.log(lineItemTimeline,'lineItemTimeline','line item')
+        console.log(lineItemPayment,'lineItemPayment','line item')
+        console.log(lineItemCurrentStatus,'lineItemCurrentStatus','line item') {% endcomment %}
+        const hasQualityCheckSuccess = lineItemTimeline?.timeline?.some(
+          (event) => event.status === "Quality Check Success"
+        ) || false;
+        {% comment %} console.log(hasQualityCheckSuccess,'hasQualityCheckSuccess') {% endcomment %}
+        const isFullyPaid = lineItemPayment.is_completely_paid === true;
+        {% comment %} console.log(isFullyPaid,'isFullyPaid') {% endcomment %}
+        const shouldEnable = hasQualityCheckSuccess && !isFullyPaid;
+        const hasInTransit = lineItemTimeline?.timeline?.some(
+          (event) => event.status === "In Transit"
+        ) || false;
+        console.log(hasQualityCheckSuccess,'hasQualityCheckSuccess', itemIdOnly)
+        console.log(isFullyPaid,'isFullyPaid', itemIdOnly)
+        console.log(lineItemPayment,'lineItemPayment', itemIdOnly)
+
+
+
+
+
+        const existingTracking = trackingArray?.find(t => t.lineItemId === itemIdOnly);  
+        {% comment %} console.log(itemIdOnly,'itemIdOnly')
+        console.log(trackingArray,'trackingArray')
+        console.log(existingTracking,'existingTracking') {% endcomment %}
+        let isExistingTracking = false;
+        let existingTrackingLink = '';
+        let existingTrackingNumber = '';
+        if (existingTracking) {
+          isExistingTracking = true;
+          existingTrackingLink = existingTracking.tracking_link || '';
+          existingTrackingNumber = existingTracking.tracking_number || '';
+        }
+        let matchedTimeline = timelineArray.find(t => t.lineItemId === itemIdOnly);
+        {% comment %} console.log(timelineArray,'timelineArray') {% endcomment %}
+        let lastStatusObj = matchedTimeline?.timeline?.[matchedTimeline.timeline.length - 1];
+        let lastStatus = lastStatusObj?.status;
+        const getStatusOptions = (status) => {
+    switch(status) {
+        case 'Dispatched':
+            return { options: ['At Store'], disabled: false };
+        case 'At Store':
+            return { options: ['Quality Check Failure', 'Quality Check Success'], disabled: false };
+        case 'Quality Check Failure':
+        case 'Quality Check Success':
+            return status === 'Quality Check Success'
+                ? { options: ['Ready For Delivery'], disabled: false }
+                : { options: ['Quality Check Failure', 'Quality Check Success'], disabled: false };
+        case 'Ready For Delivery':
+            return { options: ['Delivered', 'In Transit'], disabled: false };
+        case 'In Transit': 
+            return { options: ['Shipping'], disabled: false };
+        case 'Delivered':
+            return { options: [], disabled: true };
+        default:
+            return { options: [], disabled: true };
+    }
+}
+
+        let matchedPaymentStatus = paymentStatusArray.find(p => p.lineitem_id === itemIdOnly);
+        {% comment %} console.log(matchedPaymentStatus,'matchedPaymentStatus') {% endcomment %}
+        let matchedCurrentStatus = currentStatusArray.find(c => c.lineItemId === itemIdOnly);
+        let paidValue;
+        let originalEstTotal = matchedPaymentStatus?.total_invoice_final_value || item?.customAttributes.find((a) => a.key === "_total_payment_amount");
+        
+        // Use the total amount directly (it already includes tax)
+        let estTotal = 0;
+        if (originalEstTotal) {
+          if (typeof originalEstTotal === "object") {
+            estTotal = parseFloat(originalEstTotal.value) || 0;
+          } else {
+            estTotal = parseFloat(originalEstTotal) || 0;
+          }
+        } else {
+          estTotal = parseFloat(item?.originalTotal) || 0;
+        }
+        if (matchedPaymentStatus?.payment_status === 'paid' && estTotal) {
+          paidValue = estTotal;
+        } else if (matchedPaymentStatus?.partial_paid_value) {
+          paidValue = matchedPaymentStatus.partial_paid_value;
+        } else {
+          paidValue = item?.originalTotal;
+        }
+        let remainingAmount = matchedPaymentStatus?.remaining_amount;
+        if (!remainingAmount) {
+          if (paidValue && originalEstTotal) {
+            if(typeof originalEstTotal === "object") {
+              remainingAmount = originalEstTotal.value - paidValue;
+            } else {
+              remainingAmount = originalEstTotal - paidValue;
+            }
+          }
+        }
+        console.log(remainingAmount,'remainingAmount')
+        let timelineData = matchedTimeline?.timeline || [];
+        {% comment %} end here {% endcomment %}
+        let itemPrice = Number(item.originalUnitPrice).toLocaleString('en-IN', { maximumFractionDigits: 2 });
+        let itemOriginalPrice =   Number(item.originalTotal).toLocaleString('en-IN', { maximumFractionDigits: 2});                            
+        // Example array of dynamic options
+        const { options: statusOptions, disabled: isDisabled } = getStatusOptions(lastStatus);
+
+        // Always prepend disabled "Select Status"
+        let optionsMarkup = `<option disabled selected>Select Status</option>`;
+        statusOptions.forEach(opt => {
+            optionsMarkup += `<option value="${opt}">${opt}</option>`;
+        });
+{% comment %} table body row {% endcomment %}
+            orderRowEntry += `
+            <tr class="${item?.name.includes('_ConfigSize-') ? 'hidden' : ''}">
+            <td class="product--lineItemName--num">${matchedCurrentStatus?.lineItemName || ''}</td>
+            <td class="product-info">
+                <img src="${item?.image?.src || 'https://cdn.shopify.com/s/files/1/0664/3780/8182/files/placeholder.png?v=1752830930'}" alt="${item?.name || ''}"/>
+                <div>
+                  <span class="product-order-title">${item?.name?.split('-')[0] || ''}</span>
+                  <span class="product-order-title">Size: ${item?.customAttributes?.find(a => a?.key === 'size')?.value || ''}</span>
+                  <span class="product-color-label">Metal Color: ${item.variantTitle ||  ''}</span>
+                </div>
+            </td>
+            <td class="product-details">
+              <div>
+                <p>Metal Tone: <span>${item?.customAttributes?.find(a => a?.key === 'metal_tone')?.value || ''}</span></p>
+                <p>Prong Rhodium: <span>${item?.customAttributes?.find(a => a?.key === 'prong_rhodium')?.value || ''}</span></p>
+                <p>Metal finish: <span>${item?.customAttributes?.find(a => a?.key === 'metal_finish')?.value || ''}</span></p>
+                <p class="view-all-product-details" onclick='openProductDetailsModal(${JSON.stringify(item.customAttributes).replace(/'/g, "&apos;")})'>View All</p>
+              </div>
+            </td>
+            <td class="product--sku--num">${item?.sku || ''}</td>
+            <td class="product--quantity">${item?.quantity || ''}</td>
+            <td class="product--status--num currentstatus-${itemIdOnly}">${matchedCurrentStatus?.status || ''}</td>
+            <td class="product--paymentstatus--num-${itemIdOnly} ${matchedPaymentStatus?.payment_status == 'paid'? 'green-text' : 'red-text'}">${matchedPaymentStatus?.payment_status || ''}</td>
+            <td class="product--paid--num">${paidValue?.toFixed(2) || ''}</td>
+            <td class="product--esttotal--num">${typeof estTotal === 'number' ? Number(estTotal).toFixed(2) : (estTotal?.value || estTotal || '')}</td>
+            <td class="product--remainingamount--num">${remainingAmount != null ? Number(remainingAmount).toFixed(2) : '0.00'}</td>
+            <!-- Status select stays separate -->
+            <td class="product--status-select">
+              <select class="status-dropdown dropdown-${itemIdOnly}" data-line-id="${itemIdOnly}" ${isDisabled ? 'disabled' : ''}>
+                ${optionsMarkup}
+              </select>
+            </td>
+
+            <!-- 3-dot dropdown with View Tracking + View + Mark Paid -->
+            <td class="product--actions dot-button">
+              <div class="dropdown">
+                <button class="dropdown-toggle">⋮</button>
+                <div class="dropdown-menu">
+                  <div class="tracking_view_button"
+                      data-line-id="${itemIdOnly}"
+                      ${existingTrackingLink ? `data-tracking-link="${existingTrackingLink}"` : ''}
+                      ${existingTrackingNumber ? `data-tracking-number="${existingTrackingNumber}"` : ''}>
+                    <button ${!hasInTransit ? 'disabled' : ''} onclick="openThisModal(this, '${itemIdOnly}', '${orderId}')">
+                      Tracking Details
+                    </button>
+                  </div>
+                  <div class="product--status" onclick='showpincodePopup(this, ${itemIdOnly}, ${JSON.stringify(timelineArray)})'>
+                    <p>View Timeline</p>
+                  </div>
+                  <div class="markpaid product--status ${shouldEnable ? "" : "disabled"}" 
+                      onclick="${shouldEnable ? `openManualPaymentModal(${itemIdOnly}, ${orderData.id.split('/').pop()})` : ''}">
+                    <p>Mark Paid</p>
+                  </div>
+
+                </div>
+              </div>
+            </td>
+          </tr>`;
+          })
+          setTimeout(() => {
+            calculateAndDisplayPaymentTotals();
+          }, 100);
+          // -----------------------------------------------------------------------------------
+        // Store data globally for the status change handler
+        if(orderRowEntry){
+          document.querySelector('.order--detail--page--body').innerHTML = orderRowEntry;
+          window.currentOrderPaymentStatusArray = paymentStatusArray;
+          window.currentOrderData = orderData;
+        }
+
+function calculateAndDisplayPaymentTotals() {
+  let totalPaid = 0;
+  let totalRemaining = 0;
+  let totalEstimated = 0;
+  
+  // Sum paid amounts
+  document.querySelectorAll('.product--paid--num').forEach(cell => {
+    const value = parseFloat(cell.textContent.replace(/[^0-9.-]+/g, '')) || 0;
+    totalPaid += value;
+  });
+  
+  // Sum remaining amounts
+  document.querySelectorAll('.product--remainingamount--num').forEach(cell => {
+    const value = parseFloat(cell.textContent.replace(/[^0-9.-]+/g, '')) || 0;
+    totalRemaining += value;
+  });
+  
+  // Sum estimated total amounts
+  document.querySelectorAll('.product--esttotal--num').forEach(cell => {
+    const value = parseFloat(cell.textContent.replace(/[^0-9.-]+/g, '')) || 0;
+    totalEstimated += value;
+  });
+  
+  // Get shipping price from orderData
+  const shippingPrice = parseFloat(orderData.shippingLines?.edges?.[0]?.node?.price) || 0;
+  
+  // Calculate Tax as 3% of the base amount (totalEstimated), not including shipping
+  const taxAmount = totalEstimated * 0.03;
+  const subTotal = totalEstimated - taxAmount;
+  
+  // Calculate final total: base amount + shipping
+  const finalTotal = totalEstimated + shippingPrice;
+  
+  console.log('Total Paid:', totalPaid);
+  console.log('Total Remaining:', totalRemaining);
+  console.log('Total Estimated:', totalEstimated);
+  console.log('Shipping:', shippingPrice);
+  console.log('Tax (CGST 3%):', taxAmount);
+  console.log('SubTotal:', subTotal);
+  console.log('Final Total (with shipping):', finalTotal);
+  
+  // Format for display
+  const formattedPaid = totalPaid.toLocaleString('en-IN', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+  
+  const formattedRemaining = totalRemaining.toLocaleString('en-IN', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+  
+  const formattedEstimated = totalEstimated.toLocaleString('en-IN', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+  
+  const formattedShipping = shippingPrice.toLocaleString('en-IN', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+  
+  const formattedTax = taxAmount.toLocaleString('en-IN', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+  
+  const formattedSubTotal = subTotal.toLocaleString('en-IN', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+  
+  // Update payment panel
+  const paymentBadge = document.querySelector('.payment-status-badge');
+  const paidStatus = document.querySelector('.payment-summary.paid--status');
+  const balanceStatus = document.querySelector('.payment-summary.balance--status');
+  
+  if (paymentBadge) {
+    paymentBadge.textContent = totalRemaining === 0 ? 'Paid' : 'Partially Paid';
+  }
+  
+  if (paidStatus) {
+    paidStatus.innerHTML = `Total Paid: ₹ ${formattedPaid}`;
+  }
+  
+  if (balanceStatus) {
+    balanceStatus.innerHTML = `Balance Due: ₹ ${formattedRemaining}`;
+  }
+  
+  // Update order summary
+  const orderSummaryHTML = `
+    <span class="order--subtotal">
+      <span>SUBTOTAL</span>
+      <span>₹${formattedSubTotal}</span>
+    </span>
+    <span class="order--shipping">
+      <span>Shipping</span>
+      <span>₹${formattedShipping}</span>
+    </span>
+    <div class="row--divider"></div>
+    <span class="order--tax" style="display: flex; align-item: center; justify-content: space-between;">
+      <span>Tax (CGST 3%)</span>
+      <span>₹${formattedTax}</span>
+    </span>
+    <div class="row--divider"></div>
+    <span class="order--total">
+      <span><strong>TOTAL</strong></span>
+      <span><strong>₹${finalTotal.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</strong></span>
+    </span>
+  `;
+  
+  const summaryElement = document.querySelector('.order-summary-totals');
+  if (summaryElement) {
+    summaryElement.innerHTML = orderSummaryHTML;
+  }
+  
+  return { 
+    totalPaid, 
+    totalRemaining, 
+    totalEstimated, 
+    shippingPrice, 
+    taxAmount, 
+    subTotal,
+    finalTotal
+  };
+}
+
+
+
+
+// Utility function reused in event listener
+function getStatusOptions(status) {
+    switch(status) {
+        case 'Dispatched':
+            return { options: ['At Store'], disabled: false };
+        case 'At Store':
+            return { options: ['Quality Check Failure', 'Quality Check Success'], disabled: false };
+        case 'Quality Check Failure':
+        case 'Quality Check Success':
+            return status === 'Quality Check Success'
+                ? { options: ['Ready For Delivery'], disabled: false }
+                : { options: ['Quality Check Failure', 'Quality Check Success'], disabled: false };
+        case 'Ready For Delivery':
+            return { options: ['Delivered', 'In Transit'], disabled: false };
+             case 'Delivered':
+            return { options: [], disabled: true };
+            case 'In Transit': 
+            return { options: ['Shipping'], disabled: false };
+        default:
+            return { options: [], disabled: true };
+    }
+}
+
+// Make getStatusOptions globally accessible
+window.getStatusOptions = getStatusOptions;
+
+// Global event listener for status dropdown changes - REGISTERED ONLY ONCE
+(function() {
+  // Use event delegation on document, but only register once
+  if (!window.statusDropdownHandlerRegistered) {
+    document.addEventListener('change', async function(e) {
+      if (e.target.classList.contains('status-dropdown')) {
+        const selectedValue = e.target.value;
+        const lineId = e.target.dataset.lineId;
+        const paymentStatusArray = window.currentOrderPaymentStatusArray;
+        const orderData = window.currentOrderData;
+        
+        if (!paymentStatusArray || !orderData) {
+          console.error('Order data not available');
+          return;
+        }
+        
+        const gatiOrderObj = paymentStatusArray.find(p => p.lineitem_id == lineId);
+        const shopifyOrderId = orderData.id.split('/').pop();
+
+        // Handle Delivered status separately (opens OTP modal)
+        if (selectedValue === 'Delivered') {
+          openOTPModal({
+            gatiOrderId: gatiOrderObj?.gati_order_id,
+            shopifyOrderId: shopifyOrderId,
+            phoneNumber: "{{ customer.phone | default: '+91 XXXXX XXXXX' }}",
+            lineId
+          });
+          return; // Exit early
+        }
+
+        // Handle In Transit separately (opens tracking modal first)
+        if (selectedValue === 'In Transit') {
+          openTrackingModal(lineId, 'statusChange', shopifyOrderId);
+          return; // Exit early - API will be called from modal save
+        }
+
+        // For all other statuses, proceed with immediate API call
+        onGlobalLoader();
+
+        try {
+          let payload = {
+            status: selectedValue,
+            shopify_order_id: shopifyOrderId,
+            lineItemId: lineId
+          };
+
+          const response = await fetch('/apps/ea_module_dev/gati/status-update', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+
+          const result = await response.json();
+
+          if (response.ok) {
+            // Update current status cell
+            const statusCell = document.querySelector(`.currentstatus-${lineId}`);
+            if (statusCell) {
+              statusCell.textContent = selectedValue;
+            }
+
+            // Update dropdown options
+            const nextStatusData = getStatusOptions(selectedValue);
+            const dropdown = e.target;
+            dropdown.innerHTML = `<option disabled selected>Select Status</option>`;
+            nextStatusData.options.forEach(opt => {
+              dropdown.innerHTML += `<option value="${opt}">${opt}</option>`;
+            });
+            dropdown.disabled = nextStatusData.disabled;
+            openOrderDetail(shopifyOrderId)
+
+          } else {
+            console.log('Status update API error response:', result);
+            const errorMessage = result.errors && result.errors.length > 0 
+              ? result.errors[0].message 
+              : (result.message || "Error updating status");
+            console.log('Extracted error message:', errorMessage);
+            showErrorModal(errorMessage, () => {
+              // Retry action - refresh order data
+              openOrderDetail(shopifyOrderId);
+            });
+          }
+        } catch (err) {
+          console.error("Error updating status:", err);
+          showErrorModal("Network error. Please check your connection and try again.", () => {
+            // Retry action - refresh order data
+            openOrderDetail(shopifyOrderId);
+          });
+        } finally {
+          offGlobalLoader();
+        }
+      }
+    });
+    window.statusDropdownHandlerRegistered = true;
+  }
+})();
+
+          // ------------------------------------------------------------------------------------
+        if(orderRowEntry){
+          document.querySelector('.order--detail--page--body').innerHTML = orderRowEntry;
+        }
+        const subTotalPrice = Number(orderData.subtotalPrice).toLocaleString('en-IN', { maximumFractionDigits: 2 }); 
+        let shippingPrice ='';  
+        const discountPrice = Number(orderData.totalDiscountsSet.shopMoney.amount).toLocaleString('en-IN', {maximumFractionDigits: 2}); 
+        const orderTotalPrice = Number(orderData.totalPrice).toLocaleString('en-IN', { maximumFractionDigits: 2 });                                                                                             
+        const orderSummaryTotalHTML = `<span class="order--subtotal"><span>${subTotalPrice ? 'SUBTOTAL' : '' }</span> <span>₹${subTotalPrice || '' }</span></span>
+                                     <span class="order--discount"><span>${Number(orderData.totalDiscountsSet.shopMoney.amount) > 0 ? 'Discount' : '' }</span><span>${Number(orderData.totalDiscountsSet.shopMoney.amount) > 0 ? '₹' : '' }${Number(orderData.totalDiscountsSet.shopMoney.amount) > 0 ?  discountPrice: ''}</span></span>
+                                     <div class="row--divider"></div>
+                                     <span class="order--total"><span><strong>${orderTotalPrice ? 'TOTAL' : '' }</strong></span><span><strong>₹${orderTotalPrice || '' }</strong></span></span>`
+        document.querySelector('.order-summary-totals').innerHTML = orderSummaryTotalHTML;
+        let shippingAddressHTML = "";
+
+        if (orderData.shippingAddress == null) {
+          shippingAddressHTML = `<div class="address-box">
+            <h4 class="addHead">Shipping Address</h4>
+            <p class="add1">In Store</p>
+          </div>`; 
+        } else {
+          shippingAddressHTML = `<div class="address-box">
+            <h4 class="addHead">Shipping Address</h4>
+            <p class="add1">${orderData.shippingAddress.address1 || ''}</p>
+            <p class="add2">${orderData.shippingAddress.city || ''}, ${orderData.shippingAddress.country || ''}</p>
+            <p class="phone1">${orderData.shippingAddress.phone || ''}</p>
+          </div>`;
+        }
+
+        const addressHTML = `<div class="address-box">
+          <h4 class="addHead">Billing Address</h4>
+          <p class="add1">${orderData.billingAddress.address1 || ''}</p>
+          <p class="add2">${orderData.billingAddress.city || ''}, ${orderData.billingAddress.country || ''}</p>
+          <p class="phone1">${orderData.billingAddress.phone || ''}</p>
+        </div>`;
+        document.querySelector('div.address-section-wrapper').innerHTML = addressHTML + shippingAddressHTML;
+        const paymentStatusBadege =  document.querySelector('span.payment-status-badge'); 
+        if(paymentStatusBadege){
+          paymentStatusBadege.textContent = orderData.displayFinancialStatus;
+        } 
+        const amountReceived = Number(orderData.totalReceived);
+        const totalAmountOfOrder = Number(orderData.totalPrice);
+        const outStandingAmount = Number(totalAmountOfOrder - amountReceived);
+        const netAmountReceived = Number(amountReceived).toLocaleString('en-IN', {maximumFractionDigits: 2}); 
+        const netOutStandingAmount = Number(outStandingAmount).toLocaleString('en-IN', {maximumFractionDigits: 2}); 
+        const paidStatusEle = `<span>Paid</span><span>₹${netAmountReceived}</span>`;
+        const outstandingStatusEle = `<span>${outStandingAmount > 0 ? 'Balance' : ''}</span><span>${outStandingAmount > 0 ? '₹' : ''}${outStandingAmount > 0 ? netOutStandingAmount : ''}</span>`;
+        const paymentLinkButton = document.querySelector('button.payment-button');
+        if((outStandingAmount == 0)){
+            paymentLinkButton.classList.add('disable');
+            paymentLinkButton.setAttribute('disabled',true);
+        } else {
+          paymentLinkButton.classList.remove('disable');
+          paymentLinkButton.removeAttribute('disabled');
+        }
+        activeSlide('step',2);
+        offGlobalLoader();
+      }
+
+      function logoutUser(btn){
+          sessionStorage.removeItem('EndlessAisleCustomerID');
+          sessionStorage.removeItem('currentStep');
+          sessionStorage.removeItem('customerName');
+          sessionStorage.removeItem("draftOrderID");
+          sessionStorage.removeItem("invoiceUrl");
+           if ('cartItemJson' in window) {
+              delete window.cartItemJson;
+            }
+            
+         window.location.href = "/pages/endless-aisle"; 
+      }
+
+      function activeSlide(calledForm, currentSlide){
+          let activeSlide = currentSlide;
+          const slideElements = document.querySelectorAll('div.pageSlides');
+           slideElements.forEach((slide) =>{
+            if(calledForm === 'backStep' && !slide.classList.contains('visually-hidden') && (activeSlide < 3)){
+                  activeSlide = Number(slide.dataset.index) - 1 ;
+                   const customerGid = sessionStorage.getItem('EndlessAisleCustomerID');
+                    if(customerGid){
+                      fetchCustomerData(customerGid,'prev');
+                    }
+            } else if(calledForm === 'backStep' && !slide.classList.contains('visually-hidden') && (activeSlide === 3)){
+                activeSlide = Number(slide.dataset.index) - 2;
+            }
+            });
+          
+            slideElements.forEach((slide) =>{
+              if(slide.dataset.index == activeSlide){
+                  slide.classList.remove('visually-hidden');
+              } else {
+                slide.classList.add('visually-hidden');
+              }
+            });
+
+              window.scrollTo({
+                top: 0,
+                behavior: 'smooth' 
+              });
+      }
+      
+      async function createNewOrder() {
+         onGlobalLoader();
+        
+            const response = await fetch('/cart.js');
+            const result = await response.json();
+            const cartItems = result.items;
+            const cartSubtotal =  Number(result.items_subtotal_price / 100).toLocaleString('en-IN', { maximumFractionDigits: 2 });
+            const cartTotal = Number(result.total_price / 100).toLocaleString('en-IN', { maximumFractionDigits: 2 });
+            const itemPayload = [];
+            if (cartItems.length > 0) {
+              let itemHTML = "";
+              let cartSubtotalElem = 0;
+              cartItems.forEach(item => {
+                const size = item.properties?.Size ? item.properties.Size.trim() : null;
+
+                {% comment %} for subtotal {% endcomment %}
+                 if (item.properties && Object.keys(item.properties).length > 0) {
+                    Object.entries(item.properties).forEach(([key, value]) => {
+                        if (typeof value === "string" && value.includes("Rs.")) {
+                            // Remove currency symbol and commas, then parse to float
+                            let price = parseFloat(value.replace("Rs.", "").replace(/,/g, "").trim());
+                            if (!isNaN(price)) {
+                                cartSubtotalElem += price;
+                            }
+                        }
+                    });
+                }
+                 {% comment %} end here {% endcomment %}
+                // Build normalized properties object
+                const normalizedProps = {};
+                if (item.properties && Object.keys(item.properties).length > 0) {
+                  for (const [key, value] of Object.entries(item.properties)) {
+                    if (value && value.trim() !== '') {
+                      // Convert "Metal Tone" → "metal_tone"
+                      const normalizedKey = key.trim().toLowerCase().replace(/\s+/g, '_');
+                      normalizedProps[normalizedKey] = value.trim();
+                    } else {
+                      const normalizedKey = key.trim().toLowerCase().replace(/\s+/g, '_');
+                      normalizedProps[normalizedKey] = null;
+                    }
+                  }
+                }
+                  itemPayload.push({
+                    variant_id: `${item.id}`,
+                    quantity: item.quantity,
+                    size: size,
+                    properties: normalizedProps
+                  });
+            
+                let itemPrice = Number(item.price / 100).toLocaleString('en-IN', { maximumFractionDigits: 2 });
+                // Build properties list
+                  let propertiesHTML = '';
+                  if (item.properties && Object.keys(item.properties).length > 0) {
+                    propertiesHTML = '<div class="product-properties">';
+                    for (const [key, value] of Object.entries(item.properties)) {
+                       if (key.trim().toLowerCase() === "price") continue;
+                      if (value && value.trim() !== '') {
+                        propertiesHTML += `<p class="item-props-elem">${key.trim()}: ${value.trim()}</p>`;
+                      }
+                    }
+                    propertiesHTML += '</div>';
+                  }
+
+                itemHTML += `
+                  <div class="cart--product--summary">
+                    <img src="${item.featured_image?.url || ''}" alt="${item.featured_image?.alt || ''}" class="product-thumbnail">
+                    <div class="product-info">
+                      <h3 class="title">${item.title || ''}</h3>
+                      <p class="quantext">${item.quantity ? 'Quantity: ' + item.quantity : ''}</p>
+                      {% comment %} <p class="product-price">${item.price ? '₹ ' + itemPrice : ''}</p> {% endcomment %}
+                      ${propertiesHTML}
+                    </div>
+                  </div>`;
+                  
+              });
+
+              window.cartItemJson = JSON.stringify(itemPayload);
+              
+              const cartPriceSummary = `<div class="summary-row"><span>Subtotal</span><span class="letter-spacing-two">₹ ${cartSubtotalElem.toFixed(2)}</span></div>
+                                        <div class="summary-row"><span>Shipping</span><span class="letter-spacing-two">₹ 0.00</span></div>
+                                      <div class="summary-row discount" style="display:none;"><span>Discounts</span><span class="letter-spacing-two"></span></div>
+                                        <div class="summary-row total"><span>Total</span><span class="letter-spacing-two">₹ ${cartSubtotalElem.toFixed(2)}</span></div>`;
+
+              document.querySelector('div.product--summary--detail').innerHTML = itemHTML;
+              document.querySelector('.order-details div.order-summary').innerHTML = cartPriceSummary;
+
+              const pancardHTML = document.querySelector('.pan-card-section');
+              const cartTotalValueAmt = result.items.reduce((sum, item) => {
+              const priceString = item.properties?.price || '0';
+              // Remove "Rs.", commas, and any whitespace, then convert to number
+              const priceNumber = parseFloat(priceString.replace(/Rs\.?\s?|,/g, ''));
+              return sum + (isNaN(priceNumber) ? 0 : priceNumber);
+            }, 0);
+            window.cartTotalValueAmt = cartTotalValueAmt;
+            console.log(cartTotalValueAmt, 'cartTotalValueAmt');
+
+            if (cartTotalValueAmt > 200000) {
+              pancardHTML.style.display = 'block';
+            } else {
+              pancardHTML.style.display = 'none';
+            }
+          }
+        
+
+          activeSlide('step', 3);
+           offGlobalLoader();
+    }
+
+  getShopLocation();
+
+  function getShopLocation() {
+      const myHeaders = new Headers();
+      myHeaders.append("accept", "application/json");
+
+      const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow"
+      };
+
+    fetch("/apps/ea_module_dev/orders/locations", requestOptions)
+      .then((response) => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json(); 
+          })
+          .then((result) => {
+            const locations = result.data.locations; 
+            if(locations.length > 0){
+              let locationList = '';
+               locations.forEach(location => {
+          let address = 
+            (location.address.address1 ? location.address.address1 + ' ' : '') + 
+            (location.address.city ? location.address.city + ' ': '') + 
+            (location.address.province ? location.address.province + ' ' : '') + 
+            (location.address.country ? location.address.country + ' ' : '');
+
+                locationList += `
+                  <label class="store-option">
+                    <input type="radio" name="store-location" class="store-radio" value="${location.id}">
+                    <div class="store-details">
+                      <h4>${location.name}</h4>
+                      <p>${address}</p>
+                    </div>
+                  </label>`;
+      });
+
+                document.querySelector('div.store-list').innerHTML = locationList;
+            } else {
+               document.querySelector('div.store-list').innerHTML = `<p class="store_error_message">There are no stores</p>`;
+            }
+           })
+          .catch((error) => {
+            console.error("Fetch error -->", error); 
+           
+          });
+  }
+
+    function updateOrderStatus(select){
+       if(select.value == '') return;
+        onGlobalLoader();
+        const myHeaders = new Headers();
+        myHeaders.append("accept", "application/json");
+        myHeaders.append("Content-Type", "application/json");
+
+        const raw = JSON.stringify({
+          "qcStatus": `${select.value}`
+        });
+
+        const requestOptions = {
+          method: "PUT",
+          headers: myHeaders,
+          body: raw,
+          redirect: "follow"
+        };
+
+        const orderId = select.getAttribute('order-Id');
+       
+        fetch(`/apps/ea_module_dev/orders/${orderId}/qc-status`, requestOptions)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+              offGlobalLoader();
+            }
+            return response.json(); 
+          })
+          .then((result) => {
+               offGlobalLoader();
+               alert('Status Updated');
+               location.reload();
+
+          })
+          .catch((error) => {
+            console.error("Fetch error -->", error);
+            offGlobalLoader();
+             alert('Error in updating status');
+          });
+    }
+      
+
+
+
+
+  function showToast(message) {
+    const toast = document.createElement("div");
+    toast.className = "toast-message";
+    toast.innerText = message;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+  }
+
+
+  function getSelectedStoreId() {
+    const selectedStore = document.querySelector('.store-list input[type="radio"]:checked');
+    return selectedStore ? selectedStore.value : null;
+  }
+
+
+   function validateFields(prefix) {
+  const firstName = document.querySelector(`input[name="${prefix}-firstName"]`).value.trim();
+  const lastName = document.querySelector(`input[name="${prefix}-lastName"]`).value.trim();
+  const address1 = document.querySelector(`input[name="${prefix}-address1"]`).value.trim();
+  const address2 = document.querySelector(`input[name="${prefix}-address2"]`).value.trim();
+  const city = document.querySelector(`input[name="${prefix}-city"]`).value.trim();
+  const province = document.querySelector(`input[name="${prefix}-province"]`).value.trim();
+  const country = document.querySelector(`input[name="${prefix}-country"]`).value.trim();
+  const pincode = document.querySelector(`input[name="${prefix}-pincode"]`).value.trim();
+  const phone = document.querySelector(`input[name="${prefix}-phone"]`).value.trim();
+
+  if (!firstName || !lastName || !address1 || !address2 || !city || !province || !country || !pincode || !phone) {
+    offGlobalLoader();
+    showToast("Please fill in all required fields.");
+    return false;
+  }
+
+  if (phone.length !== 10) {
+    offGlobalLoader();
+    showToast("Phone number must be exactly 10 digits.");
+    return false;
+  }
+
+  return true;
+}
+
+
+   function getAddress(prefix) {
+  const address1 = document.querySelector(`input[name="${prefix}-address1"]`).value.trim();
+  const address2 = document.querySelector(`input[name="${prefix}-address2"]`).value.trim();
+  
+  return {
+    firstName: document.querySelector(`input[name="${prefix}-firstName"]`).value.trim(),
+    lastName: document.querySelector(`input[name="${prefix}-lastName"]`).value.trim(),
+    address1: address1,
+    address2: address2,
+    city: document.querySelector(`input[name="${prefix}-city"]`).value.trim(),
+    province: document.querySelector(`input[name="${prefix}-province"]`).value.trim(),
+    country: document.querySelector(`input[name="${prefix}-country"]`).value.trim(),
+    zip: document.querySelector(`input[name="${prefix}-pincode"]`).value.trim(),
+    phone: document.querySelector(`input[name="${prefix}-phone"]`).value.trim()
+  };
+}
+
+
+function validateFormAndCreatePayload() {
+    onGlobalLoader();
+    const customer_ID =  document.querySelector('#customerRelatedData').getAttribute('customer-id');
+    const customerId = `gid://shopify/Customer/${customer_ID}`; 
+    const email = document.querySelector('#customerRelatedData').getAttribute('customer-email'); 
+    const cartObject = JSON.parse(window.cartItemJson);
+    const shippingMethod = document.querySelector('input[name="shipping-method"]:checked').value;
+    const billingCheckbox = document.getElementById('billing--checkbox');
+    const panCardSection = document.querySelector('.pan-card-section');
+    const panCardInput = document.getElementById('pan-card-number');
+    const panCardRequired = getComputedStyle(panCardSection).display !== 'none';
+    const panCardValue = panCardInput.value.trim();
+
+    let payload = {
+        items: cartObject,
+        "customerId" : customerId ,
+
+    };
+
+  if (shippingMethod === 'home-delivery') {
+    if (!validateFields('shipping')) return;
+
+    payload.shippingAddress = getAddress('shipping');
+    payload.billingAddress = billingCheckbox.checked ? { ...payload.shippingAddress } : validateFields('billing') ? getAddress('billing') : null;
+
+    if (!payload.billingAddress) return;
+
+    if (panCardRequired) {
+      if (!panCardValue) {
+        offGlobalLoader();
+        showToast("Please enter your PAN card number.");
+        return;
+      }
+      payload.panCard = panCardValue;
+    }
+
+  } else if (shippingMethod === 'store-pickup') {
+    const storeId = getSelectedStoreId();
+    if (!storeId) {
+      offGlobalLoader();
+      showToast("Please select a pickup store.");
+      return;
+    }
+    if (!validateFields('billing')) return;
+
+    payload.shippingAddress = null;
+    payload.billingAddress = getAddress('billing');
+    payload.pickupLocationId = storeId;
+    {% comment %} payload.example = storeId; {% endcomment %}
+    
+    if (panCardRequired) {
+      if (!panCardValue) {
+        offGlobalLoader();
+        showToast("Please enter your PAN card number.");
+        return;
+      }
+      payload.panCard = panCardValue;
+    }
+
+  }
+  createDraftOrder (payload)
+}
+
+  function createDraftOrder (data){
+       const myHeaders = new Headers();
+        myHeaders.append("accept", "application/json");
+        myHeaders.append("Content-Type", "application/json");
+
+        const raw = JSON.stringify(data);
+
+        const requestOptions = {
+          method: "POST",
+          headers: myHeaders,
+          body: raw,
+          redirect: "follow"
+        };
+
+      fetch("/apps/ea_module_dev/draft-orders/endless-aisle", requestOptions)
+      .then((response) => {
+            if (!response.ok) {
+              offGlobalLoader();
+              showToast("Server error , please try again later");
+              throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json(); 
+          })
+      .then((result) => {
+            {% comment %} console.log(result.data); {% endcomment %}
+             offGlobalLoader();
+             sessionStorage.setItem("draftOrderID", result.data.draftOrder.id);
+             sessionStorage.setItem("invoiceUrl", result.data.draftOrder.invoiceUrl);
+             paymentPageHandler('payment', result.data.draftOrder.id , result.data.draftOrder.invoiceUrl);
+            
+             
+      })
+      .catch((error) => {
+            offGlobalLoader();
+            console.error("Fetch error -->", error);
+           
+            showToast("Unable to proceed to payment , please try again later");
+      });
+  }
+
+          function paymentPageHandler(calledForm,draftOrderID,invoiceUrl){
+            if(calledForm == 'shipping'){
+                sessionStorage.setItem('currentStep','customer_info');
+                window.location.reload();
+             } else {
+                document.querySelector('.shipping--upper-wrapper').style.display = 'none';
+                document.querySelector('.payment_step_container').classList.remove('disabled');
+                document.querySelector('#shipping-backButton').style.display = 'none';
+                document.querySelector('#payment-backButton').style.display = 'flex';
+                document.querySelector('.discount-section')?.classList?.remove('disabled');
+                
+                sessionStorage.setItem('currentStep','payment');
+                draftOrderDataHandler(draftOrderID , invoiceUrl)
+            }
+
+            window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth' 
+            });
+          
+          
+        }
+          function draftOrderDataHandler(draftID, invoiceUrl) {
+              const shareButton = document.querySelector('.payment_step_share');
+              const copyButton = document.querySelector('.payment_step_copy');
+
+            if (shareButton) {
+              shareButton.setAttribute('draft-order-id', draftID);
+            }
+
+            if (copyButton) {
+              copyButton.setAttribute('InvoiceURL', invoiceUrl);
+            }
+
+            const draftOrderId = draftID.split('/').pop();
+
+            const requestOptions = {
+              method: 'GET',
+              headers: {
+                'accept': 'application/json'
+              }
+            };
+
+            fetch(`/apps/ea_module_dev/draft-orders/${draftOrderId}/status`, requestOptions)
+              .then(response => {
+                if (!response.ok) {
+                  throw new Error(`HTTP error! Status: ${response.status}`);
+                   offGlobalLoader();
+                }
+                return response.json();
+              })
+              .then(result => {
+                console.log('Draft order status:', result);
+                draftOrderHTML(result.data.draftOrder);
+              })
+              .catch(error => {
+                offGlobalLoader();
+                console.error('Fetch error -->', error);
+              });
+          }
+
+          
+          function draftOrderHTML(draftOrder) {
+            renderCustomCheckOutPrice(draftOrder)
+
+  const draftLineItems = draftOrder.lineItems?.nodes || [];
+  const cartSubtotal = Number(draftOrder.subtotalPrice || 0).toLocaleString('en-IN', { maximumFractionDigits: 2 });
+  const cartTotal = Number(draftOrder.totalPrice || 0).toLocaleString('en-IN', { maximumFractionDigits: 2 });
+  if(cartTotal) {
+    
+  }
+  if (draftLineItems.length > 0) {
+    let itemHTML = "";
+
+    draftLineItems.forEach(item => {
+      const itemPrice = Number(item.originalTotal || 0).toLocaleString('en-IN', { maximumFractionDigits: 2 });
+      itemHTML += `
+        <div class="cart--product--summary">
+          <img src="${item.image?.url || ''}" alt="${item.image?.alt || ''}" class="product-thumbnail">
+          <div class="product-info">
+            <h3 class="title">${item.title || ''}</h3>
+            <p class="quantext">${item.quantity ? 'Quantity: ' + item.quantity : ''}</p>
+            <p class="product-price">${item.originalTotal ? '₹ ' + itemPrice : ''}</p>
+          </div>
+        </div>`;
+    });
+
+    let discountPriceValue = Number(draftOrder.totalDiscountsSet.shopMoney.amount || 0).toLocaleString('en-IN', { maximumFractionDigits: 2 });;
+    const appliedDiscount = draftOrder.appliedDiscount;
+
+    if (appliedDiscount) {
+      const discountMessage = appliedDiscount.description;
+      const discountType = appliedDiscount.valueType;
+
+      if (discountMessage) {
+        const msgEl = document.querySelector('.discount-success');
+        if (msgEl) msgEl.textContent = discountMessage;
+      }
+
+      if (discountType) {
+        const radioInput = document.querySelector(`input[value="${discountType}"]`);
+        if (radioInput) radioInput.checked = true;
+      }
+
+      
+    }
+
+    const cartPriceSummary = `
+      <div class="summary-row"><span>Subtotal</span><span class="letter-spacing-two">₹ ${cartTotal || cartSubtotal}</span></div>
+      <div class="summary-row"><span>Shipping</span><span class="letter-spacing-two">₹ 0.00</span></div>
+      <div class="summary-row discount" style="display: ${(Number(draftOrder.totalDiscountsSet.shopMoney.amount) > 0) ? 'flex' : 'none'}">
+        <span>Discounts</span>
+        <span class="letter-spacing-two">${(Number(draftOrder.totalDiscountsSet.shopMoney.amount) > 0) ? '₹ ' + discountPriceValue : ''}</span>
+      </div>
+      <div class="summary-row total"><span>Total</span><span class="letter-spacing-two">₹ ${cartTotal}</span></div>
+      <p class="partialpaymentInfo">This is an advance. Remaining will be charged on delivery.</p>
+    `;
+
+    const productSummary = document.querySelector('div.product--summary--detail');
+    const orderSummary = document.querySelector('.order-details div.order-summary');
+    if (productSummary) productSummary.innerHTML = itemHTML;
+    if (orderSummary) orderSummary.innerHTML = cartPriceSummary;
+  }
+
+  offGlobalLoader();
+}
+
+
+          function completeOrder() {
+              onGlobalLoader();
+              const select = document.getElementById('paymentMode');
+              const errorMsg = document.getElementById('paymentError');
+              const transactionInput = document.getElementById('transactionId');
+              const transactionError = document.getElementById('transactionError'); 
+              const selectedMethod = select.value.trim();
+              const transactionId = transactionInput.value.trim();
+            
+            
+          
+              select.classList.remove('input-error');
+              transactionInput.classList.remove('input-error');
+              errorMsg.style.display = 'none';
+              transactionError.style.display = 'none';
+
+              let hasError = false;
+
+          
+              if (!selectedMethod) {
+                select.classList.add('input-error');
+                errorMsg.style.display = 'block';
+                
+                hasError = true;
+              }
+
+          
+            if (!transactionId) {
+              transactionInput.classList.add('input-error');
+              transactionError.style.display = 'block';
+              hasError = true;
+            }
+
+          
+            if (hasError){
+              offGlobalLoader();
+              return;
+
+            } 
+            const draftGID = document.querySelector('button.payment_step_share').getAttribute("draft-order-id");
+            const draftOrderId = draftGID.split("/").pop();
+            const apiUrl = `/apps/ea_module_dev/draft-orders/${draftOrderId}/payment`;
+
+            const payload = {
+              transactionMethod: selectedMethod,
+              transactionDetails: transactionId
+            };
+
+            fetch(apiUrl, {
+              method: 'PUT',
+              headers: {
+                'accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(payload)
+            })
+            .then(response => {
+              if (!response.ok) throw new Error('Payment API failed.');
+              offGlobalLoader();
+              return response.json();
+            })
+            .then(data => {
+              offGlobalLoader();
+              if ('cartItemJson' in window) {
+              delete window.cartItemJson;
+              }
+              fetch('/cart/clear.js', { method: 'POST' }).then(res => {
+                if (res.ok) console.log('Cart cleared');
+              });
+                sessionStorage.removeItem('currentStep');
+                sessionStorage.removeItem('customerName');
+                sessionStorage.removeItem("draftOrderID");
+                sessionStorage.removeItem("invoiceUrl");
+                const orderId = data.data.draftOrder.order?.id.split('/Order/')[1];
+                document.querySelector('.order--place-wrapper').style.display="none";
+                openOrderDetail(orderId);
+                // Show success toast first
+                if (window.showToast) {
+                    window.showToast("Order Placed");
+                }
+                
+                // Wait 1.5 seconds, then trigger BREAK SYNC function
+                setTimeout(() => {
+                    paymentPageHandler('shipping');
+                }, 1500);
+            })
+            .catch(error => {
+              console.error('API Error:', error);
+              offGlobalLoader();
+              alert('Something went wrong while placing the order.');
+            });
+          }
+</script>
+
+<script>
+// Whitelist of allowed property keys to display
+const ALLOWED_PROPERTIES = [
+  'metal_tone',
+  'prong_rhodium',
+  'metal_finish',
+  'engraving',
+  'certification',
+  'hand',
+  'finger'
+];
+
+// Format key from snake_case to Title Case
+function formatAttributeKey(key) {
+  return key
+    .replace(/_+(.)/g, (match, char) => ' ' + char.toUpperCase())
+    .replace(/^(.)/, (match, char) => char.toUpperCase());
+}
+
+// Open product details modal with filtered attributes
+function openProductDetailsModal(customAttributes) {
+  console.log('Custom Attributes:', customAttributes);
+  
+  const modal = document.getElementById('productDetailsModal');
+  const attributesContainer = modal.querySelector('.product-attributes');
+  const imagesContainer = modal.querySelector('.product-images-grid');
+  const imagesSection = modal.querySelector('.product-images-section');
+  
+  // Clear previous content
+  attributesContainer.innerHTML = '';
+  imagesContainer.innerHTML = '';
+  
+  // Filter attributes: only allowed properties and images
+  const filteredProperties = customAttributes.filter(attr => {
+    const key = attr.key.toLowerCase();
+    return ALLOWED_PROPERTIES.includes(key);
+  });
+  
+  const images = customAttributes.filter(attr => 
+    attr.key.startsWith('_product_image_')
+  );
+  
+  console.log('Filtered Properties:', filteredProperties);
+  console.log('Images:', images);
+  
+  // Display filtered properties
+  if (filteredProperties.length > 0) {
+    let propertiesHTML = '<div class="attributes-grid">';
+    
+    filteredProperties.forEach(attr => {
+      const formattedKey = formatAttributeKey(attr.key);
+      const value = attr.value || '-';
+      
+      propertiesHTML += `
+        <div class="attribute-row">
+          <span class="attribute-key">${formattedKey}:</span>
+          <span class="attribute-value">${value}</span>
+        </div>
+      `;
+    });
+    
+    propertiesHTML += '</div>';
+    attributesContainer.innerHTML = propertiesHTML;
+  } else {
+    attributesContainer.innerHTML = '<p class="no-data">No product details available</p>';
+  }
+  
+  // Display images
+  if (images.length > 0) {
+    imagesSection.style.display = 'block';
+    let imagesHTML = '';
+    
+    images.forEach((img, index) => {
+      if (img.value && img.value.trim() !== '') {
+        imagesHTML += `
+          <div class="product-image-item">
+            <img src="${img.value}" alt="Product Image ${index + 1}" loading="lazy" onerror="this.parentElement.style.display='none'">
+          </div>
+        `;
+      }
+    });
+    
+    if (imagesHTML) {
+      imagesContainer.innerHTML = imagesHTML;
+    } else {
+      imagesSection.style.display = 'none';
+    }
+  } else {
+    imagesSection.style.display = 'none';
+  }
+  
+  // Show modal
+  modal.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+// Close product details modal
+function closeProductDetailsModal() {
+  const modal = document.getElementById('productDetailsModal');
+  modal.classList.remove('show');
+  document.body.style.overflow = 'unset';
+}
+
+// Close on background click
+document.getElementById('productDetailsModal')?.addEventListener('click', function(e) {
+  if (e.target === this) {
+    closeProductDetailsModal();
+  }
+});
+
+// Close on ESC key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    const modal = document.getElementById('productDetailsModal');
+    if (modal && modal.classList.contains('show')) {
+      closeProductDetailsModal();
+    }
+  }
+});
+</script>
+
+
+<script>
+  let currentLineId;
+  let currentApiType;
+  let currentShopifyOrderId;
+
+  function openTrackingModal(lineId, apiType, shopifyOrderId) {
+    currentLineId = lineId;
+    currentApiType = apiType;
+    currentShopifyOrderId = shopifyOrderId;
+    
+    // Clear previous values for status change flow
+    if (apiType === 'statusChange') {
+      document.getElementById('trackingLink').value = '';
+      document.getElementById('trackingNumber').value = '';
+    }
+    
+    document.getElementById('trackingModal').style.display = 'flex';
+    clearMessages();
+  }
+
+  function closeTrackingModal() {
+    document.getElementById('trackingModal').style.display = 'none';
+    clearMessages();
+    
+    // If closing during status change without saving, reset dropdown
+    if (currentApiType === 'statusChange') {
+      const dropdown = document.querySelector(`.dropdown-${currentLineId}`);
+      if (dropdown) {
+        dropdown.value = 'Select Status';
+      }
+    }
+  }
+
+  function showError(msg) {
+    const errBox = document.getElementById('trackingError');
+    errBox.textContent = msg;
+    errBox.style.display = 'block';
+    document.getElementById('trackingSuccess').style.display = 'none';
+  }
+
+  function showSuccess(msg) {
+    const successBox = document.getElementById('trackingSuccess');
+    successBox.textContent = msg;
+    successBox.style.display = 'block';
+    document.getElementById('trackingError').style.display = 'none';
+  }
+
+  function clearMessages() {
+    document.getElementById('trackingError').style.display = 'none';
+    document.getElementById('trackingSuccess').style.display = 'none';
+  }
+
+  async function saveTrackingModal() {
+    const trackingLink = document.getElementById('trackingLink').value.trim();
+    const trackingNumber = document.getElementById('trackingNumber').value.trim();
+
+    try {
+      let response;
+      
+      // For status change to "In Transit" - call status-update API
+      if (currentApiType === 'statusChange') {
+        onGlobalLoader();
+        
+        response = await fetch('/apps/ea_module_dev/gati/status-update', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            status: 'In Transit',
+            shopify_order_id: currentShopifyOrderId,
+            lineItemId: currentLineId,
+            tracking_number: trackingNumber || '',
+            tracking_link: trackingLink || ''
+          })
+        });
+
+        const result = await response.json();
+        offGlobalLoader();
+
+        if (response.ok && result.status !== 'fail') {
+          showSuccess("Status updated to In Transit!");
+          
+          // Update current status cell
+          const statusCell = document.querySelector(`.currentstatus-${currentLineId}`);
+          if (statusCell) {
+            statusCell.textContent = 'In Transit';
+          }
+
+          // Update dropdown options
+          const nextStatusData = getStatusOptions('In Transit');
+          const dropdown = document.querySelector(`.dropdown-${currentLineId}`);
+          if (dropdown) {
+            dropdown.innerHTML = `<option disabled selected>Select Status</option>`;
+            nextStatusData.options.forEach(opt => {
+              dropdown.innerHTML += `<option value="${opt}">${opt}</option>`;
+            });
+            dropdown.disabled = nextStatusData.disabled;
+          }
+
+          // Update tracking button attributes if values provided
+          if (trackingLink || trackingNumber) {
+            const trackingButton = document.querySelector(`.tracking_view_button[data-line-id="${currentLineId}"]`);
+            if (trackingButton) {
+              if (trackingLink) trackingButton.setAttribute('data-tracking-link', trackingLink);
+              if (trackingNumber) trackingButton.setAttribute('data-tracking-number', trackingNumber);
+            }
+          }
+
+          setTimeout(closeTrackingModal, 1200);
+          openOrderDetail(currentShopifyOrderId)
+        } else {
+          console.log('Tracking status update API error response:', result);
+          const errorMessage = result.errors && result.errors.length > 0 
+            ? result.errors[0].message 
+            : (result.message || "Failed to update status.");
+          console.log('Extracted error message:', errorMessage);
+          closeTrackingModal();
+          showErrorModal(errorMessage, () => {
+            openOrderDetail(currentShopifyOrderId);
+          });
+        }
+      } 
+      // For updating existing tracking info - call tracking-info PATCH API
+      else if (currentApiType === 'update-tracking-info') {
+        if (!trackingLink || !trackingNumber) {
+          showError("Both tracking link and tracking number are required.");
+          return;
+        }
+
+        response = await fetch('/apps/ea_module_dev/orders/tracking-info', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            shopifyOrderId: currentShopifyOrderId,
+            lineItemId: currentLineId,
+            tracking_number: trackingNumber,
+            tracking_link: trackingLink
+          })
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          showSuccess("Tracking info updated successfully!");
+          
+          // Update tracking button attributes
+          const trackingButton = document.querySelector(`.tracking_view_button`).closest('tr').querySelector(`.tracking_view_button`);
+          if (trackingButton) {
+            trackingButton.setAttribute('data-tracking-link', trackingLink);
+            trackingButton.setAttribute('data-tracking-number', trackingNumber);
+          }
+          
+          setTimeout(closeTrackingModal, 1200);
+          openOrderDetail(currentShopifyOrderId)
+        } else {
+          console.log('Tracking info update API error response:', result);
+          const errorMessage = result.errors && result.errors.length > 0 
+            ? result.errors[0].message 
+            : (result.message || "Failed to save tracking info.");
+          console.log('Extracted error message:', errorMessage);
+          closeTrackingModal();
+          showErrorModal(errorMessage, () => {
+            openOrderDetail(currentShopifyOrderId);
+          });
+        }
+      }
+    } catch (err) {
+      offGlobalLoader();
+      console.error("Error:", err);
+      closeTrackingModal();
+      showErrorModal("Network error. Please check your connection and try again.", () => {
+        openOrderDetail(currentShopifyOrderId);
+      });
+    }
+  }
+
+  // Event listeners
+  window.onload = function() {
+    document.getElementById('closeTrackingModal').addEventListener('click', closeTrackingModal);
+    document.getElementById('saveTrackingBtn').addEventListener('click', saveTrackingModal);
+  };
+
+  // Expose globally
+  window.openTrackingModal = openTrackingModal;
+  window.closeTrackingModal = closeTrackingModal;
+  window.saveTrackingModal = saveTrackingModal;
+
+  function openThisModal(event, lineItemId, shopify_id) { 
+    console.log(event, 'event'); 
+    const button = event; 
+    const parentTd = button.closest('.tracking_view_button'); 
+    const trackingLink = parentTd.dataset.trackingLink; 
+    const trackingNumber = parentTd.dataset.trackingNumber; 
+    
+    // Prepopulate with existing values
+    document.getElementById('trackingLink').value = trackingLink || ''; 
+    document.getElementById('trackingNumber').value = trackingNumber || ''; 
+    
+    openTrackingModal(lineItemId, 'update-tracking-info', shopify_id);
+  }
+</script>
+
+
+<script>
+let currentLineItemId = null;
+let currentOrderId = null;
+
+function openManualPaymentModal(lineItemId, orderId) {
+  console.log('Opening manual payment modal');
+  currentLineItemId = lineItemId;
+  currentOrderId = orderId;
+  document.getElementById("manualPaymentModal").classList.add('show');
+  clearManualPaymentMessages();
+}
+
+function closeManualPaymentModal() {
+  document.getElementById("manualPaymentModal").classList.remove('show');
+  clearManualPaymentMessages();
+}
+
+function showManualPaymentError(msg) {
+  const errBox = document.getElementById("manualPaymentError");
+  errBox.textContent = msg;
+  errBox.style.display = "block";
+  document.getElementById("manualPaymentSuccess").style.display = "none";
+}
+
+function showManualPaymentSuccess(msg) {
+  const successBox = document.getElementById("manualPaymentSuccess");
+  successBox.textContent = msg;
+  successBox.style.display = "block";
+  document.getElementById("manualPaymentError").style.display = "none";
+}
+
+function clearManualPaymentMessages() {
+  document.getElementById("manualPaymentError").style.display = "none";
+  document.getElementById("manualPaymentSuccess").style.display = "none";
+}
+
+async function saveManualPayment() {
+  const paymentMethod = document.getElementById("paymentMethod").value;
+  const transactionId = document.getElementById("mark_paid_transactionId").value.trim();
+
+  if (!transactionId) {
+    showManualPaymentError("Please enter a transaction ID");
+    return;
+  }
+
+  try {
+    onGlobalLoader(); // show loader
+    const response = await fetch('/apps/ea_module_dev/orders/manual-payment', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        shopifyOrderId: String(currentOrderId),
+        lineItemId: String(currentLineItemId),
+        gateway: paymentMethod,
+        transactionId: transactionId
+      })
+    });
+
+    const result = await response.json();
+    offGlobalLoader(); // hide loader
+
+    if (response.ok) {
+      showManualPaymentSuccess("Payment marked successfully!");
+      // update payment status cell
+      const statusCell = document.querySelector(`.product--paymentstatus--num-${currentLineItemId}`);
+      if (statusCell) statusCell.textContent = "Paid";
+      // Show toast message
+      showToast("Marked as Paid");
+      setTimeout(closeManualPaymentModal, 1200);
+      openOrderDetail(currentOrderId)
+    } else {
+      console.log('Manual payment API error response:', result);
+      const errorMessage = result.errors && result.errors.length > 0 
+        ? result.errors[0].message 
+        : (result.message || "Failed to mark payment");
+      console.log('Extracted error message:', errorMessage);
+      closeManualPaymentModal();
+      showErrorModal(errorMessage, () => {
+        // Retry action - refresh order data
+        openOrderDetail(currentOrderId);
+      });
+    }
+  } catch (err) {
+    offGlobalLoader();
+    console.error(err);
+    closeManualPaymentModal();
+    showErrorModal("Network error. Please check your connection and try again.", () => {
+      // Retry action - refresh order data
+      openOrderDetail(currentOrderId);
+    });
+  }
+}
+</script>
+
+<script>
+    let currentState = {
+    step: 'initial',
+    gatiOrderId: null,
+    shopifyOrderId: null,
+    phoneNumber: null,
+    lineId: null,
+    resendTimeout: null,
+    resendCountdown: 0
+};
+
+
+    function openOTPModal({ gatiOrderId, shopifyOrderId, phoneNumber, lineId }) {
+    currentState.gatiOrderId = gatiOrderId;
+    currentState.shopifyOrderId = shopifyOrderId;
+    currentState.phoneNumber = phoneNumber || '+91 XXXXX XXXXX';
+    currentState.lineId = lineId;
+    currentState.step = 'initial';
+    
+    document.getElementById('phoneDisplay').textContent = currentState.phoneNumber;
+    document.getElementById('otpModal').style.display = 'flex';
+    document.getElementById('otpInputContainer').classList.remove('active');
+    document.getElementById('resendContainer').classList.remove('active');
+    document.getElementById('primaryButton').innerHTML = '<span id="buttonText">Send OTP</span>';
+    document.getElementById('otpInput').value = '';
+    document.getElementById('errorMessage').classList.remove('active');
+    document.getElementById('otpInput').classList.remove('error');
+}
+
+
+    function closeOTPModal() {
+        document.getElementById('otpModal').style.display = 'none';
+        if (currentState.resendTimeout) {
+            clearInterval(currentState.resendTimeout);
+        }
+    }
+
+    async function handlePrimaryAction() {
+        if (currentState.step === 'initial') {
+            await generateOTP();
+        } else if (currentState.step === 'otp-sent') {
+            await verifyOTP();
+        }
+    }
+
+    async function generateOTP() {
+        const button = document.getElementById('primaryButton');
+        button.disabled = true;
+        button.innerHTML = '<span class="loading"></span>';
+
+        try {
+            const response = await fetch('/apps/ea_module_dev/otp/generate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    gatiOrderId: currentState.gatiOrderId,
+                    shopifyOrderId: currentState.shopifyOrderId
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                currentState.step = 'otp-sent';
+                document.getElementById('otpInputContainer').classList.add('active');
+                document.getElementById('resendContainer').classList.add('active');
+                button.innerHTML = '<span id="buttonText">Verify OTP</span>';
+                startResendTimer();
+            } else {
+                console.log('OTP generate API error response:', data);
+                const errorMessage = data.errors && data.errors.length > 0 
+                  ? data.errors[0].message 
+                  : (data.message || 'Failed to send OTP. Please try again.');
+                console.log('Extracted error message:', errorMessage);
+                showError(errorMessage);
+            }
+        } catch (error) {
+            showError('Network error. Please check your connection and try again.');
+        } finally {
+            button.disabled = false;
+        }
+    }
+
+    async function verifyOTP() {
+    const otpInput = document.getElementById('otpInput');
+    const otp = otpInput.value.trim();
+
+    const button = document.getElementById('primaryButton');
+    button.disabled = true;
+    button.innerHTML = '<span class="loading"></span>';
+
+    try {
+        const response = await fetch('/apps/ea_module_dev/otp/verify', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                otp: otp,
+                gatiOrderId: currentState.gatiOrderId,
+                shopifyOrderId: currentState.shopifyOrderId
+            })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // OTP verified successfully
+            alert('OTP verified successfully!');
+            closeOTPModal();
+            
+            // Fetch order data to refresh order statuses
+            if (currentState.shopifyOrderId) {
+                openOrderDetail(currentState.shopifyOrderId);
+            }
+            
+            // Trigger callback if needed
+            if (window.onOTPVerified) {
+                window.onOTPVerified(data);
+            }
+        } else {
+            console.log('OTP verify API error response:', data);
+            const errorMessage = data.errors && data.errors.length > 0 
+              ? data.errors[0].message 
+              : (data.message || 'Invalid OTP. Please try again.');
+            console.log('Extracted error message:', errorMessage);
+            showError(errorMessage);
+            otpInput.value = '';
+        }
+    } catch (error) {
+        showError('Network error. Please check your connection and try again.');
+    } finally {
+        button.disabled = false;
+        button.innerHTML = '<span id="buttonText">Verify OTP</span>';
+    }
+}
+
+
+    async function handleResendOTP() {
+        if (currentState.resendCountdown > 0) return;
+
+        const resendButton = document.getElementById('resendButton');
+        resendButton.disabled = true;
+
+        try {
+            const response = await fetch('/apps/ea_module_dev/otp/resend', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    gatiOrderId: currentState.gatiOrderId,
+                    shopifyOrderId: currentState.shopifyOrderId
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                document.getElementById('otpInput').value = '';
+                document.getElementById('errorMessage').classList.remove('active');
+                document.getElementById('otpInput').classList.remove('error');
+                startResendTimer();
+            } else {
+                console.log('OTP resend API error response:', data);
+                const errorMessage = data.errors && data.errors.length > 0 
+                  ? data.errors[0].message 
+                  : (data.message || 'Failed to resend OTP. Please try again.');
+                console.log('Extracted error message:', errorMessage);
+                showError(errorMessage);
+            }
+        } catch (error) {
+            showError('Network error. Please check your connection and try again.');
+        } finally {
+            resendButton.disabled = false;
+        }
+    }
+
+    function startResendTimer() {
+        currentState.resendCountdown = 30;
+        const resendButton = document.getElementById('resendButton');
+        const resendTimer = document.getElementById('resendTimer');
+        
+        resendButton.disabled = true;
+        
+        if (currentState.resendTimeout) {
+            clearInterval(currentState.resendTimeout);
+        }
+        
+        currentState.resendTimeout = setInterval(() => {
+            currentState.resendCountdown--;
+            resendTimer.textContent = `(${currentState.resendCountdown}s)`;
+            
+            if (currentState.resendCountdown <= 0) {
+                clearInterval(currentState.resendTimeout);
+                resendButton.disabled = false;
+                resendTimer.textContent = '';
+            }
+        }, 1000);
+    }
+
+    function showError(message) {
+        const errorElement = document.getElementById('errorMessage');
+        const otpInput = document.getElementById('otpInput');
+        
+        errorElement.textContent = message;
+        errorElement.classList.add('active');
+        otpInput.classList.add('error');
+    }
+
+    // Clear error on input
+    document.getElementById('otpInput')?.addEventListener('input', function(e) {
+        // Only allow numbers
+        this.value = this.value.replace(/[^0-9]/g, '');
+        
+        document.getElementById('errorMessage').classList.remove('active');
+        this.classList.remove('error');
+    });
+
+    // Close modal on background click
+    document.getElementById('otpModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeOTPModal();
+        }
+    });
+</script>
+
+<script>
+let currentInvoiceOrderId = null;
+
+function openEmailModal(orderId) {
+  currentInvoiceOrderId = orderId;
+  document.getElementById('emailInvoiceModal').classList.add('show');
+  document.getElementById('invoiceEmail').value = '';
+  clearEmailMessages();
+  document.getElementById('invoiceEmail').focus();
+}
+
+function closeEmailModal() {
+  document.getElementById('emailInvoiceModal').classList.remove('show');
+  clearEmailMessages();
+  currentInvoiceOrderId = null;
+}
+
+function showEmailError(msg) {
+  const errBox = document.getElementById('emailErrorMessage');
+  const successBox = document.getElementById('emailSuccessMessage');
+  errBox.textContent = msg;
+  errBox.style.display = 'block';
+  successBox.style.display = 'none';
+  document.getElementById('invoiceEmail').classList.add('error');
+}
+
+function showEmailSuccess(msg) {
+  const successBox = document.getElementById('emailSuccessMessage');
+  const errBox = document.getElementById('emailErrorMessage');
+  successBox.textContent = msg;
+  successBox.style.display = 'block';
+  errBox.style.display = 'none';
+  document.getElementById('invoiceEmail').classList.remove('error');
+}
+
+function clearEmailMessages() {
+  document.getElementById('emailErrorMessage').style.display = 'none';
+  document.getElementById('emailSuccessMessage').style.display = 'none';
+  document.getElementById('invoiceEmail').classList.remove('error');
+}
+
+function validateEmail(email) {
+  // Comprehensive email validation regex
+  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  return emailPattern.test(email);
+}
+
+async function sendInvoiceEmail() {
+  const emailInput = document.getElementById('invoiceEmail');
+  const email = emailInput.value.trim();
+
+  // Validate email
+  if (!email) {
+    showEmailError('Please enter an email address');
+    return;
+  }
+
+  if (!validateEmail(email)) {
+    showEmailError('Please enter a valid email address');
+    return;
+  }
+
+  const sendButton = document.getElementById('sendEmailBtn');
+  const buttonText = document.getElementById('sendButtonText');
+  
+  // Disable button and show loading state
+  sendButton.disabled = true;
+  buttonText.textContent = 'Sending...';
+
+  try {
+    const response = await fetch(`/apps/ea_module_dev/orders/${currentInvoiceOrderId}/send-invoice`, {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json' 
+      },
+      body: JSON.stringify({
+        emailTo: email
+      })
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      showEmailSuccess('Invoice sent successfully!');
+      
+      // Auto-close modal after 1.5 seconds
+      setTimeout(() => {
+        closeEmailModal();
+      }, 1500);
+    } else {
+      showEmailError(result.message || 'Failed to send invoice. Please try again.');
+    }
+  } catch (error) {
+    console.error('Error sending invoice:', error);
+    showEmailError('Network error. Please check your connection and try again.');
+  } finally {
+    // Re-enable button
+    sendButton.disabled = false;
+    buttonText.textContent = 'Send Invoice';
+  }
+}
+
+// Clear error on input
+document.getElementById('invoiceEmail')?.addEventListener('input', function(e) {
+  clearEmailMessages();
+});
+
+// Handle Enter key press
+document.getElementById('invoiceEmail')?.addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    sendInvoiceEmail();
+  }
+});
+
+// Close modal on background click
+document.getElementById('emailInvoiceModal')?.addEventListener('click', function(e) {
+  if (e.target === this) {
+    closeEmailModal();
+  }
+});
+
+// Expose function globally
+window.openEmailModal = openEmailModal;
+</script>
+
+{% schema %}
+{
+  "name": "EA-Customer-detail",
+  "settings": [],
+  "blocks": [],
+  "presets": [{ "name": "EA-Customer-detail" }]
+}
+{% endschema %}

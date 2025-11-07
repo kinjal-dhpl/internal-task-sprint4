@@ -1,0 +1,163 @@
+{% schema %}
+{
+  "name": "Dream Engagement Ring",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "ring_image_1",
+      "label": "Ring Image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "ring_image_2",
+      "label": "Ring Image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "ring_image_3",
+      "label": "Ring Image 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "ring_image_4",
+      "label": "Ring Image 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "ring_image_5",
+      "label": "Ring Image 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "ring_image_6",
+      "label": "Ring Image 6"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Design Your Dream Engagement Ring"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Create the perfect ring tailored to your style and preferences."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Dream Engagement Ring"
+    }
+  ]
+}
+{% endschema %}
+
+<section class="dream-engagement-ring">
+  <div class="dream-container">
+    
+    <!-- Heading (Appears First) -->
+    <h2 class="dream-title">{{ section.settings.title }}</h2>
+
+    <!-- Image (Appears Below Heading) -->
+    <div class="dream-image">
+      <img id="ringSlideshow" src="{{ section.settings.ring_image_1 | image_url }}" alt="Dream Ring">
+    </div>
+
+    <!-- Description (Appears Below Image) -->
+    <p class="dream-description">{{ section.settings.description }}</p>
+
+  </div>
+</section>
+
+<style>
+/* Main Container */
+.dream-engagement-ring {
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px; /* Minimized Top & Bottom Padding */
+  background-color: #ffffff;
+}
+
+/* Centering Content */
+.dream-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1200px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Heading */
+.dream-title {
+  font-size: 30px;
+  font-family: "oregon-ldo-medium";
+  margin-bottom: 10px; /* Reduced Space Before Image */
+}
+
+/* Image Section */
+.dream-image {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 5px 0px; /* Minimized Top & Bottom Padding */
+  top-padding:-40px;
+}
+
+.dream-image img {
+  width: 320px;  /* Consistent Image Size */
+  height: 320px;
+  object-fit: contain; /* Maintain Aspect Ratio */
+  border-radius: 10px;
+  padding: 0px;
+  margin: 0px; /* Removed Extra Margins */
+}
+
+/* Description */
+.dream-description {
+  font-size: 17px;
+  color: #666;
+  font-family: "oregon-ldo-medium";
+  margin-top: 10px; /* Reduced Space After Image */
+}
+
+/* Mobile Layout */
+@media screen and (max-width: 768px) {
+  .dream-container {
+    text-align: center;
+  }
+
+  .dream-image {
+    margin: 5px 0px; /* Minimized Space */
+  }
+
+  .dream-image img {
+    width: 280px; /* Mobile Image Consistency */
+    height: 280px;
+  }
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  let images = [
+    "{{ section.settings.ring_image_1 | image_url }}",
+    "{{ section.settings.ring_image_2 | image_url }}",
+    "{{ section.settings.ring_image_3 | image_url }}",
+    "{{ section.settings.ring_image_4 | image_url }}",
+    "{{ section.settings.ring_image_5 | image_url }}",
+    "{{ section.settings.ring_image_6 | image_url }}"
+  ].filter(src => src !== ""); // Removes empty images
+
+  let index = 0;
+  const slideshowImage = document.getElementById("ringSlideshow");
+
+  function changeImage() {
+    index = (index + 1) % images.length;
+    slideshowImage.src = images[index];
+  }
+
+  setInterval(changeImage, 1000); // Image changes every 3 seconds
+});
+</script>

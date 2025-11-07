@@ -1,0 +1,1215 @@
+{{ 'customer.css' | asset_url | stylesheet_tag }}
+{{ 'custom_order_details.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="main-order-details">
+  <div class="customer order section-{{ section.id }}-padding">
+    <svg style="display:none">
+      <symbol id="icon-discount" viewBox="0 0 12 12">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M7 0h3a2 2 0 012 2v3a1 1 0 01-.3.7l-6 6a1 1 0 01-1.4 0l-4-4a1 1 0 010-1.4l6-6A1 1 0 017 0zm2 2a1 1 0 102 0 1 1 0 00-2 0z" fill="currentColor">
+      </symbol>
+    </svg>
+    <div class="main-heading-wrapper">
+      <h1 class="customer__title">{{ 'customer.account.title' | t }}</h1>
+      <a href="{{ routes.account_url }}">{{ 'customer.account.return' | t }}</a>
+    </div>
+
+    <div class="main-details-wrapper">
+      <div clas="main-table-wrapper-account">
+        <h2>{{ 'customer.order.title' | t: name: order.name }}</h2>
+        {%- assign order_date = order.created_at | time_tag: format: 'date_at_time' -%}
+        <p>{{ 'customer.order.date_html' | t: date: order_date }}</p>
+        {%- if order.cancelled -%}
+          {%- assign cancelled_at = order.cancelled_at | time_tag: format: 'date_at_time' -%}
+          <p>{{ 'customer.order.cancelled_html' | t: date: cancelled_at }}</p>
+          <p>{{ 'customer.order.cancelled_reason' | t: reason: order.cancel_reason_label }}</p>
+        {%- endif -%}
+        <div class="main_custom_table">
+          <div class="custom-table_header">
+            <p class="custom-table_header_element">Line Item</p>
+            <p class="custom-table_header_element">Product</p>
+            <p class="custom-table_header_element">Product Details</p>
+            <p class="custom-table_header_element">SKU</p>
+            <p class="custom-table_header_element">Quantity</p>
+            <p class="custom-table_header_element">Current Status</p>
+            <p class="custom-table_header_element">Payment Status</p>
+            <p class="custom-table_header_element">Paid Amount</p>
+            <p class="custom-table_header_element">Estimated Total</p>
+            <p class="custom-table_header_element">Remaining Price</p>
+            <p class="custom-table_header_element">Actions</p>
+          </div>
+          <div class="custom-table_body">
+            {% assign allTimelineData = order.metafields.custom.order_status_timeline.value | json %}
+            {% assign paymentStatusData = order.metafields.custom.payment_status_tracking.value %}
+            {% assign currentStatusData = order.metafields.custom.current_status.value %}
+            {% assign trackingData = order.metafields.custom.order_tracking.value %}
+            {% assign subtotal = 0 %}
+            {% assign tax_total = 0 %}
+            {%- for line_item in order.line_items -%}
+              {% unless line_item.title contains '_ConfigSize' %}
+                {% assign current_id = line_item.id | append: '' %}
+                {% assign payment = paymentStatusData | where: 'lineitem_id', current_id | first %}
+
+                {% assign est_total = payment.total_invoice_final_value %}
+                {% if est_total == blank %}
+                  {% assign est_total = line_item.properties._total_payment_amount %}
+                {% endif %}
+
+                {% if est_total %}
+                  {% assign est_total = est_total | plus: 0 %}
+
+                  {%- assign tax = est_total | times: 0.03 -%}
+                  {% assign base_price = est_total | minus: tax %}
+
+                  {% assign subtotal = subtotal | plus: base_price %}
+                  {% assign tax_total = tax_total | plus: tax %}
+                {% endif %}
+              {% endunless %}
+
+              <div class="custom-table_row{% if line_item.title contains '_ConfigSize' %} hidden{% endif %}">
+                <div class="custom-table_data">
+                  <p class="line-item-name" line-id="{{ line_item.properties._total_payment_amount }}">
+                    {% assign current_id = line_item.id | append: '' %}
+                    {% for s in currentStatusData %}
+                      {% if current_id == s.lineItemId %}
+                        {% if s.lineItemName != blank %}
+                          {{ s.lineItemName }}
+                        {% else %}
+                          -
+                        {% endif %}
+                      {% endif %}
+                    {% endfor %}
+                  </p>
+                </div>
+                <div class="custom-table_data">
+                  <div class="line-item-product">
+                    <div class="line-item-product-image">
+                      <img src="{{ line_item.product.images.first | image_url: width: 50 }}">
+                    </div>
+                    <div class="line-item-product-info">
+                      <p class="product-title">{{ line_item.product.title }}</p>
+                      <p class="product-variant">
+                        Size: <span>{{ line_item.properties.size }}</span>
+                      </p>
+                      <p class="product-variant">
+                        Metal Color: <span>{{ line_item.variant.title }}</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="custom-table_data">
+                  <div class="line-item-product-properties">
+                    <div class="product-properties">
+                      <div>
+                        <p>
+                          Metal Tone: <span>{{ line_item.properties.metal_tone }}</span>
+                        </p>
+                        <p>
+                          Prong Rhodium: <span>{{ line_item.properties.prong_rhodium }}</span>
+                        </p>
+                        <p>
+                          Metal finish: <span>{{ line_item.properties.metal_finish }}</span>
+                        </p>
+                        <p>
+                          Engraving: <span>{{ line_item.properties.engraving }}</span>
+                        </p>
+                        <p
+                          class="view-all-product-details"
+                          onclick="openProductDetailsModal({{ line_item.properties | json | escape }})"
+                        >
+                          View All
+                        </p>
+                      </div>
+                    </div>
+                    <div class="product-properties-images"></div>
+                  </div>
+                </div>
+                <div class="custom-table_data">
+                  <p class="line-item-sku line-item-normal-text">{{ line_item.sku }}</p>
+                </div>
+                <div class="custom-table_data">
+                  <p class="line-item-quantity line-item-normal-text">{{ line_item.quantity }}</p>
+                </div>
+                <div class="custom-table_data">
+                  {% assign current_id = line_item.id | append: '' %}
+                  {% for s in currentStatusData %}
+                    {% if current_id == s.lineItemId %}
+                      <p class="line-item-current-status line-item-normal-text">{{ s.status }}</p>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+                <div class="custom-table_data">
+                  {% assign current_id = line_item.id | append: '' %}
+                  {% for s in paymentStatusData %}
+                    {% if current_id == s.lineitem_id %}
+                      <p
+                        class="
+                          line-item-payment-status line-item-normal-text
+                          {% if s.payment_status == 'paid' %}green-text{% elsif s.payment_status == 'partially paid' %}red-text{% endif %}
+                        "
+                      >
+                        {{ s.payment_status }}
+                      </p>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+                <div class="custom-table_data">
+                  {% assign current_id = line_item.id | append: '' %}
+                  {% assign payment = paymentStatusData | where: 'lineitem_id', current_id | first %}
+                  {% assign est_total_for_paid = payment.total_invoice_final_value %}
+                  {% if est_total_for_paid == blank %}
+                    {% assign est_total_for_paid = line_item.properties._total_payment_amount %}
+                  {% endif %}
+
+                  {% if payment and payment.payment_status == 'paid' and est_total_for_paid %}
+                    <p class="line-item-paid-value line-item-normal-text">Rs. {{ est_total_for_paid | round: 2 }}</p>
+                  {% elsif payment and payment.partial_paid_value %}
+                    <p class="line-item-paid-value line-item-normal-text">
+                      Rs. {{ payment.partial_paid_value | round: 2 }}
+                    </p>
+                  {% else %}
+                    <p class="line-item-paid-value line-item-normal-text">
+                      Rs. {{ line_item.price | money_without_currency | strip_html }}
+                    </p>
+                  {% endif %}
+                </div>
+                <div class="custom-table_data">
+                  {% assign est_total = payment.total_invoice_final_value %}
+                  {% if est_total == blank %}
+                    {% assign est_total = line_item.properties._total_payment_amount %}
+                  {% endif %}
+                  {% if est_total %}
+                    <p class="line-item-est-total line-item-normal-text">Rs. {{ est_total | round: 2 }}</p>
+                  {% else %}
+                    <p class="line-item-est-total line-item-normal-text">-</p>
+                  {% endif %}
+                </div>
+                <div class="custom-table_data">
+                  {% if payment and payment.remaining_amount %}
+                    <p class="line-item-remaining-amount line-item-normal-text">
+                      Rs. {{ payment.remaining_amount | round: 2 }}
+                    </p>
+                  {% elsif est_total %}
+                    {% assign paid = 0 %}
+                    {% if payment and payment.partial_paid_value %}
+                      {% assign paid = payment.partial_paid_value %}
+                    {% else %}
+                      {% assign paid = line_item.price | divided_by: 100.0 %}
+                    {% endif %}
+                    {% assign remaining = est_total | minus: paid %}
+                    <p class="line-item-remaining-amount line-item-normal-text">Rs. {{ remaining | round: 2 }}</p>
+                  {% else %}
+                    <p class="line-item-remaining-amount line-item-normal-text">-</p>
+                  {% endif %}
+                </div>
+                <div class="custom-table_data actions_button">
+                  {% if allTimelineData %}
+                    <div class="dropdown-menu-wrapper">
+                      <button class="three-dot-menu-btn" onclick="toggleDropdown(event, '{{ line_item.id }}')">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="16"
+                          fill="currentColor"
+                          viewBox="0 0 16 16"
+                        >
+                          <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
+                        </svg>
+                      </button>
+                      <div class="dropdown-content" id="dropdown-{{ line_item.id }}">
+                        <a
+                          href="#"
+                          class="timeline-lnk"
+                          onclick="showpincodePopup(this, '{{ line_item.id }}', {{ allTimelineData | json | escape }}); return false;"
+                          >Timeline</a
+                        >
+                        {% assign current_line_id = line_item.id | append: '' %}
+                        {% assign current_line_id = line_item.id | append: '' %}
+                        {% assign trackingInfo = trackingData | where: 'lineItemId', current_line_id | first %}
+                        {% assign timelineInfo = order.metafields.custom.order_status_timeline.value
+                          | where: 'lineItemId', current_line_id
+                          | first
+                        %}
+                        {%- comment -%} Check if "In Transit" status exists in timeline {%- endcomment -%}
+                        {% assign hasInTransit = false %}
+                        {% if timelineInfo and timelineInfo.timeline %}
+                          {% for event in timelineInfo.timeline %}
+                            {% if event.status == 'In Transit' %}
+                              {% assign hasInTransit = true %}
+                              {% break %}
+                            {% endif %}
+                          {% endfor %}
+                        {% endif %}
+
+                        <div class="tracking_view_button">
+                          <button
+                            onclick="openTrackingModal('{{ trackingInfo.tracking_number }}', '{{ trackingInfo.tracking_link }}', '{{ trackingInfo.gatiOrderId }}')"
+                            {% unless hasInTransit %}
+                              disabled
+                            {% endunless %}
+                          >
+                            Tracking Info
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  {% else %}
+                    <span>-</span>
+                  {% endif %}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+        <!-- Mobile Version - Hidden on Desktop -->
+        <div class="mobile-order-cards">
+          {% assign allTimelineData = order.metafields.custom.order_status_timeline.value | json %}
+          {% assign paymentStatusData = order.metafields.custom.payment_status_tracking.value %}
+          {% assign currentStatusData = order.metafields.custom.current_status.value %}
+          {% assign trackingData = order.metafields.custom.order_tracking.value %}
+          {% assign subtotal = 0 %}
+          {% assign tax_total = 0 %}
+
+          {%- for line_item in order.line_items -%}
+            {% unless line_item.title contains '_ConfigSize' %}
+              {% assign current_id = line_item.id | append: '' %}
+              {% assign payment = paymentStatusData | where: 'lineitem_id', current_id | first %}
+
+              {% assign est_total = payment.total_invoice_final_value %}
+              {% if est_total == blank %}
+                {% assign est_total = line_item.properties._total_payment_amount %}
+              {% endif %}
+
+              {% if est_total %}
+                {% assign est_total = est_total | plus: 0 %}
+                {%- assign tax = est_total | times: 0.03 -%}
+                {% assign base_price = est_total | minus: tax %}
+                {% assign subtotal = subtotal | plus: base_price %}
+                {% assign tax_total = tax_total | plus: tax %}
+              {% endif %}
+
+              <!-- Individual Card -->
+              <div class="mobile-order-card">
+                <!-- Row 1: Line Item Name & Actions -->
+                <div class="mobile-card-row mobile-header-row">
+                  <div class="mobile-card-section">
+                    <p class="mobile-label">Line Item</p>
+                    <p class="mobile-value line-item-name">
+                      {% assign current_id = line_item.id | append: '' %}
+                      {% for s in currentStatusData %}
+                        {% if current_id == s.lineItemId %}
+                          {% if s.lineItemName != blank %}
+                            {{ s.lineItemName }}
+                          {% else %}
+                            -
+                          {% endif %}
+                        {% endif %}
+                      {% endfor %}
+                    </p>
+                  </div>
+                  <div class="action-hodler">
+                    <p class="mobile-label">Timeline</p>
+                    <span 
+                      {% if allTimelineData %}
+                        onclick="showpincodePopup(this, '{{ line_item.id }}', {{ allTimelineData | json | escape }}); return false;"
+                        style="cursor: pointer; opacity: 1;"
+                      {% else %}
+                        style="pointer-events: none; opacity: 0.4; cursor: default;"
+                      {% endif %}
+                    >
+                      <svg width="20" height="20" viewBox="0 0 1024 1024" class="icon" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M512 160c320 0 512 352 512 352S832 864 512 864 0 512 0 512s192-352 512-352m0 64c-225.28 0-384.128 208.064-436.8 288 52.608 79.872 211.456 288 436.8 288 225.28 0 384.128-208.064 436.8-288-52.608-79.872-211.456-288-436.8-288m0 64a224 224 0 1 1 0 448 224 224 0 0 1 0-448m0 64a160.19 160.19 0 0 0-160 160c0 88.192 71.744 160 160 160s160-71.808 160-160-71.744-160-160-160"/>
+                      </svg>
+                    </span>
+                  </div>
+                  {% comment %} <div class="action-hodler">
+                    <p class="mobile-action-heading">Actions</p>
+                    <div class="custom-table_data actions_button">
+                      {% if allTimelineData %}
+                        <div class="dropdown-menu-wrapper">
+                          <button class="three-dot-menu-btn" onclick="toggleDropdown(event, '{{ line_item.id }}')">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16"
+                              height="16"
+                              fill="currentColor"
+                              viewBox="0 0 16 16"
+                            >
+                              <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
+                            </svg>
+                          </button>
+                          <div class="dropdown-content" id="dropdown-{{ line_item.id }}">
+                            <a
+                              href="#"
+                              class="timeline-lnk"
+                              onclick="showpincodePopup(this, '{{ line_item.id }}', {{ allTimelineData | json | escape }}); return false;"
+                              >Timeline</a>
+                            {% assign current_line_id = line_item.id | append: '' %}
+                            {% assign current_line_id = line_item.id | append: '' %}
+                            {% assign trackingInfo = trackingData | where: 'lineItemId', current_line_id | first %}
+                            {% assign timelineInfo = order.metafields.custom.order_status_timeline.value
+                              | where: 'lineItemId', current_line_id
+                              | first
+                            %}
+                            {%- comment -%} Check if "In Transit" status exists in timeline {%- endcomment -%}
+                            {% assign hasInTransit = false %}
+                            {% if timelineInfo and timelineInfo.timeline %}
+                              {% for event in timelineInfo.timeline %}
+                                {% if event.status == 'In Transit' %}
+                                  {% assign hasInTransit = true %}
+                                  {% break %}
+                                {% endif %}
+                              {% endfor %}
+                            {% endif %}
+
+                            <div class="tracking_view_button">
+                              <button
+                                onclick="openTrackingModal('{{ trackingInfo.tracking_number }}', '{{ trackingInfo.tracking_link }}', '{{ trackingInfo.gatiOrderId }}')"
+                                {% unless hasInTransit %}
+                                  disabled
+                                {% endunless %}
+                              >
+                                Tracking Info
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      {% else %}
+                        <span>-</span>
+                      {% endif %}
+                    </div>
+                  </div> {% endcomment %}
+                </div>
+
+                <!-- Row 2: Product -->
+                <div class="mobile-card-row">
+                  <p class="mobile-label">Product</p>
+                  <div class="mobile-product-display">
+                    <div class="mobile-product-image">
+                      <img
+                        src="{{ line_item.product.images.first | image_url: width: 80 }}"
+                        alt="{{ line_item.product.title }}"
+                      >
+                    </div>
+                    <div class="mobile-product-info">
+                      <p class="mobile-product-title">{{ line_item.product.title }}</p>
+                      <p class="mobile-product-variant">
+                        Size: <span>{{ line_item.properties.size }}</span>
+                      </p>
+                      <p class="mobile-product-variant">
+                        Metal Color: <span>{{ line_item.variant.title }}</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Row 3: Product Details -->
+                <div class="mobile-card-row product-details">
+                  <p class="mobile-label">Product Details</p>
+                  <div class="mobile-product-properties">
+                    <div>
+                      <p>
+                        Metal Tone: <span>{{ line_item.properties.metal_tone }}</span>
+                      </p>
+                      <p>
+                        Prong Rhodium: <span>{{ line_item.properties.prong_rhodium }}</span>
+                      </p>
+                      <p>
+                        Metal Finish: <span>{{ line_item.properties.metal_finish }}</span>
+                      </p>
+                      <p>
+                        Engraving: <span>{{ line_item.properties.engraving }}</span>
+                      </p>
+                    </div>
+                    <div>
+                      <p>
+                        Certification: <span>{{ line_item.properties.certification }}</span>
+                      </p>
+                      <p>
+                        Hand: <span>{{ line_item.properties.hand }}</span>
+                      </p>
+                      <p>
+                        Finger: <span>{{ line_item.properties.finger }}</span>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="images-holder">
+                    {% assign image_keys = "_product_image_1,_product_image_2,_product_image_3,_product_image_4" | split: "," %}
+                    {% for key in image_keys %}
+                      {% assign image_url = line_item.properties[key] %}
+                      {% if image_url %}
+                        <div class="product-image-item">
+                          <img src="{{ image_url }}" alt="Product Image {{ forloop.index }}" loading="lazy" onerror="this.parentElement.style.display='none'">
+                        </div>
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                </div>
+
+                <!-- Row 4: Current Status, SKU, Quantity -->
+                <div class="mobile-card-row mobile-row-three-col">
+                  <div class="mobile-card-col">
+                    <p class="mobile-label">Current Status</p>
+                    {% assign current_id = line_item.id | append: '' %}
+                    {% for s in currentStatusData %}
+                      {% if current_id == s.lineItemId %}
+                        <p class="mobile-value">{{ s.status }}</p>
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                  <div class="mobile-card-col">
+                    <p class="mobile-label">SKU</p>
+                    <p class="mobile-value">{{ line_item.sku }}</p>
+                  </div>
+                  <div class="mobile-card-col">
+                    <p class="mobile-label">Quantity</p>
+                    <p class="mobile-value">{{ line_item.quantity }}</p>
+                  </div>
+                </div>
+
+                <!-- Row 5: Payment Status, Estimated Total -->
+                <div class="mobile-card-row mobile-row-two-col">
+                  <div class="mobile-card-col">
+                    <p class="mobile-label">Payment Status</p>
+                    {% assign current_id = line_item.id | append: '' %}
+                    {% for s in paymentStatusData %}
+                      {% if current_id == s.lineitem_id %}
+                        <p
+                          style="text-transform: capitalize;"
+                          class="
+                            mobile-value mobile-payment-status
+                            {% if s.payment_status == 'paid' %}green-text{% elsif s.payment_status == 'partially paid' %}red-text{% endif %}
+                          "
+                        >
+                          {{ s.payment_status }}
+                        </p>
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                  <div class="mobile-card-col">
+                    <p class="mobile-label">Estimated Total</p>
+                    {% assign est_total = payment.total_invoice_final_value %}
+                    {% if est_total == blank %}
+                      {% assign est_total = line_item.properties._total_payment_amount %}
+                    {% endif %}
+                    {% if est_total %}
+                      <p class="mobile-value">Rs. {{ est_total | round: 2 }}</p>
+                    {% else %}
+                      <p class="mobile-value">-</p>
+                    {% endif %}
+                  </div>
+                </div>
+
+                <!-- Row 6: Paid Amount & Remaining Price -->
+                <div class="mobile-card-row mobile-row-two-col">
+                  <div class="mobile-card-col">
+                    <p class="mobile-label">Paid Amount</p>
+                    {% assign current_id = line_item.id | append: '' %}
+                    {% assign payment = paymentStatusData | where: 'lineitem_id', current_id | first %}
+                    {% assign est_total_for_paid = payment.total_invoice_final_value %}
+                    {% if est_total_for_paid == blank %}
+                      {% assign est_total_for_paid = line_item.properties._total_payment_amount %}
+                    {% endif %}
+
+                    {% if payment and payment.payment_status == 'paid' and est_total_for_paid %}
+                      <p class="mobile-value">Rs. {{ est_total_for_paid | round: 2 }}</p>
+                    {% elsif payment and payment.partial_paid_value %}
+                      <p class="mobile-value">Rs. {{ payment.partial_paid_value | round: 2 }}</p>
+                    {% else %}
+                      <p class="mobile-value">Rs. {{ line_item.price | money_without_currency | strip_html }}</p>
+                    {% endif %}
+                  </div>
+                  <div class="mobile-card-col">
+                    <p class="mobile-label">Remaining Price</p>
+                    {% if payment and payment.remaining_amount %}
+                      <p class="mobile-value">Rs. {{ payment.remaining_amount | round: 2 }}</p>
+                    {% elsif est_total %}
+                      {% assign paid = 0 %}
+                      {% if payment and payment.partial_paid_value %}
+                        {% assign paid = payment.partial_paid_value %}
+                      {% else %}
+                        {% assign paid = line_item.price | divided_by: 100.0 %}
+                      {% endif %}
+                      {% assign remaining = est_total | minus: paid %}
+                      <p class="mobile-value">Rs. {{ remaining | round: 2 }}</p>
+                    {% else %}
+                      <p class="mobile-value">-</p>
+                    {% endif %}
+                  </div>
+                </div>
+
+                {% assign current_line_id = line_item.id | append: '' %}
+                {% assign trackingInfo = trackingData | where: 'lineItemId', current_line_id | first %}
+                {% if trackingInfo and trackingInfo.tracking_link and trackingInfo.tracking_number %}
+                  <div class="mobile-card-row">
+                    <p class="mobile-label">Tracking Info</p>
+                    <span 
+                      class="tracking-link-text" 
+                      style="text-decoration: underline; color: #007bff; cursor: pointer;"
+                      onclick="openTrackingModal('{{ trackingInfo.tracking_number }}', '{{ trackingInfo.tracking_link }}', '{{ trackingInfo.gatiOrderId }}')"
+                    >
+                      View Tracking
+                    </span>
+                  </div>
+                {% endif %}
+              </div>
+            {% endunless %}
+          {% endfor %}
+
+          <!-- Mobile Footer Summary -->
+          <div class="mobile-order-summary">
+            <div class="mobile-summary-row">
+              <p class="mobile-summary-label">Subtotal</p>
+              <p class="mobile-summary-value">Rs. {{ subtotal | round: 2 }}</p>
+            </div>
+            <div class="mobile-summary-row">
+              <p class="mobile-summary-label">Shipping (Standard)</p>
+              <p class="mobile-summary-value">{{ order.shipping_price | money }}</p>
+            </div>
+            <div class="mobile-summary-row">
+              <p class="mobile-summary-label">Tax (CGST 3.0%)</p>
+              <p class="mobile-summary-value">Rs. {{ tax_total | round: 2 }}</p>
+            </div>
+            <div class="mobile-summary-row mobile-summary-total">
+              <p class="mobile-summary-label">Total</p>
+              <p class="mobile-summary-value">
+                Rs. {{ subtotal | plus: tax_total | plus: order.shipping_price | round: 2 }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="custom-table_footer">
+          <div class="custom-table_footer_row">
+            <p class="custom-table_footer_row_heading">Subtotal</p>
+            <p class="custom-table_footer_row_value">Rs. {{ subtotal | round: 2 }}</p>
+          </div>
+          <div class="custom-table_footer_row">
+            <p class="custom-table_footer_row_heading">Shipping (Standard)</p>
+            <p class="custom-table_footer_row_value">{{ order.shipping_price | money }}</p>
+          </div>
+          <div class="custom-table_footer_row">
+            <p class="custom-table_footer_row_heading">Tax (CGST 3.0%)</p>
+            <p class="custom-table_footer_row_value">Rs. {{ tax_total | round: 2 }}</p>
+          </div>
+          <div class="custom-table_footer_row total_price">
+            <p class="custom-table_footer_row_heading">Total</p>
+            <p class="custom-table_footer_row_value">
+              Rs. {{ subtotal | plus: tax_total | plus: order.shipping_price | round: 2 }}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="main-order-address-wrapper" style="align-items: flex-start;">
+        <div>
+          <h2>{{ 'customer.order.billing_address' | t }}</h2>
+          {% comment %}
+            <p>
+              <strong>{{ 'customer.order.payment_status' | t }}:</strong>
+              {{ order.financial_status_label }}
+            </p>
+          {% endcomment %}
+          {{ order.billing_address | format_address }}
+        </div>
+        <div>
+          <h2>{{ 'customer.order.shipping_address' | t }}</h2>
+          {% if order.shipping_address %}
+            {{ order.shipping_address | format_address }}
+          {% else %}
+            <p>In Store</p>
+          {% endif %}
+        </div>
+      </div>
+      {% render 'order-status-popup' %}
+    </div>
+  </div>
+</div>
+{% render 'view-all-modal' %}
+{% render 'account-tracking-modal' %}
+
+<script>
+  let currentTrackingLink = '';
+
+
+ function openTrackingModal(trackingNumber, trackingLink, gatiOrderId) {
+ const modal = document.getElementById('trackingDetailsModal');
+ const trackingNumberEl = document.getElementById('trackingNumberValue');
+ const trackingLinkEl = document.getElementById('trackingLinkValue');
+
+
+ // Set tracking number
+ trackingNumberEl.textContent = trackingNumber || '-';
+
+
+ // Set tracking link
+ if (trackingLink) {
+ trackingLinkEl.innerHTML = `<a href="${trackingLink}" target="_blank" style="color: #667eea; text-decoration: underline;">${trackingLink}</a>`;
+ currentTrackingLink = trackingLink;
+ } else {
+ trackingLinkEl.textContent = '-';
+ currentTrackingLink = '';
+ }
+
+
+ // Show modal
+ modal.classList.add('show');
+ document.body.style.overflow = 'hidden';
+ }
+
+
+ function closeTrackingModal() {
+ const modal = document.getElementById('trackingDetailsModal');
+ modal.classList.remove('show');
+ document.body.style.overflow = 'unset';
+ currentTrackingLink = '';
+ }
+
+
+ function openTrackingLink() {
+ if (currentTrackingLink) {
+ window.open(currentTrackingLink, '_blank');
+ }
+ }
+
+
+ // Better overlay click handling
+ document.addEventListener('DOMContentLoaded', function () {
+ const modal = document.getElementById('trackingDetailsModal');
+
+
+ modal.addEventListener('click', function (e) {
+ // Close only if clicking directly on the modal background (not on content)
+ if (e.target === modal || e.target.classList.contains('tracking-modal-overlay')) {
+ closeTrackingModal();
+ }
+ });
+ });
+
+
+ // Close on ESC key
+ document.addEventListener('keydown', function (e) {
+ if (e.key === 'Escape') {
+ const modal = document.getElementById('trackingDetailsModal');
+ if (modal && modal.classList.contains('show')) {
+ closeTrackingModal();
+ }
+ }
+ });
+</script>
+
+
+<script>
+  // Whitelist of allowed property keys to display
+  const ALLOWED_PROPERTIES = [
+    'metal_tone',
+    'prong_rhodium',
+    'metal_finish',
+    'engraving',
+    'certification',
+    'hand',
+    'finger',
+  ];
+
+  // Format key from snake_case to Title Case
+  function formatAttributeKey(key) {
+    return key
+      .replace(/_+(.)/g, (match, char) => ' ' + char.toUpperCase())
+      .replace(/^(.)/, (match, char) => char.toUpperCase());
+  }
+
+  // Open product details modal with filtered attributes
+  function openProductDetailsModal(customAttributesJson) {
+    // Parse the JSON string if it's a string
+    let customAttributes;
+    if (typeof customAttributesJson === 'string') {
+      customAttributes = JSON.parse(customAttributesJson);
+    } else {
+      customAttributes = customAttributesJson;
+    }
+
+    console.log('Custom Attributes:', customAttributes);
+
+    const modal = document.getElementById('productDetailsModal');
+    const attributesContainer = modal.querySelector('.product-attributes');
+    const imagesContainer = modal.querySelector('.product-images-grid');
+    const imagesSection = modal.querySelector('.product-images-section');
+
+    // Clear previous content
+    attributesContainer.innerHTML = '';
+    imagesContainer.innerHTML = '';
+
+    // Convert array of arrays to filterable format
+    const filteredProperties = [];
+    const images = [];
+
+    customAttributes.forEach((attr) => {
+      // attr is an array [key, value]
+      const key = attr[0];
+      const value = attr[1];
+
+      if (ALLOWED_PROPERTIES.includes(key.toLowerCase())) {
+        filteredProperties.push({ key, value });
+      } else if (key.startsWith('_product_image_')) {
+        images.push({ key, value });
+      }
+    });
+
+    console.log('Filtered Properties:', filteredProperties);
+    console.log('Images:', images);
+
+    // Display filtered properties
+    if (filteredProperties.length > 0) {
+      let propertiesHTML = '<div class="attributes-grid">';
+
+      filteredProperties.forEach((attr) => {
+        const formattedKey = formatAttributeKey(attr.key);
+        const value = attr.value || '-';
+
+        propertiesHTML += `
+        <div class="attribute-row">
+          <span class="attribute-key">${formattedKey}:</span>
+          <span class="attribute-value">${value}</span>
+        </div>
+      `;
+      });
+
+      propertiesHTML += '</div>';
+      attributesContainer.innerHTML = propertiesHTML;
+    } else {
+      attributesContainer.innerHTML = '<p class="no-data">No product details available</p>';
+    }
+
+    // Display images
+    if (images.length > 0) {
+      imagesSection.style.display = 'block';
+      let imagesHTML = '';
+
+      images.forEach((img, index) => {
+        if (img.value && img.value.trim() !== '') {
+          imagesHTML += `
+          <div class="product-image-item">
+            <img src="${img.value}" alt="Product Image ${
+            index + 1
+          }" loading="lazy" onerror="this.parentElement.style.display='none'">
+          </div>
+        `;
+        }
+      });
+
+      if (imagesHTML) {
+        imagesContainer.innerHTML = imagesHTML;
+      } else {
+        imagesSection.style.display = 'none';
+      }
+    } else {
+      imagesSection.style.display = 'none';
+    }
+
+    // Show modal
+    modal.classList.add('show');
+    document.body.style.overflow = 'hidden';
+  }
+
+  // Close product details modal
+  function closeProductDetailsModal() {
+    const modal = document.getElementById('productDetailsModal');
+    modal.classList.remove('show');
+    document.body.style.overflow = 'unset';
+  }
+
+  // Close on background click
+  document.getElementById('productDetailsModal')?.addEventListener('click', function (e) {
+    if (e.target === this) {
+      closeProductDetailsModal();
+    }
+  });
+
+  // Close on ESC key
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      const modal = document.getElementById('productDetailsModal');
+      if (modal && modal.classList.contains('show')) {
+        closeProductDetailsModal();
+      }
+    }
+  });
+</script>
+
+<script>
+  function toggleDropdown(event, lineItemId) {
+    event.stopPropagation();
+
+    // Close all other dropdowns
+    document.querySelectorAll('.dropdown-content').forEach((dropdown) => {
+      if (dropdown.id !== 'dropdown-' + lineItemId) {
+        dropdown.classList.remove('show');
+      }
+    });
+
+    // Toggle current dropdown
+    const dropdown = document.querySelectorAll('#dropdown-' + lineItemId);
+    dropdown.forEach((d) => {
+      d.classList.toggle('show');
+    });
+  }
+
+  // Close dropdown when clicking outside
+  window.onclick = function (event) {
+    if (!event.target.matches('.three-dot-menu-btn') && !event.target.closest('.three-dot-menu-btn')) {
+      document.querySelectorAll('.dropdown-content').forEach((dropdown) => {
+        dropdown.classList.remove('show');
+      });
+    }
+  };
+</script>
+
+<script>
+  console.log({{ order }}, 'order object')
+</script>
+
+<script>
+  function hideFormPopup() {
+    let LocaPopupElem = document.querySelector('#global_location__popup-wrapper');
+    document.querySelector('body').classList.remove('overflow-hidden');
+    if (LocaPopupElem) {
+      LocaPopupElem.classList.remove('open');
+    }
+    // Reset all steps
+    document.querySelectorAll('.progress-container .step').forEach((step) => {
+      const circle = step.querySelector('.circle');
+      const timestampMobile = step.querySelector('.timestamp.mobile');
+      const timestampDesktop = step.querySelector('.timestamp.desktop');
+      circle.classList.remove('active');
+      step.classList.remove('active');
+      timestampMobile.textContent = '';
+      timestampDesktop.textContent = '';
+    });
+  }
+
+  function formatTimestamp(timestampString) {
+    try {
+      const date = new Date(timestampString);
+
+      // Format date as DD/MM/YYYY
+      const day = date.getDate().toString().padStart(2, '0');
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const year = date.getFullYear();
+
+      // Format time as HH:MM AM/PM
+      let hours = date.getHours();
+      const minutes = date.getMinutes().toString().padStart(2, '0');
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12;
+      hours = hours ? hours : 12;
+
+      return `${day}/${month}/${year}\n${hours}:${minutes} ${ampm}`;
+    } catch (e) {
+      console.error('Error formatting timestamp:', e);
+      return '';
+    }
+  }
+
+  function createStepElement(label, timestamp = null) {
+    const step = document.createElement('div');
+    step.className = 'step';
+    step.setAttribute('data-status', label.toLowerCase());
+
+    step.innerHTML = `
+    <div class="timestamp mobile"></div>
+    <div class="label">${label}</div>
+    <div class="circle"></div>
+    <div class="timestamp desktop"></div>
+  `;
+
+    return step;
+  }
+
+  function showpincodePopup(event, lineItemId, allTimelineData) {
+    console.log('Line Item ID:', lineItemId);
+    console.log('All Timeline Data:', allTimelineData);
+
+    // Parse allTimelineData if it's a string
+    let timelineData = allTimelineData;
+    if (typeof allTimelineData === 'string') {
+      try {
+        timelineData = JSON.parse(allTimelineData);
+      } catch (e) {
+        console.error('Error parsing all timeline data:', e);
+        return;
+      }
+    }
+
+    if (!Array.isArray(timelineData)) {
+      console.error('Timeline data is not an array:', timelineData);
+      return;
+    }
+
+    // Find the timeline for the specific line item
+    const lineItemData = timelineData.find((item) => item.lineItemId == lineItemId);
+
+    if (!lineItemData) {
+      console.error('No timeline data found for line item:', lineItemId);
+      return;
+    }
+
+    const timeline = lineItemData.timeline;
+
+    if (!Array.isArray(timeline)) {
+      console.error('Timeline is not an array for line item:', lineItemId);
+      return;
+    }
+
+    console.log('Found timeline for line item:', timeline);
+
+    let LocpopupElement = document.querySelector('#global_location__popup-wrapper');
+    const container = document.querySelector('.progress-container');
+
+    // Get all hardcoded steps
+    const hardcodedSteps = Array.from(document.querySelectorAll('.progress-container .step'));
+    const hardcodedStatuses = hardcodedSteps.map((step) => ({
+      element: step,
+      status: step.querySelector('.label').textContent.trim().toLowerCase(),
+    }));
+
+    console.log(
+      'Hardcoded statuses:',
+      hardcodedStatuses.map((s) => s.status)
+    );
+
+    // Build the final timeline by merging hardcoded and timeline data
+    const finalTimeline = [];
+    let timelineIndex = 0;
+    let lastHardcodedIndex = -1;
+
+    for (let i = 0; i < timeline.length; i++) {
+      const currentTimelineStatus = timeline[i].status.trim().toLowerCase();
+
+      // Find this status in hardcoded list (starting from last position)
+      let foundInHardcoded = false;
+      let hardcodedPosition = -1;
+
+      for (let j = lastHardcodedIndex + 1; j < hardcodedStatuses.length; j++) {
+        if (hardcodedStatuses[j].status === currentTimelineStatus) {
+          hardcodedPosition = j;
+          foundInHardcoded = true;
+          break;
+        }
+      }
+
+      if (foundInHardcoded) {
+        // Fill in all skipped hardcoded statuses between last and current
+        for (let k = lastHardcodedIndex + 1; k < hardcodedPosition; k++) {
+          finalTimeline.push({
+            status: hardcodedStatuses[k].status,
+            displayStatus: hardcodedSteps[k].querySelector('.label').textContent.trim(),
+            timestamp: timeline[i].timestamp, // Use current timeline item's timestamp
+            isSkipped: true,
+            isHardcoded: true,
+          });
+        }
+
+        // Add the current matched status
+        finalTimeline.push({
+          status: currentTimelineStatus,
+          displayStatus: timeline[i].status.trim(),
+          timestamp: timeline[i].timestamp,
+          isSkipped: false,
+          isHardcoded: true,
+        });
+
+        lastHardcodedIndex = hardcodedPosition;
+      } else {
+        // This is a new status not in hardcoded list (duplicate or new)
+        finalTimeline.push({
+          status: currentTimelineStatus,
+          displayStatus: timeline[i].status.trim(),
+          timestamp: timeline[i].timestamp,
+          isSkipped: false,
+          isHardcoded: false,
+          isDuplicate: true,
+        });
+      }
+    }
+
+    console.log('Final timeline:', finalTimeline);
+
+    // Clear container and rebuild
+    container.innerHTML = '';
+
+    // Add all timeline items to DOM
+    finalTimeline.forEach((item, index) => {
+      const step = createStepElement(item.displayStatus, item.timestamp);
+
+      // Mark as active
+      const circle = step.querySelector('.circle');
+      circle.classList.add('active');
+      step.classList.add('active');
+
+      // Set timestamp
+      const timestampDesktop = step.querySelector('.timestamp.desktop');
+      const timestampMobile = step.querySelector('.timestamp.mobile');
+
+      if (item.timestamp) {
+        const formattedTimestamp = formatTimestamp(item.timestamp);
+        timestampDesktop.textContent = formattedTimestamp;
+        timestampMobile.textContent = formattedTimestamp;
+
+        if (item.isSkipped) {
+          console.log(`Status "${item.displayStatus}" was skipped, using next status timestamp`);
+        }
+      } else {
+        timestampDesktop.textContent = '-';
+        timestampMobile.textContent = '-';
+      }
+
+      container.appendChild(step);
+    });
+
+    // Add remaining hardcoded statuses that weren't reached
+    for (let i = lastHardcodedIndex + 1; i < hardcodedStatuses.length; i++) {
+      const step = createStepElement(hardcodedSteps[i].querySelector('.label').textContent.trim());
+      container.appendChild(step);
+    }
+
+    // Get all steps for progress bar calculation
+    const allSteps = document.querySelectorAll('.progress-container .step');
+    const activeSteps = finalTimeline.length;
+
+    // Reset container orientation
+    container.classList.remove('vertical-timeline');
+
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+      container.classList.add('vertical-timeline');
+    }
+
+    // Update progress bar
+    // Update progress bar - Alternative method using actual positions
+    if (activeSteps > 0) {
+      const allStepsArray = Array.from(allSteps);
+
+      // Find the last active step element
+      let lastActiveStep = null;
+      for (let i = allStepsArray.length - 1; i >= 0; i--) {
+        if (allStepsArray[i].classList.contains('active')) {
+          lastActiveStep = allStepsArray[i];
+          break;
+        }
+      }
+
+      if (lastActiveStep) {
+        const firstStep = allStepsArray[0];
+        const lastStep = allStepsArray[allStepsArray.length - 1];
+
+        if (isMobile) {
+          // Vertical timeline
+          const containerTop = container.getBoundingClientRect().top;
+          const lastActiveTop = lastActiveStep.getBoundingClientRect().top;
+          const lastStepTop = lastStep.getBoundingClientRect().top;
+
+          const totalHeight = lastStepTop - containerTop;
+          const progressHeight = lastActiveTop - containerTop;
+
+          const percentage = totalHeight > 0 ? (progressHeight / totalHeight) * 100 : 0;
+          container.style.setProperty('--progress-height', percentage - 2 + '%');
+          container.style.removeProperty('--progress-width');
+        } else {
+          // Horizontal timeline
+          const containerLeft = container.getBoundingClientRect().left;
+          const lastActiveLeft = lastActiveStep.getBoundingClientRect().left;
+          const firstStepLeft = firstStep.getBoundingClientRect().left;
+          const lastStepLeft = lastStep.getBoundingClientRect().left;
+
+          const totalWidth = lastStepLeft - firstStepLeft;
+          const progressWidth = lastActiveLeft - firstStepLeft;
+
+          const percentage = totalWidth > 0 ? (progressWidth / totalWidth) * 100 : 0;
+          container.style.setProperty('--progress-width', percentage - 2 + '%');
+          container.style.removeProperty('--progress-height');
+        }
+      }
+    } else {
+      container.style.setProperty('--progress-width', '0%');
+      container.style.setProperty('--progress-height', '0%');
+    }
+
+    document.querySelector('body').classList.add('overflow-hidden');
+    if (LocpopupElement) {
+      LocpopupElement.classList.add('open');
+    }
+  }
+</script>
+
+<script>
+  // Close dropdown when clicking outside or on buttons inside
+  document.addEventListener('click', function (e) {
+    const isDropdownBtn = e.target.matches('.dropdown-toggle');
+    const isInsideDropdown = e.target.closest('.dropdown');
+    const isDropdownMenuButton = e.target.closest(
+      '.dropdown-menu button, .dropdown-menu p, .dropdown-menu div[onclick]'
+    );
+
+    // If clicking outside dropdown, close all
+    if (!isDropdownBtn && !isInsideDropdown) {
+      document.querySelectorAll('.dropdown.show').forEach((d) => d.classList.remove('show'));
+    }
+    // If clicking the toggle button, toggle the dropdown
+    else if (isDropdownBtn) {
+      const dropdown = e.target.closest('.dropdown');
+      dropdown.classList.toggle('show');
+    }
+    // If clicking a button/action inside dropdown menu, close it
+    else if (isDropdownMenuButton) {
+      // Close the dropdown after action is triggered
+      const dropdown = e.target.closest('.dropdown');
+      if (dropdown) {
+        dropdown.classList.remove('show');
+      }
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "t:sections.main-order.name",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ]
+}
+{% endschema %}

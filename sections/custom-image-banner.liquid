@@ -1,0 +1,180 @@
+<div class="custom-banner">
+    <!-- Left Side: Image -->
+    <img src="{{ section.settings.banner_image | img_url: 'large' }}" alt="Custom Engagement Ring">
+
+    <!-- Right Side: Text Content -->
+    <div class="banner-content">
+        <h1>{{ section.settings.banner_title }}</h1>
+        <p>{{ section.settings.banner_text | default: "Book an Appointment to Build & Create Your Own Unique Engagement Ring!" }}</p>
+        <a href="{{ section.settings.button_link }}" class="book-appointment">{{ section.settings.button_text }}</a>
+    </div>
+</div>
+
+<!-- Schema (SEO-optimized JSON-LD) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Custom Engagement Ring",
+  "description": "Book an Appointment to Build & Create Your Own Unique Engagement Ring!",
+  "url": "{{ shop.url }}/custom-engagement-ring"
+}
+</script>
+
+<!-- Inline CSS (Updated Desktop & Mobile Button Styles) -->
+<style>
+    /* Banner Container */
+    .custom-banner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1200px;
+        margin: auto;
+        padding: 20px;
+        background-color: #f2f2f2; /* Light Blue */
+        /*border-radius: 10px; /* Optional: Rounded Corners */
+    }
+
+    /* Left Side - Image */
+    .custom-banner img {
+        width: 60%; /* Increased width */
+        max-width: 750px; /* Increased max width */
+        height: auto;
+        background: transparent !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        display: block;
+        border: none !important; /* Remove any border */
+        outline: none !important; /* Ensure no outline */
+        box-shadow: none !important; /* Remove any shadow */
+    }
+
+    /* Right Side - Text */
+    .banner-content {
+        width: 35%; /* Reduced text width */
+        text-align: Center;
+        font-family: "oregon-ldo-medium";
+    }
+
+    .banner-content h1 {
+        font-size: 34px;
+        margin-bottom: 10px;
+        text-align: Center;
+        font-family: "oregon-ldo-medium";
+    }
+
+    .banner-content p {
+        font-size: 17px;
+        color: #666;
+        margin-bottom: 20px;
+        font-family: "oregon-ldo-medium";
+        text-align: Center;
+    }
+
+    /* Book Appointment Button - Default (Desktop) */
+    .book-appointment {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center !important;
+        background: black;
+        color: white;
+        text-decoration: none;
+        border-radius: 30px;
+        font-family: "oregon-ldo-medium" !important;
+        font-size: 20px;
+        width: 300px; /* Decreased width */
+        margin-top: 15px;
+        padding: 8px 24px; /* Reduce top & bottom padding slightly */
+        line-height: 36px; /* Adjust line height to shift text slightly up */
+        margin-left: 0px; /* Moves the button slightly to the left */
+    }
+
+    /* Responsive Styles (Mobile Adjustments) */
+    @media (max-width: 768px) {
+        .custom-banner {
+            flex-direction: column;
+            text-align: center;
+            width: 100%;
+           
+        }
+
+        .custom-banner img {
+            width: 100%;
+            /* max-width: 500px; /* Increased max width */
+            margin-top: 20px; /* Moves image down */
+            margin-bottom: 20px; /* Reduces space between image and heading */
+            background: transparent !important;
+            display: block;
+            object-fit: contain;
+        }
+
+        .banner-content {
+            width: 100%;
+            padding: 20px;
+        }
+
+        .banner-content h1 {
+            margin-top: 20px; /* Reduces space above heading */
+        }
+
+        /* Book Appointment Button - Mobile */
+        .book-appointment {
+            width: 300px;
+            height: 50px;
+            font-size: 16px;
+            margin-top: 15px;
+            padding: 8px 24px;
+            line-height: 36px;
+            text-align: center !important;
+            item-align:cenetr !important;
+        }
+    }
+</style>
+
+<!-- JavaScript (Optional) -->
+<script>
+    console.log("Custom Banner loaded successfully!");
+</script>
+
+<!-- Shopify Section Settings -->
+{% schema %}
+{
+  "name": "Custom Image Banner",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "Banner Image"
+    },
+    {
+      "type": "text",
+      "id": "banner_title",
+      "label": "Title",
+      "default": "Custom Engagement Ring"
+    },
+    {
+      "type": "text",
+      "id": "banner_text",
+      "label": "Description",
+      "default": "Book an Appointment to Build & Create Your Own Unique Engagement Ring!"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Book an Appointment"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Image Banner"
+    }
+  ]
+}
+{% endschema %}

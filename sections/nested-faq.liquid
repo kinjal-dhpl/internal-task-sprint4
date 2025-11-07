@@ -1,0 +1,105 @@
+  <p class="mobile-faq-menu">{{ section.settings.title }}</p>
+<div class="mobile-faq-panel">
+    <div class="expertise-faq">
+      {% assign row_blocks = section.blocks | where: 'type', 'row' %}
+      {% for block in row_blocks %}
+        <div style="border-bottom: solid #f4f4f4 1px;">
+            <p class="faq-accordion" style="padding: 0px 18px 0px; margin: 12px 0">{{ block.settings.question }}</p>
+            <div class="faq-panel">
+                <p class="faq-panel" style="margin-top: 1.25em; margin-bottom: 2.5em">{{ block.settings.answer }}</p>
+            </div>
+        </div>
+      {% endfor %}
+    </div>
+</div>
+
+
+
+
+ <script>
+    document.addEventListener("DOMContentLoaded", function (event) {
+        var acc = document.getElementsByClassName("faq-accordion");
+        var panel = document.getElementsByClassName('faq-panel');
+        for (var i = 0; i < acc.length; i++) {
+            acc[i].onclick = function () {
+                var setClasses = !this.classList.contains('active');
+                setClass(acc, 'active', 'remove');
+                setClass(panel, 'show', 'remove');
+                if (setClasses) {
+                    this.classList.toggle("active");
+                    this.nextElementSibling.classList.toggle("show");
+                }
+            }
+        }
+        function setClass(els, className, fnName) {
+            for (var i = 0; i < els.length; i++) {
+                els[i].classList[fnName](className);
+            }
+        }
+    });
+
+    document.addEventListener("DOMContentLoaded", function (event) {
+        var acc = document.getElementsByClassName("mobile-faq-menu");
+        var panel = document.getElementsByClassName('mobile-faq-panel');
+        for (var i = 0; i < acc.length; i++) {
+            acc[i].onclick = function () {
+                var setClasses = !this.classList.contains('active');
+                setClass(acc, 'active', 'remove');
+                setClass(panel, 'show', 'remove');
+                if (setClasses) {
+                    this.classList.toggle("active");
+                    this.nextElementSibling.classList.toggle("show");
+                }
+            }
+        }
+        function setClass(els, className, fnName) {
+            for (var i = 0; i < els.length; i++) {
+                els[i].classList[fnName](className);
+            }
+        }
+    });
+
+</script>
+
+
+
+
+
+
+
+
+
+
+{% schema %}
+  {
+    "name": "Nested FAQ",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title"
+      }
+    ],
+    "blocks": [
+        {
+            "name": "Each FAQ",
+             "type": "row",
+             "settings":[
+               {
+                "type": "text",
+                "id": "question",
+                "label": "Question" 
+               },
+               {
+                "type": "richtext",
+                "id": "answer",
+                "label": "Answer" 
+               }
+            ]
+           }
+    ],
+    "presets": [{ "name": "Nested FAQ" }],
+    "tag": "div",
+    "class": "nested-faq page-width"
+  }
+{% endschema %}

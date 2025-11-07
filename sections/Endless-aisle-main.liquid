@@ -1,0 +1,404 @@
+{%  render 'endless-aisle-redirection'%}
+<style>
+   div.endless--container h2{
+    margin-top: 0;
+    text-align: center;
+    letter-spacing: normal;
+    font-size: 24px;
+    font-family: oregon-ldo-medium;
+    color: #1c1c1c;
+  }
+  .search--form-wrapper {
+    display:flex;
+    flex-direction:column;
+    gap: 1rem;
+  }
+   
+  .search--form-wrapper button{
+    background-color: transparent;
+    cursor: pointer;
+    color: #fff;
+    font-size: 16px;
+    height: 40px;
+    font-family: oregon-ldo-medium;
+    line-height: 28px;
+    letter-spacing: normal;
+    border: 1px solid #1c1c1c;
+    background: #1c1c1c;
+  }
+  .search--form-wrapper button.disable {
+      opacity: 0.5;
+      pointer-events: none;
+  }
+ 
+  .search--form-wrapper input {padding: 1rem;font-size:16px;font-family: oregon-ldo-medium;border: 1px solid #1c1c1c;}
+  .search--form-wrapper input:focus-visible{box-shadow: none;outline: 0;}
+  .search--form-wrapper input,.search--form-wrapper button{
+    min-height: 40px;width: 100%;
+  }
+  .custom-footer{margin-top: 0!important;}
+  .content-for-layout{
+    background-color: #F6F3EF;
+  }
+  div.endless--container {
+    width: 35%;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0px 1px 3px 0px #1c1c1c0001A;
+    margin: 5rem auto;
+  }
+  
+  div.newAccont {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    justify-content: center;
+    font-size: 16px;
+    letter-spacing: normal;
+    font-family:oregon-ldo-medium;
+  }
+  div.newAccont{margin-top: 1.5rem;}
+  div.newAccont a{
+    text-decoration: none;
+    color: #0058DB;
+    margin: 0;
+  }
+div.newAccont p{
+  color: #1c1c1c;
+  margin: 0;
+}
+/* snack bar css */
+#snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #bf1111;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  font-size: 17px;
+}
+#snackbar.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+@-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;} 
+  to {bottom: 30px; opacity: 1;}
+}
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+@-webkit-keyframes fadeout {
+  from {bottom: 30px; opacity: 1;} 
+  to {bottom: 0; opacity: 0;}
+}
+@keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+}
+/* Ends Here */
+/* Search Modal container */
+.search--modal {
+  display: none; 
+  position: fixed; 
+  z-index: 9; 
+  padding-top:100px;
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4); 
+}
+span.close {
+    width: 18px;
+    height: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+span.close svg{
+  width: 100%;height: 100%;
+}
+.search-modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%;
+ max-height: 400px;overflow-y: auto; 
+}
+.customerDetailWrap p{
+  margin:0;
+  color: #1c1c1c;
+  font-size: 16px;
+}
+.redirectoCustomer p {
+    cursor: pointer;
+    text-decoration: underline;
+}
+.resultBodyContainer{
+  margin: 2.5rem auto;
+  text-align: center;
+  width: 95%;
+}
+.resultBodyContainer th{font-size: 16px;
+    color: #fff;
+    font-family: oregon-ldo-medium;
+    background-color: #1c1c1c;
+    letter-spacing: normal;
+    font-weight: 400;}
+    .redirectoCustomer a{
+      color: #1c1c1c;
+    }
+tr.customerInfoWrap td{
+    font-size: 14px;
+    font-family: oregon-ldo-medium;
+    color: #1c1c1c;
+    border: 1px solid #f2f2f2;
+}
+.close:hover, 
+.close:focus {
+  cursor: pointer;
+}
+.closerDiv{display: flex;justify-content: end;align-items: center;}
+/* Ends Here */
+@media(min-width:1500px){
+  div.endless--container{width: 30%;}
+}
+@media only screen and (max-width: 1200px) and (min-width: 801px){
+div.endless--container{width: 60%;}
+}
+@media only screen and (max-width: 800px) and (min-width: 476px){
+div.endless--container{width: 75%;}
+}
+@media(max-width:1100px){
+  .search-modal-content {
+  width: 80%;
+}
+}
+@media(max-width:475px){
+  div.endless--container{width: 95%;}
+}
+</style>
+<div class="endlessSearchContainer page-width">
+  <div class="endless--container">
+      {% if section.settings.title != blank %}
+        <h2>{{ section.settings.title}}</h2>
+      {% endif %}
+      <div class="search--form-wrapper">
+        <input type="text" placeholder="Email or phone" oninput="searchCustomerInputHandler(this)"/>
+        {% if section.settings.buttonLabel %}
+            <button class="serchBtn disable" onclick="searchCustomerByInput()">{{section.settings.buttonLabel}}</button>
+        {% endif %}
+      </div>
+      {% if section.settings.createlabel %}
+         <div class="newAccont"><p>{{ section.settings.signuptxt}}</p><a href="{{ section.settings.createlabel}}">{{section.settings.ancLabel}}</a></div>
+      {% endif %}
+  </div>
+</div>
+  {% if section.settings.errorMsg %}
+    <div id="snackbar">{{section.settings.errorMsg}}</div>
+  {% endif %}
+
+  <div id="myModal" class="search--modal">
+    <div class="search-modal-content">
+        <div class="closerDiv">
+          <span class="close" onclick="closeSearchModal()">{% render 'modal-cross' %}</span>
+        </div>
+        <table class="resultBodyContainer">
+            <thead><tr><th>Customer Id</th> <th>Customer Details</th><th>Detail Page URL</th></tr></thead>
+            <tbody class="customer--detail--body"></tbody>
+         </table>
+     </div>
+  </div>
+
+    <script>
+    const searchModalResult = document.getElementById("myModal");
+    
+    function searchCustomerInputHandler(input){
+        const buttonEle = document.querySelector('.search--form-wrapper .serchBtn');
+        if(input.value.trim() !== ''){
+          buttonEle.classList.remove('disable');
+        } else {
+          buttonEle.classList.add('disable');
+        }
+    }
+    
+    function searchCustomerByInput(button) {
+          let query = document.querySelector('.search--form-wrapper input')?.value;
+          if (!query) return;
+          onGlobalLoader();
+            const requestOptions = {
+              method: "GET",
+              redirect: "follow"
+            };
+            const encodedQuery = encodeURIComponent(query);
+           fetch(`/apps/ea_module_dev/customers/search?query=${encodedQuery}`, requestOptions)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+               offGlobalLoader();
+            }
+            return response.json();
+          })
+          .then(result => {
+              const customerData = result.data.customers;
+              if(customerData.length > 0) {
+                openSearchModal(customerData);
+              } else {
+                offGlobalLoader();
+                searchResultErrorHandler();
+              }
+          })
+          .catch(error => {
+             offGlobalLoader();
+            searchResultErrorHandler();
+            console.error("Error during fetch:", error);
+          });
+    }
+
+      function searchResultErrorHandler() {
+          let snackBarEle = document.getElementById("snackbar");
+          snackBarEle.classList.add('show');
+          setTimeout(function(){ snackBarEle.classList.remove('show'); }, 2500);
+      }
+      
+      function redirectToCustomerPage(anchor,customerId){
+          sessionStorage.setItem('EndlessAisleCustomerID', customerId);
+          sessionStorage.setItem('currentStep','customer_info');
+          location.href = '/pages/endless-aisle-customer-detail';
+      }
+      
+      function closeSearchModal(){
+        searchModalResult.style.display = "none";
+        document.body.style.overflow = 'unset';
+      }
+      
+      function openSearchModal(customerData) {
+        const customerDataTableBody = document.querySelector('.customer--detail--body');
+        let userEntries = '';
+        
+        customerData.forEach(customer => {
+          // Extract values with optional chaining for backwards compatibility
+          const customerId = customer.id.split('/Customer/')[1] || '';
+          const firstName = customer.firstName || '';
+          
+          // Handle both old and new response formats
+          const email = customer.defaultEmailAddress?.emailAddress || customer.email || '';
+          const phone = customer.defaultPhoneNumber?.phoneNumber || customer.phone || '';
+          
+          userEntries += `
+            <tr class="customerInfoWrap">
+              <td class="customerIdField">${customerId}</td>
+              <td class="customerDetailWrap">
+                <p class="customerSName">${firstName}</p>
+                <p class="customerSphone">${phone}</p>
+                <p class="customerSEmail">${email}</p>
+              </td>
+              <td class="redirectoCustomer">
+                <p onclick="redirectToCustomerPage(this,'${customerId}')">View detail</p>
+              </td>
+            </tr>`;
+        });
+      
+        customerDataTableBody.innerHTML = userEntries;
+        offGlobalLoader();
+        searchModalResult.style.display = "block";
+        document.body.style.overflow = 'hidden';
+       
+      }
+      
+      window.onclick = function(event) {
+        if (event.target == searchModalResult) {
+            closeSearchModal();
+        }
+      }
+</script>
+
+{% schema %}
+    {
+      "name": "Endless-aisle-main",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Section Heading",
+          "default": "Search Customer"
+          
+        },{
+          "type": "text",
+          "id": "buttonLabel",
+          "label": "Button Label",
+          "default": "Find Customer"
+          
+        },
+        {
+          "type": "text",
+          "id": "signuptxt",
+          "label": "Sign up text",
+          "default": "Create a new account."
+        },
+        {
+          "type": "text",
+          "id": "ancLabel",
+          "label": "Text for URL",
+          "default": "Click Here"
+        },
+        {
+          "type": "text",
+          "id": "createlabel",
+          "label": "URL for create account",
+          "default": "/pages/endless-aisle-customer-register"
+        },
+        {
+          "type": "text",
+          "id": "errorMsg",
+          "label": "Error message when customer doesn't exist",
+          "default": "Customer Not found "
+        }
+      ],
+      "blocks": [
+        {
+            "name": "Col",
+             "type": "col",
+             "limit": 1,
+             "settings":[{
+                "type": "image_picker",
+                "id": "image",
+                "label": "Image" 
+               },
+               {
+                "type": "text",
+                "id": "text1",
+                "label": "Text Top" 
+               },
+               {
+                "type": "text",
+                "id": "text2",
+                "label": "Text Bottom" 
+               },
+               {
+                "type": "text",
+                "id": "button",
+                "label": "Button text" 
+               },
+               {
+                "type": "text",
+                "id": "button_url",
+                "label": "Button URL" 
+               }
+            ]
+         }
+      ],
+      "presets": [{ "name": "Endless-aisle-main" }]
+      }
+  {% endschema %}

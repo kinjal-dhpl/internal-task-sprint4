@@ -1,0 +1,233 @@
+{% schema %}
+{
+  "name": "Media Slider",
+  "settings": [
+    {
+      "type": "text",
+      "id": "video_url",
+      "label": "Video URL",
+      "default": "https://cdn.shopify.com/videos/c/o/v/7787da349d6c4a749a74ac1b0ca28388.mp4"
+    },
+    {
+      "type": "text",
+      "id": "video_heading",
+      "label": "Video Heading",
+      "default": "Understanding Your Personal Ring Style"
+    },
+    {
+      "type": "text",
+      "id": "video_bottom_text",
+      "label": "Video Bottom Text",
+      "default": "There's more to work than life."
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "First Image"
+    },
+    {
+      "type": "text",
+      "id": "image_1_heading",
+      "label": "First Image Heading",
+      "default": "Personal Style & Customisation"
+    },
+    {
+      "type": "text",
+      "id": "image_1_bottom_text",
+      "label": "First Image Bottom Text",
+      "default": "Choosing the right metal tone using Skin Colour Analysis"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Second Image"
+    },
+    {
+      "type": "text",
+      "id": "image_2_heading",
+      "label": "Second Image Heading",
+      "default": "Build Your Own Ring"
+    },
+    {
+      "type": "text",
+      "id": "image_2_bottom_text",
+      "label": "Second Image Bottom Text",
+      "default": "Solitaire Selection"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "Third Image"
+    },
+    {
+      "type": "text",
+      "id": "image_3_heading",
+      "label": "Third Image Heading",
+      "default": "Understand Engagement Ring Design"
+    },
+    {
+      "type": "text",
+      "id": "image_3_bottom_text",
+      "label": "Third Image Bottom Text",
+      "default": "Learn about different engagement ring styles"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_4",
+      "label": "Fourth Image"
+    },
+    {
+      "type": "text",
+      "id": "image_4_heading",
+      "label": "Fourth Image Heading",
+      "default": "Find Your Perfect Ring"
+    },
+    {
+      "type": "text",
+      "id": "image_4_bottom_text",
+      "label": "Fourth Image Bottom Text",
+      "default": "Explore unique designs"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Media Slider",
+      "category": "Media"
+    }
+  ]
+}
+{% endschema %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
+
+<section class="media-slider">
+  <div class="owl-carousel media-carousel">
+    <div class="item">
+      <div class="banner">
+        <h2 class="banner-heading">{{ section.settings.video_heading }}</h2>
+        <video class="slider-media" id="video" autoplay loop muted playsinline>
+          <source src="{{ section.settings.video_url }}" type="video/mp4">
+        </video>
+        <p class="banner-bottom-text">{{ section.settings.video_bottom_text }}</p>
+      </div>
+    </div>
+    <div class="item">
+      <div class="banner">
+        <h2 class="banner-heading">{{ section.settings.image_1_heading }}</h2>
+        <img class="slider-media" src="{{ section.settings.image_1 | img_url: 'master' }}" alt="Image 1">
+        <p class="banner-bottom-text">{{ section.settings.image_1_bottom_text }}</p>
+      </div>
+    </div>
+    <div class="item">
+      <div class="banner">
+        <h2 class="banner-heading">{{ section.settings.image_2_heading }}</h2>
+        <img class="slider-media" src="{{ section.settings.image_2 | img_url: 'master' }}" alt="Image 2">
+        <p class="banner-bottom-text">{{ section.settings.image_2_bottom_text }}</p>
+      </div>
+    </div>
+    <div class="item">
+      <div class="banner">
+        <h2 class="banner-heading">{{ section.settings.image_3_heading }}</h2>
+        <img class="slider-media" src="{{ section.settings.image_3 | img_url: 'master' }}" alt="Image 3">
+        <p class="banner-bottom-text">{{ section.settings.image_3_bottom_text }}</p>
+      </div>
+    </div>
+    <div class="item">
+      <div class="banner">
+        <h2 class="banner-heading">{{ section.settings.image_4_heading }}</h2>
+        <img class="slider-media" src="{{ section.settings.image_4 | img_url: 'master' }}" alt="Image 4">
+        <p class="banner-bottom-text">{{ section.settings.image_4_bottom_text }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+<script>
+  $(document).ready(function(){
+    $(".media-carousel").owlCarousel({
+      loop: true,
+      margin: 10,
+      nav: true, /* Ensure navigation is enabled */
+      navText: ["&#10094;", "&#10095;"], /* Custom left/right arrow icons */
+      dots: true,
+      autoplay: true,
+      autoplayTimeout: 5000,
+      stagePadding: 100,
+      responsive: {
+        1280: { margin: 20, items: 1, stagePadding: 200 },
+        1024: { margin: 20, items: 1, stagePadding: 150 },
+        768: { items: 1, margin: 20, stagePadding: 100 },
+        480: { items: 1, margin: 20, stagePadding: 80 },
+        320: { items: 1, margin: 20, stagePadding: 60 },
+        0: { items: 1, margin: 20, stagePadding: 50 }
+      }
+    });
+  });
+</script>
+
+<style>
+  .media-slider {
+    width: 100%;
+    max-width: 900px;
+    margin: auto;
+    position: relative;
+  }
+  .slider-media {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  .banner {
+    position: relative;
+    text-align: center;
+  }
+  .banner-heading {
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    color: black;
+  }
+  .banner-bottom-text {
+    position: absolute;
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    color: black;
+  }
+    .owl-nav {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    z-index: 10;
+    padding: 0 40px; /* Adds padding to push arrows inward */
+  }
+  .owl-nav button {
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 50%;
+  }
+  .owl-nav .owl-prev {
+    left: 0 !important; /* Reset to 0 */
+  }
+  .owl-nav .owl-next {
+    right: 0 !important; /* Reset to 0 */
+  }
+
+
+</style>

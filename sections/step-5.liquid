@@ -1,0 +1,228 @@
+<h2 data-aos="fade-zoom-in" class="title__black">{{ section.settings.title }}</h2>
+<h2 data-aos="fade-zoom-in" class="title__grad">{{ section.settings.title2 }}</h2>
+<p data-aos="fade-zoom-in">{{ section.settings.subtitle }}</p>
+<div class="step-2__grid step-5__grid">
+    <div data-aos="fade-right" data-aos-duration="2000" class="step-2__each step-2__each1">
+         <div class="video-container">
+            <!-- <video autoplay muted loop playsinline preload="true">
+              <source src="{{ section.settings.video_url }}" type="video/mp4">
+              Your browser does not support the video tag.
+            </video> -->
+           <!-- VIMEO  -->
+            <iframe src="https://player.vimeo.com/video/955091286?h=eb48eff158?&autoplay=1&loop=1&muted=1&controls=0" 
+              width="640" 
+              height="564" 
+              frameborder="0" 
+              allow="autoplay" 
+              allowfullscreen>
+              </iframe>
+            <!-- <iframe 
+              width="560" 
+              height="315" 
+              src="https://www.youtube.com/embed/MIpGv7Cc7C4?si=dzvLGvjgsc43P9Kb" 
+              title="YouTube video player" 
+              frameborder="0" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+              referrerpolicy="strict-origin-when-cross-origin" 
+              allowfullscreen>
+            </iframe> -->
+          </div>
+    </div>
+     <div data-aos="fade-left" data-aos-duration="2000"  class="step-2__each step-2__each2">
+           <!-- METAL TONE  -->
+           <div class="step-5-right step-5-right__metal-tone show-1">
+              <div>
+                  <h3>Metal Tone</h3>
+                  <div class="metal-tone__grid">
+                      <div class="tone-1">
+                          <div class="white-gold__color"></div>
+                          <p>White Gold</p>
+                      </div>
+                      <div class="tone-2">
+                          <div class="rose-gold__color"></div>
+                          <p>Rose Gold</p>
+                      </div>
+                      <div class="tone-3">
+                          <div class="yellow-gold__color"></div>
+                          <p>Yellow Gold</p>
+                      </div>
+                  </div>
+              </div>
+           </div>
+           <!-- METAL FINISH  -->
+           <div class="step-5-right step-5-right__metal-tone show-2">
+              <div>
+                  <h3>Metal Finish</h3>
+                  <div class="metal-finish__grid">
+                      <div class="finish-1">
+                          <div class="satin__color"></div>
+                          <p>Satin</p>
+                      </div>
+                      <div class="finish-2">
+                          <div class="polished__color"></div>
+                          <p>Polished</p>
+                      </div>
+                      <div class="finish-3">
+                          <div class="brushed__color"></div>
+                          <p>Brushed</p>
+                      </div>
+                      <div class="finish-4">
+                          <div class="bead__color"></div>
+                          <p>Bead Blasted</p>
+                      </div>
+                  </div>
+              </div>
+           </div>
+           <!-- ENGRAVING  -->
+           <div class="step-5-right step-5-right__engraving show-3">
+              <div>
+                  <h3>
+                    Engraving <img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/toggle.png?v=1716948883" />
+                  </h3>
+                  <input type="text" value="Partner's name"/>
+              </div>
+           </div>
+     </div>   
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const show1 = document.querySelector('.show-1');
+    const show2 = document.querySelector('.show-2');
+    const show3 = document.querySelector('.show-3');
+
+    const tones = [document.querySelector('.tone-1'), document.querySelector('.tone-2'), document.querySelector('.tone-3')];
+    let currentStep = 1;
+
+    function showStep1() {
+        show1.classList.add('visible');
+        show1.classList.remove('hidden');
+        show2.classList.add('hidden');
+        show2.classList.remove('visible');
+        show3.classList.add('hidden');
+        show3.classList.remove('visible');
+
+        tones[0].classList.add('tone-visible');
+        tones[0].style.transform = 'scale(1.1)';
+
+        setTimeout(() => {
+            tones[0].style.transform = 'scale(1)';
+            tones[0].classList.remove('tone-visible');
+
+            setTimeout(() => {
+                tones[1].classList.add('tone-visible');
+                tones[1].style.transform = 'scale(1.1)';
+
+                setTimeout(() => {
+                    tones[1].style.transform = 'scale(1)';
+                    tones[1].classList.remove('tone-visible');
+
+                    setTimeout(() => {
+                        tones[2].classList.add('tone-visible');
+                        tones[2].style.transform = 'scale(1.1)';
+
+                        setTimeout(() => {
+                            tones[2].style.transform = 'scale(1)';
+                            tones[2].classList.remove('tone-visible');
+
+                            setTimeout(() => {
+                                currentStep = 2;
+                                showStep2();
+                            }, 0);
+                        }, 4000);
+                    }, 0);
+                }, 4000);
+            }, 0);
+        }, 4000);
+    }
+
+    function showStep2() {
+        show1.classList.add('hidden');
+        show1.classList.remove('visible');
+        show2.classList.add('visible');
+        show2.classList.remove('hidden');
+        show3.classList.add('hidden');
+        show3.classList.remove('visible');
+
+        setTimeout(() => {
+            currentStep = 3;
+            showStep3();
+        }, 4000); // Adjust this timeout as needed
+    }
+
+    function showStep3() {
+        show1.classList.add('hidden');
+        show1.classList.remove('visible');
+        show2.classList.add('hidden');
+        show2.classList.remove('visible');
+        show3.classList.add('visible');
+        show3.classList.remove('hidden');
+
+        setTimeout(() => {
+            currentStep = 1;
+            showStep1();
+        }, 4000); // Adjust this timeout as needed
+    }
+
+    // Initialize the first step
+    showStep1();
+});
+</script>
+
+
+
+
+{% schema %}
+  {
+    "name": "Step 5",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title"
+      },
+      {
+        "type": "text",
+        "id": "title2",
+        "label": "Title 2"
+      },
+      {
+        "type": "text",
+        "id": "subtitle",
+        "label": "Sub Title"
+      },
+      {
+        "type": "text",
+        "id": "video_url",
+        "label": "Video URL"
+      },
+      {
+        "type": "text",
+        "id": "title_right",
+        "label": "Title Right"
+      }
+    ],
+    "blocks": [
+         {
+          "name": "Col",
+           "type": "col",
+           "limit": 3,
+           "settings":[
+             {
+              "type": "image_picker",
+              "id": "image",
+              "label": "Image" 
+             },
+             {
+              "type": "text",
+              "id": "text",
+              "label": "Video URL" 
+             }
+          ]
+         }
+    ],
+    "presets": [{ "name": "Step 5" }],
+    "tag": "div",
+    "class": "step-2 step-5 page-width"
+  }
+{% endschema %}

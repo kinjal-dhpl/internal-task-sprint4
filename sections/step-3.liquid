@@ -1,0 +1,223 @@
+<h2 data-aos="fade-zoom-in" class="title__black">{{ section.settings.title }}</h2>
+<h2 data-aos="fade-zoom-in" class="title__grad">{{ section.settings.title2 }}</h2>
+<p data-aos="fade-zoom-in">{{ section.settings.subtitle }}</p>
+
+<div
+  data-aos="fade-up"
+  class="step-3__wrapper"
+  data-product-id="{{ section.settings.selected_product.id }}"
+  data-product-handle="{{ section.settings.selected_product.handle }}"
+>
+  <!-- TABS -->
+  <div class="tab">
+    <button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen">
+      <img class="normal" src="https://cdn.shopify.com/s/files/1/0664/3780/8182/files/gold-icon_BLK.png?v=1757576311">
+      <img class="selected" src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/gold-icon.png?v=1716694579">
+      Gold
+    </button>
+    <button class="tablinks" onclick="openCity(event, 'Paris')">
+      <img
+        class="normal"
+        src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/platinum-selected.png?v=1716771760"
+      >
+      <img
+        class="selected"
+        src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/platinum-selected.png?v=1716771760"
+      >
+      Platinum
+    </button>
+  </div>
+
+  <!-- GOLD TAB -->
+  <div id="London" class="tabcontent">
+    <div class="step-3__grid">
+      <div>
+        <img id="gold-main-img" src="">
+      </div>
+      <div class="step-3__grid-2">
+        <ul class="pro__grid" id="gold-variants">
+          <!-- Gold variant cards go here -->
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLATINUM TAB -->
+  <div id="Paris" class="tabcontent">
+    <div class="step-3__grid">
+      <div>
+        <img id="platinum-main-img" src="">
+      </div>
+      <div class="step-3__grid-2">
+        <ul class="pro__grid" id="platinum-variants">
+          <!-- Platinum variant cards go here -->
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let variantPriceData = [];
+  let goldVariants = [];
+  let platinumVariants = [];
+  const selectedSize = 1; // The size used in this section
+
+  async function fetchVariantPrices() {
+    const wrapper = document.querySelector('.step-3__wrapper');
+    const productId = wrapper.getAttribute('data-product-id');
+
+    try {
+      const res = await fetch(
+        `https://diamond-hq-staging.myshopify.com/apps/ea_module_dev/price/product?productId=${productId}&configSize=${selectedSize}`
+      );
+      const json = await res.json();
+
+      if (json.status === 'success') {
+        variantPriceData = json.data;
+
+        // Organize by metal type
+        goldVariants = variantPriceData.filter((v) => v.price.config_size_1?.metal?.type === 'Gold');
+        platinumVariants = variantPriceData.filter((v) => v.price.config_size_1?.metal?.type === 'Platinum');
+
+        // Render both tabs once
+        renderTab('Gold', goldVariants);
+        renderTab('Platinum', platinumVariants);
+
+        // Preload both main images immediately
+        preloadMainImage('Gold', goldVariants);
+        preloadMainImage('Platinum', platinumVariants);
+      }
+    } catch (err) {
+      console.error('Failed to fetch variant price data', err);
+    }
+  }
+
+  function preloadMainImage(type, variants) {
+    if (!variants.length) return;
+    const first = variants[0];
+    const variantId = first.variantId.split('/').pop();
+    const imgElement = document.getElementById(type === 'Gold' ? 'gold-main-img' : 'platinum-main-img');
+
+    fetch(`/variants/${variantId}.js`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (imgElement) imgElement.src = data.featured_image.src;
+
+        // Preload into cache
+        const preload = new Image();
+        preload.src = data.featured_image.src;
+      })
+      .catch((err) => console.warn('Could not load variant image', err));
+  }
+  function setMainImage(type, variants) {
+    if (!variants.length) return;
+    const first = variants[0];
+    const variantId = first.variantId.split('/').pop();
+    const imgElement = document.getElementById(type === 'Gold' ? 'gold-main-img' : 'platinum-main-img');
+
+    // Use Shopify image format
+    fetch(`/variants/${variantId}.js`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (imgElement) imgElement.src = data.featured_image.src;
+      })
+      .catch((err) => console.warn('Could not load variant image', err));
+  }
+
+  function renderTab(type, variants) {
+    const container = document.getElementById(type === 'Gold' ? 'gold-variants' : 'platinum-variants');
+    if (!variants.length || !container) return;
+
+    const wrapper = document.querySelector('.step-3__wrapper');
+    const productHandle = wrapper.getAttribute('data-product-handle');
+
+    container.innerHTML = variants
+      .map((v) => {
+        const priceData = v.price.config_size_1;
+        const diamond = priceData.diamond || {};
+        const metal = priceData.metal || {};
+        const variantName = v?.variantName || '';
+        const variantId = v.variantId.split('/').pop();
+
+        return `
+      <li>
+        <a class="shop-now" href="/products/${productHandle}?variant=${variantId}&size=${selectedSize}">
+          <p>${variantName}</p>
+          <span class="price">₹${priceData.total_price_with_gst.toLocaleString('en-IN')}</span>
+          <div class="cl-pu__grid">
+            <div>
+              <img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/diamond-white.png?v=1717361495" />
+              <p>${diamond.color || '-'} ${diamond.clarity || ''}</p>
+            </div>
+            <div>
+              <img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/gold-icon.png?v=1716694579" />
+              <p>${metal.purity || '-'}</p>
+            </div>
+          </div>
+        </a>
+      </li>`;
+      })
+      .join('');
+  }
+
+  function openCity(evt, cityName) {
+    let tabcontent = document.getElementsByClassName('tabcontent');
+    for (let i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = 'none';
+    }
+
+    let tablinks = document.getElementsByClassName('tablinks');
+    for (let i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(' active', '');
+    }
+
+    document.getElementById(cityName).style.display = 'block';
+    evt.currentTarget.className += ' active';
+
+    // On tab switch, render correct variants
+    if (cityName === 'London') {
+      renderTab('Gold', goldVariants);
+      setMainImage('Gold', goldVariants);
+    } else if (cityName === 'Paris') {
+      renderTab('Platinum', platinumVariants);
+      setMainImage('Platinum', platinumVariants);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('defaultOpen').click();
+    fetchVariantPrices();
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Step 3",
+  "settings": [
+    {
+      "type": "product",
+      "id": "selected_product",
+      "label": "Select Product"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "title2",
+      "label": "Title 2"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Sub Title"
+    }
+  ],
+  "presets": [{ "name": "Step 3" }],
+  "tag": "div",
+  "class": "step-3 page-width"
+}
+{% endschema %}

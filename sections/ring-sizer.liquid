@@ -1,0 +1,296 @@
+<div class="ring-sizer-section">
+  <div class="ring-sizer">
+    <!-- Left side: Paragraph and Ring Size (Vertically Centered) -->
+    <div class="left-section">
+      <label for="ring-size-slider" class="ring-sizer-heading">{{ section.settings.heading_text }}</label>
+      
+      <div class="ring-size-info">
+        <p class="ring-instruction">Place your ring on the ring outline to find its size, and use the slider below to adjust and identify the correct size.</p>
+        <p>Ring Size: <span id="ring-size-display">1</span></p>
+      </div>
+    </div>
+
+    <!-- Right side: Canvas and Slider -->
+    <div class="right-section">
+      <canvas id="ring-size-canvas" width="300" height="300"></canvas>
+      <div class="slider-container">
+        <input type="range" id="ring-size-slider" min="1" max="35" step="1" value="1">
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+
+  /* General styling for mobile and desktop */
+  .ring-sizer {
+    text-align: center;
+    padding: 20px;
+    max-width: 100%;
+    overflow: hidden;
+    background-color: #ededed; /* Gray background */
+  }
+
+  .ring-sizer-heading {
+    font-weight: bold;
+    font-size: 24px;
+  }
+
+  #ring-size-slider {
+    width: 100%; /* Full width below the canvas */
+    margin: 10px auto;
+    background-color: #a9a9a9; /* Dark gray slider color */
+    appearance: none;
+    height: 5px;
+    border-radius: 5px;
+  }
+
+  #ring-size-slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #a9a9a9; /* Dark gray thumb */
+    cursor: pointer;
+  }
+
+  #ring-size-slider::-moz-range-thumb {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #a9a9a9; /* Dark gray thumb */
+    cursor: pointer;
+  }
+
+  #ring-size-canvas {
+    border: 1px solid #ddd;
+    background-color: #ededed;
+    margin-top: 10px;
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    touch-action: none;
+  }
+
+  p {
+    font-size: 18px;
+  }
+
+  .ring-instruction {
+    font-size: 14px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    color: #555;
+  }
+
+  /* Desktop and larger screens styling */
+  @media (min-width: 768px) {
+    .ring-sizer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 60px 20px; /* Increased padding above and below */
+      max-width: 1200px;
+      margin: 0 auto;
+      background-color: #ededed; /* Gray background for desktop view */
+    }
+
+    /* Title, Paragraph, and Ring Size text on the left side, vertically centered */
+    .left-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center; /* Vertically center the text */
+      height: 100%;
+      text-align: left;
+    }
+
+    .ring-sizer-heading {
+      font-size: 30px;
+      margin-bottom: 30px; /* Increased spacing between title and text */
+    }
+
+    .ring-instruction {
+      font-size: 18px;
+      margin-bottom: 40px; /* Increased spacing below the paragraph */
+    }
+
+    /* Canvas and slider on the right side */
+    .right-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-left: 100px; /* Moved the canvas further to the right */
+    }
+
+    /* Ensure the canvas remains the same size as mobile */
+    #ring-size-canvas {
+      max-width: 300px; /* Max width for desktop and mobile */
+      width: 100%; /* Ensure it doesn't stretch beyond the mobile size */
+      height: 300px; /* Keep the height fixed */
+      margin-bottom: 30px; /* Increased space below the canvas */
+    }
+
+    #ring-size-slider {
+      width: 80%;
+      margin-top: 20px;
+    }
+
+    .slider-container {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+    /* Increase paragraph text size for desktop */
+    .ring-size-info p {
+      font-size: 18px;
+    }
+  }
+</style>
+
+<script>
+  const ringSizes = {
+    1: 28.00,
+    2: 28.08,
+    3: 29.04,
+    4: 30.00,
+    5: 30.06,
+    6: 31.02,
+    7: 32.00,
+    8: 32.06,
+    9: 33.02,
+    10: 33.08,
+    11: 34.04,
+    12: 35.00,
+    13: 35.02,
+    14: 35.06,
+    15: 36.04,
+    16: 37.00,
+    17: 38.02,
+    18: 38.08,
+    19: 39.06,
+    20: 39.08,
+    21: 40.02,
+    22: 40.08,
+    23: 41.09,
+    24: 42.01,
+    25: 42.06,
+    26: 42.09,
+    27: 43.01,
+    28: 43.05,
+    29: 44.00,
+    30: 44.03,
+    31: 45.00,
+    32: 45.02,
+    33: 46.00,
+    34: 46.04,
+    35: 46.06
+  };
+
+  const slider = document.getElementById('ring-size-slider');
+  const sizeDisplay = document.getElementById('ring-size-display');
+  const canvas = document.getElementById('ring-size-canvas');
+  const ctx = canvas.getContext('2d');
+
+  // Function to draw the ring circle, size text, and diamond shape above the ring
+  function drawRing(size) {
+    const diameterMm = ringSizes[size];
+    const radius = (diameterMm / 2) * 3; 
+
+    // Clear the canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Set circle center
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+
+    // Draw grid lines
+    const gridSize = 30; 
+    ctx.strokeStyle = "#ddd";
+    ctx.lineWidth = 1;
+    for (let i = 0; i < canvas.width; i += gridSize) {
+      ctx.beginPath();
+      ctx.moveTo(i, 0);
+      ctx.lineTo(i, canvas.height);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(0, i);
+      ctx.lineTo(canvas.width, i);
+      ctx.stroke();
+    }
+
+    // Draw the main ring circle with color #D2AC47
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+    ctx.strokeStyle = '#D2AC47'; // Main ring color
+    ctx.lineWidth = 5;
+    ctx.stroke();
+
+    // Draw the size text in the middle of the ring with thin font weight
+    ctx.font = '16px Arial';
+    ctx.fontWeight = '100';  // Thin font weight
+    ctx.fillStyle = 'black';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('Size: ' + size, centerX, centerY);
+
+    // Draw the diamond-like shape (hexagonal shape) above the ring
+    const diamondHeight = radius * 0.5; 
+    const diamondWidth = radius * 0.6;  
+
+    ctx.beginPath();
+    ctx.moveTo(centerX - diamondWidth * 0.3, centerY - radius - diamondHeight); // Left top point
+    ctx.lineTo(centerX + diamondWidth * 0.3, centerY - radius - diamondHeight); // Right top point
+    ctx.lineTo(centerX + diamondWidth * 0.5, centerY - radius - diamondHeight * 0.5); // Right middle point
+    ctx.lineTo(centerX + diamondWidth * 0.3, centerY - radius); // Bottom right point (touching the ring)
+    ctx.lineTo(centerX - diamondWidth * 0.3, centerY - radius); // Bottom left point (touching the ring)
+    ctx.lineTo(centerX - diamondWidth * 0.5, centerY - radius - diamondHeight * 0.5); // Left middle point
+    ctx.closePath();
+    ctx.fillStyle = '#D2AC47'; // Same color as the ring for the diamond
+    ctx.fill();
+
+    // Update the size display outside the canvas
+    sizeDisplay.textContent = size;
+  }
+
+  // Event listener for the slider to update the ring size dynamically
+  slider.addEventListener('input', function() {
+    const selectedSize = slider.value;
+    drawRing(selectedSize);
+  });
+
+  // Initialize the canvas with the first ring size
+  drawRing(1);
+</script>
+
+
+
+{% schema %}
+{
+  "name": "Ring Sizer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading_text",
+      "label": "Find Your Ring Size:",
+      "default": "Find Your Ring Size:"
+    },
+    {
+      "type": "color",
+      "id": "circle_color",
+      "label": "Circle Color",
+      "default": "#B76E79"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Ring Sizer",
+      "category": "Custom Sections"
+    }
+  ]
+}
+{% endschema %}

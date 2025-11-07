@@ -1,0 +1,166 @@
+<style>
+ li a img.cstm-log{
+    max-width: unset!important;
+ }
+</style>
+{% unless page.handle == 'finger-print-ring' or page.handle == 'personalised-fingerprint-ring-booking' %}
+    {{ 'custom-header.css' | asset_url | stylesheet_tag }}
+  <noscript>{{ 'component-search.css' | asset_url | stylesheet_tag }}</noscript>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" 
+    integrity="sha512-1cK78a1o+ht2JcaW6g8OXYwqpev9+6GqOkz9xmBN9iUUhIndKtxwILGWYOSibOKjLsEdjyjZvYDq/cZwNeak0w==" 
+    crossorigin="anonymous" 
+    referrerpolicy="no-referrer" 
+    media="(min-width: 550px)"
+    />
+
+  <header class="c-header">
+    <!-- HEADER TOP  -->
+    <div class="header-top">
+        <div class="logo">
+          <a href="https://ringsandi.com/">
+            <img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/full_logo_black.png?v=1709732030" alt="site-logo" />
+          </a>
+        </div>
+        <div>
+            <ul class="icons-grid">
+                <li><a href="#"><img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/studio-icon-black.png?v=1717370994" />
+                 <span>Studio</span>
+                </a></li>
+                <li><a href="https://ringsandi.com/pages/appointment-booking"><img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/appointments-icon-black.png?v=1717370993" />
+                  <span>Appointments</span>
+                </a></li>
+                <li><a href="https://ringsandi.com/pages/find-your-ring"><img class="map-des" src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/mapping-icon-black_da3a58eb-2a73-403a-ba86-f93f5f3686a5.png?v=1717370993" />
+                    <img class="map-mob" src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/mapping-icon-black_da3a58eb-2a73-403a-ba86-f93f5f3686a5.png?v=1717370993" />
+                    <span>Style Mapping</span>
+                </a></li>
+              <li>
+                <a href="https://ringsandi.com/cart">
+                  <img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/ShoppingCart-icon.png?v=1718678274" /> <span>Cart</span>
+                </a>
+              </li>
+               <li>
+                  <a href="{% if customer %}/account{% else %}/account/login {% endif %}">
+                    <img class="cstm-log" src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/png-transparent-computer-icons-login-user-profile-client-smiley-_-windows-10-thumbnail.png?v=1744114031" width="20" height="20" /> <span>{% if customer %} Account{% else %} Log in {% endif %}</span>
+                  </a>
+                </li>
+            </ul>
+        </div>
+        <div class="only-for-mob-search">
+            {% render 'open-search', input_id: 'Search-In-Modal', device: 'mobile' %}
+        </div>
+        {% unless page.url == '/pages/appointment-booking' 
+           or page.url == '/pages/appointment-booking-borivali' 
+           or page.url == '/pages/1-visit-our-studio' 
+           or page.url == '/pages/2-visit-our-studio' 
+           or page.url == '/pages/virtual-appointment' 
+           or page.url == '/pages/appointment'
+           or page.url == '/pages/appointment-booking-page' 
+           or page.url ==  '/pages/landing-page-solitaire'
+           or page.url ==  '/pages/fingerprint-ring'
+           or page.url ==  '/pages/design-personalise-your-engagement-ring'
+           or page.url ==  '/pages/workshop-seat-booking'
+           or page.url ==  '/pages/custom-ring'
+           or page.url ==  '/pages/mens-engagement-ring'
+           or page.url ==  '/pages/toi-et-moi-engagement-ring'
+           or page.url ==  '/pages/old-gold-exchange'
+           or page.url ==  '/pages/engagement-ring-test-drive'
+           or page.url == '/pages/3-visit-our-studio' %}
+                                  
+        <div class="bk-ap">
+            <a href="https://ringsandi.com/pages/appointment-booking">Book an appointment</a>
+        </div>
+        {% endunless %}
+    </div>
+    <!-- MAIN NAVIGATION  -->
+    <nav class="main-navigation">
+      <input type="checkbox" id="menu-toggle">
+      <label for="menu-toggle" class="menu-icon">&#9776;</label>
+      {% if linklists.custom-header-menu.links.size > 0 %}
+        <ul class="menu">
+           {% assign downcased_tag = customer.tags | downcase  %}
+          {% if downcased_tag contains 'sales_rep' %}
+            <a class="endlessMobile" href="/pages/endless-aisle">Endless Aisle</a>
+          {% endif %}
+          {% for link in linklists.custom-header-menu.links %}
+            <li>
+              <a href="{{ link.url }}" title="{{ link.title }}">
+                {{ link.title }}
+              </a>
+              {% if link.links.size > 0 %}
+                <ul>
+                  {% for childlink in link.links %}
+                    <li>
+                      <a href="{{ childlink.url }}" title="{{ childlink.title }}">
+                        {{ childlink.title }}
+                      </a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </li>
+          {% endfor %}
+          {% render 'open-search', input_id: 'Search-In-Modal', device: 'desktop' %}
+          
+        </ul>
+      {% else %}
+        <p>No menu items found.</p>
+      {% endif %}
+    </nav>
+  </header>
+
+  <script src="{{ 'search-form.js' | asset_url }}" defer="defer"></script>
+
+  <!-- FIXED BOOK AN APPOINTMENT  -->
+  {% unless page.url == '/pages/appointment-booking' 
+     or page.url == '/pages/appointment-booking-borivali' 
+     or page.url == '/pages/1-visit-our-studio' 
+     or page.url == '/pages/2-visit-our-studio' 
+     or page.url == '/pages/virtual-appointment' 
+     or page.url == '/pages/appointment' 
+     or page.url == '/pages/3-visit-our-studio'
+     or page.url ==  '/pages/landing-page-solitaire'
+     or page.url ==  '/pages/fingerprint-ring'
+     or page.url ==  '/pages/design-personalise-your-engagement-ring'
+     or page.url ==  '/pages/workshop-seat-booking'
+     or page.url ==  '/pages/custom-ring'
+     or page.url ==  '/pages/mens-engagement-ring'
+     or page.url ==  '/pages/toi-et-moi-engagement-ring'
+     or page.url ==  '/pages/old-gold-exchange'
+     or page.url ==  '/pages/engagement-ring-test-drive'
+     or page.url == '/pages/appointment-booking-page'
+     or page.url == '/pages/endless-aisle'
+     or page.url == '/pages/endless-aisle-customer-register'
+     %}
+  <a class="fixed-book-appointment" href="https://ringsandi.com/pages/appointment-booking">Book An Appointment</a>
+  {% endunless %}
+
+  <!-- MOBILE BOTTOM FIXED NAVIGATION  -->
+  <div class="fixed-bottom-nav">
+      <ul class="fbn-gridd">
+          <li>
+            <a class="curr-ac" href="https://ringsandi.com/">
+              <img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/home-icon.png?v=1717299364" />
+              <span>Home</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://ringsandi.com/collections/products">
+              <img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/store-icon.png?v=1717299364" />
+              <span>Store</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://ringsandi.com/pages/16-ring-styles">
+              <img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/explore-rings.png?v=1717371296" />
+              <span>Designs</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://wa.me/919545860404">
+              <img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/whatsapp-icon.png?v=1717299364" />
+              <span>Whatsapp</span>
+            </a>
+          </li>
+      </ul>
+  </div>
+{% endunless %}

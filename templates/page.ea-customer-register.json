@@ -1,0 +1,124 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "170410171985c91777": {
+      "type": "apps",
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "endless_aisle_customer_register_cA6GTy": {
+      "type": "endless-aisle-customer-register",
+      "blocks": {
+        "input_nM6Lah": {
+          "type": "input",
+          "settings": {
+            "input-label": "First Name",
+            "input-name": "firstName",
+            "required-field": true,
+            "placeholder": "Enter First Name"
+          }
+        },
+        "input_bar3Ub": {
+          "type": "input",
+          "settings": {
+            "input-label": "Last Name",
+            "input-name": "lastName",
+            "required-field": true,
+            "placeholder": "Enter Last Name"
+          }
+        },
+        "input_UikmAE": {
+          "type": "input",
+          "settings": {
+            "input-label": "E-mail",
+            "input-name": "email",
+            "required-field": true,
+            "placeholder": "Enter email Address"
+          }
+        },
+        "input_9NWMnf": {
+          "type": "input",
+          "settings": {
+            "input-label": "Phone Number",
+            "input-name": "phone",
+            "required-field": true,
+            "placeholder": "Enter customer's phone number"
+          }
+        },
+        "input_kz9bAD": {
+          "type": "input",
+          "settings": {
+            "input-label": "Address Line 1",
+            "input-name": "address1",
+            "required-field": true,
+            "placeholder": "Enter Address Line 1"
+          }
+        },
+        "input_Gqi6e9": {
+          "type": "input",
+          "settings": {
+            "input-label": "Address Line 2",
+            "input-name": "address2",
+            "required-field": true,
+            "placeholder": "Enter Address Line 2"
+          }
+        },
+        "input_fGCRUL": {
+          "type": "input",
+          "settings": {
+            "input-label": "City",
+            "input-name": "city",
+            "required-field": true,
+            "placeholder": "Enter City"
+          }
+        },
+        "input_GnLmYN": {
+          "type": "input",
+          "settings": {
+            "input-label": "Zip",
+            "input-name": "zip",
+            "required-field": true,
+            "placeholder": "Enter Zip code"
+          }
+        }
+      },
+      "block_order": [
+        "input_nM6Lah",
+        "input_bar3Ub",
+        "input_UikmAE",
+        "input_9NWMnf",
+        "input_kz9bAD",
+        "input_Gqi6e9",
+        "input_fGCRUL",
+        "input_GnLmYN"
+      ],
+      "name": "Endless-aisle-register",
+      "settings": {
+        "title": "Create Account",
+        "buttonLabel": "REGISTER"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "170410171985c91777",
+    "endless_aisle_customer_register_cA6GTy"
+  ]
+}

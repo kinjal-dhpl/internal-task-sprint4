@@ -1,0 +1,61 @@
+<h2 data-aos="fade-zoom-in" class="title__black">{{ section.settings.title }}</h2>
+<h2 data-aos="fade-zoom-in" class="title__grad">{{ section.settings.title2 }}</h2>
+<p data-aos="fade-zoom-in">{{ section.settings.subtitle }}</p>
+  
+<div data-aos="fade-up" class="step-2__grid step-5__grid step-4__grid">
+    <div class="step-2__each step-2__each1">
+         <div class="video-container">
+            <!-- <video autoplay muted loop>
+              <source src="{{ section.settings.video_left_url }}" type="video/mp4">
+              Your browser does not support the video tag.
+            </video> -->
+            <img src="{{ section.settings.image_left_url }}" />
+          </div>
+    </div>
+     <div class="step-2__each step-2__each2">
+         <div class="video-container">
+            <!-- <video autoplay muted loop>
+              <source src="{{ section.settings.video_right_url }}" type="video/mp4">
+              Your browser does not support the video tag.
+            </video> -->
+           <img src="{{ section.settings.image_right_url }}" />
+          </div>
+     </div>   
+</div>
+
+
+{% schema %}
+  {
+    "name": "Step 4",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title"
+      },
+      {
+        "type": "text",
+        "id": "title2",
+        "label": "Title 2"
+      },
+      {
+        "type": "text",
+        "id": "subtitle",
+        "label": "Sub Title"
+      },
+      {
+        "type": "text",
+        "id": "image_left_url",
+        "label": "Image Left URL"
+      },
+      {
+        "type": "text",
+        "id": "image_right_url",
+        "label": "Image Right URL"
+      }
+    ],
+    "presets": [{ "name": "Step 4" }],
+    "tag": "div",
+    "class": "step-2 step-5 step-4 page-width"
+  }
+{% endschema %}

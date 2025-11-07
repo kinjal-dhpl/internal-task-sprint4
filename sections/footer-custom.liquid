@@ -1,0 +1,151 @@
+<div class="c-footer__wrapper">
+    <div class="footer-top">
+        <div class="footer-top-col-1">
+          {% if section.settings.logo != blank %}
+            <img src="{{ section.settings.logo | image_url }}" width="100%" height="auto">
+          {% endif %}
+          {% if section.settings.logo2 != blank %}
+            <img src="{{ section.settings.logo2 | image_url }}" width="100%" height="auto">
+          {% endif %}
+          {% if section.settings.logo3 != blank %}
+            <img src="{{ section.settings.logo3 | image_url }}" width="100%" height="auto">
+          {% endif %}
+          {% if section.settings.logo4 != blank %}
+            <img src="{{ section.settings.logo4 | image_url }}" width="100%" height="auto">
+          {% endif %}
+        </div>
+        <div class="footer-top-col-2">
+            <h3>{{ section.settings.address_title }}</h3>
+            {{ section.settings.address }}
+        </div>
+        <div class="footer-top-col-3">
+            <h3>{{ section.settings.title_right }}</h3>
+            {{ section.settings.content_right }}
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="footer-bottom__left">
+            <p>{{ section.settings.copyright }}</p>
+            {% assign image_blocks = section.blocks | where: 'type', 'row' %}
+            {% for block in image_blocks %}
+            {% assign menu_handle_row2 = block.settings.menu %}
+            {% assign menu_row2 = menus[menu_handle_row2] %}
+                {% if menu_row2 %}
+                  <nav>
+                    <ul>
+                      {% for link in menu_row2.links %}
+                        <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                      {% endfor %}
+                    </ul>
+                  </nav>
+                  {% endif %}
+              {% endfor %}
+        </div>
+        <div class="footer-bottom__right">
+             <div class="footer-social">
+                <ul>
+                  {% assign block_r = section.blocks | where: 'type', 'col' %}
+                  {% for block in block_r %}
+                    {% if block.settings.url and block.settings.url != "" and block.settings.image != blank %}
+                      <li>
+                        <a href="{{ block.settings.url }}" target="_blank">{{ block.settings.image | image_url: width: 30 | image_tag }}</a>
+                      </li>
+                    {% endif %}
+                  {% endfor %}
+                </ul>
+              </div>
+        </div>
+    </div>
+</div>
+
+<!-- AOS SCRIPT AND INITIALIZATION  -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js" integrity="sha512-A7AYk1fGKX6S2SsHywmPkrnzTZHrgiVT7GcQkLGDe2ev0aWb8zejytzS8wjo7PGEXKqJOrjQ4oORtnimIRZBtw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+  AOS.init();
+</script>
+
+{% schema %}
+  {
+    "name": "Custom Footer",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo"
+      },
+      {
+        "type": "image_picker",
+        "id": "logo2",
+        "label": "Logo 2"
+      },
+      {
+        "type": "image_picker",
+        "id": "logo3",
+        "label": "Logo 3"
+      },
+      {
+        "type": "image_picker",
+        "id": "logo4",
+        "label": "Logo 4"
+      },
+      {
+        "type": "text",
+        "id": "address_title",
+        "label": "Address Title"
+      },
+      {
+        "type": "richtext",
+        "id": "address",
+        "label": "Address"
+      },
+      {
+        "type": "text",
+        "id": "title_right",
+        "label": "Title Right"
+      },
+      {
+        "type": "richtext",
+        "id": "content_right",
+        "label": "Content Right"
+      },
+      {
+        "type": "richtext",
+        "id": "copyright",
+        "label": "Copyright text"
+      }
+    ],
+    "blocks": [
+         {
+            "name": "Add Footer Menu",
+             "type": "row",
+            "limit": 1,
+             "settings":[{
+                  "type": "link_list",
+                  "id": "menu",
+                  "label": "Menu"
+                }
+             ]
+         },
+         {
+          "name": "Add Social links",
+           "type": "col",
+           "limit": 4,
+           "settings":[
+             {
+              "type": "image_picker",
+              "id": "image",
+              "label": "Image" 
+             },
+             {
+              "type": "text",
+              "id": "url",
+              "label": "Social URL" 
+             }
+          ]
+         }
+    ],
+    "presets": [{ "name": "Custom Footer" }],
+    "tag": "div",
+    "class": "custom-footer"
+  }
+{% endschema %}

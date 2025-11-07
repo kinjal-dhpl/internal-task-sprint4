@@ -1,0 +1,185 @@
+<div class="gold-exchange-banner">
+    <!-- Left Side: Image -->
+    <img id="goldExchangeSlideshow" src="{{ section.settings.gold_exchange_image_1 | image_url }}" alt="Toi et Moi Engagement Ring">
+
+    <!-- Right Side: Text Content -->
+    <div class="gold-exchange-content">
+        <h1>Exchange Gold for a Diamond Ring</h1>
+        <p>Turn your old gold into something truly special! Exchange your gold jewelry for a dazzling diamond ring and embrace a timeless upgrade.</p>
+        <a href="{{ section.settings.gold_exchange_button_link }}" class="gold-exchange-appointment">Book An Appointment</a>
+    </div>
+</div>
+
+<!-- Schema (SEO-optimized JSON-LD) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Toi et Moi Engagement Ring",
+  "description": "Book An Appointment to design your perfect engagement Ring.",
+  "url": "{{ shop.url }}/gold-exchange"
+}
+</script>
+
+<!-- Inline CSS -->
+<style>
+    /* Banner Container */
+    .gold-exchange-banner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1200px;
+        margin: auto;
+        padding: 20px;
+        background-color: #f2f2f2; /* Light background */
+    }
+
+    /* Left Side - Image */
+    .gold-exchange-banner img {
+        width: 60%;
+        max-width: 750px;
+        height: auto;
+        display: block;
+        border-radius: 10px;
+    }
+
+    /* Right Side - Text */
+    .gold-exchange-content {
+        width: 35%;
+        text-align: center;
+        font-family: "oregon-ldo-medium";
+    }
+
+    .gold-exchange-content h1 {
+        font-size: 34px;
+        margin-bottom: 10px;
+        font-family: "oregon-ldo-medium";
+    }
+
+    .gold-exchange-content p {
+        font-size: 17px;
+        color: #666;
+        margin-bottom: 20px;
+    }
+
+    /* Book An Appointment Button */
+    .gold-exchange-appointment {
+        display: inline-block;
+        background: black;
+        color: white;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 20px;
+        width: 300px;
+        padding: 10px 24px;
+        text-align: center;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+        .gold-exchange-banner {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .gold-exchange-banner img {
+            width: 100%;
+            max-width: 500px;
+            padding-top: 40px; /* Added top padding */
+        }
+
+        /* Force center alignment for text content */
+        .gold-exchange-content {
+            width: 100%;
+            padding: 20px;
+            text-align: center !important;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: "oregon-ldo-medium";
+        }
+
+        .gold-exchange-content h1 {
+            font-size: 28px; /* Adjusted for mobile */
+            font-family: "oregon-ldo-medium";
+        }
+
+        .gold-exchange-appointment {
+            width: 300px;
+            font-size: 16px;
+        }
+    }
+</style>
+
+<!-- JavaScript for Image Slideshow (Now only 3 images) -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  let images = [
+    "{{ section.settings.gold_exchange_image_1 | image_url }}",
+    "{{ section.settings.gold_exchange_image_2 | image_url }}",
+    "{{ section.settings.gold_exchange_image_3 | image_url }}"
+  ].filter(src => src !== ""); // Removes empty images
+
+  let index = 0;
+  const slideshowImage = document.getElementById("goldExchangeSlideshow");
+
+  function changeImage() {
+    index = (index + 1) % images.length;
+    slideshowImage.src = images[index];
+  }
+
+  setInterval(changeImage, 1000); // Image changes every second
+});
+</script>
+
+<!-- Shopify Section Schema (Now only 3 image pickers) -->
+{% schema %}
+{
+  "name": "Gold Exchange",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "gold_exchange_image_1",
+      "label": "Ring Image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "gold_exchange_image_2",
+      "label": "Ring Image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "gold_exchange_image_3",
+      "label": "Ring Image 3"
+    },
+    {
+      "type": "text",
+      "id": "gold_exchange_title",
+      "label": "Title",
+      "default": "Exchange Gold for a Diamond Ring"
+    },
+    {
+      "type": "text",
+      "id": "gold_exchange_text",
+      "label": "Description",
+      "default": "Turn your old gold into something truly special! Exchange your gold jewelry for a dazzling diamond ring and embrace a timeless upgrade."
+    },
+    {
+      "type": "url",
+      "id": "gold_exchange_button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "text",
+      "id": "gold_exchange_button_text",
+      "label": "Button Text",
+      "default": "Book An Appointment"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Gold Exchange"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,597 @@
+<!-- custom-variants-tab -->
+{% comment %}
+  Custom Variant Picker with Tab-based UI
+  Variant 1: Metal
+  Variant 2: Diamond
+  UI Tabs: Gold, Platinum, Lab Grown
+{% endcomment %}
+
+<style>
+  .tab {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .tab button {
+    padding: 8px 16px;
+    background: none;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+
+  .tab button.active {
+    font-weight: bold;
+    border-bottom: 2px solid black;
+  }
+
+  .tabcontent {
+    display: none;
+  }
+
+  .variant-card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding-bottom: 10px;
+  }
+
+  .variant-link {
+    text-decoration: none;
+    flex: 0 0 32%;
+    cursor: pointer;
+  }
+
+  .variant-box {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 8px;
+    background: #fff;
+    width: 100%;
+    box-shadow: 0 0 3px rgba(0,0,0,0.05);
+  }
+
+  .top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .variant-image {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 6px;
+  }
+
+  .metal-name-top-right {
+    font-size: 8px;
+    font-weight: bold;
+    padding: 2px 4px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #D4AF37 0%, #F9D423 100%);
+    color: #000;
+  }
+
+  .metal-name-top-right.lab-grown {
+    background: linear-gradient(90deg, #b5f3ff 0%, #79e2fb 100%);
+  }
+
+  .variant-pack-size {
+    font-size: 11px;
+    font-weight: 600;
+    color: #333;
+    line-height: 1.2;
+  }
+
+  .variant-color-clarity {
+    font-size: 11px;
+    color: #666;
+  }
+
+  .price {
+    font-size: 11px !important;
+    font-weight: bold;
+    color: #000;
+  }
+
+  .price.loading {
+    opacity: 0.6;
+    font-style: italic;
+  }
+
+  .variant-box.selected {
+    outline: 2px solid #000;
+  }
+</style>
+
+<!-- Tabs UI -->
+<div class="tab">
+  <button class="tablinks" data-metal="gold" onclick="openVariantTab(event, 'goldTab')">Gold</button>
+  <button class="tablinks" data-metal="platinum" onclick="openVariantTab(event, 'platinumTab')">Platinum</button>
+  <button class="tablinks" data-metal="lab" onclick="openVariantTab(event, 'labgrownTab')">Lab Grown</button>
+</div>
+
+<!-- Hidden input for variant -->
+<input
+  type="hidden"
+  name="id"
+  id="SelectedVariantId"
+  value="{{ product.selected_or_first_available_variant.id }}"
+  form="product-form-{{ section.id }}"
+>
+
+<!-- Variant Tabs Content -->
+<div id="goldTab" data-metal="gold" class="tabcontent">
+  <div class="variant-card-container">
+    {% for variant in product.variants %}
+      {% assign metal = variant.option1 | downcase %}
+      {% assign diamond = variant.option2 | downcase %}
+      {% if metal contains 'gold' and diamond contains 'natural' %}
+        <div class="variant-link" data-variant-id="{{ variant.id }}" onclick="selectVariant('{{ variant.id }}', this)">
+          <div class="variant-box" data-variant-id="{{ variant.id }}">
+            <div class="top-row">
+              <img src="{{ product.featured_image | img_url: '200x' }}" class="variant-image" alt="">
+              <div class="metal-name-top-right">{{ variant.option1 }}</div>
+            </div>
+            <p class="variant-pack-size">{{ variant.title }}</p>
+            <p class="variant-color-clarity">{{ variant.option2 }}</p>
+            <div class="price" data-variant-id="{{ variant.id }}">{{ variant.price | money }}</div>
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<div id="platinumTab" data-metal="platinum" class="tabcontent">
+  <div class="variant-card-container">
+    {% for variant in product.variants %}
+      {% assign metal = variant.option1 | downcase %}
+      {% assign diamond = variant.option2 | downcase %}
+      {% unless diamond contains 'lab grown' or diamond contains 'lab' %}
+        {% if metal contains 'platinum' %}
+          <div
+            class="variant-link"
+            data-variant-id="{{ variant.id }}"
+            onclick="selectVariant('{{ variant.id }}', this)"
+          >
+            <div class="variant-box" data-variant-id="{{ variant.id }}">
+              <div class="top-row">
+                <img src="{{ product.featured_image | img_url: '200x' }}" class="variant-image" alt="">
+                <div class="metal-name-top-right">{{ variant.option1 }}</div>
+              </div>
+              <p class="variant-pack-size">{{ variant.title }}</p>
+              <p class="variant-color-clarity">{{ variant.option2 }}</p>
+              <div class="price" data-variant-id="{{ variant.id }}">{{ variant.price | money }}</div>
+            </div>
+          </div>
+        {% endif %}
+      {% endunless %}
+    {% endfor %}
+  </div>
+</div>
+
+<div id="labgrownTab" data-metal="lab" class="tabcontent">
+  <div class="variant-card-container">
+    {% for variant in product.variants %}
+      {% assign diamond = variant.option2 | downcase %}
+      {% if diamond contains 'lab grown' or diamond contains 'lab' %}
+        <div class="variant-link" data-variant-id="{{ variant.id }}" onclick="selectVariant('{{ variant.id }}', this)">
+          <div class="variant-box" data-variant-id="{{ variant.id }}">
+            <div class="top-row">
+              <img src="{{ product.featured_image | img_url: '200x' }}" class="variant-image" alt="">
+              <div class="metal-name-top-right lab-grown">{{ variant.option1 }}</div>
+            </div>
+            <p class="variant-pack-size">{{ variant.title }}</p>
+            <p class="variant-color-clarity">{{ variant.option2 }}</p>
+            <div class="price" data-variant-id="{{ variant.id }}">{{ variant.price | money }}</div>
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+  window.productVariants = {{ product.variants | json }};
+</script>
+
+<script>
+  (function () {
+    'use strict';
+
+    // Tab and Variant Management
+    // In your custom-variants-tab script section, replace the VariantTabManager object with this optimized version:
+
+    // Updated VariantTabManager object for the variants tab script
+    // Replace your existing VariantTabManager with this version
+
+    const VariantTabManager = {
+      currentTab: null,
+      apiCallInProgress: {}, // Track ongoing API calls by size
+
+      init() {
+        // Wait for ProductState to be ready
+        if (!window.ProductState?.isInitialized) {
+          setTimeout(() => this.init(), 100);
+          return;
+        }
+
+        this.initializeFromURL();
+        this.setupEventListeners();
+
+        // Update all variant card prices when initialized
+        this.updateAllVariantPrices();
+      },
+
+      setupEventListeners() {
+        // Listen for size changes to update all variant prices
+        document.addEventListener('priceUpdated', () => {
+          this.updateAllVariantPrices();
+        });
+
+        // Listen for size selector changes
+        const sizeSelect = document.getElementById('custom-size-selector');
+        if (sizeSelect) {
+          sizeSelect.addEventListener('change', () => {
+            this.updateAllVariantPrices();
+          });
+        }
+      },
+
+      updateAllVariantPrices() {
+        const currentSize = window.ProductState?.selectedSize || '12';
+
+        // Check if we already have cached data for this size
+        if (window.ProductState?.productPricingBySize?.[currentSize]) {
+          console.log('✅ Using cached data for size:', currentSize);
+          this.updateAllVariantPricesFromCache(currentSize);
+          return;
+        }
+
+        // Check if API call is already in progress for this size
+        if (this.apiCallInProgress[currentSize]) {
+          console.log('⏳ API call already in progress for size:', currentSize);
+          return;
+        }
+
+        // Show loading state for all variant prices
+        const priceElements = document.querySelectorAll('.price[data-variant-id]');
+        priceElements.forEach((priceEl) => {
+          priceEl.classList.add('loading');
+          priceEl.textContent = 'Loading...';
+        });
+
+        // Make single API call for this size
+        this.fetchAllVariantPrices(currentSize);
+      },
+
+      fetchAllVariantPrices(size) {
+        this.apiCallInProgress[size] = true;
+
+        const productId = '{{ product.id }}';
+        const apiUrl = `https://diamond-hq-staging.myshopify.com/apps/ea_module_dev/price/product?productId=${productId}&configSize=${size}`;
+
+        console.log('🌐 Making single API call for size:', size);
+
+        fetch(apiUrl, {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        })
+          .then((response) => {
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            return response.json();
+          })
+          .then((apiResponse) => {
+            if (apiResponse?.status === 'success' && Array.isArray(apiResponse.data)) {
+              // Cache the data in ProductState
+              if (window.ProductState) {
+                window.ProductState.productPricingBySize[size] = apiResponse;
+              }
+
+              console.log('✅ API response cached for size:', size, 'variants:', apiResponse.data.length);
+
+              // Update all variant prices at once
+              this.updateAllVariantPricesFromCache(size);
+            } else {
+              throw new Error('Invalid API response');
+            }
+          })
+          .catch((error) => {
+            console.error('❌ API call failed for size:', size, error);
+            // CHANGED: Use Shopify prices as fallback instead of metafields
+            this.fallbackAllVariantsToShopifyPrice(size);
+          })
+          .finally(() => {
+            // Clear the in-progress flag
+            delete this.apiCallInProgress[size];
+          });
+      },
+
+      updateAllVariantPricesFromCache(size) {
+        const priceElements = document.querySelectorAll('.price[data-variant-id]');
+        console.log('🔄 Updating', priceElements.length, 'variant prices from cache for size:', size);
+
+        priceElements.forEach((priceEl) => {
+          const variantId = priceEl.getAttribute('data-variant-id');
+          this.updatePriceFromCache(variantId, size, priceEl);
+        });
+      },
+
+      updatePriceFromCache(variantId, size, priceElement) {
+        const config = this.getVariantConfig(variantId, size);
+
+        if (config && config.total_price_with_gst) {
+          const formattedPrice = this.formatPrice(config.total_price_with_gst);
+          priceElement.textContent = `Rs. ${formattedPrice}`;
+          priceElement.classList.remove('loading');
+        } else {
+          console.warn('❌ No price config found for variant:', variantId, 'size:', size);
+          // CHANGED: Fallback to Shopify price instead of metafields
+          this.fallbackToShopifyPrice(variantId, priceElement);
+        }
+      },
+
+      // CHANGED: New method to fallback all variants to Shopify prices
+      fallbackAllVariantsToShopifyPrice(size) {
+        const priceElements = document.querySelectorAll('.price[data-variant-id]');
+        console.log('🔄 Falling back to Shopify prices for', priceElements.length, 'variants, size:', size);
+
+        priceElements.forEach((priceEl) => {
+          const variantId = priceEl.getAttribute('data-variant-id');
+          this.fallbackToShopifyPrice(variantId, priceEl);
+        });
+      },
+
+      // CHANGED: New method to fallback to Shopify variant price
+      fallbackToShopifyPrice(variantId, priceElement) {
+        const variantPrice = window.ProductState?.getVariantPrice(variantId);
+
+        if (variantPrice) {
+          // Use Shopify variant price (already in rupees, no conversion needed)
+          const priceInRupees = variantPrice.price;
+          const formattedPrice = this.formatPrice(priceInRupees);
+          priceElement.textContent = `Rs. ${formattedPrice}`;
+          console.log('💰 Using Shopify price for variant:', variantId, '=', priceInRupees);
+        } else {
+          priceElement.textContent = 'Price N/A';
+        }
+
+        priceElement.classList.remove('loading');
+      },
+
+      // Individual variant price update (used when selecting variants, not size changes)
+      updateVariantPrice(variantId, size, priceElement) {
+        // Check if we have cached data first
+        if (window.ProductState?.productPricingBySize?.[size]) {
+          this.updatePriceFromCache(variantId, size, priceElement);
+          return;
+        }
+
+        // If no cached data, trigger the batch update instead of individual API call
+        this.updateAllVariantPrices();
+      },
+
+      getVariantConfig(variantId, size) {
+        // First try cached API data
+        const productData = window.ProductState?.productPricingBySize?.[size];
+        if (productData && Array.isArray(productData.data)) {
+          const variantData = productData.data.find(
+            (v) =>
+              v.variantId.toString() === variantId.toString() ||
+              v.variantId === `gid://shopify/ProductVariant/${variantId}` ||
+              v.variantId.replace('gid://shopify/ProductVariant/', '') === variantId.toString()
+          );
+          if (variantData && variantData.price && variantData.price[`config_size_${size}`]) {
+            return variantData.price[`config_size_${size}`];
+          }
+        }
+
+        // REMOVED: Fallback to metafields - now returns null to trigger Shopify price fallback
+        return null;
+      },
+
+      formatPrice(price) {
+        return Number(price || 0).toLocaleString('en-IN');
+      },
+
+      // Rest of your existing methods remain the same...
+      initializeFromURL() {
+        const urlVariant = window.ProductState.selectedVariantId;
+
+        if (urlVariant) {
+          const variantElement = document.querySelector(`.variant-box[data-variant-id="${urlVariant}"]`);
+          if (variantElement) {
+            const tabContent = variantElement.closest('.tabcontent');
+            if (tabContent) {
+              this.activateTabByContent(tabContent);
+              this.selectVariantById(urlVariant);
+              return;
+            }
+          }
+        }
+
+        // Default to Gold tab if no specific variant found
+        this.openTab('goldTab');
+      },
+
+      openTab(tabName) {
+        // Hide all tabs
+        document.querySelectorAll('.tabcontent').forEach((el) => (el.style.display = 'none'));
+        document.querySelectorAll('.tablinks').forEach((btn) => btn.classList.remove('active'));
+
+        // Show selected tab
+        const tabContent = document.getElementById(tabName);
+        const tabButton = document.querySelector(`[onclick*="${tabName}"]`);
+
+        if (tabContent) {
+          tabContent.style.display = 'block';
+          this.currentTab = tabName;
+        }
+
+        if (tabButton) {
+          tabButton.classList.add('active');
+        }
+
+        // Auto-select variant in this tab - FIXED: Always trigger price update
+        this.autoSelectVariantInTab(tabContent, true); // Added triggerPriceUpdate parameter
+
+        // Update prices for visible variants
+        this.updateVisibleVariantPrices();
+      },
+
+      updateVisibleVariantPrices() {
+        // Just call the main update method which now handles batch updates efficiently
+        this.updateAllVariantPrices();
+      },
+
+      activateTabByContent(tabContent) {
+        if (!tabContent) return;
+
+        // Hide all tabs first
+        document.querySelectorAll('.tabcontent').forEach((el) => (el.style.display = 'none'));
+        document.querySelectorAll('.tablinks').forEach((btn) => btn.classList.remove('active'));
+
+        // Show this tab
+        tabContent.style.display = 'block';
+        this.currentTab = tabContent.id;
+
+        // Activate corresponding button
+        const metalType = tabContent.getAttribute('data-metal');
+        const tabButton = document.querySelector(`.tablinks[data-metal="${metalType}"]`);
+        if (tabButton) {
+          tabButton.classList.add('active');
+        }
+      },
+
+      autoSelectVariantInTab(tabContent) {
+        if (!tabContent) return;
+
+        const currentVariantId = window.ProductState.selectedVariantId;
+
+        // Check if current variant exists in this tab
+        let variantToSelect = tabContent.querySelector(`.variant-link[data-variant-id="${currentVariantId}"]`);
+
+        // If not found, select first available variant in tab
+        if (!variantToSelect) {
+          variantToSelect = tabContent.querySelector('.variant-link');
+        }
+
+        if (variantToSelect) {
+          const variantId = variantToSelect.getAttribute('data-variant-id');
+          this.selectVariantById(variantId, false); // Don't trigger price update yet
+        }
+      },
+
+      selectVariantById(variantId, triggerPriceUpdate = true) {
+        console.log('🎯 selectVariantById called:', {
+          variantId,
+          triggerPriceUpdate,
+          currentVariant: window.ProductState.selectedVariantId,
+        });
+
+        // Update visual selection
+        document.querySelectorAll('.variant-box').forEach((box) => {
+          box.classList.remove('selected');
+        });
+
+        const selectedBox = document.querySelector(`.variant-box[data-variant-id="${variantId}"]`);
+        if (selectedBox) {
+          selectedBox.classList.add('selected');
+        }
+
+        // Update form inputs
+        const variantInput = document.getElementById('SelectedVariantId');
+        if (variantInput) {
+          variantInput.value = variantId;
+        }
+
+        // Update main product form
+        const mainForm = document.querySelector('form[action*="/cart/add"]');
+        if (mainForm) {
+          const mainVariantInput = mainForm.querySelector('input[name="id"]');
+          if (mainVariantInput) {
+            mainVariantInput.value = variantId;
+          }
+        }
+
+        // FIXED: Always update ProductState, but handle price update correctly
+        const previousVariantId = window.ProductState.selectedVariantId;
+        window.ProductState.selectedVariantId = variantId;
+        window.ProductState.updateURL();
+
+        // Trigger price update if requested OR if variant actually changed
+        if (triggerPriceUpdate || previousVariantId !== variantId) {
+          console.log('💰 Triggering price update for variant:', variantId);
+          window.ProductState.updatePrice();
+          window.ProductState.dispatchVariantChangeEvent();
+        }
+
+        // Update pickup availability
+        const pickupEl = document.querySelector('pickup-availability');
+        if (pickupEl && typeof pickupEl.fetchAvailability === 'function') {
+          pickupEl.fetchAvailability(variantId);
+        }
+      },
+    };
+
+    // Public functions for onclick handlers
+    window.openVariantTab = function (evt, tabName) {
+      VariantTabManager.openTab(tabName);
+    };
+
+    window.selectVariant = function (variantId, element) {
+      VariantTabManager.selectVariantById(variantId);
+    };
+
+    // Initialize when DOM is ready
+    function initialize() {
+      console.log('🎬 VariantTabManager initializing...');
+      VariantTabManager.init();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function () {
+        console.log('📄 DOM Content Loaded - initializing VariantTabManager');
+        initialize();
+      });
+    } else {
+      console.log('📄 DOM already ready - initializing VariantTabManager immediately');
+      initialize();
+    }
+
+    // Handle browser back/forward navigation
+    window.addEventListener('pageshow', (event) => {
+      if (event.persisted) {
+        // Browser back/forward navigation - preserve URL parameters
+        setTimeout(() => {
+          // Re-read URL parameters to get the correct state
+          const url = new URL(window.location);
+          const urlVariant = url.searchParams.get('variant');
+          const urlSize = url.searchParams.get('size');
+
+          if (urlVariant) {
+            window.ProductState.selectedVariantId = urlVariant;
+          }
+          if (urlSize) {
+            window.ProductState.selectedSize = urlSize;
+            const sizeSelect = document.getElementById('custom-size-selector');
+            if (sizeSelect) {
+              sizeSelect.value = urlSize;
+            }
+          }
+
+          VariantTabManager.initializeFromURL();
+
+          // Trigger price update with the correct variant and size
+          if (urlVariant && urlSize) {
+            window.ProductState.updatePrice();
+            VariantTabManager.updateAllVariantPrices();
+          }
+        }, 100);
+      }
+    });
+  })();
+</script>

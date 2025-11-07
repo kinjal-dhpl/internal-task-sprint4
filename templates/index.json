@@ -1,0 +1,822 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "page_9B9HkT": {
+      "type": "page",
+      "disabled": true,
+      "settings": {
+        "page": "",
+        "heading_size": "h1",
+        "color_scheme": "",
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "image_banner_CKAHJW": {
+      "type": "image-banner",
+      "blocks": {
+        "heading_hkkBeL": {
+          "type": "heading",
+          "settings": {
+            "heading": "RINGS & I",
+            "heading_size": "h1"
+          }
+        },
+        "text_MfHLKC": {
+          "type": "text",
+          "settings": {
+            "text": "India's First Ever Designer Diamond Ring Studio",
+            "text_style": "body"
+          }
+        },
+        "buttons_4bTbGj": {
+          "type": "buttons",
+          "settings": {
+            "button_label_1": "Book An Appointment",
+            "button_link_1": "shopify://pages/appointment-booking",
+            "button_style_secondary_1": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_hkkBeL",
+        "text_MfHLKC",
+        "buttons_4bTbGj"
+      ],
+      "disabled": true,
+      "custom_css": [
+        ".banner__content.banner__content--middle-center {justify-content: flex-start;}",
+        ".banner__box {background-color: transparent; padding: 0;}",
+        "h2 {color: #fff; font-size: 64px; font-family: \"oregon-ldo-medium\";}",
+        "p {color: #fff; font-size: 16px; font-family: \"oregon-ldo-medium\";}",
+        "a {background-color: #1c1c1c; width: 360px; box-shadow: 0px 11px 11.4px 0px #ffffff40; border-radius: 200px; color: #fff !important; opacity: 1; font-family: \"oregon-ldo-medium\"; margin-top: 10px;}",
+        "a.button:hover::before,a.button:hover::after {display: none;}"
+      ],
+      "settings": {
+        "image_overlay_opacity": 0,
+        "banner_link": "",
+        "image_height": "medium",
+        "desktop_content_position": "middle-center",
+        "show_text_box": true,
+        "desktop_content_alignment": "left",
+        "color_scheme": "",
+        "image_behavior": "none",
+        "mobile_content_alignment": "center",
+        "stack_images_on_mobile": false,
+        "show_text_below": false
+      }
+    },
+    "custom_liquid_tYRARY": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "<!-- Mobile Video Banner -->\n<div class=\"mobile-banner\" style=\"padding: 0; margin: 0; display: none;\">\n  <video autoplay muted loop playsinline style=\"width: 100vw; height: auto; object-fit: cover;\">\n    <source src=\"https://cdn.shopify.com/videos/c/o/v/8eadbf24f7eb43ba936f60142da088d1.mp4\" type=\"video/mp4\">\n    Your browser does not support the video tag.\n  </video>\n</div>\n\n<!-- Add Media Query to Hide/Show Based on Device -->\n<style>\n  /* Hide the mobile banner and entire section on desktop */\n  @media (min-width: 769px) {\n    .mobile-banner {\n      display: none; /* Ensure the entire block is hidden on desktop */\n    }\n  }\n\n  /* Show the banner only on screens below 768px (mobile) */\n  @media (max-width: 768px) {\n    .mobile-banner {\n      display: block; /* Show the video banner on mobile */\n      padding: 0;\n      margin: 0;\n      width: 100vw;\n      height: auto; /* Adjust based on video height */\n      overflow: hidden; /* Prevent overflow */\n    }\n\n    .mobile-banner video {\n      width: 100vw;\n      height: auto;\n      object-fit: cover; /* Cover the section with the video */\n    }\n  }\n</style>",
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "feature_image_home_7PAgtD": {
+      "type": "feature-image-home",
+      "settings": {
+        "heading_text": "Personalised Diamond Engagement Rings",
+        "feature_1_text": "Try 1200+ Designs",
+        "feature_2_text": "9 Price Options Per Design",
+        "feature_3_text": "Pick Your Personal Price",
+        "feature_4_text": "Personalise Your Ring"
+      }
+    },
+    "rich_text_qHpCFd": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_9tRUz4": {
+          "type": "heading",
+          "settings": {
+            "heading": "Step 1",
+            "heading_size": "h2"
+          }
+        }
+      },
+      "block_order": [
+        "heading_9tRUz4"
+      ],
+      "custom_css": [
+        "h2 {font-family: \"oregon-ldo-medium\"; font-size: 35px;}"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 80,
+        "padding_bottom": 0
+      }
+    },
+    "rich_text_btgm4J": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_PGCxHW": {
+          "type": "heading",
+          "settings": {
+            "heading": "Explore Options",
+            "heading_size": "h1"
+          }
+        },
+        "text_fad6xL": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Try 1200 Designs in Person</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_PGCxHW",
+        "text_fad6xL"
+      ],
+      "custom_css": [
+        "h2 {font-size: 28px; font-family: \"oregon-ldo-medium\"; background: #924c26; background: linear-gradient(to right, #924c26 0%, #ce875e 49%, #924c26 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;}",
+        ".rich-text__text {margin-top: 10px;}",
+        "p {font-family: \"oregon-ldo-medium\"; font-size: 16px; background: #924c26; background: linear-gradient(to right, #924c26 0%, #ce875e 49%, #924c26 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;}"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 0,
+        "padding_bottom": 20
+      }
+    },
+    "custom_liquid_qgFcf7": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "<img class=\"s1-giff\" src=\"https://cdn.shopify.com/s/files/1/0843/6917/8903/files/horizontal.gif?v=1717273847\">\n\n<img class=\"s1-giff-mob\" src=\"https://cdn.shopify.com/s/files/1/0843/6917/8903/files/Untitled-6.gif?v=1717274248\">",
+        "color_scheme": "",
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "step_2_6qmmGk": {
+      "type": "step-2",
+      "blocks": {
+        "col_KdMLxg": {
+          "type": "col",
+          "settings": {
+            "text": "Occasion"
+          }
+        },
+        "col_bRbBbT": {
+          "type": "col",
+          "settings": {
+            "text": "Personality"
+          }
+        },
+        "col_nYj9LB": {
+          "type": "col",
+          "settings": {
+            "text": "Lifestyle"
+          }
+        }
+      },
+      "block_order": [
+        "col_KdMLxg",
+        "col_bRbBbT",
+        "col_nYj9LB"
+      ],
+      "settings": {
+        "title": "Step 2",
+        "title2": "Find Your Ring Style",
+        "subtitle": "Using AI Driven Style Mapping",
+        "video_url": "https://cdn.shopify.com/videos/c/o/v/dd37459d976b4b87b70d3e4a4f714cb7.mp4",
+        "title_right": "Rings For Every"
+      }
+    },
+    "step_3_x6b4Fe": {
+      "type": "step-3",
+      "settings": {
+        "title": "Step 3",
+        "title2": "View Price Options",
+        "subtitle": "12 Price Options For Each Design",
+        "selected_product": "eternal-glow-women-ring"
+      }
+    },
+    "step_4_FFUaaY": {
+      "type": "step-4",
+      "settings": {
+        "title": "Step 4",
+        "title2": "Pick Your Personal Price",
+        "subtitle": "Understand What’s Best For You",
+        "image_left_url": "https://cdn.shopify.com/s/files/1/0843/6917/8903/files/step-4-web.gif?v=1717274857",
+        "image_right_url": "https://cdn.shopify.com/s/files/1/0843/6917/8903/files/Untitled-4.gif?v=1717274857"
+      }
+    },
+    "step_5_7XQC9t": {
+      "type": "step-5",
+      "blocks": {
+        "col_wX4jY7": {
+          "type": "col",
+          "settings": {
+            "text": ""
+          }
+        }
+      },
+      "block_order": [
+        "col_wX4jY7"
+      ],
+      "settings": {
+        "title": "Step 5",
+        "title2": "Personalise Your Ring",
+        "subtitle": "Size | Engraving | Metal Tones | Metal Finishes",
+        "video_url": "https://cdn.shopify.com/videos/c/o/v/69bce17cf58a44dca01114ecfc933291.webm",
+        "title_right": ""
+      }
+    },
+    "ready_to_buy_rqLgw3": {
+      "type": "ready-to-buy",
+      "blocks": {
+        "col_77cNTV": {
+          "type": "col",
+          "settings": {
+            "text1": "Schedule Store",
+            "text2": "Visit",
+            "button": "Book Studio Appointment",
+            "button_url": "https://ringsandi.com/pages/appointment-booking"
+          }
+        },
+        "row_Ywaa8r": {
+          "type": "row",
+          "settings": {
+            "text1": "Schedule a",
+            "text2": "Video Call",
+            "button": "Book Virtual Appointment",
+            "button_url": "https://ringsandi.com/pages/book-an-appointment"
+          }
+        },
+        "row_AcnRB8": {
+          "type": "row",
+          "settings": {
+            "text1": "Chat on",
+            "text2": "WhatsApp",
+            "button": "Talk to Our Ring Expert",
+            "button_url": "https://ringsandi.com/pages/book-an-appointment"
+          }
+        }
+      },
+      "block_order": [
+        "col_77cNTV",
+        "row_Ywaa8r",
+        "row_AcnRB8"
+      ],
+      "settings": {
+        "title": "Ready to buy your ring?",
+        "subtitle": "Connect with our experts"
+      }
+    },
+    "perfect_ring_JCVeLq": {
+      "type": "perfect-ring",
+      "settings": {
+        "title": "Start Style Mapping",
+        "subtitle": "Lets find your perfect ring design with a quick quiz",
+        "right_title": "Hi, I am Ringmaster AI",
+        "right_button": "find my perfect ring",
+        "right_button_url": "/pages/find-your-ring"
+      }
+    },
+    "landing_collection_slider_r6LfFM": {
+      "type": "landing-collection-slider",
+      "settings": {
+        "title": "rings for every occasion",
+        "subtitle": "Crafting Timeless Rings To Commemorate Your Most Cherished Occasions",
+        "collection_list": [
+          "wedding",
+          "wedding-proposal",
+          "to-be-mother",
+          "parent",
+          "office-wear",
+          "milestone-anniversary",
+          "graduation",
+          "cocktail-parties",
+          "milestone-birthday",
+          "engagement-1",
+          "self-gifting-1",
+          "birthday-gift",
+          "daily-wear",
+          "gifting",
+          "anniversary"
+        ]
+      }
+    },
+    "rich_text_tXD6RC": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_dWWggT": {
+          "type": "heading",
+          "settings": {
+            "heading": "Testimonials",
+            "heading_size": "h1"
+          }
+        },
+        "text_TWcWKg": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Heart-Warming Client Connections</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_dWWggT",
+        "text_TWcWKg"
+      ],
+      "custom_css": [
+        "h2 {font-size: 56px; font-family: \"oregon-ldo-medium\"; color: #1c1c1c;}",
+        ".rich-text__text {margin-top: 5px;}",
+        "p {font-family: \"oregon-ldo-medium\"; font-size: 16px; color: #a5a5a5;}"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 0
+      }
+    },
+    "multicolumn_B9KaVH": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_aNJxU4": {
+          "type": "column",
+          "settings": {
+            "title": "",
+            "text": "<p>We Had An Excellent Experience With Rings & I And I Would Highly Recommend Their Services. The Team Is Very Professional And We Were Super Happy With The Results. We Wanted ......</p>",
+            "link_label": "Emily Rousseau & Gareth Smith",
+            "link": ""
+          }
+        },
+        "column_paA4H6": {
+          "type": "column",
+          "settings": {
+            "title": "",
+            "text": "<p>I had a great time at RINGS & I, it felt like being a kid in a candy shop because there were so many choices. The people working there were very kind and took their time to teach me about the rings. They made...</p>",
+            "link_label": "Rajlaxmi Patil",
+            "link": ""
+          }
+        },
+        "column_9pAkX3": {
+          "type": "column",
+          "settings": {
+            "title": "",
+            "text": "<p>If you want a special, personalized diamond ring, \"Rings & I studio\" is the best. They work with you to create exactly what you're looking for, and their prices are good. They have a \"Concept Tour\" that s....</p>",
+            "link_label": "Aishwarya Hodage",
+            "link": ""
+          }
+        },
+        "column_q7tnaB": {
+          "type": "column",
+          "settings": {
+            "title": "",
+            "text": "<p>I Haven't Seen Many Designs For Male Diamond Ring In The Market. It Was My Engagement & I Had To Make To Sure That The Ring I Select Resembles Who I Am. A Friend Introduced Me To Rings & I And Al...</p>",
+            "link_label": "Sanket Kamble",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_aNJxU4",
+        "column_paA4H6",
+        "column_9pAkX3",
+        "column_q7tnaB"
+      ],
+      "custom_css": [
+        ".multicolumn-card-spacing {padding: 0; margin: 0;}",
+        ".multicolumn-card {box-shadow: 4px 12px 40px 6px #00000017; background: #ffffff !important; border-radius: 12px; padding-bottom: 50px;}",
+        "p {font-size: 14px; color: #000000; font-family: \"oregon-ldo-medium\";}",
+        "a {pointer-events: none; color: #be877b; font-size: 16px; font-family: \"oregon-ldo-medium\"; position: absolute; bottom: 20px; text-align: center; width: 100%; left: 0; right: 0;}",
+        "a span {display: none;}"
+      ],
+      "settings": {
+        "title": "",
+        "heading_size": "h1",
+        "image_width": "full",
+        "image_ratio": "adapt",
+        "columns_desktop": 4,
+        "column_alignment": "left",
+        "background_style": "primary",
+        "button_label": "",
+        "button_link": "",
+        "color_scheme": "",
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "rich_text_HteCyG": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_VADk7U": {
+          "type": "heading",
+          "settings": {
+            "heading": "FAQ’S",
+            "heading_size": "h1"
+          }
+        },
+        "text_9QWgjW": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Trust us, there is an answer to every question</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_VADk7U",
+        "text_9QWgjW"
+      ],
+      "custom_css": [
+        "h2 {font-size: 56px; font-family: \"oregon-ldo-medium\"; color: #1c1c1c;}",
+        ".rich-text__text {margin-top: 5px;}",
+        "p {font-family: \"oregon-ldo-medium\"; font-size: 16px; color: #a5a5a5;}"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 0
+      }
+    },
+    "nested_faq_FQybnH": {
+      "type": "nested-faq",
+      "blocks": {
+        "row_T8rPhp": {
+          "type": "row",
+          "settings": {
+            "question": "What will I get different at RINGS & I?",
+            "answer": "<p>RINGS & I is a personalised diamond ring studio.<br/>You get made-to-order diamond rings <br/>We have 1200 design prototypes for you to try in person <br/>You can pick a design, choose your size, metal tone, metal finish, engrave it<br/>Then you pick a personal price out of the 9 price options we offer and place an order</p>"
+          }
+        },
+        "row_C4JH3N": {
+          "type": "row",
+          "settings": {
+            "question": "Why do you have 12 prices?",
+            "answer": "<p>We believe you should only pay for what you need and you should have the flexibility to pick a design & price combination that suits you.<br/>We offer 3 options in metal & diamond colour-clarity. This make 9 price variants. It's just like car variants. Pick the one that suits you and we can help you with a recommendation</p>"
+          }
+        },
+        "row_EUzWgK": {
+          "type": "row",
+          "settings": {
+            "question": "Where are you located?",
+            "answer": "<p>We are currently in Pune at Sadashiv Peth.</p><p>Google location:<br/>We will soon be available in Mumbai | Bengaluru | Delhi<br/>Until then you can book a virtual appointment with us for other locations.</p>"
+          }
+        },
+        "row_FmDGnM": {
+          "type": "row",
+          "settings": {
+            "question": "Are there any extra charges for booking an appointment?",
+            "answer": "<p>No extra charges for booking an appointment.</p>"
+          }
+        },
+        "row_r8cUeP": {
+          "type": "row",
+          "settings": {
+            "question": "Am I expected to buy after booking the appointment?",
+            "answer": "<p>No, the appointment is for you to explore and understand. You can buy only if you like our process and get exactly what you want</p>"
+          }
+        },
+        "row_tVErcD": {
+          "type": "row",
+          "settings": {
+            "question": "Can I understand online before I visit?",
+            "answer": "<p>Absolutely, we do have a virtual appointment setup. You can choose the method of interaction that is most convenient and preferable for you. You can also mix it…choosing to do some parts online and others in-person</p>"
+          }
+        },
+        "row_9j7VVT": {
+          "type": "row",
+          "settings": {
+            "question": "How long is the appointment?",
+            "answer": ""
+          }
+        }
+      },
+      "block_order": [
+        "row_T8rPhp",
+        "row_C4JH3N",
+        "row_EUzWgK",
+        "row_FmDGnM",
+        "row_r8cUeP",
+        "row_tVErcD",
+        "row_9j7VVT"
+      ],
+      "settings": {
+        "title": "About Rings & I- Peronsliased Diamond Ring Studio"
+      }
+    },
+    "nested_faq_RDFMgq": {
+      "type": "nested-faq",
+      "blocks": {
+        "row_FxrNR9": {
+          "type": "row",
+          "settings": {
+            "question": "Are the Diamonds in my Ring authentic & certified?",
+            "answer": "<p>We have 32 quality steps to ensure the authenticity. We offer exchange and buyback facilities at appreciated prices</p>"
+          }
+        },
+        "row_wJT9Xh": {
+          "type": "row",
+          "settings": {
+            "question": "Which certifications are used?",
+            "answer": "<p>GIA, IGI, EGL, SGL</p>"
+          }
+        },
+        "row_XKRMtK": {
+          "type": "row",
+          "settings": {
+            "question": "I lost my certificate, can I get a duplicate?",
+            "answer": "<p>Yes we can recertify your diamond ring with respective certification charges</p>"
+          }
+        }
+      },
+      "block_order": [
+        "row_FxrNR9",
+        "row_wJT9Xh",
+        "row_XKRMtK"
+      ],
+      "settings": {
+        "title": "Certification & Authenticity"
+      }
+    },
+    "nested_faq_nMKxdy": {
+      "type": "nested-faq",
+      "blocks": {
+        "row_Ht3bMd": {
+          "type": "row",
+          "settings": {
+            "question": "Do you work in natural diamonds or lab-grown diamonds?",
+            "answer": "<p>We proudly offer both natural and lab-grown diamonds, blending nature's timeless beauty with eco-friendly innovation. Both options ensure exceptional quality and value for our customers.</p>"
+          }
+        },
+        "row_wpm3Fk": {
+          "type": "row",
+          "settings": {
+            "question": "Do you work in solitaires?",
+            "answer": "<p>Yes we offer multiple sizes and shapes of solitaires</p>"
+          }
+        },
+        "row_i6RzB3": {
+          "type": "row",
+          "settings": {
+            "question": "Are your diamonds certified?",
+            "answer": "<p>Yes, we have GIA, IGI, EGL & SGL options for certifications. These are all govt. approved 3rd party certification labs</p>"
+          }
+        },
+        "row_yWdMQ3": {
+          "type": "row",
+          "settings": {
+            "question": "We saw on social media that you provide information on diamond pricing?",
+            "answer": "<p>This brand was created by engineers who are not jewellers by background.<br/>We believe that diamond pricing is complex and people need to know a few hacks to get the best<br/>in the amount they plan to pay. Hence we help you understand what impacts a diamond price so you get more in the same price</p>"
+          }
+        },
+        "row_Bdrfea": {
+          "type": "row",
+          "settings": {
+            "question": "What is the difference between natural & lab-created Diamonds?",
+            "answer": "<p>Lab-created stones are formed in a controlled environment whereas natural gemstones are<br/>formed by Mother Nature’s natural processes. They are chemically same however priced differently</p>"
+          }
+        },
+        "row_TYVeWK": {
+          "type": "row",
+          "settings": {
+            "question": "What metal options do you offer?",
+            "answer": "<p>We offer Platinum, 14KT gold & 18 KT gold as metal options<br/>We offer 3 gold tones - Yellow, White & Rose<br/>You can pick the metal & tone for any design of your choice<br/>You can see them in person before you make the choice</p>"
+          }
+        },
+        "row_EMGVyd": {
+          "type": "row",
+          "settings": {
+            "question": "What is the difference between White Gold & Platinum?",
+            "answer": "<p>White gold is pure gold that is mixed with alloys to give it a white color.<br/>Platinum is pure metal that is naturally white. White gold is also a much lighter metal than platinum, which can better suit people who don't desire heavy metals in their rings.</p>"
+          }
+        },
+        "row_bMDaGQ": {
+          "type": "row",
+          "settings": {
+            "question": "Do you work with stones other than diamonds?",
+            "answer": "<p>Absolutely! We work with all gemstones. We can even help you figure out what would be the best gemstone if you had say a preference for a certain color. You can see 24 varieties of natural gemstones during your appointment</p>"
+          }
+        }
+      },
+      "block_order": [
+        "row_Ht3bMd",
+        "row_wpm3Fk",
+        "row_i6RzB3",
+        "row_yWdMQ3",
+        "row_Bdrfea",
+        "row_TYVeWK",
+        "row_EMGVyd",
+        "row_bMDaGQ"
+      ],
+      "settings": {
+        "title": "Diamonds, Gemstones & Metals"
+      }
+    },
+    "nested_faq_efUt98": {
+      "type": "nested-faq",
+      "blocks": {
+        "row_tGF3gY": {
+          "type": "row",
+          "settings": {
+            "question": "Are the Diamonds in my Ring authentic & certified?",
+            "answer": "<p>We have 32 quality steps to ensure the authenticity. We offer exchange and buyback facilities at appreciated prices</p>"
+          }
+        },
+        "row_aCRjFn": {
+          "type": "row",
+          "settings": {
+            "question": "Which certifications are used?",
+            "answer": "<p>GIA, IGI, EGL, SGL</p>"
+          }
+        },
+        "row_jwrMW4": {
+          "type": "row",
+          "settings": {
+            "question": "Why are your prices lower as compared to other brands?",
+            "answer": "<p>We are a D2C Brand, which means we are a factory outlet. We do not have any wholesalers or distributors in between. Thus from raw material to making, it is<br/>only us which saves you 20-25% of your cost even after all the personalised  services that we offer</p>"
+          }
+        }
+      },
+      "block_order": [
+        "row_tGF3gY",
+        "row_aCRjFn",
+        "row_jwrMW4"
+      ],
+      "settings": {
+        "title": "Certification & Authenticity"
+      }
+    },
+    "nested_faq_WKxeYq": {
+      "type": "nested-faq",
+      "blocks": {
+        "row_mQfU6G": {
+          "type": "row",
+          "settings": {
+            "question": "Do you offer exchange?",
+            "answer": "<p>Yes, we do offer a lifetime exchange with 100% appreciated value of gold & 100 % appreciated value of diamond</p>"
+          }
+        },
+        "row_A7eN84": {
+          "type": "row",
+          "settings": {
+            "question": "Do you offer a buyback?",
+            "answer": "<p>Yes, we offer a lifetime buyback. 100% on appreciated value of gold & 90% of appreciated value of diamonds.<br/>We deduct the making & GST</p>"
+          }
+        },
+        "row_9GTmy7": {
+          "type": "row",
+          "settings": {
+            "question": "What if I do not like the product after it is made?",
+            "answer": "<p>We have a 15 day no questions asked return policy. You shall get 100% of your invoice value inclusive of GST back. We want you to love and flaunt what you wear. From the day of delivery message within 15 days you can return the product to us</p>"
+          }
+        },
+        "row_dqQqqz": {
+          "type": "row",
+          "settings": {
+            "question": "Do you buyback other gold & diamond products we have?",
+            "answer": "<p>We do not purchase other diamond products as a lot of brands do not provide third party certifications to determine the value of diamonds. We do take gold as advance post verification of the Karat & weight.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "row_mQfU6G",
+        "row_A7eN84",
+        "row_9GTmy7",
+        "row_dqQqqz"
+      ],
+      "settings": {
+        "title": "Exchange, Buyback"
+      }
+    },
+    "nested_faq_iLgPyi": {
+      "type": "nested-faq",
+      "blocks": {
+        "row_XgcN8j": {
+          "type": "row",
+          "settings": {
+            "question": "What if my ring size needs to be modified after the ring is made?",
+            "answer": "<p>In 90% of the designs, we can modify the size by a +/- 1 after it is made (unless there are complications in design due to which this may not be possible). We offer this free of cost as we have our own manufacturing. If the ring size needs to be modified beyond +/- one, we need to remake the ring in which case making charges shall be applicable</p>"
+          }
+        },
+        "row_3gP6Rz": {
+          "type": "row",
+          "settings": {
+            "question": "What if my diamond falls after I buy the ring?",
+            "answer": "<p>We offer repair services free of cost for 1 year after the product is handed over to you. You need to only pay the cost of goods (diamond, gemstone incase it is lost). Post 1 year, repair charges shall be applicable at actual</p>"
+          }
+        }
+      },
+      "block_order": [
+        "row_XgcN8j",
+        "row_3gP6Rz"
+      ],
+      "settings": {
+        "title": "Repairs & Services"
+      }
+    },
+    "nested_faq_YXiTjL": {
+      "type": "nested-faq",
+      "blocks": {
+        "row_FzPMPk": {
+          "type": "row",
+          "settings": {
+            "question": "Where do you deliver in India?",
+            "answer": "<p>All over India</p>"
+          }
+        },
+        "row_rXiFPe": {
+          "type": "row",
+          "settings": {
+            "question": "I live outside India. Can I order for something to be delivered in India?",
+            "answer": "<p>Yes, we have virtual appointment setup</p>"
+          }
+        },
+        "row_hmytBx": {
+          "type": "row",
+          "settings": {
+            "question": "Does RINGS & I deliver internationally?",
+            "answer": "<p>We currently ship to selective regions outside India, please contact us to know the details.</p>"
+          }
+        },
+        "row_cKGhhr": {
+          "type": "row",
+          "settings": {
+            "question": "How safe is my product?",
+            "answer": "<p>We have a trust worthy logistic service and your product is insured since it is a high-value good</p>"
+          }
+        },
+        "row_6U9RHz": {
+          "type": "row",
+          "settings": {
+            "question": "How will I know when my order is ready for pick up at the studio?",
+            "answer": "<p>You will receive a whatsapp status message advising you when your ring is expected to be ready and you’ll receive call to schedule the delivery</p>"
+          }
+        }
+      },
+      "block_order": [
+        "row_FzPMPk",
+        "row_rXiFPe",
+        "row_hmytBx",
+        "row_cKGhhr",
+        "row_6U9RHz"
+      ],
+      "settings": {
+        "title": "Shipping & Delivery"
+      }
+    },
+    "custom_liquid_764FUQ": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "<style>\n  .location-container {\n    font-family: 'oregon-ldo-medium';\n    letter-spacing: normal;\n    text-align: center;\n  }\n  .location-container h2 {\n    color: black;\n    margin-bottom: 5px;\n  font-family: 'oregon-ldo-medium';\n  }\n  .location-container p {\n    font-size: 16px;\n    color: #f5f5f;\n    margin-top: 0;\n  }\n  .location-container iframe {\n    border: 0;\n    margin: 0 auto;\n    margin-bottom:20px;\n    border-radius:20px;\n  }\n</style>\n\n<div class=\"location-container\">\n  <!-- Pune Location -->\n  <h2>Location for Pune</h2>\n  <p>Open in Google Maps</p>\n  <iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3783.558558262521!2d73.84800367496246!3d18.503644482586612!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c00daa57b0d3%3A0xbb5c2a971b226fa6!2sRings%20%26%20I%20-%20Personalised%20Engagement%20Ring%20Studio!5e0!3m2!1sen!2sca!4v1716597301827!5m2!1sen!2sca\" \n    width=\"90%\" \n    height=\"200\" \n    allowfullscreen=\"\" \n    loading=\"lazy\" \n    referrerpolicy=\"no-referrer-when-downgrade\">\n  </iframe>\n\n  <!-- Mumbai Location -->\n  <h2 style=\"margin-top: 20px;\">Location for Mumbai</h2>\n  <p>Open in Google Maps</p>\n  <iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3767.235968686276!2d72.84855337498142!3d19.22854518200771!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b1536816f8af%3A0xe4d696a255e797c8!2sRINGS%20%26%20I%20-%20Personalised%20Engagement%20Ring%20Studio%20(Mumbai)!5e0!3m2!1sen!2sin!4v1735466082615!5m2!1sen!2sin\" \n    width=\"90%\" \n    height=\"200\" \n    allowfullscreen=\"\" \n    loading=\"lazy\" \n    referrerpolicy=\"no-referrer-when-downgrade\">\n  </iframe>\n</div>",
+        "color_scheme": "",
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    }
+  },
+  "order": [
+    "page_9B9HkT",
+    "image_banner_CKAHJW",
+    "custom_liquid_tYRARY",
+    "feature_image_home_7PAgtD",
+    "rich_text_qHpCFd",
+    "rich_text_btgm4J",
+    "custom_liquid_qgFcf7",
+    "step_2_6qmmGk",
+    "step_3_x6b4Fe",
+    "step_4_FFUaaY",
+    "step_5_7XQC9t",
+    "ready_to_buy_rqLgw3",
+    "perfect_ring_JCVeLq",
+    "landing_collection_slider_r6LfFM",
+    "rich_text_tXD6RC",
+    "multicolumn_B9KaVH",
+    "rich_text_HteCyG",
+    "nested_faq_FQybnH",
+    "nested_faq_RDFMgq",
+    "nested_faq_nMKxdy",
+    "nested_faq_efUt98",
+    "nested_faq_WKxeYq",
+    "nested_faq_iLgPyi",
+    "nested_faq_YXiTjL",
+    "custom_liquid_764FUQ"
+  ]
+}

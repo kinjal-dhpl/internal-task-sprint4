@@ -1,0 +1,185 @@
+<div class="custom-banner">
+    <!-- Left Side: Image -->
+    <img id="bannerSlideshow" src="{{ section.settings.ring_image_1 | image_url }}" alt="Engagement Ring Test Drive">
+
+    <!-- Right Side: Text Content -->
+    <div class="banner-content">
+        <h1>{{ section.settings.banner_title }}</h1>
+        <p>{{ section.settings.banner_text }}</p>
+        <a href="{{ section.settings.button_link }}" class="book-appointment">{{ section.settings.button_text }}</a>
+    </div>
+</div>
+
+<!-- Schema (SEO-optimized JSON-LD) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "{{ section.settings.banner_title }}",
+  "description": "{{ section.settings.banner_text }}",
+  "url": "{{ shop.url }}/custom-engagement-ring"
+}
+</script>
+
+<!-- Inline CSS -->
+<style>
+    /* Banner Container */
+    .custom-banner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1200px;
+        margin: auto;
+        padding: 20px;
+        background-color: #f2f2f2; /* Light background */
+    }
+
+    /* Left Side - Image */
+    .custom-banner img {
+        width: 60%;
+        max-width: 750px;
+        height: auto;
+        display: block;
+        border-radius: 10px;
+    }
+
+    /* Right Side - Text */
+    .banner-content {
+        width: 35%;
+        text-align: center;
+        font-family: "oregon-ldo-medium";
+    }
+
+    .banner-content h1 {
+        font-size: 34px;
+        margin-bottom: 10px;
+        font-family: "oregon-ldo-medium";
+    }
+
+    .banner-content p {
+        font-size: 17px;
+        color: #666;
+        margin-bottom: 20px;
+    }
+
+    /* Book An Appointment Button */
+    .book-appointment {
+        display: inline-block;
+        background: black;
+        color: white;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 20px;
+        width: 300px;
+        padding: 10px 24px;
+        text-align: center;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+        .custom-banner {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .custom-banner img {
+            width: 100%;
+            max-width: 500px;
+            margin: 20px 0;
+        }
+
+        /* Force center alignment for text content */
+        .banner-content {
+            width: 100%;
+            padding: 20px;
+            text-align: center !important;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: "oregon-ldo-medium";
+        }
+
+        .banner-content h1 {
+            font-size: 28px; /* Adjusted for mobile */
+            font-family: "oregon-ldo-medium";
+        }
+
+        .book-appointment {
+            width: 300px;
+            font-size: 16px;
+        }
+    }
+</style>
+
+<!-- JavaScript for Image Slideshow -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  let images = [
+    "{{ section.settings.ring_image_1 | image_url }}",
+    "{{ section.settings.ring_image_2 | image_url }}",
+    "{{ section.settings.ring_image_3 | image_url }}"
+  ].filter(src => src !== ""); // Removes empty images
+
+  let index = 0;
+  const slideshowImage = document.getElementById("bannerSlideshow");
+
+  function changeImage() {
+    index = (index + 1) % images.length;
+    slideshowImage.src = images[index];
+  }
+
+  setInterval(changeImage, 1000); // Image changes every second
+});
+</script>
+
+<!-- Shopify Section Schema -->
+{% schema %}
+{
+  "name": "Engagement Ring Banner",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "ring_image_1",
+      "label": "Ring Image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "ring_image_2",
+      "label": "Ring Image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "ring_image_3",
+      "label": "Ring Image 3"
+    },
+    {
+      "type": "text",
+      "id": "banner_title",
+      "label": "Title",
+      "default": "Try Before You Buy"
+    },
+    {
+      "type": "textarea",
+      "id": "banner_text",
+      "label": "Description",
+      "default": "Try your dream ring with our Engagement Ring Test Drive experience it, love it, own it."
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Book An Appointment"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Engagement Ring Banner"
+    }
+  ]
+}
+{% endschema %}

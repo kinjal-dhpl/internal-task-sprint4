@@ -1,0 +1,153 @@
+{{ 'component-image-with-text.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .custom-multirow-desktop .image-with-text__grid {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .custom-multirow-desktop .image-with-text__media {
+    flex: 1;
+    max-width: 50%;
+  }
+
+  .gradient-heading {
+    background: #924c26;
+    background: linear-gradient(to right, #924c26 0%, #ce875e 49%, #924c26 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: "oregon-ldo-medium";
+    font-size: 40px;
+  }
+
+  .custom-multirow-desktop .image-with-text__media img {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: contain;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 30px;
+  }
+
+  .custom-multirow-desktop .image-with-text__content {
+    flex: 1;
+    max-width: 50%;
+    font-family: "oregon-ldo-medium";
+    font-size: 20px;
+  }
+
+  @media screen and (max-width: 750px) {
+    .custom-multirow-desktop .image-with-text__grid {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .custom-multirow-desktop .image-with-text__content,
+    .custom-multirow-desktop .image-with-text__media {
+      max-width: 100%;
+    }
+  }
+{%- endstyle -%}
+
+<div class="custom-multirow-desktop section-{{ section.id }}-padding gradient color-{{ section.settings.section_color_scheme }}">
+  <div class="multirow__inner page-width">
+    <!-- Yellow Gold -->
+    <div class="image-with-text__grid">
+      <div class="image-with-text__content">
+        <h2 class="gradient-heading">Yellow Gold</h2>
+        <p>Yellow gold is naturally yellow, but adding metals like silver, copper, nickel, and zinc enhances its warmth and durability. While 24K gold is too soft for daily use, it is alloyed to increase strength. The carat indicates the amount of pure gold; higher purity offers richness but less durability. Yellow gold’s hue varies based on karat and alloy mix, ranging from champagne tones to vivid yellow. It suits most skin tones and provides a timeless, classic appeal.</p>
+      </div>
+      <div class="image-with-text__media">
+        <img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/yellow-gold-new.png?v=1738325831" alt="Yellow Gold">
+      </div>
+    </div>
+
+    <!-- White Gold -->
+    <div class="image-with-text__grid">
+      <div class="image-with-text__media">
+        <img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/white-gold-new.png?v=1738325830" alt="White Gold">
+      </div>
+      <div class="image-with-text__content">
+        <h2 class="gradient-heading">White Gold</h2>
+        <p>White gold has a clean, modern look and is made by alloying gold with white metals like nickel or palladium. This rhodium plating enhances its color and strength but may need occasional reapplication due to wear, which is simple and affordable. White gold resembles silver but is much more durable, making it a popular choice for wedding and engagement rings. It offers the appearance of platinum at a lower price, combining elegance with practicality.</p>
+      </div>
+    </div>
+
+    <!-- Rose Gold -->
+    <div class="image-with-text__grid">
+      <div class="image-with-text__content">
+        <h2 class="gradient-heading">Rose Gold</h2>
+        <p>Rose gold, an alloy of pure gold and copper, is prized for its unique pink hue and rising popularity in fine jewelry. The use of copper, a less expensive metal, makes rose gold more affordable than other golds. Its delicate color symbolizes passion and love, making it a popular choice for engagement rings and gifts. The shades of rose gold range from pink gold to red rose, sometimes incorporating silver for variation. Unlike white gold, it doesn’t require coating but needs frequent polishing to maintain its shine. Though not hypoallergenic, rose gold complements all skin tones beautifully.</p>
+      </div>
+      <div class="image-with-text__media">
+        <img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/rose-gold-new.png?v=1738325331" alt="Rose Gold">
+      </div>
+    </div>
+
+    <!-- Platinum -->
+    <div class="image-with-text__grid">
+      <div class="image-with-text__media">
+        <img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/white-gold-new.png?v=1738325830" alt="Platinum">
+      </div>
+      <div class="image-with-text__content">
+        <h2 class="gradient-heading">Platinum</h2>
+        <p>Platinum, a rare and heavy metal, is prized for its greyish-white color and unmatched durability. Unlike white gold, it lacks a rhodium coating and resists tarnish due to its corrosion-free nature. Renowned for its malleability and hypoallergenic properties, it’s ideal for sensitive skin. Thirty times rarer than gold, platinum is a dazzling, long-lasting choice for jewelry. To be labeled as platinum, a piece must contain at least 90% purity and is often alloyed with metals like iridium or palladium for added strength.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Gold Types Section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 36
+    },
+    {
+      "type": "color_scheme",
+      "id": "section_color_scheme",
+      "label": "Color Scheme",
+      "default": "background-1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Gold Types Section",
+      "category": "Custom Sections"
+    }
+  ]
+}
+{% endschema %}

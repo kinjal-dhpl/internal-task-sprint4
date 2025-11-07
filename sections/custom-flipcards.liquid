@@ -1,0 +1,300 @@
+{% schema %}
+{
+  "name": "Interactive Flip Cards",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "flip_card",
+      "name": "Flip Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question"
+        },
+        {
+          "type": "textarea",
+          "id": "answer",
+          "label": "Answer"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Flip Cards Section",
+      "category": "Custom Sections",
+      "blocks": [
+        {
+          "type": "flip_card"
+        },
+        {
+          "type": "flip_card"
+        },
+        {
+          "type": "flip_card"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<!-- HTML & Liquid Template -->
+<div class="card-container">
+  <div class="arrow left-arrow" onclick="prevCard()">&#10094;</div>
+  <div class="cards-wrapper">
+    {% for block in section.blocks %}
+      <div class="card" id="card{{ forloop.index }}" onclick="flipCard('card{{ forloop.index }}')">
+        <div class="front">
+          <div class="card-number">{{ forloop.index }}</div>
+          <h3>{{ block.settings.question }}</h3>
+          <div class="tap-here-text">TAP HERE</div>
+          <div class="video-container">
+            <img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/Diamond.png?v=1738389225" alt="Diamond" class="diamond-image">
+          </div>
+        </div>
+        <div class="back">
+          <p>{{ block.settings.answer }}</p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  <div class="arrow right-arrow" onclick="nextCard()">&#10095;</div>
+</div>
+
+<!-- JavaScript -->
+<script>
+  let currentIndex = 0;
+  
+  function updateCards() {
+    const cards = document.querySelectorAll('.card');
+    const cardsToShow = window.innerWidth < 768 ? 1 : 2; // Show 1 card on mobile and 2 cards on desktop
+    cards.forEach((card, index) => {
+      if (index >= currentIndex && index < currentIndex + cardsToShow) {
+        card.style.display = 'flex'; // Show the active card(s)
+      } else {
+        card.style.display = 'none'; // Hide inactive cards
+      }
+    });
+  }
+
+  function nextCard() {
+    const cards = document.querySelectorAll('.card');
+    const cardsToShow = window.innerWidth < 768 ? 1 : 2;
+    if (currentIndex + cardsToShow < cards.length) {
+      currentIndex += cardsToShow; // Move forward by 1 card for mobile or 2 cards for desktop
+    }
+    updateCards();
+  }
+
+  function prevCard() {
+    const cardsToShow = window.innerWidth < 768 ? 1 : 2;
+    if (currentIndex - cardsToShow >= 0) {
+      currentIndex -= cardsToShow; // Move backward by 1 card for mobile or 2 cards for desktop
+    }
+    updateCards();
+  }
+
+  function flipCard(cardId) {
+    const card = document.getElementById(cardId);
+    if (card) {
+      card.classList.toggle('flipped');
+    }
+  }
+
+  window.onload = updateCards;
+  window.onresize = updateCards; // Update on resize to adjust for mobile/desktop layout
+</script>
+
+<!-- CSS -->
+<style>
+  /* General Styles */
+  .card-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    margin: 0 auto;
+    padding: 40px 40px;
+    background: linear-gradient(to right, #d8c5a3 0%, #f1e5cd 49%, #d8c5a3 100%);
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(255, 255, 255, 0.4), 
+                0 4px 15px rgba(0, 0, 0, 0.1), 
+                inset 0 2px 6px rgba(255, 255, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cards-wrapper {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    justify-content: center;
+    overflow: hidden; /* Hide extra cards */
+  }
+
+  .card {
+    flex: 0 0 50%; /* Display two cards on desktop */
+    max-width: 400px;
+    height: 280px;
+    background-color: #fff;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    cursor: pointer;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2), inset 0 2px 8px rgba(255, 255, 255, 0.1);
+    transform-style: preserve-3d;
+    transition: transform 0.6s, box-shadow 0.3s ease;
+    position: relative;
+    display: none; /* Initially hide cards */
+  }
+
+  .card.active {
+    display: flex; /* Show the active card */
+  }
+
+  .card .front {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: "oregon-ldo-medium";
+    text-align: center;
+    backface-visibility: visible;
+    border-radius: 20px;
+    font-family: 'Poppins', sans-serif;
+    padding: 20px;
+  }
+
+  .card-number {
+    font-size: 36px;
+    font-family: "oregon-ldo-medium";
+    font-weight: bold;
+    color: #b8a58b; /* One shade darker than #d8c5a3 */
+    background: linear-gradient(45deg, #b8a58b, #d8c5a3, #b8a58b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 4px 6px rgba(255, 255, 255, 0.3);
+    font-family: 'Poppins', sans-serif;
+    margin-bottom: 10px;
+  }
+
+  .card .front h3 {
+    font-size: 18px;
+    font-family: "oregon-ldo-medium";
+    color: black !important; /* Force black color */
+    margin-top: 10px;
+    margin-bottom: 15px;
+  }
+
+  .tap-here-text {
+    font-size: 18px;
+    font-family: "oregon-ldo-medium";
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    padding: 10px;
+    display: inline-block;
+  }
+
+  .clicked {
+    font-weight: bold;
+  }
+
+  .card .back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "oregon-ldo-medium"; 
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    backface-visibility: hidden;
+    border-radius: 20px;
+    padding: 20px;
+    background: white; /* Changed to white */
+    transform: rotateY(180deg);
+  }
+
+  .flipped {
+    transform: rotateY(180deg);
+  }
+
+  .arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #333;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 4px;
+  cursor: pointer;
+  border-radius: 50%;
+  z-index: 10;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.arrow:hover {
+  transform: translateY(-50%) scale(1); /* Keep the arrow in place */
+  font-weight: bold; /* Make the arrow bold */
+  color: #000; /* Change the color to make it highlighted */
+  background: rgba(255, 255, 255, 1); /* Make the background fully opaque */
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Add a stronger shadow */
+}
+
+  .left-arrow {
+    left: 10px;
+  }
+
+  .right-arrow {
+    right: 10px;
+  }
+
+  /* Image Container Styles */
+  .video-container {
+    position: absolute;
+    bottom: -35px; /* Position at the bottom */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for exact centering */
+    width: auto; /* Let the container size adjust to the image */
+    background: white; /* White background for the image */
+    border-radius: 10px;
+    padding: 5px;
+  }
+
+  .diamond-image {
+    width: 85px; /* Adjust the size of the image */
+    height: auto;
+    border-radius: 10px;
+  }
+
+  /* Mobile styles - only 1 card */
+  @media screen and (max-width: 768px) {
+    .card {
+      flex: 0 0 100%; /* Show 1 card at a time on mobile */
+    }
+
+    .arrow {
+      font-size: 16px;
+      padding: 6px;
+    }
+
+    .diamond-image {
+      width: 75px; /* Increase the size of the image for mobile */
+      height: auto; /* Maintain aspect ratio */
+    }
+  }
+</style>

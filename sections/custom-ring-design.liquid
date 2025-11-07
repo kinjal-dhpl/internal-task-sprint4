@@ -1,0 +1,147 @@
+{% schema %}
+{
+  "name": "Custom Ring Design",
+  "settings": [
+    { "type": "image_picker", "id": "ring_image_1", "label": "Ring Image 1" },
+    { "type": "image_picker", "id": "ring_image_2", "label": "Ring Image 2" },
+    { "type": "image_picker", "id": "ring_image_3", "label": "Ring Image 3" },
+    { "type": "image_picker", "id": "ring_image_4", "label": "Ring Image 4" },
+    { "type": "image_picker", "id": "ring_image_5", "label": "Ring Image 5" },
+    { "type": "image_picker", "id": "ring_image_6", "label": "Ring Image 6" },
+    { "type": "text", "id": "title", "label": "Title", "default": "Design Your Custom Engagement Ring" },
+    { "type": "textarea", "id": "description", "label": "Description", "default": "Craft a ring that reflects your unique style and personality." }
+  ],
+  "presets": [{ "name": "Custom Ring Design" }]
+}
+{% endschema %}
+
+<section class="custom-ring-design">
+  <div class="custom-container">
+    <!-- Title -->
+    <h2 class="custom-title">Explore the Beauty of <br> Toi et Moi Rings</h2>
+
+    <!-- Slideshow Container -->
+    <div class="custom-image">
+      {% for i in (1..6) %}
+        {% assign img_key = "ring_image_" | append: i %}
+        {% assign ring_img = section.settings[img_key] %}
+        {% if ring_img %}
+          <img class="ring-img ring-{{ i }}" src="{{ ring_img | image_url }}" alt="Custom Ring {{ i }}">
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    <!-- Description -->
+    <p class="custom-description">{{ section.settings.description }}</p>
+  </div>
+</section>
+
+<style>
+/* Main Container */
+.custom-ring-design {
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+  background-color: #ffffff;
+}
+
+/* Centering Content */
+.custom-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1200px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Heading */
+.custom-title {
+  font-size: 30px;
+  font-family: "oregon-ldo-medium";
+  margin-bottom: 10px;
+}
+
+/* Image Section */
+.custom-image {
+  width: 320px;
+  height: 320px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Default: Hide all images */
+.ring-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(0);
+  transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+}
+
+/* Active Image - Only One Visible at a Time */
+.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Slide-in animation ONLY for Rings 1, 3, 5 */
+.ring-1.active, 
+.ring-3.active, 
+.ring-5.active {
+  transform: translateX(-50px);
+  animation: slideFromLeft 0.8s forwards;
+}
+
+@keyframes slideFromLeft {
+  from {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Instantly replace images 2, 4, 6 */
+.ring-2, .ring-4, .ring-6 {
+  transition: none;
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const images = document.querySelectorAll(".custom-image img");
+  let index = 0;
+
+  function changeImage() {
+    // Hide all images first
+    images.forEach(img => {
+      img.classList.remove("active");
+      img.style.opacity = "0";
+      img.style.visibility = "hidden";
+    });
+
+    // Get the current image
+    let currentImg = images[index];
+
+    // Show the current image
+    currentImg.classList.add("active");
+    currentImg.style.opacity = "1";
+    currentImg.style.visibility = "visible";
+
+    // Move to the next image
+    index = (index + 1) % images.length;
+  }
+
+  setInterval(changeImage, 2000); // Change image every 2 seconds
+  changeImage(); // Initial call
+});
+</script>

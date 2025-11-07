@@ -1,0 +1,9 @@
+{% if customer.tags contains 'sales_rep' %}
+    <script>
+       const endlessAisleUser =  sessionStorage.getItem('EndlessAisleCustomerID');
+       const endlessAisleRedirectLink = document.querySelector('a.endlessMobile');
+       if(endlessAisleUser && endlessAisleRedirectLink ){
+           endlessAisleRedirectLink.setAttribute('href','/pages/endless-aisle-customer-detail');
+       }
+    </script>
+{% endif %}

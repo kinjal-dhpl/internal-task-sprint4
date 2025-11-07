@@ -1,0 +1,267 @@
+{% schema %}
+{
+  "name": "Fingerprint Upload",
+  "class": "fingerprint-upload-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Fingerprint Customization"
+    },
+    {
+      "type": "text",
+      "id": "fee_notice",
+      "label": "Customization Fee Notice",
+      "default": "Additional ₹2000 will be charged for fingerprint customization"
+    },
+    {
+      "type": "text",
+      "id": "upload_label",
+      "label": "Upload Button Label",
+      "default": "Upload Fingerprint Image"
+    },
+    {
+      "type": "color",
+      "id": "notice_color",
+      "label": "Notice Text Color",
+      "default": "#d33"
+    },
+    {
+      "type": "number",
+      "id": "max_file_size",
+      "label": "Maximum File Size (MB)",
+      "default": 4,
+      "info": "Shopify's maximum file size is 20MB"
+    },
+    {
+      "type": "text",
+      "id": "api_token",
+      "label": "Admin API Access Token",
+      "info": "Replace with your private app token (keep it secure!)"
+    },
+    {
+      "type": "product",
+      "id": "fingerprint_product",
+      "label": "Fingerprint Ring Product",
+      "info": "Select the product that requires fingerprint customization"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Fingerprint Upload",
+      "category": "Product"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+.fingerprint-upload-container {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+  gap: 10px;
+}
+.fingerprint-file-name {
+  font-style: italic;
+  color: #666;
+  margin: 0;
+}
+.fingerprint-notice {
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: {{ section.settings.notice_color }};
+}
+.fingerprint-error {
+  display: none;
+  margin-top: 5px;
+  color: red;
+}
+.fingerprint-success {
+  display: none;
+  margin-top: 5px;
+  color: green;
+}
+{% endstylesheet %}
+
+<div class="fingerprint-upload-wrapper">
+  <!-- Fee Notice -->
+  <p class="fingerprint-notice">{{ section.settings.fee_notice }}</p>
+  
+  <!-- File Upload -->
+  <label class="form__label">{{ section.settings.upload_label }}</label>
+  <div class="fingerprint-upload-container">
+    <button 
+      id="upload-button-{{ section.id }}" 
+      class="button button--primary"
+      type="button"
+    >
+      Choose File
+    </button>
+    <p id="file-name-{{ section.id }}" class="fingerprint-file-name">
+      No file chosen
+    </p>
+    <input 
+      id="fingerprint-upload-{{ section.id }}" 
+      form="{{ 'product-form-' | append: section.id }}"
+      name="properties[Fingerprint Image]" 
+      style="display: none;" 
+      type="file" 
+      accept="image/*,.pdf"
+    />
+  </div>
+  <p id="error-message-{{ section.id }}" class="fingerprint-error"></p>
+  <p id="success-message-{{ section.id }}" class="fingerprint-success"></p>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const sectionId = '{{ section.id }}';
+  const maxSizeMB = {{ section.settings.max_file_size | default: 4 }};
+  const apiToken = '{{ section.settings.api_token }}';
+  const fingerprintProductId = {{ section.settings.fingerprint_product.id | default: 'null' }};
+
+  // Get elements
+  const fileInput = document.getElementById(`fingerprint-upload-${sectionId}`);
+  const fileNameDisplay = document.getElementById(`file-name-${sectionId}`);
+  const errorMessage = document.getElementById(`error-message-${sectionId}`);
+  const successMessage = document.getElementById(`success-message-${sectionId}`);
+  const uploadButton = document.getElementById(`upload-button-${sectionId}`);
+
+  // Check if current product is a fingerprint ring
+  function isFingerprintRing() {
+    const productId = {{ product.id | default: 'null' }};
+    return fingerprintProductId && productId === fingerprintProductId;
+  }
+
+  // File selection handler
+  fileInput.addEventListener('change', async function(event) {
+    const file = event.target.files[0];
+    errorMessage.style.display = 'none';
+    successMessage.style.display = 'none';
+    
+    if (file) {
+      // Validate file
+      if (file.size > maxSizeMB * 1024 * 1024) {
+        showError(`File must be smaller than ${maxSizeMB}MB`);
+        return;
+      }
+
+      const validTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+      if (!validTypes.includes(file.type)) {
+        showError('Only JPG, PNG or PDF files allowed');
+        return;
+      }
+
+      try {
+        // Upload to Shopify
+        const fileUrl = await uploadToShopify(file, apiToken);
+        fileNameDisplay.textContent = file.name;
+        showSuccess('File uploaded successfully!');
+        
+        // Add fee to cart (only for fingerprint rings)
+        if (isFingerprintRing()) {
+          await addFingerprintFee(file.name, fileUrl);
+        }
+      } catch (error) {
+        showError('Upload failed. Please try again.');
+        console.error('Upload error:', error);
+      }
+    } else {
+      // No file selected: Remove fee
+      if (isFingerprintRing()) {
+        await removeFingerprintFee();
+      }
+      fileNameDisplay.textContent = 'No file chosen';
+    }
+  });
+
+  // Button click handler
+  uploadButton.addEventListener('click', function(e) {
+    e.preventDefault();
+    fileInput.click();
+  });
+
+  // Helper functions
+  function showError(message) {
+    errorMessage.textContent = message;
+    errorMessage.style.display = 'block';
+    fileInput.value = '';
+    fileNameDisplay.textContent = 'No file chosen';
+  }
+
+  function showSuccess(message) {
+    successMessage.textContent = message;
+    successMessage.style.display = 'block';
+  }
+
+  async function uploadToShopify(file, token) {
+    const formData = new FormData();
+    formData.append('files[]', file);
+    formData.append('name', `fp_${Date.now()}_${file.name.replace(/\s+/g, '_')}`);
+
+    const response = await fetch('https://{{ shop.domain }}/admin/api/2023-07/files.json', {
+      method: 'POST',
+      headers: { 'X-Shopify-Access-Token': token },
+      body: formData
+    });
+
+    if (!response.ok) throw new Error('Upload failed');
+    const data = await response.json();
+    return data.files[0].url;
+  }
+
+  // Add ₹2000 fee as a line item
+  async function addFingerprintFee(filename, fileUrl) {
+    const response = await fetch('/cart/update.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        attributes: {
+          Fingerprint_Customization: 'Yes',
+          Fingerprint_Filename: filename,
+          Fingerprint_Url: fileUrl
+        },
+        // Add fee as a custom line item
+        items: [
+          {
+            id: 'fingerprint_fee',
+            properties: {
+              'Type': 'Fingerprint Customization Fee',
+              'File': filename
+            },
+            price: 200000, // ₹2000 in cents (Shopify uses cents for pricing)
+            quantity: 1
+          }
+        ]
+      })
+    });
+    return response.json();
+  }
+
+  // Remove fee line item
+  async function removeFingerprintFee() {
+    // First fetch cart to find the fee line item ID
+    const cart = await fetch('/cart.js').then(res => res.json());
+    const feeItem = cart.items.find(item => item.id === 'fingerprint_fee');
+    
+    if (feeItem) {
+      await fetch('/cart/update.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          attributes: {
+            Fingerprint_Customization: 'No',
+            Fingerprint_Filename: null,
+            Fingerprint_Url: null
+          },
+          updates: {
+            [feeItem.key]: 0 // Remove item by setting quantity to 0
+          }
+        })
+      });
+    }
+  }
+});
+</script>

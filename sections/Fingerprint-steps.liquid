@@ -1,0 +1,118 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<h3 >{{ section.settings.title }}</h3>
+<p >{{ section.settings.subtitle }}</p>
+
+<div id="cs" class="collection-slider owl-carousel">
+  {% for collection in section.settings.collection_list %}
+    <div class="collection__each">    
+      <img src="{{ collection.featured_image.src | collection_img_url: 'master' }}" alt="{{ collection.featured_image.alt }}" width="auto" height="auto" />
+      <div class="collection__content">
+        <div class="gr">
+          <p class="step-title">{{ collection.title }}</p>
+          <span class="step-description">{{ collection.description }}</span>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+    $(document).ready(function(){
+      $("#cs").owlCarousel({
+          loop: true,
+          margin: 20,
+          nav: true,
+          dots: true,
+        stagePadding: 50,
+          responsive: {
+            1280: {
+              margin: 20,
+              items: 4,
+              stagePadding: 0
+            },
+            1024: {
+              margin: 20,
+              items: 4,
+              stagePadding: 0
+            },
+            768:{
+              items: 3,
+              center: false,
+              margin: 20,
+              stagePadding: 30,
+              
+            },
+            480:{
+              items: 2,
+              center: false,
+              margin: 20,
+               stagePadding: 30
+            },
+            320:{
+              items: 1,
+              center: false,
+              margin: 20,
+               stagePadding: 30 
+            },
+            0:{
+              items: 1,
+              center: false,
+              margin: 20,
+              stagePadding: 50
+            }
+          }
+      });
+  });
+</script>
+
+<style>
+  #cs .collection__content .step-title {
+    font-size: 28px !important;
+   
+  }
+
+  #cs .collection__content .step-description {
+    font-size: 22px !important;
+    font-weight: normal !important;
+  }
+  h3{
+  margin-bottom: 27px !important;  /* Adjust space below the heading */
+}
+
+p[data-aos="fade-zoom-in"] {
+  margin-bottom: 30px; /* Adjust space below the subtitle */
+}
+
+</style>
+
+{% schema %}
+  {
+    "name": "Fingerprint steps",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title"
+      },
+      {
+        "type": "text",
+        "id": "subtitle",
+        "label": "Sub Title"
+      },
+      {
+        "type": "collection_list",
+        "id": "collection_list",
+        "label": "Collections",
+        "limit": 15
+      }
+    ],
+    "presets": [{ "name": "Fingerprint steps" }],
+    "tag": "div",
+    "class": "landing-collection-slider page-width"
+  }
+{% endschema %}

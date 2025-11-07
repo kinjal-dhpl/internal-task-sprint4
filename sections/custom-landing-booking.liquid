@@ -1,0 +1,280 @@
+<style>
+/* CUSTOM BOOKING */
+.custom-booking {
+    background-color: #FAFAFA; 
+    padding: 40px 20px;
+    margin-bottom: 32px;
+    text-align: center;
+   letter-spacing: normal;
+ 
+}
+
+/* Title Styling */
+.custom-booking h3 {
+    font-family: "oregon-ldo-medium";
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 5px;
+  margin-top:5px;
+    text-transform: capitalize;
+  letter-spacing:normal;
+ 
+}
+  /* Adjust Button Position for Row */
+.custom-booking__each.custom-booking__each2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+  /* Ensure image is above the button */
+.custom-booking__each.custom-booking__each2 img {
+    margin-bottom: 20px; /* Adjust spacing as needed */
+ 
+}
+
+/* Move button below image */
+.custom-booking__each.custom-booking__each2 a {
+    margin-top: 10px; /* Adjust spacing as needed */
+   max-width: 300px; /* Increase width as needed */
+    white-space: nowrap; /* Prevent text from wrapping */
+}
+
+/* Subtitle Styling */
+.custom-booking__subtitle {
+    font-family: "oregon-ldo-medium";
+    font-size: 16px;
+    color: #A5A5A5;
+    text-align: center;
+    margin-top: 0;
+  letter-spacing:normal;
+}
+
+/* Grid Layout */
+.custom-booking__grid {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 32px;
+}
+
+/* Card Container */
+.custom-booking__each {
+    background-color: #fff;
+    box-shadow: 4px 12px 40px 6px #00000017;
+    padding: 16px;
+    border-radius: 12px;
+    text-align: center;
+  letter-spacing: normal; /* Set letter-spacing to normal */
+
+}
+
+/* Image Styling */
+.custom-booking__each img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+/* Studio Name */
+.custom-booking__each span {
+    font-size: 20px;
+    color: black;
+    font-family: "oregon-ldo-medium";
+    letter-spacing: normal;
+    margin-top: 10px;
+    line-height: 26px;
+    display: block;
+}
+
+/* Address Styling */
+.custom-booking__each p {
+    font-size: 16px;
+    margin-bottom: 15px;
+    color: #A5A5A5;
+    font-family: "oregon-ldo-medium";
+    letter-spacing: normal;
+    line-height: 22px;
+}
+.custom-booking__each.custom-booking__each1 img {
+    margin-bottom: 25px; /* Adjust value as needed */
+}
+/* Button Styling */
+.custom-booking__each a {
+    background-color: #1C1C1C;
+    font-size: 16px;
+    font-family: "oregon-ldo-medium";
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 25px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 300px;
+    margin: 0 auto;
+  letter-spacing: normal; /* Set letter-spacing to normal */
+  white-space: nowrap;
+}
+}
+
+/* Mobile Optimization */
+@media only screen and (max-width: 768px) {
+    .custom-booking {
+        padding: 30px 10px;
+    }
+    .custom-booking h3 {
+        font-size: 30px;
+    }
+    .custom-booking__subtitle {
+        font-size: 16px;
+    }
+    .custom-booking__each span {
+        font-size: 16px;
+    }
+    .custom-booking__each p {
+        font-size: 16px;
+    }
+    .custom-booking__each a {
+        font-size: 16px;
+        padding: 8px 20px;
+    }
+}
+  .custom-booking__each.custom-booking__each1 a {
+    margin-top: 15px; /* Adjust as needed */
+}
+</style>
+
+<h3 data-aos="fade-zoom-in">{{ section.settings.title }}</h3>
+<p data-aos="fade-zoom-in" class="custom-booking__subtitle">{{ section.settings.subtitle }}</p>
+<div class="custom-booking__grid">
+
+    <!-- Column Block -->
+    {% assign col_blocks = section.blocks | where: 'type', 'col' %}
+    {% for block in col_blocks %}
+    <div class="custom-booking__each custom-booking__each1">
+        <img src="{{ block.settings.image | image_url }}" width="100%" height="auto">
+        <span>
+            <span style="font-size: 30px; letter-spacing: normal; color: black; display: block; font-family: 'oregon-ldo-medium';">{{ block.settings.text1 }}</span>
+            <span style="font-size: 16px; letter-spacing: normal; display: block; font-family: 'oregon-ldo-medium'; color: #A5A5A5;">{{ block.settings.text2 }}</span>
+        </span>
+        <a href="{{ block.settings.button_url }}">{{ block.settings.button }}</a>
+    </div>
+    {% endfor %}
+
+    <!-- Row Block -->
+    {% assign row_blocks = section.blocks | where: 'type', 'row' %}
+    {% for block in row_blocks %}
+    <div class="custom-booking__each custom-booking__each2">
+       <img src="{{ block.settings.image | image_url }}" width="100%" height="auto">
+        <div>
+            <span>
+                <span style="font-size: 30px; letter-spacing: normal; color: black; display: block; font-family: 'oregon-ldo-medium';">{{ block.settings.text1 }}</span>
+                <span style="font-size: 16px; letter-spacing: normal; display: block; font-family: 'oregon-ldo-medium'; color: #A5A5A5;">{{ block.settings.text2 }}</span>
+            </span>
+
+            <!-- Special Content for Second Row -->
+            {% if forloop.index == 2 %}
+            <div style="margin-top: 10px; font-family: 'oregon-ldo-medium'; font-size: 16px; line-height: 24px; color: #A5A5A5;">
+                <p style="color: black; margin-bottom: 10px;">What To Expect At Your Online Ring Consultation</p>
+                <ul style="list-style-type: disc; margin-left: 20px; padding-left: 0; font-family: 'oregon-ldo-medium'; letter-spacing: normal; font-size: 20px; line-height: 24px; color: #A5A5A5;">
+                    <li style="margin-bottom: 5px;">A Complimentary 30-Minute Video Call</li>
+                    <li style="margin-bottom: 5px;">Understanding Rings & I Concept</li>
+                    <li style="margin-bottom: 5px;">Addressing Your Queries About Diamond</li>
+                </ul>
+            </div>
+            {% endif %}
+        </div>  
+
+       
+        <a href="{{ block.settings.button_url }}">{{ block.settings.button }}</a>
+    </div>
+    {% endfor %}
+
+</div>
+
+
+{% schema %}
+  {
+    "name": "Custom Booking",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title"
+      },
+      {
+        "type": "text",
+        "id": "subtitle",
+        "label": "Sub Title"
+      }
+    ],
+    "blocks": [
+      {
+          "name": "Col",
+           "type": "col",
+           "limit": 1,
+           "settings":[{
+              "type": "image_picker",
+              "id": "image",
+              "label": "Image" 
+             },
+             {
+              "type": "text",
+              "id": "text1",
+              "label": "Text Top" 
+             },
+             {
+              "type": "text",
+              "id": "text2",
+              "label": "Text Bottom" 
+             },
+             {
+              "type": "text",
+              "id": "button",
+              "label": "Button text" 
+             },
+             {
+              "type": "text",
+              "id": "button_url",
+              "label": "Button URL" 
+             }
+          ]
+       },
+      {
+          "name": "Row",
+           "type": "row",
+           "limit": 2,
+           "settings":[{
+              "type": "image_picker",
+              "id": "image",
+              "label": "Image" 
+             },
+             {
+              "type": "text",
+              "id": "text1",
+              "label": "Text Top" 
+             },
+             {
+              "type": "text",
+              "id": "text2",
+              "label": "Text Bottom" 
+             },
+             {
+              "type": "text",
+              "id": "button",
+              "label": "Button text" 
+             },
+             {
+              "type": "text",
+              "id": "button_url",
+              "label": "Button URL" 
+             }
+          ]
+       }
+    ],
+    "presets": [{ "name": "Custom Booking" }],
+    "tag": "div",
+    "class": "custom-booking page-width"
+  }
+{% endschema %}

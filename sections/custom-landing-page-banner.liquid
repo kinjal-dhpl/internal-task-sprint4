@@ -1,0 +1,332 @@
+{% schema %}
+{
+  "name": "Ring Builder Banner",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "ring_band",
+      "label": "Ring Band Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "diamond",
+      "label": "Diamond Image"
+    },
+    {
+      "type": "range",
+      "id": "animation_speed",
+      "label": "Animation Speed",
+      "min": 0.5,
+      "max": 3,
+      "step": 0.1,
+      "default": 1.5
+    }
+  ],
+  "presets": [
+    {
+      "name": "Ring Builder Banner",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
+
+<section class="custom-ring-section">
+  <!-- Ring Animation -->
+  <div class="ring-container">
+    <img 
+      id="ringBand" 
+      src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/Untitled_design_b651d0ee-7cf6-419b-b3a7-312ff697c5da.png?v=1739962464" 
+      alt="Ring Band" 
+    />
+    <img 
+      id="diamond" 
+      class="diamond" 
+      src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/Untitled_400_x_500_px.png?v=1739962464" 
+      alt="Diamond" 
+    />
+  </div>
+
+  <!-- Text Content (Initially Hidden) -->
+  <div class="text-content">
+    <h1 id="typewriter-heading">RINGS & I</h1>
+    <p id="typewriter-tagline">India’s First Ever Designer Ring Studio</p>
+    <a class="book-appointment" href="https://ringsandi.com/pages/appointment-booking-mumbai">Book An Appointment</a>
+  </div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var speed = {{ section.settings.animation_speed }};
+
+    // Hide text & diamond initially
+    gsap.set(".text-content", { opacity: 0 });
+    gsap.set("#diamond", { opacity: 0 });
+
+    // Hide the button initially in mobile view
+    document.querySelector(".book-appointment").style.display = "none";
+
+    // Animate ring band falling
+    gsap.from("#ringBand", { 
+      y: "-90%",  
+      opacity: 0, 
+      duration: speed + 1, 
+      ease: "power2.out", 
+      onComplete: function() { 
+        gsap.fromTo("#diamond", 
+          { opacity: 0, y: "-80%" },  // Adjusted diamond's initial position
+          { 
+            opacity: 1, 
+            y: "0px",  // Ensures proper placement into the ring
+            duration: speed, 
+            ease: "bounce.out",
+            onComplete: function() {
+              gsap.to("#diamond", { 
+                y: "-5px",  
+                duration: 0.3, 
+                ease: "power1.out"
+              }).then(() => {
+                gsap.to("#diamond", { 
+                  y: "0px",  
+                  duration: 0.3, 
+                  ease: "bounce.out",
+                  onComplete: function() {
+                    gsap.to(".text-content", { opacity: 1, duration: 1, onComplete: function() {
+                      document.querySelector(".book-appointment").style.display = "inline-block";
+                    }});
+                  }
+                });
+              });
+            }
+          }
+        );
+      }
+    });
+  });
+</script>
+
+<style>
+/* Prevent Width Expansion */
+.custom-ring-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 480px;
+  position: relative;
+  background: #f8f8f8;
+  text-align: center;
+  padding: 20px;
+  max-width: 100vw;
+  overflow: hidden;
+}
+ 
+.text-content{
+  font-family: "oregon-ldo-medium" !important;
+}
+  .text-content p{
+    font-family: "oregon-ldo-medium" !important;
+    font-size:16px;
+  }
+   .text-content h1{
+   font-family: "oregon-ldo-medium" !important;
+   font-size:30px;
+}
+
+/* Text Content */
+.text-content {
+  width: 100%;
+  text-align: center;
+  opacity: 0;
+  position: absolute;
+  top: 20px !important;
+  font-family: "oregon-ldo-medium" !important;
+}
+
+/* Ensure Button Text is Centered */
+.book-appointment {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center !important;
+  padding: 16px 32px;
+  background: black;
+  color: white;
+  text-decoration: none;
+  border-radius: 30px;
+  width: 100%;
+  height: 50px;
+  font-family: "oregon-ldo-medium" !important;
+  font-size: 20px;
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+  .book-appointment {
+    width: 280px;
+    height: 50px;
+    font-size: 16px;
+    margin: 0 auto; /* Center horizontally */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center !important;
+  }
+}
+
+/* Footer Fix */
+.custom-footer {
+  position: relative;
+  width: 100%;
+  bottom: 0;
+}
+
+/* Ring Container */
+.ring-container {
+  position: relative;
+  max-width: 350px;
+  width: 100%;
+  height: 350px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  flex-direction: column;
+  text-align: center;
+  margin-top: 120px;
+}
+
+/* Ring Band */
+#ringBand {
+  width: 110%;
+  max-width: 300px;
+  position: absolute;
+  bottom: -5px; /* Adjusted to fit better */
+}
+
+/* Diamond */
+#diamond {
+  width: 65%; /* Adjusted size */
+  position: absolute;
+  top: -10px; /* Adjusted to fit properly inside ring */
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+}
+
+/* Mobile View Fix */
+@media (max-width: 768px) {
+  .custom-ring-section {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 100%;
+    overflow-x: hidden;
+    
+  }
+
+  .ring-container {
+    width: 250px;
+    height: 250px;
+    margin-top: 80px;
+    margin-bottom: 20px;
+  }
+
+  #ringBand {
+    width: 100%;
+    bottom: -45px;
+  }
+
+  #diamond {
+    width: 60%; /* Adjusted diamond size for mobile */
+    top: 55px;
+    left: 50.8%;
+  }
+
+  .book-appointment {
+    width: 300px;
+    height: 50px;
+    font-size: 16px;
+    margin-top: 15px;
+    padding: 8px 24px; /* Reduce top & bottom padding slightly */
+    line-height: 36px; /* Adjust line height to shift text slightly up */
+    text-align: center !important;
+  }
+}
+
+/* Prevent Horizontal Scrolling */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+ /* Desktop Styles */
+@media (min-width: 769px) {
+  .custom-ring-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: center; /* Centers the content */
+    align-items: center;
+    text-align: left;
+    height: 450px;
+    padding: 0 80px; /* Increased padding for better spacing */
+    max-width: 1200px; /* Prevents excess width */
+    margin: auto; /* Ensures it stays centered */
+  }
+
+  .text-content {
+    max-width: 45%;
+    font-family: "oregon-ldo-medium";
+    text-align: Center;
+    position: static;
+    opacity: 1;
+    order: 1;
+  }
+
+  @media (min-width: 769px) {
+  .text-content h1 {
+    font-size: 56px; /* Increased text size */
+    
+  }
+
+  .text-content p {
+    font-size: 24px; /* Increased text size */
+    
+  }
+
+  .book-appointment {
+    width: 350px; /* Decreased width */
+    margin-top: 15px;
+    padding: 8px 24px; /* Reduce top & bottom padding slightly */
+    line-height: 36px; /* Adjust line height to shift text slightly up */
+  }
+}
+
+  .ring-container {
+    width: 400px; /* Increased width */
+    height: 400px; /* Increased height */
+    order: -1;
+    margin-left: -110px; /* Shifts the ring more to the left */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #ringBand {
+    width: 320%;
+    max-width: 500px;
+    position: absolute;
+    bottom: 40px; /* Adjusted for better alignment */
+    left: -110px; /* Moves ring more to the left */
+  }
+
+  #diamond {
+    width: 100%; /* Slightly reduced size */
+    top: -154px; /* Moves diamond down */
+    left: 41%; /* Adjusted alignment */
+    transform: translateX(-50%);
+    opacity: 0;
+  }
+
+}
+
+</style>

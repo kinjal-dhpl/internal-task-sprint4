@@ -1,0 +1,123 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.footer.name",
+  "type": "footer",
+  "sections": {
+    "footer_custom_hFgQAf": {
+      "type": "footer-custom",
+      "blocks": {
+        "row_LiNQUn": {
+          "type": "row",
+          "settings": {
+            "menu": "custom-footer-menu"
+          }
+        },
+        "col_3YXeeW": {
+          "type": "col",
+          "settings": {
+            "image": "shopify://shop_images/l-fb.png",
+            "url": "https://www.instagram.com/ringsandistudio?igsh=b2Frcm1xZWgxdmdv"
+          }
+        },
+        "col_RFaqmC": {
+          "type": "col",
+          "settings": {
+            "image": "shopify://shop_images/l-ig.png",
+            "url": "https://www.instagram.com/ringsandistudio?igsh=b2Frcm1xZWgxdmdv"
+          }
+        },
+        "col_TmTePp": {
+          "type": "col",
+          "settings": {
+            "image": "shopify://shop_images/l-yt.png",
+            "url": "https://youtube.com/@ringsandistudio?si=OTpMyln8Oa1E13AJ"
+          }
+        },
+        "col_mTmPrb": {
+          "type": "col",
+          "settings": {
+            "image": "shopify://shop_images/l-p.png",
+            "url": "https://pin.it/2GpkPzyAF"
+          }
+        }
+      },
+      "block_order": [
+        "row_LiNQUn",
+        "col_3YXeeW",
+        "col_RFaqmC",
+        "col_TmTePp",
+        "col_mTmPrb"
+      ],
+      "settings": {
+        "logo": "shopify://shop_images/full_logo_black.png",
+        "logo2": "shopify://shop_images/l-logo-2.png",
+        "logo3": "shopify://shop_images/l-logo-3.png",
+        "logo4": "shopify://shop_images/l-logo-4.png",
+        "address_title": "Address",
+        "address": "<p>Block No. 305, 2163/29A, Silver Mist, Near Nilayam Theatre, Sadashiv Peth, Pune, Maharashtra, India - 411030</p>",
+        "title_right": "Visit Us",
+        "content_right": "<p>Our store is opened for shopping and exchanges all days.</p>",
+        "copyright": "<p>©️ 2024, Rings & I. All rights reserved</p>"
+      }
+    },
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "link_list_VDhj3J": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Quick links",
+            "menu": "custom-footer-menu"
+          }
+        },
+        "link_list_kKBBtm": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Quick links",
+            "menu": "footer"
+          }
+        },
+        "text_U8Tkhp": {
+          "type": "text",
+          "settings": {
+            "heading": "Contact Us",
+            "subtext": "<p>Diamond Headquarters Private Limited </p><p>305, Silver Mist, Sane Guruji Road 635/79/8,, Sadashiv Peth, Near Nilayam Talkies, B Block, Municipal Colony, Pune, Maharashtra 411030</p>"
+          }
+        }
+      },
+      "block_order": [
+        "link_list_VDhj3J",
+        "link_list_kKBBtm",
+        "text_U8Tkhp"
+      ],
+      "disabled": true,
+      "custom_css": [],
+      "settings": {
+        "color_scheme": "background-2",
+        "newsletter_enable": false,
+        "newsletter_heading": "Get in Touch",
+        "enable_follow_on_shop": true,
+        "show_social": true,
+        "enable_country_selector": true,
+        "enable_language_selector": true,
+        "payment_enable": true,
+        "show_policy": false,
+        "margin_top": 32,
+        "padding_top": 52,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "footer_custom_hFgQAf",
+    "footer"
+  ]
+}

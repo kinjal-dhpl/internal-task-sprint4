@@ -1,0 +1,401 @@
+<!-- custom-size-variants -->
+<style>
+  .product__custom-size-blockssss {
+    max-width: 44rem;
+  }
+</style>
+
+<div class="product__custom-size-blockssss" {{ block.shopify_attributes }}>
+  <div>
+    <label for="custom-size-selector" class="text-sm font-medium form__label">Size:</label>
+    <div class="select-neo">
+      <select
+        id="custom-size-selector"
+        name="properties[Size]"
+        class="ymq-no-strong-drop-down ymq-dropdown ymq-attrib-ymq-variant-0 ymq-shopify-option"
+        required
+      >
+        <option value="" disabled>Select size</option>
+        {% for i in (1..35) %}
+          <option value="{{ i }}">{{ i }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+</div>
+
+{% comment %} Added this empty div for app to target it and add it's own UI above this select {% endcomment %}
+{% comment %} Don't Change the Class Name {% endcomment %}
+<div class="select"></div>
+
+<script>
+(function() {
+  'use strict';
+
+  // Global state management
+  window.ProductState = {
+    selectedVariantId: null,
+    selectedSize: null,
+    productPricingBySize: {},
+    variantConfigsBySize: {},
+    variantPrices: {}, // NEW: Store Shopify variant prices
+    isInitialized: false,
+    
+    // Initialize state from URL or defaults
+    init() {
+      const url = new URL(window.location);
+      const urlVariant = url.searchParams.get('variant');
+      const urlSize = url.searchParams.get('size');
+      
+      this.selectedVariantId = urlVariant || "{{ product.selected_or_first_available_variant.id }}";
+      this.selectedSize = urlSize || '12';
+      
+      // Initialize variant configs from metafields
+      this.initializeVariantConfigs();
+      // NEW: Initialize Shopify variant prices
+      this.initializeVariantPrices();
+      
+      this.isInitialized = true;
+      console.log('✅ ProductState initialized:', {
+        variantId: this.selectedVariantId,
+        size: this.selectedSize
+      });
+    },
+
+    // NEW: Initialize Shopify variant prices
+    initializeVariantPrices() {
+      const variants = {
+        {% for variant in product.variants %}
+        "{{ variant.id }}": {
+          price: {{ variant.price | divided_by: 100.0 }},
+          formatted_price: "{{ variant.price | money }}"
+        },
+        {% endfor %}
+      };
+      Object.assign(this.variantPrices, variants);
+      console.log('✅ Variant prices initialized:', Object.keys(this.variantPrices).length, 'variants');
+    },
+
+    initializeVariantConfigs() {
+      try {
+        const configs = {
+          {% for variant in product.variants %}
+          "{{ variant.id }}": {
+            {% for size in (1..35) %}
+            {% assign key = 'config_size_' | append: size %}
+            {% assign value = variant.metafields.custom[key] %}
+            {% if value != blank %}
+            "{{ size }}": {{ value.value | json }},
+            {% endif %}
+            {% endfor %}
+          },
+          {% endfor %}
+        };
+        Object.assign(this.variantConfigsBySize, configs);
+      } catch (e) {
+        console.warn("⚠️ Error parsing metafield configs:", e);
+      }
+    },
+
+    updateVariant(variantId) {
+    const previousVariant = this.selectedVariantId;
+    console.log('🔄 ProductState.updateVariant:', previousVariant, '->', variantId);
+    
+    this.selectedVariantId = variantId;
+    this.updateURL();
+    
+    // FIXED: Always update price when updateVariant is called explicitly
+    // This method is called when we want to update the variant AND its price
+    this.updatePrice();
+    this.dispatchVariantChangeEvent();
+  },
+
+    updateSize(size) {
+      if (this.selectedSize !== size) {
+        this.selectedSize = size;
+        this.updateURL();
+        this.updatePrice();
+      }
+    },
+
+    updateURL() {
+      const url = new URL(window.location);
+      if (this.selectedVariantId) {
+        url.searchParams.set('variant', this.selectedVariantId);
+      }
+      if (this.selectedSize) {
+        url.searchParams.set('size', this.selectedSize);
+      }
+      window.history.replaceState(null, '', url.toString());
+    },
+
+    dispatchVariantChangeEvent() {
+      document.dispatchEvent(new CustomEvent('variantChanged', {
+        detail: { 
+          variantId: this.selectedVariantId, 
+          size: this.selectedSize 
+        }
+      }));
+    },
+
+    updatePrice() {
+      if (!this.selectedVariantId || !this.selectedSize) return;
+      
+      PriceManager.updatePrice(this.selectedVariantId, this.selectedSize);
+    },
+
+    getConfig(variantId, size) {
+      // First try cached API data
+      const productData = this.productPricingBySize[size];
+      if (productData && Array.isArray(productData.data)) {
+        const variantData = productData.data.find(v => 
+          v.variantId.toString() === variantId.toString() || 
+          v.variantId === `gid://shopify/ProductVariant/${variantId}` ||
+          v.variantId.replace('gid://shopify/ProductVariant/', '') === variantId.toString()
+        );
+        if (variantData && variantData.price && variantData.price[`config_size_${size}`]) {
+          return variantData.price[`config_size_${size}`];
+        }
+      }
+      
+      // REMOVED: Fallback to metafields - now falls back to Shopify variant price
+      return null;
+    },
+
+    // NEW: Get Shopify variant price as fallback
+    getVariantPrice(variantId) {
+      return this.variantPrices[variantId] || null;
+    }
+  };
+
+  // Price management
+  const PriceManager = {
+    updatePrice(variantId, size) {
+      const priceElements = document.querySelectorAll('.price-item.main_price');
+      
+      // Show loading state
+      priceElements.forEach(el => {
+        el.textContent = 'Calculating...';
+        el.style.opacity = '0.6';
+      });
+
+      // Check if we have cached data
+      if (window.ProductState.productPricingBySize[size]) {
+        this.updatePriceFromCache(variantId, size);
+        return;
+      }
+
+      // Fetch from API
+      this.fetchPriceFromAPI(variantId, size);
+    },
+
+    fetchPriceFromAPI(variantId, size) {
+      const productId = "{{ product.id }}";
+      const apiUrl = `https://diamond-hq-staging.myshopify.com/apps/ea_module_dev/price/product?productId=${productId}&configSize=${size}`;
+
+      fetch(apiUrl, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+      })
+      .then(response => {
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        return response.json();
+      })
+      .then(apiResponse => {
+        if (apiResponse?.status === 'success' && Array.isArray(apiResponse.data)) {
+          // Cache the data
+          window.ProductState.productPricingBySize[size] = apiResponse;
+          // Update price display
+          this.updatePriceFromCache(variantId, size);
+        } else {
+          throw new Error("Invalid API response");
+        }
+      })
+      .catch(error => {
+        console.error("❌ API call failed:", error);
+        this.fallbackToShopifyPrice(variantId, size); // CHANGED: Use Shopify price fallback
+      });
+    },
+
+    updatePriceFromCache(variantId, size) {
+      const config = window.ProductState.getConfig(variantId, size);
+      
+      if (config && config.total_price_with_gst) {
+        this.displayPrice(config.total_price_with_gst);
+        this.updateHiddenInputs(config.total_price_with_gst, size);
+        
+        if (window.renderVariantMetaInfo) {
+          window.renderVariantMetaInfo(config);
+        }
+
+        document.dispatchEvent(new CustomEvent('priceUpdated', {
+          detail: { variantId, size, config, price: config.total_price_with_gst }
+        }));
+      } else {
+        console.error('❌ No price config found for variant:', variantId, 'size:', size);
+        this.fallbackToShopifyPrice(variantId, size); // CHANGED: Use Shopify price fallback
+      }
+    },
+
+    // CHANGED: New method to fallback to Shopify variant price
+    fallbackToShopifyPrice(variantId, size) {
+      const variantPrice = window.ProductState.getVariantPrice(variantId);
+      const priceElements = document.querySelectorAll('.price-item.main_price');
+      
+      if (variantPrice) {
+        // Use Shopify variant price (already in rupees, no conversion needed)
+        const priceInRupees = variantPrice.price;
+        this.displayPrice(priceInRupees);
+        this.updateHiddenInputs(priceInRupees, size);
+        
+        console.log('💰 Using Shopify variant price as fallback:', priceInRupees);
+        
+        // Dispatch event with Shopify price
+        document.dispatchEvent(new CustomEvent('priceUpdated', {
+          detail: { 
+            variantId, 
+            size, 
+            config: null, 
+            price: priceInRupees,
+            fallbackToShopify: true 
+          }
+        }));
+      } else {
+        priceElements.forEach(el => {
+          el.textContent = 'Price unavailable';
+          el.style.opacity = '1';
+        });
+      }
+    },
+
+    displayPrice(price) {
+      const formattedPrice = this.formatPrice(price);
+      const priceElements = document.querySelectorAll('.price-item.main_price');
+      
+      priceElements.forEach(el => {
+        el.textContent = `Rs. ${formattedPrice}`;
+        el.style.opacity = '1';
+      });
+    },
+
+    updateHiddenInputs(price, size) {
+      const productForm = document.querySelector('form.main-form[action="/cart/add"]');
+      if (!productForm) return;
+
+      // Update price input
+      let priceInput = productForm.querySelector('input[name="properties[price]"]');
+      if (!priceInput) {
+        priceInput = document.createElement('input');
+        priceInput.type = 'hidden';
+        priceInput.name = 'properties[price]';
+        productForm.appendChild(priceInput);
+      }
+      priceInput.value = `Rs. ${this.formatPrice(price)}`;
+
+      // Update size input
+      let sizeInput = productForm.querySelector('input[name="properties[Size]"]');
+      if (!sizeInput) {
+        sizeInput = document.createElement('input');
+        sizeInput.type = 'hidden';
+        sizeInput.name = 'properties[Size]';
+        productForm.appendChild(sizeInput);
+      }
+      sizeInput.value = size;
+    },
+
+    formatPrice(price) {
+      return Number(price || 0).toLocaleString('en-IN');
+    }
+  };
+
+  // UI Management
+  const UIManager = {
+    initializeSizeSelector() {
+      const sizeSelect = document.getElementById('custom-size-selector');
+      if (!sizeSelect) {
+        console.error("❌ Size selector not found!");
+        return;
+      }
+
+      // Set initial value
+      sizeSelect.value = window.ProductState.selectedSize;
+
+      // Add event listener
+      sizeSelect.addEventListener('change', (e) => {
+        window.ProductState.updateSize(e.target.value);
+      });
+    },
+
+    updateSizeDisplay() {
+      const sizeDisplays = document.querySelectorAll('[data-size-display]');
+      sizeDisplays.forEach(el => {
+        el.textContent = window.ProductState.selectedSize;
+      });
+    }
+  };
+
+  // Hide target elements (external app elements)
+  function hideTargetElements() {
+    const appMetal = document.querySelector('.ymq-box [data-label="Metal"]');
+    const appDiamond = document.querySelector('.ymq-box [data-label="Diamond"]');
+    
+    if (appMetal && appMetal.style.display !== 'none') {
+      appMetal.style.display = 'none';
+    }
+    
+    if (appDiamond && appDiamond.style.display !== 'none') {
+      appDiamond.style.display = 'none';
+    }
+  }
+
+  // Create MutationObserver to hide external elements
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+        hideTargetElements();
+      }
+    });
+  });
+
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
+
+  // Initialize everything
+  function initialize() {
+    // Check if this is back navigation by looking for the pageshow event flag
+    if (window.isBackNavigation) {
+      console.log('⏭️ Skipping regular initialization - back navigation in progress');
+      return;
+    }
+    
+    window.ProductState.init();
+    UIManager.initializeSizeSelector();
+    UIManager.updateSizeDisplay();
+    hideTargetElements();
+    
+    // Initial price update
+    window.ProductState.updatePrice();
+  }
+
+  // Public API for variant tabs to use
+  window.updateMetaUIFromVariantChange = function(variantId) {
+    window.ProductState.updateVariant(variantId);
+  };
+
+  window.formatPrice = PriceManager.formatPrice.bind(PriceManager);
+
+  // Initialize on DOM ready and page show (for back/forward navigation)
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('📄 DOM Content Loaded - initializing');
+      initialize();
+    });
+  } else {
+    console.log('📄 DOM already ready - initializing immediately');
+    initialize();
+  }
+
+})();
+</script>

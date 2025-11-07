@@ -1,0 +1,323 @@
+<!-- Liquid Schema -->
+{% schema %}
+{
+  "name": "Certification Section",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "certification",
+      "name": "Certification Block",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Certificate Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Logo Image"
+        },
+        {
+          "type": "textarea",
+          "id": "info",
+          "label": "Certification Information"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Certification Heading"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Certification Section",
+      "category": "Custom Sections",
+      "blocks": [
+        {
+          "type": "certification"
+        },
+        {
+          "type": "certification"
+        },
+        {
+          "type": "certification"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<!-- HTML and Liquid -->
+<div class="certification-container">
+  {% for block in section.blocks %}
+    <div class="certification-item">
+      <div class="left-side">
+        <div class="heading-logo-container">
+          {% if block.settings.logo %}
+            <img src="{{ block.settings.logo | img_url: 'original' }}" alt="Certification Logo" class="logo" />
+          {% endif %}
+          {% if block.settings.heading %}
+            <h3 class="heading">{{ block.settings.heading }}</h3>
+          {% endif %}
+        </div>
+        {% if block.settings.info %}
+          <div class="info">
+            <p class="certification-text">{{ block.settings.info }}</p>
+            <button class="read-more-btn" onclick="toggleTextVisibility(event)">Read More</button>
+            
+            <!-- Certificate Image (Visible only on Mobile) -->
+            <div class="certificate-mobile">
+              {% if block.settings.image %}
+                <img src="{{ block.settings.image | img_url: 'original' }}" class="certificate-image-mobile" />
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
+      </div>
+      
+      <!-- Certificate Image (Visible only on Desktop) -->
+      <div class="right-side">
+        {% if block.settings.image %}
+          <img src="{{ block.settings.image | img_url: 'original' }}" class="certificate-image-desktop" />
+        {% endif %}
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+<!-- CSS -->
+<style>
+  .certification-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 10px;
+  }
+
+  .certification-item {
+    display: flex;
+    flex-direction: row;
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    transition: transform 0.3s, box-shadow 0.3s;
+    justify-content: space-between;
+  }
+
+  .certification-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  .left-side {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px; 
+  }
+
+  .certificate-image-desktop {
+    width: 400px;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+
+  .right-side {
+    flex-grow: 0.2;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .heading-logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+  }
+
+  .heading {
+    font-size: 30px;
+    font-family: "oregon-ldo-medium";
+    font-weight: bold;
+    color: #333;
+    margin-left: 20px;
+  }
+
+  .logo {
+    max-width: 80px;
+    height: auto;
+  }
+
+  .info {
+    font-size: 14px;
+    font-family: "oregon-ldo-medium";
+    color: #555;
+    line-height: 1.6;
+    margin-top: 10px;
+    width: 115%;
+    max-width: 135%;
+    margin-left: 10px;
+    margin-right: auto;
+  }
+
+  .certification-text {
+    overflow: hidden;
+    max-height: 60px;
+    transition: max-height 0.3s ease-out;
+  }
+
+  .certification-text.expanded {
+    max-height: none;
+  }
+
+  .read-more-btn {
+  color: #000000;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  font-family: "oregon-ldo-medium";
+  font-weight: bold; /* Make the text bold */
+  font-family: 'Times New Roman', Times, serif;
+  margin-top: 10px;
+  text-decoration: none; /* Remove underline by default */
+  transition: all 0.3s ease-in-out; /* Smooth transition */
+  padding: 5px 10px; /* Optional: Add padding to make the button more clickable */
+}
+
+.read-more-btn:hover {
+  text-decoration: underline; /* Underline when hovered */
+  color: #000000; /* Darker shade when hovered */
+  transform: translateY(-2px); /* Slightly increase the height/raise on hover */
+}
+
+.read-more-btn:focus {
+  outline: none;
+  text-decoration: underline; /* Underline when focused */
+  color: #000000; /* Darker shade when focused */
+}
+
+  /* Mobile-specific styling */
+  @media (max-width: 768px) {
+    .certification-item {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .left-side {
+      width: 100%;
+      margin-right: 0;
+    }
+
+   .info {
+  width: 100%;
+  font-family: "oregon-ldo-medium";
+  margin-left: 5px;
+  text-align: justify;
+  font-size: 12px;
+  word-spacing: -0.5px; /* Reduce spacing between words */
+}
+
+.certification-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5em;
+  max-height: 4.5em;
+  transition: max-height 0.3s ease-in-out;
+  font-size: 14px;
+  text-align: justify;
+  word-spacing: -0.5px; /* Reduce word spacing */
+}
+
+    /* When expanded, show full text */
+    .certification-text.expanded {
+      display: block; /* Allows full text to be visible */
+      -webkit-line-clamp: unset; /* Remove line limit */
+      max-height: none; /* Expand fully */
+      overflow: visible;
+    }
+
+    /* Hide desktop image on mobile */
+    .certificate-image-desktop {
+      display: none;
+    }
+
+    /* Show mobile image inside info */
+    .certificate-mobile {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    .certificate-image-mobile {
+      display: block;
+      width: 250px;
+      height: 200px;
+    }
+
+    .left-side {
+      width: 100%;
+      margin-left: 5px; /* Reduce left margin for mobile */
+      margin-right: 5px;
+    }
+
+    .info {
+      width: 100%;
+      font-family: "oregon-ldo-medium";
+      margin-left: 5px; /* Reduce left margin for info text */
+      text-align: justify; /* Justify the text */
+      font-size: 12px; /* Reduced font size for mobile */
+    }
+
+    .heading {
+      font-size: 24px;/* Reduced font size for heading on mobile */
+      font-family: "oregon-ldo-medium";
+      margin-left: 5px; /* Reduce left margin for heading */
+    }
+  }
+
+  @media (min-width: 769px) {
+    .certification-text {
+      max-height: none;
+    }
+
+    .read-more-btn {
+      display: none;
+    }
+
+    .certificate-image-mobile {
+      display: none;
+    }
+  }
+</style>
+
+<!-- JavaScript -->
+<script>
+  function toggleTextVisibility(event) {
+    const button = event.target;
+    const textContainer = button.previousElementSibling;
+
+    // Toggle text visibility
+    if (textContainer.classList.contains("expanded")) {
+      textContainer.classList.remove("expanded");
+      button.textContent = "Read More";
+    } else {
+      textContainer.classList.add("expanded");
+      button.textContent = "Read Less";
+    }
+  }
+</script>

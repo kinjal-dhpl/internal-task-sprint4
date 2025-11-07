@@ -1,0 +1,43 @@
+<div id="location">
+<h2 data-aos="fade-zoom-in" class="title__black">{{ section.settings.title }}</h2>
+<p data-aos="fade-zoom-in">{{ section.settings.subtitle }}</p>
+<div class="map-sec">
+    {{ section.settings.map_embed }}
+    <div class="map-content">
+      <a href="https://www.google.com/maps?ll=18.503645,73.850579&z=15&t=m&hl=en&gl=CA&mapclient=embed&cid=13500712611433574310">
+        {{ section.settings.bottom_text }}
+      </a>
+    </div>
+</div>
+</div>
+
+{% schema %}
+  {
+    "name": "Google Map",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title"
+      },
+      {
+        "type": "text",
+        "id": "subtitle",
+        "label": "Sub Title"
+      },
+      {
+        "type": "liquid",
+        "id": "map_embed",
+        "label": "Map Embed Code"
+      },
+      {
+        "type": "text",
+        "id": "bottom_text",
+        "label": "Bottom Text"
+      }
+    ],
+    "presets": [{ "name": "Google Map" }],
+    "tag": "div",
+    "class": "google-map page-width"
+  }
+{% endschema %}

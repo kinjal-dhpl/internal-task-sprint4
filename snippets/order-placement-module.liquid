@@ -1,0 +1,1049 @@
+
+<style>
+
+  #billing--address{
+    display: none;
+  }
+.order-placement-container {
+  display: flex;
+  gap: 2rem;
+}
+.discount-section.disabled {display: none;}
+h2.shipping-title {
+    margin: 0 0 1.5rem;
+    font-size: 20px;
+    color: #1c1c1c;
+    font-family: oregon-ldo-medium;
+    letter-spacing: normal;
+    font-size: 20px;
+}
+.shipping-section { flex: 2; }
+.lable-required{
+  color: red;
+}
+.discount-type-options label{
+  font-size: 16px;
+  color: #000;
+  font-family: oregon-ldo-medium;
+  letter-spacing: normal;
+}
+.shipping--major-wrapper , .shipping-options .shipping-option , .shipping-options .shipping-option span , .shipping--major-wrapper , .home-delivery-form p.form-subtitle {
+    font-size: 16px;
+    color: #1c1c1c;
+    font-family: oregon-ldo-medium;
+}
+ .shipping-section p.form-subtitle{
+  margin: 0;
+ }
+.shipping-section select , .shipping-section .form-input{
+    height: 40px;
+    padding: 0 0.5rem;
+     font-size: 16px;
+    color: #1c1c1c;
+    font-family: oregon-ldo-medium;
+}
+.shipping-section select{
+  font-size: 16px;
+  color: #1c1c1c;
+  margin-bottom: 1rem;
+  font-family: oregon-ldo-medium;
+} 
+
+.shipping-options {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap:wrap;
+}
+.shipping-options input[type="radio"] , .store-list input[type="radio"] , .discount-type-options input[type="radio"]{
+      accent-color: #1c1c1c;
+}
+
+.shipping-options  label.shipping-option{
+height: 40px;
+padding: 0 0.5rem;
+flex: 1 1 auto;
+}
+.shipping-option {
+  flex: 1;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.shipping-option:hover {
+  border-color: #666;
+}
+label.store-option {
+    display: flex;
+    column-gap: 1rem;
+    align-items: baseline;
+}
+.store-option input{
+  margin: 0;
+}
+.store-details h4 , .store-details p {
+    margin: 0;
+}
+h2.details-title {
+    margin: 0 0 1.5rem;
+    font-size: 20px;
+    color: #1c1c1c;
+    font-family: oregon-ldo-medium;
+}
+.store-details h4{
+  font-size: 16px;
+  color: #1c1c1c;
+  font-family: oregon-ldo-medium;
+   letter-spacing: normal;
+}
+.store-details p{
+  font-size: 14px;
+  color: #1c1c1c;
+   letter-spacing: normal;
+  font-family: oregon-ldo-medium;
+}
+.form-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.form-group {
+  margin-bottom: 1rem;
+}
+.form-group.half {
+  flex: 1;
+}
+.form-input,
+.form-select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-top: 0.25rem;
+}
+.store-search {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.store-search-input {
+  flex: 1;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+.search-btn,
+.apply-btn {
+  background: #1c1c1c;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: oregon-ldo-medium;
+}
+.store-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.store-option {
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.order-details {
+  flex: 1;
+  background: #fff;
+  padding: 2rem;
+  position:sticky;
+  top: 85px;
+  border-radius: 8px;
+  height: fit-content;
+}
+.product-summary {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #ddd;
+}
+.product-thumbnail {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+}
+.discount-section {
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+.discount-success , .discount-error-msg {
+  margin: 6px 0 ;font-size: 14px;font-family: oregon-ldo-medium;
+}
+.discount-success{font-size: 14px;color: green;}
+.discount-input {
+  flex: 1;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  color: #000;
+  height: 40px;
+  width: 68%;
+  font-family: oregon-ldo-medium;
+}
+.discount-success {
+  color: green;
+  margin-top: 0.5rem;
+}
+  .apply-btn {
+    position: relative;
+    justify-content: center;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .btn-spinner {
+    width: 16px;
+    height: 16px;
+    margin-left: 5px;
+    border: 2px solid #fff;
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .apply-btn[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+.order-summary {
+  display: flex;
+  padding-top:1rem;
+  flex-direction: column;
+  border-top: 1.5px solid #f9f9f9;
+}
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+}
+.summary-row.total {
+  font-weight: bold;
+  font-size: 1.2em;
+  border-top: 1px solid #ddd;
+  padding-top: 1rem;
+  margin-top: 1rem;
+}
+.discount {
+  color: #b45309;
+}
+
+.toast-message {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #bf1111;/* Red background for error */
+  color: #fff;
+  padding: 16px;
+  text-align: center;
+  border-radius: 2px;
+  z-index: 9999;
+  font-size: 17px;
+  min-width: 250px;
+  font-weight: 500;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+  animation: fadeInOut 3s ease-in-out;
+  text-align: center;
+}
+    
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translate(-50%, 20px); }
+  10% { opacity: 1; transform: translate(-50%, 0); }
+  90% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, 20px); }
+}
+
+/* pancard inputs */
+.pan-card-section {
+  display: none;
+  background-color: #fff;
+  padding:2rem;
+  width: 100%;
+  margin: 20px auto;
+  border-radius: 8px;
+}
+
+.pan-card-section h2 {
+  margin: 0 0 1.5rem;
+  color: #1c1c1c;
+  font-family: oregon-ldo-medium;
+  letter-spacing: normal;
+  font-size: 20px;
+}
+
+.pan-card-section label {
+    font-size: 16px;
+    color: #1c1c1c;
+    font-family: oregon-ldo-medium;
+    margin-bottom: 5px;
+}
+.shipping--major-wrapper {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+}
+
+.pan-card-section input[type="text"] {
+  font-size: 16px;
+  color: #333;
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-top: 0.25rem;
+  height: 40px;
+}
+/* Ends Here */
+.payment_step_container {
+  width: 100%;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #fff;
+  font-family: "oregon-ldo-medium";
+  color: #000;
+  box-sizing: border-box;
+}
+.payment_step_container h2 {
+  font-size: 20px;
+  font-family: "oregon-ldo-medium";
+  color: #000;
+  margin: 0 0 1.5rem;
+}
+.payment_step_container.disabled{
+  display: none;
+}
+.payment_step_tab-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.payment_step_tab-buttons input[type="radio"] {
+  display: none;
+}
+
+.payment_step_tab-buttons .tab-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  background-color: #fff;
+  flex: 1;
+  text-align: center;
+  color: #000;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  font-family: "oregon-ldo-medium";
+}
+
+.payment_step_tab-buttons input[type="radio"]:checked + .tab-btn {
+  background-color: #1c1c1c;
+  border: 2px solid #1c1c1c;
+  color: #fff;
+  
+}
+
+.payment_step_tab-content {
+  display: none;
+  font-family: "oregon-ldo-medium";
+  color: #000;
+}
+
+.payment_step_tab-content.active {
+  display: block;
+}
+
+.payment_step_payment-mode-select {
+  margin-top: 10px;
+}
+
+.payment_step_select {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  font-family: "oregon-ldo-medium";
+  color: #000;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  background-color: #fff;
+}
+
+.payment_step_buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  width: 80%;
+  margin: 30px auto 20px;
+}
+button.payment_step_share , button.payment_step_copy {
+    width: 45%;
+}
+
+.payment_step_share {
+  background-color: #1c1c1c;
+  color: #fff;
+  border: none;
+ height: 40px;
+ padding:0 1.5rem;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+  letter-spacing: normal;
+  cursor: pointer;
+  border-radius: 2px;
+  font-size: 16px;
+  font-family: "oregon-ldo-medium";
+}
+
+.payment_step_copy {
+  background-color: transparent;
+  color: #1c1c1c;
+  border: 2px solid #1c1c1c;
+  letter-spacing: normal;
+  height: 40px;
+  font-size: 16px;
+  padding:0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 2px;
+  font-family: "oregon-ldo-medium";
+}
+
+ .payment_step_transaction-field {
+    margin-top: 15px;
+  }
+
+  .payment_step_transaction-field label {
+    display: block;
+    margin-bottom: 6px;
+    color: #000;
+    font-family: oregon-ldo-medium;
+    font-size: 16px;
+  }
+button.apply-btn {
+    width: 30%;
+    height: 40px;
+}
+  .payment_step_transaction-field input {
+    width: 100%;
+    height: 40px;
+    font-size: 16px;
+    font-family: oregon-ldo-medium;
+    color: #000;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 6px;
+    display: none;
+  }
+
+  .input-error {
+    border-color: red !important;
+  }
+  @media(max-width:1100px){
+    .order-details {
+   position:unset;
+
+}
+    .order-placement-container{
+      flex-direction: column-reverse;
+    }
+  }
+
+  @media(max-width:480px){
+  .payment_step_tab-buttons,
+  .payment_step_buttons{
+  flex-wrap:wrap;
+  }
+  .payment_step_tab-buttons .tab-btn{
+  width:100%;
+  flex:1 1 auto;
+  }
+  button.payment_step_share, button.payment_step_copy{
+  width:100%;
+  }
+  }
+
+  .advance-payment-info {
+  margin-top: 20px;
+  padding: 16px;
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 6px;
+}
+
+.advance-payment-info p {
+  margin: 0;
+  font-size: 14px;
+  color: #856404;
+  line-height: 1.6;
+  font-family: oregon-ldo-medium;
+}
+
+.advance-payment-info strong {
+  color: #000;
+  font-weight: 600;
+}
+</style>
+
+
+<div class="order-placement-container">
+  <div class="shipping-section">
+    <div class="shipping--upper-wrapper">
+      <div class="shipping--major-wrapper">
+        <h2 class="shipping-title">Shipping</h2>
+
+        <div class="shipping-options">
+          <label class="shipping-option">
+            <input type="radio" name="shipping-method" value="home-delivery" class="shipping-radio" checked>
+            <span class="shipping-label">Home Delivery</span>
+          </label>
+
+          <label class="shipping-option">
+            <input type="radio" name="shipping-method" value="store-pickup" class="shipping-radio">
+            <span class="shipping-label">In Store Pickup (Free)</span>
+          </label>
+        </div>
+
+        <!-- Home Delivery Form -->
+        <div class="home-delivery-form shipping-form" id="homeDeliveryForm">
+          <div id="shipping--address">
+          <div class="form-row">
+            <div class="form-group half">
+              <label for="firstName">First Name<span class="lable-required">*</span></label>
+              <input type="text" id="firstName" name="shipping-firstName" class="form-input" required>
+            </div>
+            <div class="form-group half">
+              <label for="shipping-lastName">Last Name<span class="lable-required">*</span></label>
+              <input type="text" id = "lastName" name="shipping-lastName" class="form-input" required>
+            </div>
+          </div>
+
+          <!-- In Home Delivery Form - Replace the single address field -->
+          <div class="form-group">
+            <label for="address1">Address 1<span class="lable-required">*</span></label>
+            <input name="shipping-address1" id="address1" type="text" class="form-input" required>
+          </div>
+
+          <div class="form-group">
+            <label for="address2">Address 2<span class="lable-required">*</span></label>
+            <input name="shipping-address2" id="address2" type="text" class="form-input" required>
+          </div>
+        
+          <div class="form-row">
+            <div class="form-group half">
+              <label for="country">Country<span class="lable-required">*</span></label>
+              <input name="shipping-country" id="country" type="text" class="form-input" required>
+            </div>
+            <div class="form-group half">
+              <label for="province">Province<span class="lable-required">*</span></label>
+              <input name="shipping-province" id="province" type="text" class="form-input" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group half">
+              <label for="city">City<span class="lable-required">*</span></label>
+              <input name="shipping-city" id="city" type="text" class="form-input" required>
+            </div>
+            <div class="form-group half">
+              <label for="pincode">Pincode<span class="lable-required">*</span></label>
+              <input name="shipping-pincode" id="pincode" type="text" class="form-input" required>
+            </div>
+          </div>
+
+         <div class="form-row">
+            <div class="form-group half">
+              <label for="phone">Phone Number<span class="lable-required">*</span></label>
+              <input id="phone" name="shipping-phone" type="tel" class="form-input" required maxlength="10">
+            </div>
+          </div>
+          </div>
+          
+
+          <label class="checkbox-container">
+            <input type="checkbox" id="billing--checkbox" checked onchange="billingHandler(this)">
+            <span class="checkbox-label">Billing address same as shipping address</span>
+          </label>
+         
+         
+        </div>
+
+        <!-- Store Pickup Form -->
+        <div class="store-pickup-form shipping-form" id="storePickupForm" style="display: none;">
+         <h2 class="shipping-title">Select Store</h2> 
+          <div class="store-list"></div>
+        </div>
+         <div id="billing--address">
+             <h2 class="shipping-title">Billing</h2>
+            <div class="form-row">
+            <div class="form-group half">
+              <label for="firstName">First Name<span class="lable-required">*</span></label>
+              <input type="text" id="firstName" name="billing-firstName" class="form-input" required>
+            </div>
+            <div class="form-group half">
+              <label for="lastName">Last Name<span class="lable-required">*</span></label>
+              <input type="text" id = "lastName" name="billing-lastName" class="form-input" required>
+            </div>
+          </div>
+
+          <!-- In Billing Address - Replace the single address field -->
+          <div class="form-group">
+            <label for="billing-address1">Address 1<span class="lable-required">*</span></label>
+            <input name="billing-address1" id="billing-address1" type="text" class="form-input" required>
+          </div>
+
+          <div class="form-group">
+            <label for="billing-address2">Address 2<span class="lable-required">*</span></label>
+            <input name="billing-address2" id="billing-address2" type="text" class="form-input" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group half">
+              <label for="country">Country<span class="lable-required">*</span></label>
+              <input name="billing-country" id="country" type="text" class="form-input" required>
+            </div>
+            <div class="form-group half">
+              <label for="province">Province<span class="lable-required">*</span></label>
+              <input name="billing-province" id="province" type="text" class="form-input" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group half">
+              <label for="city">City<span class="lable-required">*</span></label>
+              <input name="billing-city" id="city" type="text" class="form-input" required>
+            </div>
+            <div class="form-group half">
+              <label for="pincode">Pincode<span class="lable-required">*</span></label>
+              <input name="billing-pincode" id="pincode" type="text" class="form-input" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group half">
+              <label for="phone">Phone Number<span class="lable-required">*</span></label>
+              <input id="phone" name="billing-phone" type="tel" class="form-input" required maxlength="10">
+            </div>
+          </div>
+        </div>
+     </div>
+      <div class="pan-card-section">
+        <h2>PAN Card Details</h2>
+        <label for="pan-card-number">PAN Card Number<span class="lable-required">*</span></label>
+        <input 
+          type="text" 
+          id="pan-card-number" 
+          name="pan-card-number"
+          maxlength="10"
+          style="text-transform: uppercase;"
+          oninput="this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 10)" 
+          required 
+          placeholder="ABCDE1234F" 
+        />
+      </div>
+      </div>
+     <div class="payment_step_container disabled">
+  <h2>Select Payment Method</h2>
+
+  <div class="payment_step_tab-buttons">
+    <input type="radio" id="payment_step_manual" name="paymentTab" checked onclick="switchPaymentTab('manual')">
+    <label for="payment_step_manual" class="tab-btn">Capture Payment Manually</label>
+
+    <input type="radio" id="payment_step_link" name="paymentTab" onclick="switchPaymentTab('link')">
+    <label for="payment_step_link" class="tab-btn">Share Payment Link</label>
+  </div>
+
+  <!-- Tab 1 -->
+  <div id="payment_step_tab-manual" class="payment_step_tab-content active">
+    <h3>Payment Mode</h3>
+    <div class="payment_step_payment-mode-select">
+      <select id="paymentMode" onchange="handleErrorMessage(this)" class="payment_step_select">
+        <option value = "" selected disabled>Select your payment mode:</option>
+        <option value="upi">UPI</option>
+        <option value="card">Card</option>
+        <option value="cash">Cash</option>
+      </select>
+      <div id="paymentError" class="error-message" >Please select a valid payment method.</div>
+
+    </div>
+    <div class="payment_step_transaction-field">
+        <label for="transactionId">Transaction Reference</label>
+        <input type="text" id="transactionId" oninput="transactionInputHandler(this)" placeholder="Enter transaction ID">
+        <div id="transactionError" class="error-message">Please enter a transaction reference.</div>
+      </div>
+  </div>
+
+  <!-- Tab 2 -->
+  <div id="payment_step_tab-link" class="payment_step_tab-content">
+    <div class="payment_step_buttons">
+      <button class="payment_step_share" onclick="sendInvoiceUrl(this)">SHARE PAYMENT LINK</button>
+      <button class="payment_step_copy" onclick="copyInvoiceUrl(this)">COPY PAYMENT LINK</button>
+    </div>
+  </div>
+</div>
+
+
+
+  </div>
+
+  
+  <div class="order-details">
+    <h2 class="details-title">Order Details</h2>
+       <div class="product--summary--detail"> </div>
+          {% comment %} <div class="discount-section disabled">
+           
+            <div class="discount-type-options" style="margin-top: 10px;">
+              <label><input type="radio" name="discountType" value="PERCENTAGE" checked> Percentage (%) </label>
+              <label><input type="radio" name="discountType" value="FIXED_AMOUNT">Fixed Amount</label>
+            </div>
+            <div class="discount-input-main-wrapper">
+            <input  type="text" class="discount-input" placeholder="Enter discount value (e.g., 15 or 25)" oninput="clearMessages(this)">
+             <button class="apply-btn"  id="applyBtn" onclick="validateDiscount()"><span class="btn-text">Apply</span>
+              <span class="btn-spinner" style="display: none;"></span></button>
+            </div>
+            
+
+            <p class="discount-success" style="color: green;"></p>
+            <p class="discount-error-msg" style="color: red;"></p>
+          </div> {% endcomment %}
+        <div class="order-summary cusotm-checkout"></div>
+  </div>
+   
+    
+</div>
+
+<script>
+  function renderCustomCheckOutPrice(draftOrder) {
+  if (draftOrder?.totalPrice) {
+    document.querySelectorAll('.order-summary.cusotm-checkout .letter-spacing-two')[0].innerText = draftOrder?.totalPrice;
+    document.querySelector('.order-summary.cusotm-checkout .summary-row.total .letter-spacing-two').innerText = draftOrder?.totalPrice;
+  }
+  
+  if (cartTotalValueAmt && draftOrder?.totalPrice) {
+    const orderDetailsContainer = document.querySelector('.order-placement-container .order-details');
+    
+    // Remove existing payment info if it exists
+    const existingInfo = orderDetailsContainer.querySelector('.advance-payment-info');
+    if (existingInfo) {
+      existingInfo.remove();
+    }
+    
+    // Calculate remaining amount
+    const advanceAmount = parseFloat(draftOrder.totalPrice.replace(/[^0-9.-]+/g, '')) || 0;
+    const remainingAmount = cartTotalValueAmt - advanceAmount;
+    
+    // Format amounts
+    const formattedAdvance = advanceAmount.toLocaleString('en-IN', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+    
+    const formattedRemaining = remainingAmount.toLocaleString('en-IN', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+    
+    // Create and append the message element
+    const paymentInfoDiv = document.createElement('div');
+    paymentInfoDiv.className = 'advance-payment-info';
+    paymentInfoDiv.innerHTML = `
+      <p class="advance-payment-text">
+        This is your advance payment of <strong>₹${formattedAdvance}</strong>.
+      </p>
+      <p class="remaining-payment-text">
+        The remaining amount of <strong>₹${formattedRemaining}</strong> will be collected upon delivery.
+      </p>
+    `;
+    
+    orderDetailsContainer.appendChild(paymentInfoDiv);
+  }
+}
+   
+  document.addEventListener('DOMContentLoaded', function() {
+    const homeDeliveryForm = document.getElementById('homeDeliveryForm');
+    const storePickupForm = document.getElementById('storePickupForm');
+    const shippingRadios = document.querySelectorAll('input[name="shipping-method"]');
+    const billingContainer = document.querySelector('#billing--address');
+    const billingCheckBoxElement = document.querySelector('#billing--checkbox');
+     
+    
+    shippingRadios.forEach(radio => {
+      radio.addEventListener('change', function() {
+        if (this.value === 'home-delivery') {
+           homeDeliveryForm.style.display = 'block';
+           storePickupForm.style.display = 'none';
+           billingCheckBoxElement.checked = true;
+           billingContainer.style.display ='none';
+           billingContainer.style.marginTop ='unset'; 
+          
+        } else {
+            homeDeliveryForm.style.display = 'none';
+            storePickupForm.style.display = 'block';
+            billingCheckBoxElement.checked = false;
+            billingContainer.style.display = 'block';
+            billingContainer.style.marginTop ='20px'; 
+        }
+      });
+    });
+  });
+
+  function billingHandler(input){
+    const billingContainer = document.querySelector('#billing--address');
+    if(input.checked){
+        billingContainer.style.display ='none';
+        billingContainer.style.marginTop ='0px';
+    } else {
+      billingContainer.style.display ='block';
+       billingContainer.style.marginTop ='10px';
+    }
+  }
+
+  function switchPaymentTab(selected) {
+    const manualTab = document.getElementById("payment_step_tab-manual");
+    const linkTab = document.getElementById("payment_step_tab-link");
+    const placeOrderButton = document.querySelector('#payment-backButton button.continue-button');
+
+    if (selected === 'manual') {
+      manualTab.classList.add("active");
+      linkTab.classList.remove("active");
+      placeOrderButton.style.display = 'flex';
+    } else {
+      manualTab.classList.remove("active");
+      linkTab.classList.add("active");
+      placeOrderButton.style.display = 'none';
+
+      
+      const paymentSelect = document.getElementById("paymentMode");
+      paymentSelect.selectedIndex = 0;
+
+      document.getElementById("transactionId").value = "";
+      document.getElementById("paymentError").style.display = "none";
+      document.getElementById("transactionError").style.display = "none";
+      document.getElementById('paymentMode').classList.remove('input-error');
+      document.getElementById('transactionId').classList.remove('input-error');
+      }
+  }
+
+
+  function sendInvoiceUrl(button) {
+    const draftGID = button.getAttribute("draft-order-id");
+
+    if (!draftGID) {
+      alert("Draft Order ID is missing.");
+      return;
+    }
+    const draftId = draftGID.split("/").pop();
+    const apiUrl = `/apps/ea_module_dev/draft-orders/${draftId}/send-invoice`;
+
+    button.disabled = true;
+    button.textContent = "Sending...";
+
+    fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Accept": "application/json"
+      },
+      body: ""
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("API response not OK");
+      }
+      return response.json();
+    })
+    .then(data => {
+      button.textContent = "Invoice Sent!";
+      setTimeout(() => {
+        button.textContent = "SHARE PAYMENT LINK";
+        button.disabled = false;
+      }, 2000);
+    })
+    .catch(error => {
+      console.error("Failed to send invoice:", error);
+      alert("Failed to send the invoice.");
+      button.textContent = "SHARE PAYMENT LINK";
+      button.disabled = false;
+    });
+  }
+
+   function copyInvoiceUrl(button) {
+    const invoiceUrl = button.getAttribute("invoiceurl");
+
+    if (!invoiceUrl) {
+      alert("No invoice URL found.");
+      return;
+    }
+
+   
+    navigator.clipboard.writeText(invoiceUrl).then(() => {
+      button.textContent = "Copied!";
+      setTimeout(() => {
+        button.textContent = "COPY PAYMENT LINK";
+      }, 2000);
+    }).catch(err => {
+      console.error("Failed to copy text: ", err);
+      alert("Failed to copy the link.");
+    });
+  }
+
+  function handleErrorMessage(select){
+    if(select.value){
+       select.classList.remove('input-error');
+       const errorMsg = document.getElementById('paymentError');
+       errorMsg.style.display = 'none';
+    }
+  }
+
+  function transactionInputHandler(input){
+    if(input.value.trim() !== ''){
+       document.getElementById('transactionId').classList.remove('input-error');
+       document.getElementById('transactionError').style.display = 'none';
+    }
+  }
+
+
+  function validateDiscount() {
+  const input = document.querySelector('.discount-input');
+  const errorMsg = document.querySelector('.discount-error-msg');
+  const successMsg = document.querySelector('.discount-success');
+  const selectedType = document.querySelector('input[name="discountType"]:checked').value;
+  const rawValue = input.value.trim();
+
+  const applyBtn = document.getElementById('applyBtn');
+  const btnText = applyBtn.querySelector('.btn-text');
+  const btnSpinner = applyBtn.querySelector('.btn-spinner');
+
+  if (rawValue === '' || isNaN(rawValue)) {
+    errorMsg.textContent = 'Please enter a valid discount value.';
+    successMsg.textContent = '';
+    return;
+  }
+
+  const discountValue = parseFloat(rawValue);
+  if (selectedType === "PERCENTAGE") {
+    if (discountValue <= 0 || discountValue >= 100) {
+      errorMsg.textContent = 'Percentage discount must be greater than 0 and less than 100.';
+      successMsg.textContent = '';
+      return;
+    }
+  } else if (selectedType === "FIXED_AMOUNT") {
+    if (discountValue <= 0) {
+      errorMsg.textContent = 'Fixed amount discount must be greater than 0.';
+      successMsg.textContent = '';
+      return;
+    }
+  }
+
+  const draftGID = document.querySelector('button.payment_step_share').getAttribute("draft-order-id");
+  const draftOrderId = draftGID.split("/").pop();
+  const apiUrl = `/apps/ea_module_dev/orders/${draftOrderId}/apply-discount`;
+
+  const payload = {
+    value: discountValue,
+    valueType: selectedType,
+    description: selectedType === "PERCENTAGE"
+      ? `${discountValue}% discount applied`
+      : `₹${discountValue} discount applied`
+  };
+
+  applyBtn.disabled = true;
+  btnSpinner.style.display = 'inline-block';
+
+  fetch(apiUrl, {
+    method: 'POST',
+    headers: {
+      'accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload)
+  })
+  .then(res => {
+    if (!res.ok) throw new Error('API failed');
+    return res.json();
+  })
+  .then(data => {
+    errorMsg.textContent = '';
+    successMsg.textContent = `${payload.description}`;
+    applyDiscountToCartSummary(discountValue, selectedType);
+  })
+  .catch(err => {
+    successMsg.textContent = '';
+    errorMsg.textContent = 'Failed to apply discount. Please try again.';
+    console.error(err);
+  })
+  .finally(() => {
+    btnSpinner.style.display = 'none';
+    applyBtn.disabled = false;
+  });
+}
+
+
+
+   {% comment %} function applyDiscountToCartSummary(discountInput, type) {
+      const subtotalEl = document.querySelector('.order-summary .summary-row:nth-child(1) span:last-child');
+      const discountRow = document.querySelector('.order-summary .summary-row.discount');
+      const discountAmountEl = discountRow.querySelector('span:last-child');
+      const totalEl = document.querySelector('.order-summary .summary-row.total span:last-child');
+
+      
+      const subtotal = parseFloat(
+        subtotalEl.textContent.replace(/[₹,]/g, '').trim()
+      );
+
+      let discountAmount = 0;
+
+      if (type === 'PERCENTAGE') {
+        discountAmount = (subtotal * discountInput) / 100;
+      } else {
+        discountAmount = discountInput;
+      }
+
+      discountAmount = Math.min(discountAmount, subtotal);
+      discountRow.style.display = 'flex';
+      discountAmountEl.textContent = `₹ ${discountAmount.toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
+
+      const newTotal = subtotal - discountAmount;
+      totalEl.textContent = `₹ ${newTotal.toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
+} {% endcomment %}
+
+  function clearMessages(input) {
+    if(input.value.trim != ''){
+      document.querySelector('.discount-error-msg').textContent = '';
+      document.querySelector('.discount-success').textContent = '';
+    }
+    
+  }
+</script>

@@ -1,0 +1,331 @@
+<div id="loader" class="loading-overlay">
+    <p class="loader-text">
+        Hang in there
+        <span>Your personalized result is almost ready to sparkle!</span>
+    </p>
+</div>
+
+<div class="personality-section">
+    <!-- Personality Type Block -->
+    <div class="personality-block">
+        <h1 id="personality-title" class="personality-title">Entertainer</h1>
+        <h3 class="section-heading">MBTI Personality Type</h3>
+    </div>
+
+    <!-- Personality Code Block -->
+    <div class="personality-block">
+        <h1 id="personality-code" class="personality-title">ESFP</h1>
+        <h3 class="section-heading">MBTI Personality Code</h3>
+    </div>
+</div>
+
+
+<div id="error" class="error-message" style="display: none;">Error: Unable to fetch data</div>
+
+<div id="responseContainer" class="response-container" style="display: none;">
+    <!-- Interactive Text for Description -->
+    <div class="interactive-block">
+        <p class="interactive-text">
+            Want to know more about personality? 
+            <span id="toggle-description" class="interactive-link">Read More</span>
+        </p>
+        <div id="description-block" class="hidden description-block">
+            <p id="description" class="field-value"></p>
+        </div>
+    </div>
+
+    <!-- Interactive Text for Similar Personalities -->
+    <div class="interactive-block">
+        <p class="interactive-text">
+            Similar type of personality? 
+            <span id="toggle-similar" class="interactive-link">See Here</span>
+        </p>
+        <div id="personalities-block" class="hidden personalities-block">
+            <p id="similar-personality-1" class="field-value"></p>
+            <p id="similar-personality-2" class="field-value"></p>
+        </div>
+    </div>
+
+    <!-- Ring Style Collections -->
+    <div class="data-field">
+        <h3 class="section-heading">Advised Ring Styles</h3>
+        <div class="ring-collection-horizontal">
+            <div id="collection-1" class="ring-style">
+                <div class="ring-box">
+                    <img id="collection-1-img" class="ring-style-img" alt="Ring Style 1" />
+                    <p id="collection-1-name" class="ring-style-name"></p>
+                    <a id="collection-1-link" class="ring-style-link" target="_blank">View More Designs</a>
+                </div>
+            </div>
+            <div id="collection-2" class="ring-style">
+                <div class="ring-box">
+                    <img id="collection-2-img" class="ring-style-img" alt="Ring Style 2" />
+                    <p id="collection-2-name" class="ring-style-name"></p>
+                    <a id="collection-2-link" class="ring-style-link" target="_blank">View More Designs</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    async function fetchApiResponse() {
+        const url = "https://projectaiapi-hxaahsajd4aegqf6.centralindia-01.azurewebsites.net/fetchLatestResponse";
+
+        try {
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            // Populate data in the fields
+            document.getElementById("personality-title").innerText = data.mbti_personality_type || "N/A";
+            document.getElementById("personality-code").innerText = data.mbti_personality_code || "N/A";
+            document.getElementById("description").innerText = data.description || "N/A";
+            document.getElementById("similar-personality-1").innerText = data.similar_personality_1 || "N/A";
+            document.getElementById("similar-personality-2").innerText = data.similar_personality_2 || "N/A";
+
+            // Display ring style collections
+            const collection1 = data.collection_1 ? data.collection_1.split(",") : [];
+            const collection2 = data.collection_2 ? data.collection_2.split(",") : [];
+
+            if (collection1.length) {
+                document.getElementById("collection-1-img").src = collection1[1];
+                document.getElementById("collection-1-name").innerText = collection1[0];
+                document.getElementById("collection-1-link").href = collection1[2];
+            }
+
+            if (collection2.length) {
+                document.getElementById("collection-2-img").src = collection2[1];
+                document.getElementById("collection-2-name").innerText = collection2[0];
+                document.getElementById("collection-2-link").href = collection2[2];
+            }
+
+            // Hide the loader and show the response container
+            setTimeout(() => {
+                document.getElementById("loader").style.display = "none";
+                document.getElementById("responseContainer").style.display = "block";
+            }, 2000);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            document.getElementById("loader").style.display = "none";
+            document.getElementById("error").style.display = "block";
+            document.getElementById("error").innerText = `Error: ${error.message}`;
+        }
+    }
+
+    // Toggle functionality for expandable sections
+    document.addEventListener('DOMContentLoaded', () => {
+        fetchApiResponse();
+
+        document.getElementById("toggle-description").addEventListener("click", () => {
+            const descriptionBlock = document.getElementById("description-block");
+            descriptionBlock.classList.toggle("hidden");
+        });
+
+        document.getElementById("toggle-similar").addEventListener("click", () => {
+            const personalitiesBlock = document.getElementById("personalities-block");
+            personalitiesBlock.classList.toggle("hidden");
+        });
+    });
+</script>
+
+<style>
+    .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #f9f9f9; /* Matches the section background color */
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .loader-text {
+        font-size: 24px; /* Larger size for "Hang in there" */
+        font-weight: bold;
+        color: #333;
+        padding: 10px 20px;
+    }
+
+    .loader-text span {
+        display: block;
+        font-size: 18px; /* Slightly smaller size for the second line */
+        font-weight: normal;
+        margin-top: 10px;
+    }
+
+    @media (max-width: 768px) {
+        .loader-text {
+            font-size: 20px; /* Adjusted for smaller screens */
+        }
+
+        .loader-text span {
+            font-size: 16px; /* Adjusted size for mobile */
+        }
+    }
+
+    .personality-section {
+        display: flex;
+        justify-content: center;
+        gap: 50px; /* Space between Personality Type and Code sections */
+        margin-bottom: 20px; /* Space between Personality Section and next section */
+    }
+
+    .personality-block {
+        display: flex;
+        flex-direction: column; /* Aligns the value and heading vertically */
+        align-items: center; /* Center-aligns the block */
+    }
+
+    .personality-title {
+        font-size: 28px; /* Font size for Type and Code values */
+        color: transparent;
+        background: linear-gradient(to right, #924c26 0%, #ce875e 49%, #924c26 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        margin-bottom: 5px; /* Adjusts spacing between value and heading */
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .section-heading {
+        font-size: 12px; /* Smaller size for headings */
+        font-weight: bold;
+        color: #777;
+        margin: 0;
+        text-align: center;
+    }
+
+    .interactive-block {
+        margin: 10px 0;
+        text-align: center;
+    }
+
+    .interactive-text {
+        font-size: 14px;
+        font-family: "oregon-ldo-medium";
+        color: #000;
+        margin-bottom: 10px;
+    }
+
+    .interactive-link {
+        color: #000;
+        font-weight: bold;
+        text-decoration: none;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    .interactive-link:hover {
+        color: #555;
+    }
+
+    /* Reduced width for description and personality blocks */
+    .description-block, .personalities-block {
+        margin-top: 10px;
+        padding: 15px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        width: 80%; /* Set width to 80% of container */
+        max-width: 300px; /* Ensure a max width for smaller screens */
+        margin: 0 auto; /* Centers the block */
+    }
+
+    .ring-box {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; /* Ensures consistent alignment */
+        align-items: center;
+        width: 160px; /* Fixed consistent width */
+        height: 250px; /* Fixed consistent height */
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 10px;
+        background-color: #fff;
+        text-align: center;
+    }
+
+    .ring-style-img {
+        max-width: 100%;
+        height: 140px; /* Adjusted height for image */
+        border-radius: 10px;
+        margin-bottom: 5px;
+    }
+
+    .ring-style-name {
+        font-size: 12px;
+        font-weight: bold;
+        margin-bottom: 5px; /* Consistent spacing */
+        margin-top: -20px; /* Moves the name slightly upward */
+        text-align: center;
+    }
+
+    .ring-style-link {
+        display: inline-block;
+        margin-top: auto; /* Pushes the button to the bottom */
+        margin-bottom: 10px; /* Reduced bottom margin */
+        padding: 8px 12px;
+        background-color: #000;
+        color: #fff;
+        border-radius: 15px;
+        text-decoration: none;
+        font-size: 12px;
+    }
+
+    .ring-style-link:hover {
+        background-color: #333;
+    }
+
+    .ring-collection-horizontal {
+        display: flex;
+        justify-content: center; /* Centers collections horizontally */
+        align-items: center; /* Centers collections vertically */
+        gap: 15px; /* Increased spacing between collections */
+        padding: 10px 0;
+        flex-wrap: wrap; /* Ensures responsiveness */
+    }
+</style>
+
+
+
+
+
+
+
+{% schema %}
+{
+  "name": "Quiz Result Display",
+  "settings": [
+    {
+      "type": "text",
+      "id": "dummy_setting",
+      "label": "Dummy Setting",
+      "default": "This is a test"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Quiz Result Display",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

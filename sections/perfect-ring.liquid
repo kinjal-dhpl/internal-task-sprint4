@@ -1,0 +1,61 @@
+<h2 data-aos="fade-zoom-in" class="title__grad">{{ section.settings.title }}</h2>
+<p data-aos="fade-zoom-in">{{ section.settings.subtitle }}</p>
+<div data-aos="fade-zoom-in" class="perfect-ring__grid">
+    <div class="perfect-ring__each perfect-ring__each1">
+      {% if section.settings.left-image %}
+          {{ section.settings.left-image | image_url: width: 1000 | image_tag }}
+      {% endif %}
+    </div>
+    <div class="perfect-ring__each perfect-ring__each2">
+        {{ section.settings.right-image | image_url: width: 1000 | image_tag }}
+        <h3>{{ section.settings.right_title }}</h3>
+        <a href="{{ section.settings.right_button_url }}">{{ section.settings.right_button }}</a>
+    </div>
+</div>
+
+
+{% schema %}
+  {
+    "name": "Perfect Ring",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title"
+      },
+      {
+        "type": "text",
+        "id": "subtitle",
+        "label": "Sub Title"
+      },
+      {
+        "type": "image_picker",
+        "id": "left-image",
+        "label": "Left Image"
+      },
+       {
+        "type": "image_picker",
+        "id": "right-image",
+        "label": "Right Sparkle Image"
+      },
+      {
+        "type": "text",
+        "id": "right_title",
+        "label": "Title"
+      },
+       {
+        "type": "text",
+        "id": "right_button",
+        "label": "Button"
+      },
+       {
+        "type": "text",
+        "id": "right_button_url",
+        "label": "Button URL"
+      }
+    ],
+    "presets": [{ "name": "Perfect Ring" }],
+    "tag": "div",
+    "class": "perfect-ring page-width"
+  }
+{% endschema %}
