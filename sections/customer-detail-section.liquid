@@ -1863,8 +1863,7 @@ window.getStatusOptions = getStatusOptions;
           const response = await fetch('/apps/ea_module_dev/gati/status-update', {
             method: 'POST',
             headers: { 
-              'Content-Type': 'application/json',
-              'gati-access-token': '08608B8C-BEC5-4B22-AC38-92550EC288B4'
+              'Content-Type': 'application/json'
             },
             body: JSON.stringify(payload)
           });
@@ -2792,8 +2791,7 @@ document.addEventListener('keydown', function(e) {
         response = await fetch('/apps/ea_module_dev/gati/status-update', {
           method: 'POST',
           headers: { 
-            'Content-Type': 'application/json',
-            'gati-access-token': '08608B8C-BEC5-4B22-AC38-92550EC288B4'
+            'Content-Type': 'application/json'
           },
           body: JSON.stringify({
             status: 'In Transit',
