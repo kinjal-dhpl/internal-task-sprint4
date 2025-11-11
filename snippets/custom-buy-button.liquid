@@ -1,25 +1,50 @@
- <style>
-  .new_buy_button {
-    width: 100%;
-    padding: 15px 0;
-    background: black;
-    color: white;
-    font-size: 16px;
-    border-radius: 16px;
-    cursor: pointer;
-    max-width: 44rem;
-    margin-bottom:0;
-  }
- </style>
+{%- liquid
+  if product
+    assign current_variant = product.selected_or_first_available_variant
+    assign current_price = current_variant.price | default: product.price
+    assign is_price_zero = false
+    if current_price == 0
+      assign is_price_zero = true
+    endif
+  else
+    assign is_price_zero = false
+  endif
+-%}
 
- <button class="new_buy_button" onclick="redirectToPdpDraftCheckout(this)">Buy it now</button>
+<style>
+ .new_buy_button {
+   width: 100%;
+   padding: 15px 0;
+   background: black;
+   color: white;
+   font-size: 16px;
+   border-radius: 16px;
+   cursor: pointer;
+   max-width: 44rem;
+   margin-bottom:0;
+ }
+ .new_buy_button:disabled {
+   background: #cccccc;
+   cursor: not-allowed;
+   opacity: 0.6;
+ }
+</style>
+
+ <button class="new_buy_button" onclick="redirectToPdpDraftCheckout(this)" {% if is_price_zero %}disabled{% endif %}>Buy it now</button>
 
  <script>
     console.log('hello from buy-buttons');
     async function redirectToPdpDraftCheckout(button) {
       console.log('pdp checkout button clicked');
-      try {
-        onGlobalLoader();
+     
+     // Check if button is disabled
+     if (button.disabled) {
+       console.log('Button is disabled, checkout prevented');
+       return;
+     }
+     
+     try {
+       onGlobalLoader();
 
         // --- 1. Extract variantId & size from URL ---
         const urlParams = new URLSearchParams(window.location.search);
