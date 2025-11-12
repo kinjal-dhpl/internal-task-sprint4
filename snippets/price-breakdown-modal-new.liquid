@@ -27,6 +27,11 @@
     transform: translate(-50%, -50%);
     z-index: 5;
   }
+
+  .breakdown-main-data {
+    max-height: calc(85vh - 185px);
+    overflow-y: auto;
+  }
   .pb-header {
     display: flex;
     justify-content: space-between;
@@ -112,6 +117,9 @@
     margin-top: 4px;
     text-align: right;
   }
+  .pb-total, .pb-total-note {
+    padding: 10px;
+}
   /* ========== Diamond Modal ========== */
   .dm-overlay {
     position: fixed;
@@ -235,58 +243,63 @@
 
 <!-- Price Breakdown Container -->
 <div class="price-breakdown-container hidden">
-  <div class="pb-header">
-    <h3>Price Breakdown</h3>
-    <button class="pb-close-btn close-btn">&times;</button>
-  </div>
-  <p class="pb-subtitle">Detailed breakdown of pricing components</p>
-
-  <div class="pb-title">
-    <h4 class="pb-title-name"></h4>
-    <p class="pb-title-subtitle"></p>
-  </div>
-
-  <div class="pb-section diamond-section">
-    <div class="pb-row">
-      <span class="diamond-head"><strong>Diamond</strong> +</span>
-      <span class="diamond-price"></span>
+  <div class="header-section">
+    <div class="pb-header">
+      <h3>Price Breakdown</h3>
+      <button class="pb-close-btn close-btn">&times;</button>
     </div>
-    <div class="pb-note diamond-type"></div>
-    <div class="pb-box diamond-details"></div>
-  </div>
+    <p class="pb-subtitle">Detailed breakdown of pricing components</p>
 
-  <div class="pb-section metal-section">
-    <div class="pb-row">
-      <span><strong>Metal</strong></span>
-      <span class="metal-price"></span>
+    <div class="pb-title">
+      <h4 class="pb-title-name"></h4>
+      <p class="pb-title-subtitle"></p>
     </div>
-    <div class="pb-note metal-type"></div>
-    <div class="pb-box metal-details"></div>
   </div>
-
-  <div class="pb-section making-section">
-    <div class="pb-row">
-      <span><strong>Making Charges</strong></span>
-      <span class="making-price"></span>
+  
+  {% comment %} BD-1 modal {% endcomment %}
+  <div class="breakdown-main-data">
+    <div class="pb-section diamond-section">
+      <div class="pb-row">
+        <span class="diamond-head"><strong>Diamond</strong> +</span>
+        <span class="diamond-price"></span>
+      </div>
+      <div class="pb-note diamond-type"></div>
+      <div class="pb-box diamond-details"></div>
     </div>
-    <div class="pb-note">Labor, craftsmanship, certifications, logistics</div>
-    <div class="pb-box">Professional crafting & quality assurance</div>
-  </div>
-
-  <div class="pb-section gst-section">
-    <div class="pb-row">
-      <span><strong>GST</strong></span>
-      <span class="gst-price"></span>
+  
+    <div class="pb-section metal-section">
+      <div class="pb-row">
+        <span><strong>Metal</strong></span>
+        <span class="metal-price"></span>
+      </div>
+      <div class="pb-note metal-type"></div>
+      <div class="pb-box metal-details"></div>
     </div>
-    <div class="pb-note">Goods & Services Tax (3%)</div>
-    <div class="pb-box">As per government regulations</div>
+  
+    <div class="pb-section making-section">
+      <div class="pb-row">
+        <span><strong>Making Charges</strong></span>
+        <span class="making-price"></span>
+      </div>
+      <div class="pb-note">Labor, craftsmanship, certifications, logistics</div>
+      <div class="pb-box">Professional crafting & quality assurance</div>
+    </div>
+  
+    <div class="pb-section gst-section">
+      <div class="pb-row">
+        <span><strong>GST</strong></span>
+        <span class="gst-price"></span>
+      </div>
+      <div class="pb-note">Goods & Services Tax (3%)</div>
+      <div class="pb-box">As per government regulations</div>
+    </div>
+  
+    <div class="pb-total">
+      <span><strong>Total Price</strong></span>
+      <span class="total-price"><strong></strong></span>
+    </div>
+    <p class="pb-total-note">*All taxes included</p>
   </div>
-
-  <div class="pb-total">
-    <span><strong>Total Price</strong></span>
-    <span class="total-price"><strong></strong></span>
-  </div>
-  <p class="pb-total-note">*All taxes included</p>
 
   <!-- Diamond Modal -->
   <div class="dm-overlay hidden">.</div>

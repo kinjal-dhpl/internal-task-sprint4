@@ -464,7 +464,7 @@
               <p class="variant-price"></p>
               <span class="plus-breakup-text">+ Break-up</span>
             </div>
-            <div class="price" data-variant-id="{{ variant.id }}">{{ variant.price | money }}</div>
+            {% comment %} <div class="price" data-variant-id="{{ variant.id }}">{{ variant.price | money }}</div> {% endcomment %}
           </div>
         </div>
       {% endif %}
