@@ -28,6 +28,7 @@
         },
         "price": {
           "type": "price",
+          "disabled": true,
           "settings": {}
         },
         "5a9d82df-5f8a-4c52-b13d-fcd4c17f2078": {
@@ -56,6 +57,7 @@
         },
         "custom_buy_button_wRrVEz": {
           "type": "custom_buy_button",
+          "disabled": true,
           "settings": {}
         },
         "buy_buttons": {
@@ -67,10 +69,12 @@
         },
         "custom_price_breakdown_dXFdUQ": {
           "type": "custom_price_breakdown",
+          "disabled": true,
           "settings": {}
         },
         "variant_size_meta_info_Y7FAtw": {
           "type": "variant-size-meta-info",
+          "disabled": true,
           "settings": {}
         }
       },
@@ -155,6 +159,84 @@
         "padding_top": 40,
         "padding_bottom": 52
       }
+          },
+    "product_info_VaGAPD": {
+      "type": "product-info",
+      "name": "product_section",
+      "settings": {
+        "top_head": "",
+        "care_instructions": "<ul><li>Clean with mild soap and warm water </li><li>Store separately to avoid scratches</li><li>Professional cleaning recommended annually</li><li>Avoid harsh chemicals and ultrasonic cleaners</li></ul>",
+        "important_info": ""
+      }
+    },
+    "product_manufacture_pKKXCy": {
+      "type": "Product-manufacture",
+      "blocks": {
+        "progress_step_YUmKUK": {
+          "type": "progress_step",
+          "settings": {
+            "step_image": "shopify://shop_images/Frame_65_8202e3f6-2384-42e6-b751-cafc8668a136.png",
+            "step_title": "<p>Date 1: <strong>Design Confirmation</strong></p>",
+            "step_description": "Your ring design is finalized and approved for production",
+            "step_status": "Completed"
+          }
+        },
+        "progress_step_ewazyJ": {
+          "type": "progress_step",
+          "settings": {
+            "step_image": "shopify://shop_images/Frame_65_1.png",
+            "step_title": "<p>Date 2-3:<strong> Metal Preparation</strong></p>",
+            "step_description": "Pure gold/platinum is refined and prepared for casting",
+            "step_status": "Completed"
+          }
+        },
+        "progress_step_3FXHG3": {
+          "type": "progress_step",
+          "settings": {
+            "step_image": "shopify://shop_images/Frame_65_2.png",
+            "step_title": "<p>Date 4-5:<strong> Ring Casting</strong></p>",
+            "step_description": "Your ring band is cast using traditional lost-wax technique",
+            "step_status": "In Progress"
+          }
+        },
+        "progress_step_f6Hh9X": {
+          "type": "progress_step",
+          "settings": {
+            "step_image": "shopify://shop_images/Frame_65_3.png",
+            "step_title": "<p>Date 6-7: <strong>Stone Setting</strong></p>",
+            "step_description": "Certified diamond is carefully set by expert craftsmen",
+            "step_status": "Pending"
+          }
+        },
+        "progress_step_PwzWHg": {
+          "type": "progress_step",
+          "settings": {
+            "step_image": "shopify://shop_images/Frame_65_8202e3f6-2384-42e6-b751-cafc8668a136.png",
+            "step_title": "<p>Date 8-9: <strong>Design Confirmation</strong></p>",
+            "step_description": "Your ring design is finalized and approved for production",
+            "step_status": "Pending"
+          }
+        },
+        "progress_step_xXMJq4": {
+          "type": "progress_step",
+          "settings": {
+            "step_image": "shopify://shop_images/Frame_65_2.png",
+            "step_title": "<p>Date 10-11:<strong> Ring Casting</strong></p>",
+            "step_description": "Your ring band is cast using traditional lost-wax technique",
+            "step_status": "Pending"
+          }
+        }
+      },
+      "block_order": [
+        "progress_step_YUmKUK",
+        "progress_step_ewazyJ",
+        "progress_step_3FXHG3",
+        "progress_step_f6Hh9X",
+        "progress_step_PwzWHg",
+        "progress_step_xXMJq4"
+      ],
+      "name": "Progress_Tracker",
+      "settings": {}
     }
   },
   "order": [
@@ -163,6 +245,8 @@
     "fingerprint_file_upload_efFLTb",
     "ring_sizer_ceLYTb",
     "related-products",
-    "custom_liquid_YdP4Y9"
+    "custom_liquid_YdP4Y9",
+    "product_info_VaGAPD",
+    "product_manufacture_pKKXCy"
   ]
 }

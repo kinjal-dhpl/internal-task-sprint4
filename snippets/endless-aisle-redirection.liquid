@@ -1,5 +1,6 @@
 <script>
-   {% unless customer.tags contains 'sales_rep' %}
+   {% assign downcased_tag = customer.tags | downcase  %}
+   {% unless downcased_tag contains 'sales_rep' %}
     alert('you are not eligible to view this page');
      window.location.href = '/';
    {% endunless %}

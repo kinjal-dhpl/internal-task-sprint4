@@ -7,64 +7,123 @@
 {% endcomment %}
 
 <style>
+  .tab-heading-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 16px 0;
+    position: relative;
+  }
+  .tab-heading {
+    font-weight: 700;
+    font-size: clamp(17.6px, calc(22 * (100vw / 1440)), 26.4px);
+    line-height: 100%;
+    letter-spacing: 0.22px;
+    color: #86868B;
+    margin: unset;
+  }
+  .info-txt {
+    font-weight: 400;
+    font-size: clamp(11.2px, calc(14 * (100vw / 1440)), 16.8px);
+    line-height: 100%;
+    letter-spacing: 0px;
+    color: #6C6C6C;
+    margin: unset;
+    display: flex;
+    gap: 5px;
+    cursor: pointer;
+  }
+  .info-txt span {
+      border-radius: 50%;
+      border: 1px solid #6C6C6C;
+      width: 14px;
+      height: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+  }
   .tab {
     display: flex;
     gap: 10px;
     margin-bottom: 10px;
   }
-
   .tab button {
-    padding: 8px 16px;
+    padding: 17px;
     background: none;
-    border: 1px solid #ccc;
+    border: 1px solid #1c1b1f4d;
     cursor: pointer;
     border-radius: 4px;
   }
-
-  .tab button.active {
-    font-weight: bold;
-    border-bottom: 2px solid black;
+  .tab button.tablinks {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    text-transform: capitalize;
+    display: flex;
+    flex-direction: column;
   }
-
+  .tab button.tablinks:before {
+    content: '';
+    display: block;
+    width: 16.5%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    margin: 0 auto;
+    margin-bottom: 8px;
+  }
+  .tab button.tablinks span {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+    letter-spacing: 0px;
+    color: #6E6E73;
+  }
+  .tab button.gold-tab:before {
+    background: linear-gradient(180deg, #FCF0DD 0%, #FFA20C 100%);
+  }
+  .tab button.platinum-tab:before {
+    background: linear-gradient(179.1deg, rgba(99, 97, 97, 0) -13.32%, #636161 99.23%);
+  }
+  .tab button.labgrown-tab:before {
+    background: linear-gradient(180deg, rgba(226, 226, 226, 0) 0%, #E2E2E2 100%);
+  }
   .tabcontent {
     display: none;
   }
-
   .variant-card-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
+    gap: 10.5px;
     padding-bottom: 10px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
   }
-
   .variant-link {
     text-decoration: none;
     flex: 0 0 32%;
     cursor: pointer;
   }
-
   .variant-box {
-    border: 1px solid #ddd;
+    border: 1px solid #1c1b1f4d;
     border-radius: 8px;
-    padding: 8px;
+    padding: 16px;
     background: #fff;
     width: 100%;
     box-shadow: 0 0 3px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
   }
-
   .top-row {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
   }
-
   .variant-image {
     width: 40px;
     height: 40px;
     object-fit: cover;
     border-radius: 6px;
   }
-
   .metal-name-top-right {
     font-size: 8px;
     font-weight: bold;
@@ -73,44 +132,303 @@
     background: linear-gradient(90deg, #D4AF37 0%, #F9D423 100%);
     color: #000;
   }
-
   .metal-name-top-right.lab-grown {
     background: linear-gradient(90deg, #b5f3ff 0%, #79e2fb 100%);
   }
-
-  .variant-pack-size {
-    font-size: 11px;
-    font-weight: 600;
-    color: #333;
-    line-height: 1.2;
+  .variant-name {
+    font-weight: 500;
+    font-size: clamp(12.8px, calc(16 * (100vw / 1440)), 19.2px);
+    line-height: clamp(19.2px, calc(24 * (100vw / 1440)), 28.8px);
+    letter-spacing: 0px;
+    margin: unset;
   }
-
+  .variant-pack-size {
+    font-weight: 400;
+    font-size: clamp(9.6px, calc(12 * (100vw / 1440)), 14.4px);
+    line-height: clamp(14.4px, calc(18 * (100vw / 1440)), 21.6px);
+    letter-spacing: 0px;
+    margin: unset;
+  }
+  .price-container {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+  .variant-price {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: 0px;
+    margin: unset;
+  }
+  .plus-breakup-text {
+    font-weight: 600;
+    font-size: clamp(11.2px, calc(14 * (100vw / 1440)), 16.8px);
+    line-height: clamp(16.8px, calc(21 * (100vw / 1440)), 25.2px);
+    letter-spacing: 0px;
+  }
   .variant-color-clarity {
     font-size: 11px;
     color: #666;
   }
-
   .price {
     font-size: 11px !important;
     font-weight: bold;
     color: #000;
   }
-
-  .price.loading {
-    opacity: 0.6;
-    font-style: italic;
-  }
-
   .variant-box.selected {
-    outline: 2px solid #000;
+    outline: 1px solid #000000;
   }
+  .variant-help-box {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      border: 1px solid #d2c7ff;
+      border-radius: 8px;
+      padding: 16px;
+      background: #fff;
+      box-shadow: 0 0 0 1px rgba(130, 70, 255, 0.1);
+    }
+    .variant-help-box.step-2 {
+      display : none;
+    }
+    .variant-help-icon {
+      background: linear-gradient(90deg, #4C79FF 0%, #A84BFF 100%);
+      color: #fff;
+      font-weight: 700;
+      font-size: 18px;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .variant-help-content h3 {
+      font-weight: 500;
+      font-size: clamp(12.8px, calc(16 * (100vw / 1440)), 19.2px);
+      line-height: clamp(19.2px, calc(24 * (100vw / 1440)), 28.8px);
+      letter-spacing: 0px;
+      margin: unset;
+    }
+    .variant-help-content p {
+      font-weight: 400;
+      font-size: clamp(9.6px, calc(12 * (100vw / 1440)), 14.4px);
+      line-height: clamp(14.4px, calc(18 * (100vw / 1440)), 21.6px);
+      letter-spacing: 0px;
+      margin: 4px 0 10px 0;
+    }
+    .try-btn {
+      background: linear-gradient(90deg, #4C79FF 0%, #A84BFF 100%);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 14px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: opacity 0.2s;
+      font-weight: 600;
+      font-size: clamp(11.2px, calc(14 * (100vw / 1440)), 16.8px);
+      line-height: clamp(16.8px, calc(21 * (100vw / 1440)), 25.2px);
+      letter-spacing: 0px;
+    }
+    .try-btn:hover {
+      opacity: 0.9;
+    }
+    .price-options-container-modal {
+      max-width: 400px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      position: absolute;
+      top: 60px;
+    }
+    .price-options-main {
+      padding: 16px;
+      padding-bottom: 0;
+    }
+    .price-options-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .price-options-header h3 {
+      margin: unset;
+      font-weight: 600;
+      font-size: 22px;
+      line-height: 100%;
+      letter-spacing: 0px;
+    }
+    .close-btn {
+      border: none;
+      background: transparent;
+      font-size: 20px;
+      cursor: pointer;
+      color: #555;
+    }
+    .price-options-desc {
+      margin: 6px 0 16px 0;
+      color: #86868B;
+      font-family: Lato;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 24px;
+      letter-spacing: 0px;
+    }
+    .price-options-section {
+      margin: 10px 0;
+    }
+    .price-options-section strong {
+      display: block;
+      color: #1D1D1F;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 24px;
+      letter-spacing: 0px;
+    }
+    .price-options-section ul {
+      margin: 0;
+      padding-left: 16px;
+      list-style-type: disc;
+      color: #444;
+    }
+    .price-options-section li {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 21px;
+      letter-spacing: 0px;
+      color: #86868B
+    }
+    .price-options-note {
+      margin: unset;
+      padding: 16px;
+      margin-top: 16px;
+      color: #86868B;
+      font-size: 16px;
+      line-height: 24px;
+      letter-spacing: 0px;
+      border-top: 1px solid #0000001a;
+    }
+     .ai-question {
+        margin-bottom: 20px;
+      }
+      .ai-option {
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 20px;
+        padding: 5px 10px;
+        margin-top: 5px;
+        cursor: pointer;
+        user-select: none;
+        font-size: 12px;
+      }
+      .ai-option.selected {
+        border-color: black;
+        background-color: #f1f1f1;
+        font-weight: bold;
+      }
+      .get-recommendation-btn {
+        background: linear-gradient(90deg, #4C79FF 0%, #A84BFF 100%);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 8px 14px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        transition: opacity 0.2s;
+        font-weight: 600;
+        font-size: clamp(11.2px, calc(14 * (100vw / 1440)), 16.8px);
+        line-height: clamp(16.8px, calc(21 * (100vw / 1440)), 25.2px);
+        letter-spacing: 0px;
+      }
+      .get-recommendation-btn:hover {
+        opacity: 0.9;
+      }
+      .answerWrapper{
+       display: none;
+      }
+    .ai-loader {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #8b5cf6; /* Purple accent */
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 16px;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .ai-loader-message {
+      color: #555;
+      font-size: 16px;
+      text-align: center;
+      max-width: 260px;
+      line-height: 1.4;
+    }
+    .ai-loader-sparkle {
+      color: #8b5cf6;
+      font-size: 18px;
+    }
 </style>
+
+<div class="tab-heading-container">
+  <h2 class="tab-heading">Pick Your Personal Price</h2>
+  <p class="info-txt"><span>?</span>How do you offer 12 price options?</p>
+
+  {% comment %} modal {% endcomment %}
+  <div class="price-options-container-modal hidden">
+    <div class="price-options-main">
+      <div class="price-options-header">
+        <h3>12 Price Options Explained</h3>
+        <button class="close-btn">{% render 'close-icon-svg' %}</button>
+      </div>
+      <p class="price-options-desc">We offer 12 different price combinations by varying three key factors:</p>
+      <div class="price-options-section">
+        <strong>Metal Type:</strong>
+        <ul>
+          <li>14KT Gold, 18KT Gold, Platinum 950</li>
+        </ul>
+      </div>
+      <div class="price-options-section">
+        <strong>Diamond Grade:</strong>
+        <ul>
+          <li>IJ-SI, GH-VS, EF-VVS</li>
+        </ul>
+      </div>
+      <div class="price-options-section">
+        <strong>Diamond Origin:</strong>
+        <ul>
+          <li>Natural or Lab Grown</li>
+        </ul>
+      </div>
+    </div>
+    <p class="price-options-note">
+      Each combination offers a unique balance of quality, beauty, and value to match your preferences and budget.
+    </p>
+  </div>
+</div>
 
 <!-- Tabs UI -->
 <div class="tab">
-  <button class="tablinks" data-metal="gold" onclick="openVariantTab(event, 'goldTab')">Gold</button>
-  <button class="tablinks" data-metal="platinum" onclick="openVariantTab(event, 'platinumTab')">Platinum</button>
-  <button class="tablinks" data-metal="lab" onclick="openVariantTab(event, 'labgrownTab')">Lab Grown</button>
+  <button class="tablinks gold-tab" data-metal="gold" onclick="openVariantTab(event, 'goldTab')">
+    Gold<span>(Natural Diamond)</span>
+  </button>
+  <button class="tablinks platinum-tab" data-metal="platinum" onclick="openVariantTab(event, 'platinumTab')">
+    Platinum<span>(Natural Diamond)</span>
+  </button>
+  <button class="tablinks labgrown-tab" data-metal="lab" onclick="openVariantTab(event, 'labgrownTab')">
+    Lab Grown<span>(Gold & Platinum)</span>
+  </button>
 </div>
 
 <!-- Hidden input for variant -->
@@ -132,11 +450,20 @@
         <div class="variant-link" data-variant-id="{{ variant.id }}" onclick="selectVariant('{{ variant.id }}', this)">
           <div class="variant-box" data-variant-id="{{ variant.id }}">
             <div class="top-row">
-              <img src="{{ product.featured_image | img_url: '200x' }}" class="variant-image" alt="">
-              <div class="metal-name-top-right">{{ variant.option1 }}</div>
+                            <h2 class="variant-name"></h2>
+              {% comment %}
+                <img src="{{ product.featured_image | img_url: '200x' }}" class="variant-image" alt=""/>
+                <div class="metal-name-top-right">{{ variant.option1 }}</div>
+              {% endcomment %}
             </div>
-            <p class="variant-pack-size">{{ variant.title }}</p>
-            <p class="variant-color-clarity">{{ variant.option2 }}</p>
+            <p class="variant-pack-size">
+              {{ variant.title | replace: 'Gold', '' | replace: 'Natural', '' | replace: '/', '' | strip }}
+            </p>
+            {% comment %} <p class="variant-color-clarity">{{ variant.option2 }}</p> {% endcomment %}
+            <div class="price-container" data-variant-id="{{ variant.id }}">
+              <p class="variant-price"></p>
+              <span class="plus-breakup-text">+ Break-up</span>
+            </div>
             <div class="price" data-variant-id="{{ variant.id }}">{{ variant.price | money }}</div>
           </div>
         </div>
@@ -159,8 +486,19 @@
           >
             <div class="variant-box" data-variant-id="{{ variant.id }}">
               <div class="top-row">
-                <img src="{{ product.featured_image | img_url: '200x' }}" class="variant-image" alt="">
-                <div class="metal-name-top-right">{{ variant.option1 }}</div>
+                              <h2 class="variant-name"></h2>
+              {% comment %}
+                <img src="{{ product.featured_image | img_url: '200x' }}" class="variant-image" alt=""/>
+                <div class="metal-name-top-right lab-grown">{{ variant.option1 }}</div>
+              {% endcomment %}
+            </div>
+            <p class="variant-pack-size">
+              {{ variant.title | replace: 'Gold', '' | replace: 'Lab Grown', '' | replace: '/', '' | strip }}
+            </p>
+            {% comment %} <p class="variant-color-clarity">{{ variant.option2 }}</p> {% endcomment %}
+            <div class="price-container" data-variant-id="{{ variant.id }}">
+              <p class="variant-price"></p>
+              <span class="plus-breakup-text">+ Break-up</span>
               </div>
               <p class="variant-pack-size">{{ variant.title }}</p>
               <p class="variant-color-clarity">{{ variant.option2 }}</p>
@@ -178,19 +516,122 @@
     {% for variant in product.variants %}
       {% assign diamond = variant.option2 | downcase %}
       {% if diamond contains 'lab grown' or diamond contains 'lab' %}
-        <div class="variant-link" data-variant-id="{{ variant.id }}" onclick="selectVariant('{{ variant.id }}', this)">
+          <div
+            class="variant-link"
+            data-variant-id="{{ variant.id }}"
+            onclick="selectVariant('{{ variant.id }}', this)"
+          >          
           <div class="variant-box" data-variant-id="{{ variant.id }}">
             <div class="top-row">
-              <img src="{{ product.featured_image | img_url: '200x' }}" class="variant-image" alt="">
-              <div class="metal-name-top-right lab-grown">{{ variant.option1 }}</div>
+
+              <h2 class="variant-name"></h2>
+                {% comment %}
+                  <img src="{{ product.featured_image | img_url: '200x' }}" class="variant-image" alt=""/>
+                  <div class="metal-name-top-right">{{ variant.option1 }}</div>
+                {% endcomment %}
+              </div>
+              <p class="variant-pack-size">
+                {{ variant.title | replace: 'Platinum', '' | replace: 'Natural', '' | replace: '/', '' | strip }}
+              </p>
+              {% comment %} <p class="variant-color-clarity">{{ variant.option2 }}</p> {% endcomment %}
+              <div class="price-container" data-variant-id="{{ variant.id }}">
+                <p class="variant-price"></p>
+                <span class="plus-breakup-text">+ Break-up</span>
             </div>
-            <p class="variant-pack-size">{{ variant.title }}</p>
-            <p class="variant-color-clarity">{{ variant.option2 }}</p>
             <div class="price" data-variant-id="{{ variant.id }}">{{ variant.price | money }}</div>
           </div>
         </div>
       {% endif %}
     {% endfor %}
+  </div>
+</div>
+
+<div class="variant-help-box step-1">
+  <div class="variant-help-icon">?</div>
+  <div class="variant-help-content">
+    <h3>Need help choosing a Variant?</h3>
+    <p>
+      You should pick something which is suitable to your daily routine and purpose of purchase. Our AI will understand
+      you and provide a personal recommendation.
+    </p>
+    <button class="try-btn" onclick="openRecommendationStep2()">
+      Try it Out
+      <span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="10" viewBox="0 0 14 10" fill="none">
+          <path d="M8.46999 1.52991C8.3963 1.46125 8.3372 1.37845 8.29621 1.28645C8.25522 1.19445 8.23317 1.09513 8.2314 0.994432C8.22962 0.893729 8.24814 0.7937 8.28587 0.700312C8.32359 0.606923 8.37973 0.52209 8.45095 0.450871C8.52217 0.379652 8.607 0.323508 8.70039 0.285787C8.79378 0.248066 8.89381 0.229541 8.99451 0.231318C9.09521 0.233095 9.19453 0.255136 9.28653 0.296128C9.37853 0.33712 9.46133 0.396222 9.52999 0.469909L13.53 4.46991C13.6704 4.61054 13.7493 4.80116 13.7493 4.99991C13.7493 5.19866 13.6704 5.38928 13.53 5.52991L9.52999 9.52991C9.46133 9.6036 9.37853 9.6627 9.28653 9.70369C9.19453 9.74468 9.09521 9.76672 8.99451 9.7685C8.89381 9.77028 8.79378 9.75175 8.70039 9.71403C8.607 9.67631 8.52217 9.62017 8.45095 9.54895C8.37973 9.47773 8.32359 9.39289 8.28587 9.29951C8.24814 9.20612 8.22962 9.10609 8.2314 9.00539C8.23317 8.90468 8.25522 8.80537 8.29621 8.71337C8.3372 8.62137 8.3963 8.53857 8.46999 8.46991L11.19 5.74991H1.49999C1.30108 5.74991 1.11031 5.67089 0.969658 5.53024C0.829005 5.38959 0.749989 5.19882 0.749989 4.99991C0.749989 4.801 0.829005 4.61023 0.969658 4.46958C1.11031 4.32893 1.30108 4.24991 1.49999 4.24991H11.19L8.46999 1.52991Z" fill="white"/>
+        </svg>
+      </span>
+    </button>
+  </div>
+</div>
+
+<div class="variant-help-box step-2">
+  <div class="variant-help-icon">?</div>
+  <div class="variant-help-content">
+    <h3>Help us understand your preferences</h3>
+    <p>Select words that best describe yours needs and lifestyle.</p>
+    <div class="questionWrapper">
+
+      <h3>Top priorities for your ring</h3>
+      <div class="ai-question" id="priority">
+        <span class="ai-option">Right Design & Budget, Resale</span>
+        <span class="ai-option">Right Design & Best Budget</span>
+        <span class="ai-option">Investment & Resale</span>
+        <span class="ai-option">Exclusivity and Emotion over logic</span>
+        <p class="hidden ai-error">Please select an option!</p>
+      </div>
+
+      <h3>Wear frequency</h3>
+      <div class="ai-question" id="wear_frequency">
+        <span class="ai-option">Everyday</span>
+        <span class="ai-option">Ocassionally</span>
+        <p class="hidden ai-error">Please select an option!</p>
+      </div>
+
+      <h3>Lifestyle</h3>
+      <div class="ai-question" id="lifestyle">
+        <span class="ai-option">Physically Active</span>
+        <span class="ai-option">White-Collared</span>
+        <p class="hidden ai-error">Please select an option!</p>
+      </div>
+
+      <h3>Metal Tone</h3>
+      <div class="ai-question" id="tone">
+        <span class="ai-option">Yellow</span>
+        <span class="ai-option">Rose</span>
+        <span class="ai-option">White</span>
+        <p class="hidden ai-error">Please select an option!</p>
+      </div>
+
+      <h3>Metal Allergic</h3>
+      <div class="ai-question" id="allergic">
+        <span class="ai-option">Yes</span>
+        <span class="ai-option">No</span>
+        <p class="hidden ai-error">Please select an option!</p>
+      </div>
+    </div>
+
+    <div class="answerWrapper">
+      <div>
+        <span class="icon">✨</span>
+        <span>AI Recommendation</span>
+      </div>
+      <p class="product-name">Delightful</p>
+      <p class="product-detail">14KT IJSI</p>
+      <p class="price">₹95,000</p>
+      <p class="note">Based on your preferences: Daily Wear</p>
+    </div>
+    <div class="ai-loader hidden">
+      <div class="ai-loader-message">
+        <span class="ai-loader-sparkle">✨</span>
+      </div>
+    </div>
+    <p class="hidden ai-api-error">Oops! Our AI went diamond hunting and got lost. Try again in a bit!</p>
+    <button class="get-recommendation-btn" onclick="getRecommendation()">Get Recommendations</button>
+    <button class="choose-variant-btn get-recommendation-btn hidden" onclick="chooseRecommendedVariant()">
+      Choose Variant
+    </button>
+    <button class="try-again-btn get-recommendation-btn hidden" onclick="tryAgain()">Try Again</button>
   </div>
 </div>
 
@@ -201,206 +642,19 @@
 <script>
   (function () {
     'use strict';
-
     // Tab and Variant Management
-    // In your custom-variants-tab script section, replace the VariantTabManager object with this optimized version:
-
-    // Updated VariantTabManager object for the variants tab script
-    // Replace your existing VariantTabManager with this version
-
     const VariantTabManager = {
       currentTab: null,
-      apiCallInProgress: {}, // Track ongoing API calls by size
-
       init() {
         // Wait for ProductState to be ready
         if (!window.ProductState?.isInitialized) {
           setTimeout(() => this.init(), 100);
           return;
         }
-
         this.initializeFromURL();
-        this.setupEventListeners();
-
-        // Update all variant card prices when initialized
-        this.updateAllVariantPrices();
       },
-
-      setupEventListeners() {
-        // Listen for size changes to update all variant prices
-        document.addEventListener('priceUpdated', () => {
-          this.updateAllVariantPrices();
-        });
-
-        // Listen for size selector changes
-        const sizeSelect = document.getElementById('custom-size-selector');
-        if (sizeSelect) {
-          sizeSelect.addEventListener('change', () => {
-            this.updateAllVariantPrices();
-          });
-        }
-      },
-
-      updateAllVariantPrices() {
-        const currentSize = window.ProductState?.selectedSize || '12';
-
-        // Check if we already have cached data for this size
-        if (window.ProductState?.productPricingBySize?.[currentSize]) {
-          console.log('✅ Using cached data for size:', currentSize);
-          this.updateAllVariantPricesFromCache(currentSize);
-          return;
-        }
-
-        // Check if API call is already in progress for this size
-        if (this.apiCallInProgress[currentSize]) {
-          console.log('⏳ API call already in progress for size:', currentSize);
-          return;
-        }
-
-        // Show loading state for all variant prices
-        const priceElements = document.querySelectorAll('.price[data-variant-id]');
-        priceElements.forEach((priceEl) => {
-          priceEl.classList.add('loading');
-          priceEl.textContent = 'Loading...';
-        });
-
-        // Make single API call for this size
-        this.fetchAllVariantPrices(currentSize);
-      },
-
-      fetchAllVariantPrices(size) {
-        this.apiCallInProgress[size] = true;
-
-        const productId = '{{ product.id }}';
-        const apiUrl = `https://diamond-hq-staging.myshopify.com/apps/ea_module_dev/price/product?productId=${productId}&configSize=${size}`;
-
-        console.log('🌐 Making single API call for size:', size);
-
-        fetch(apiUrl, {
-          method: 'GET',
-          headers: { 'Content-Type': 'application/json' },
-        })
-          .then((response) => {
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-            return response.json();
-          })
-          .then((apiResponse) => {
-            if (apiResponse?.status === 'success' && Array.isArray(apiResponse.data)) {
-              // Cache the data in ProductState
-              if (window.ProductState) {
-                window.ProductState.productPricingBySize[size] = apiResponse;
-              }
-
-              console.log('✅ API response cached for size:', size, 'variants:', apiResponse.data.length);
-
-              // Update all variant prices at once
-              this.updateAllVariantPricesFromCache(size);
-            } else {
-              throw new Error('Invalid API response');
-            }
-          })
-          .catch((error) => {
-            console.error('❌ API call failed for size:', size, error);
-            // CHANGED: Use Shopify prices as fallback instead of metafields
-            this.fallbackAllVariantsToShopifyPrice(size);
-          })
-          .finally(() => {
-            // Clear the in-progress flag
-            delete this.apiCallInProgress[size];
-          });
-      },
-
-      updateAllVariantPricesFromCache(size) {
-        const priceElements = document.querySelectorAll('.price[data-variant-id]');
-        console.log('🔄 Updating', priceElements.length, 'variant prices from cache for size:', size);
-
-        priceElements.forEach((priceEl) => {
-          const variantId = priceEl.getAttribute('data-variant-id');
-          this.updatePriceFromCache(variantId, size, priceEl);
-        });
-      },
-
-      updatePriceFromCache(variantId, size, priceElement) {
-        const config = this.getVariantConfig(variantId, size);
-
-        if (config && config.total_price_with_gst) {
-          const formattedPrice = this.formatPrice(config.total_price_with_gst);
-          priceElement.textContent = `Rs. ${formattedPrice}`;
-          priceElement.classList.remove('loading');
-        } else {
-          console.warn('❌ No price config found for variant:', variantId, 'size:', size);
-          // CHANGED: Fallback to Shopify price instead of metafields
-          this.fallbackToShopifyPrice(variantId, priceElement);
-        }
-      },
-
-      // CHANGED: New method to fallback all variants to Shopify prices
-      fallbackAllVariantsToShopifyPrice(size) {
-        const priceElements = document.querySelectorAll('.price[data-variant-id]');
-        console.log('🔄 Falling back to Shopify prices for', priceElements.length, 'variants, size:', size);
-
-        priceElements.forEach((priceEl) => {
-          const variantId = priceEl.getAttribute('data-variant-id');
-          this.fallbackToShopifyPrice(variantId, priceEl);
-        });
-      },
-
-      // CHANGED: New method to fallback to Shopify variant price
-      fallbackToShopifyPrice(variantId, priceElement) {
-        const variantPrice = window.ProductState?.getVariantPrice(variantId);
-
-        if (variantPrice) {
-          // Use Shopify variant price (already in rupees, no conversion needed)
-          const priceInRupees = variantPrice.price;
-          const formattedPrice = this.formatPrice(priceInRupees);
-          priceElement.textContent = `Rs. ${formattedPrice}`;
-          console.log('💰 Using Shopify price for variant:', variantId, '=', priceInRupees);
-        } else {
-          priceElement.textContent = 'Price N/A';
-        }
-
-        priceElement.classList.remove('loading');
-      },
-
-      // Individual variant price update (used when selecting variants, not size changes)
-      updateVariantPrice(variantId, size, priceElement) {
-        // Check if we have cached data first
-        if (window.ProductState?.productPricingBySize?.[size]) {
-          this.updatePriceFromCache(variantId, size, priceElement);
-          return;
-        }
-
-        // If no cached data, trigger the batch update instead of individual API call
-        this.updateAllVariantPrices();
-      },
-
-      getVariantConfig(variantId, size) {
-        // First try cached API data
-        const productData = window.ProductState?.productPricingBySize?.[size];
-        if (productData && Array.isArray(productData.data)) {
-          const variantData = productData.data.find(
-            (v) =>
-              v.variantId.toString() === variantId.toString() ||
-              v.variantId === `gid://shopify/ProductVariant/${variantId}` ||
-              v.variantId.replace('gid://shopify/ProductVariant/', '') === variantId.toString()
-          );
-          if (variantData && variantData.price && variantData.price[`config_size_${size}`]) {
-            return variantData.price[`config_size_${size}`];
-          }
-        }
-
-        // REMOVED: Fallback to metafields - now returns null to trigger Shopify price fallback
-        return null;
-      },
-
-      formatPrice(price) {
-        return Number(price || 0).toLocaleString('en-IN');
-      },
-
-      // Rest of your existing methods remain the same...
       initializeFromURL() {
         const urlVariant = window.ProductState.selectedVariantId;
-
         if (urlVariant) {
           const variantElement = document.querySelector(`.variant-box[data-variant-id="${urlVariant}"]`);
           if (variantElement) {
@@ -416,48 +670,31 @@
         // Default to Gold tab if no specific variant found
         this.openTab('goldTab');
       },
-
       openTab(tabName) {
         // Hide all tabs
         document.querySelectorAll('.tabcontent').forEach((el) => (el.style.display = 'none'));
         document.querySelectorAll('.tablinks').forEach((btn) => btn.classList.remove('active'));
-
         // Show selected tab
         const tabContent = document.getElementById(tabName);
         const tabButton = document.querySelector(`[onclick*="${tabName}"]`);
-
         if (tabContent) {
           tabContent.style.display = 'block';
           this.currentTab = tabName;
         }
-
         if (tabButton) {
           tabButton.classList.add('active');
         }
-
-        // Auto-select variant in this tab - FIXED: Always trigger price update
-        this.autoSelectVariantInTab(tabContent, true); // Added triggerPriceUpdate parameter
-
-        // Update prices for visible variants
-        this.updateVisibleVariantPrices();
+        // Auto-select variant in this tab
+        this.autoSelectVariantInTab(tabContent);
       },
-
-      updateVisibleVariantPrices() {
-        // Just call the main update method which now handles batch updates efficiently
-        this.updateAllVariantPrices();
-      },
-
       activateTabByContent(tabContent) {
         if (!tabContent) return;
-
         // Hide all tabs first
         document.querySelectorAll('.tabcontent').forEach((el) => (el.style.display = 'none'));
         document.querySelectorAll('.tablinks').forEach((btn) => btn.classList.remove('active'));
-
         // Show this tab
-        tabContent.style.display = 'block';
+          tabContent.style.display = 'block';
         this.currentTab = tabContent.id;
-
         // Activate corresponding button
         const metalType = tabContent.getAttribute('data-metal');
         const tabButton = document.querySelector(`.tablinks[data-metal="${metalType}"]`);
@@ -465,49 +702,34 @@
           tabButton.classList.add('active');
         }
       },
-
       autoSelectVariantInTab(tabContent) {
         if (!tabContent) return;
-
         const currentVariantId = window.ProductState.selectedVariantId;
-
         // Check if current variant exists in this tab
         let variantToSelect = tabContent.querySelector(`.variant-link[data-variant-id="${currentVariantId}"]`);
-
         // If not found, select first available variant in tab
         if (!variantToSelect) {
           variantToSelect = tabContent.querySelector('.variant-link');
         }
-
         if (variantToSelect) {
           const variantId = variantToSelect.getAttribute('data-variant-id');
           this.selectVariantById(variantId, false); // Don't trigger price update yet
         }
       },
-
       selectVariantById(variantId, triggerPriceUpdate = true) {
-        console.log('🎯 selectVariantById called:', {
-          variantId,
-          triggerPriceUpdate,
-          currentVariant: window.ProductState.selectedVariantId,
-        });
-
         // Update visual selection
         document.querySelectorAll('.variant-box').forEach((box) => {
           box.classList.remove('selected');
         });
-
         const selectedBox = document.querySelector(`.variant-box[data-variant-id="${variantId}"]`);
         if (selectedBox) {
           selectedBox.classList.add('selected');
         }
-
         // Update form inputs
         const variantInput = document.getElementById('SelectedVariantId');
         if (variantInput) {
           variantInput.value = variantId;
         }
-
         // Update main product form
         const mainForm = document.querySelector('form[action*="/cart/add"]');
         if (mainForm) {
@@ -516,19 +738,19 @@
             mainVariantInput.value = variantId;
           }
         }
-
-        // FIXED: Always update ProductState, but handle price update correctly
-        const previousVariantId = window.ProductState.selectedVariantId;
-        window.ProductState.selectedVariantId = variantId;
-        window.ProductState.updateURL();
-
-        // Trigger price update if requested OR if variant actually changed
-        if (triggerPriceUpdate || previousVariantId !== variantId) {
-          console.log('💰 Triggering price update for variant:', variantId);
-          window.ProductState.updatePrice();
-          window.ProductState.dispatchVariantChangeEvent();
+        // Update ProductState
+        if (window.ProductState) {
+          if (triggerPriceUpdate) {
+            window.ProductState.updateVariant(variantId);
+          } else {
+            window.ProductState.selectedVariantId = variantId;
+            window.ProductState.updateURL();
+          }
         }
-
+        // Notify other components that variant changed
+        try {
+          document.dispatchEvent(new CustomEvent('pdp:variant-changed', { detail: { variantId } }));
+        } catch (e) {}
         // Update pickup availability
         const pickupEl = document.querySelector('pickup-availability');
         if (pickupEl && typeof pickupEl.fetchAvailability === 'function') {
@@ -536,22 +758,18 @@
         }
       },
     };
-
     // Public functions for onclick handlers
     window.openVariantTab = function (evt, tabName) {
       VariantTabManager.openTab(tabName);
     };
-
     window.selectVariant = function (variantId, element) {
       VariantTabManager.selectVariantById(variantId);
     };
-
     // Initialize when DOM is ready
     function initialize() {
       console.log('🎬 VariantTabManager initializing...');
       VariantTabManager.init();
     }
-
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', function () {
         console.log('📄 DOM Content Loaded - initializing VariantTabManager');
@@ -561,7 +779,6 @@
       console.log('📄 DOM already ready - initializing VariantTabManager immediately');
       initialize();
     }
-
     // Handle browser back/forward navigation
     window.addEventListener('pageshow', (event) => {
       if (event.persisted) {
@@ -571,7 +788,6 @@
           const url = new URL(window.location);
           const urlVariant = url.searchParams.get('variant');
           const urlSize = url.searchParams.get('size');
-
           if (urlVariant) {
             window.ProductState.selectedVariantId = urlVariant;
           }
@@ -582,16 +798,263 @@
               sizeSelect.value = urlSize;
             }
           }
-
           VariantTabManager.initializeFromURL();
-
           // Trigger price update with the correct variant and size
           if (urlVariant && urlSize) {
             window.ProductState.updatePrice();
-            VariantTabManager.updateAllVariantPrices();
           }
         }, 100);
       }
     });
   })();
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const trigger = document.querySelector('.info-txt');
+    const container = document.querySelector('.price-options-container-modal');
+    const closeBtn = container.querySelector('.close-btn');
+    const priceBreakupModal = document.querySelector('.price-breakdown-container');
+    const pbCloseBtn = priceBreakupModal.querySelector('.pb-close-btn');
+    const pbOverlay = document.querySelector('.pb-overlay');
+    const diamondModal = priceBreakupModal.querySelector('.diamond-modal');
+    const dmCloseBtn = priceBreakupModal.querySelector('.dm-close-btn');
+    const dmOverlay = priceBreakupModal.querySelector('.dm-overlay');
+    const diamondHead = priceBreakupModal.querySelector('.diamond-head');
+    // Open modal
+    trigger?.addEventListener('click', () => container?.classList.remove('hidden'));
+    // Close modal
+    closeBtn?.addEventListener('click', () => container?.classList.add('hidden'));
+    pbCloseBtn?.addEventListener('click', () => {
+      priceBreakupModal?.classList.add('hidden');
+      pbOverlay?.classList.add('hidden');
+    });
+    dmCloseBtn?.addEventListener('click', () => {
+      diamondModal?.classList.add('hidden');
+      dmOverlay?.classList.add('hidden');
+    });
+    diamondHead?.addEventListener('click', () => {
+      diamondModal?.classList.remove('hidden');
+      dmOverlay?.classList.remove('hidden');
+    });
+    // Handle click on all .variant-price elements
+    document.querySelectorAll('.price-container').forEach((priceEl) => {
+      priceEl.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const variantId = priceEl.dataset.variantId;
+        console.log('✅ Clicked variant:', variantId);
+        const selectedVariant = currentVariants.find((v) => v.variantId?.split('/').pop() === variantId);
+        console.log('🚀 ~ selectedVariant:', selectedVariant);
+        if (!selectedVariant) {
+          console.warn('Variant not found for ID:', variantId);
+          return;
+        }
+        const configDiamondData = Object.values(selectedVariant.price)[0];
+        const selectedVariantName = selectedVariant.variantName;
+        const selectedVariantMetalPurity = configDiamondData.metal.purity;
+        const selectedVariantDiamondData = configDiamondData.diamond;
+        const selectedVariantDiamondColor = selectedVariantDiamondData.color;
+        const selectedVariantDiamondClarity = selectedVariantDiamondData.clarity;
+        const diamondColorClarityText = `${selectedVariantDiamondColor}-${selectedVariantDiamondClarity}`;
+        const diamondSectionEl = document.querySelector('.pb-section.diamond-section');
+        let priceBreakDownTopSubTitleText = selectedVariantMetalPurity;
+        // get diamond pricing from shapes
+        // fallback to empty arrays
+        const diamondRound = selectedVariantDiamondData.round || [];
+        const diamondOthers = selectedVariantDiamondData.others || [];
+        // Sum up prices and carats from both arrays
+        const diamondTotalPrice = [...diamondRound, ...diamondOthers].reduce(
+          (sum, item) => sum + (parseFloat(item.price) || 0),
+          0
+        );
+        const diamondTotalCarat = [...diamondRound, ...diamondOthers].reduce(
+          (sum, item) => sum + (parseFloat(item.carat) || 0),
+          0
+        );
+        // Set price breakdown modal subtitle text if diamond color & clarity is present
+        if(!diamondTotalPrice){
+          diamondSectionEl.classList.add('hide-pb-section');
+        }
+        else {
+          priceBreakDownTopSubTitleText = `${priceBreakDownTopSubTitleText} | ${diamondColorClarityText}`;
+        }
+        const sizeKey = Object.keys(selectedVariant.price)[0];
+        const priceData = selectedVariant.price[sizeKey];
+        console.log('💰 Price breakdown:', priceData);
+        const details = getVariantDetails(selectedVariant);
+        // --- Title Section ---
+        priceBreakupModal.querySelector('.pb-title-name').textContent = `${selectedVariantName} - Price Breakdown`;
+        priceBreakupModal.querySelector('.pb-title-subtitle').textContent = priceBreakDownTopSubTitleText;
+        // --- Diamond Section ---
+        priceBreakupModal.querySelector('.diamond-price').textContent = `₹${formatPrice(diamondTotalPrice)}`;
+        priceBreakupModal.querySelector('.diamond-type').textContent = details.diamondType;
+        priceBreakupModal.querySelector('.diamond-details').textContent = `${diamondTotalCarat} ct | ${diamondColorClarityText}${details.diamondShape ? ' | ' + details.diamondShape : ''}`;
+        // --- Metal Section ---
+        priceBreakupModal.querySelector('.metal-price').textContent = `₹${formatPrice(priceData.metal_price)}`;
+        priceBreakupModal.querySelector('.metal-type').textContent = details.metalType;
+        priceBreakupModal.querySelector(
+          '.metal-details'
+        ).textContent = `${details.metalPurity} | ${details.metalWeight} gm`;
+        // --- Making Charges ---
+        priceBreakupModal.querySelector('.making-price').textContent = `₹${formatPrice(priceData.making_charges)}`;
+        // --- GST ---
+        priceBreakupModal.querySelector('.gst-price').textContent = `₹${formatPrice(priceData.gst)}`;
+        // --- Total Price ---
+        priceBreakupModal.querySelector('.total-price').textContent = `₹${formatPrice(priceData.total_price_with_gst)}`;
+        // Show modal
+        priceBreakupModal?.classList.remove('hidden');
+        pbOverlay?.classList.remove('hidden');
+        if (!diamondModal) return;
+        const solitaireData = priceData.solitare?.details?.[0] || {};
+        const accentData = priceData.diamond?.round || [];
+        diamondModal.querySelector(
+          '.diamond-modal-metal'
+        ).textContent = `${selectedVariant.variantName} - ${details.metalPurity}`;
+        // --- Solitaire Diamond Card ---
+        diamondModal.querySelector('.solitaire-price').textContent = `₹${formatPrice(solitaireData.price || 0)}`;
+        diamondModal.querySelector('.solitaire-carat').textContent = `Carat: ${solitaireData.carat || 0} ct`;
+        diamondModal.querySelector('.solitaire-grade').textContent = `Grade: ${solitaireData.color || '—'}-${
+          solitaireData.clarity || '—'
+        }-${solitaireData.cut || '—'}`;
+        // --- Accent Diamonds Card ---
+        const totalAccentPrice = accentData.reduce((sum, d) => sum + (d.price || 0), 0);
+        diamondModal.querySelector('.accent-price').textContent = `₹${formatPrice(totalAccentPrice)}`;
+        diamondModal.querySelector('.accent-carat').textContent = `Carat per piece: ${accentData
+          .map((d) => d.carat || 0)
+          .join(' ct, ')} ct`;
+        diamondModal.querySelector('.accent-grade').textContent = `Grade: ${priceData.diamond?.color || '—'}-${
+          priceData.diamond?.clarity || '—'
+        }`;
+        // --- Totals ---
+        const totalDiamondsCount =
+          (priceData.solitare?.details?.length || 0) + accentData.reduce((sum, d) => sum + (d.total_count || 0), 0);
+        const totalDiamondValue = (solitaireData.price || 0) + totalAccentPrice;
+        diamondModal.querySelector('.total-pieces').textContent = `${totalDiamondsCount} pieces`;
+        diamondModal.querySelector('.total-value').textContent = `₹${formatPrice(totalDiamondValue)}`;
+      });
+    });
+    // 🧠 Helper: Extract diamond & metal details
+    function getVariantDetails(selectedVariant) {
+      const sizeKey = Object.keys(selectedVariant.price)[0];
+      const data = selectedVariant.price[sizeKey];
+      const diamond = data?.diamond || {};
+      const solitare = data?.solitare || {};
+      const diamondType = diamond.type || solitare.details?.[0]?.type || '—';
+      const diamondCarat =
+        diamond.round?.reduce((sum, d) => sum + (d.carat || 0), 0) ||
+        solitare.details?.reduce((sum, d) => sum + (d.carat || 0), 0) ||
+        0;
+      const diamondColor = diamond.color || solitare.details?.[0]?.color || '—';
+      const diamondClarity = diamond.clarity || solitare.details?.[0]?.clarity || '—';
+      const diamondShape = (diamond.round?.length ? 'Round' : solitare.details?.[0]?.shape) || '';
+      const metalType = data.metal?.type || '—';
+      const metalPurity = data.metal?.purity || '—';
+      const metalWeight = data.metal?.weight || '—';
+      return {
+        diamondType,
+        diamondCarat: diamondCarat.toFixed(3),
+        diamondColor,
+        diamondClarity,
+        diamondShape,
+        metalType,
+        metalPurity,
+        metalWeight,
+      };
+    }
+    // 💎 Helper: Sum diamond prices (round + others)
+    function sumDiamondPrice(diamond) {
+      if (!diamond || !diamond.round) return 0;
+      return diamond.round.reduce((sum, d) => sum + (d.price || 0), 0);
+    }
+    // 💰 Helper: Format price neatly
+    function formatPrice(num) {
+      return Number(num).toLocaleString('en-IN', { maximumFractionDigits: 2 });
+    }
+  });
+  document.querySelectorAll('.ai-question').forEach((section) => {
+    section.addEventListener('click', (e) => {
+      if (e.target.classList.contains('ai-option')) {
+        // Remove selection from other options in same section
+        section.querySelectorAll('.ai-option').forEach((opt) => opt.classList.remove('selected'));
+        e.target.classList.add('selected');
+        e.target.parentElement.querySelector('.ai-error').classList.add('hidden');
+      }
+    });
+  });
+  function openRecommendationStep2() {
+    document.querySelector('.variant-help-box.step-1').style.display = 'none';
+    document.querySelector('.variant-help-box.step-2').style.display = 'flex';
+  }
+  async function getRecommendation() {
+    const selections = [];
+    let allSelected = true;
+    document.querySelectorAll('.ai-question').forEach((section) => {
+      const selected = section.querySelector('.selected');
+      if (selected) {
+        selections.push(selected.innerText);
+      } else {
+        section.querySelector('.ai-error').classList.remove('hidden');
+        allSelected = false;
+      }
+    });
+    if (allSelected) {
+      document.querySelector('.get-recommendation-btn').style.display = 'none';
+      document.querySelector('.questionWrapper').style.display = 'none';
+      document.querySelector(".ai-loader").classList.remove("hidden");
+      const recommendedVariant = await getRecommendedVariant(selections);
+      document.querySelector(".ai-loader").classList.add("hidden");
+      document.querySelector('.try-again-btn').classList.remove('hidden');
+      if (recommendedVariant) { // need to update this
+        document.querySelector('.answerWrapper').style.display = 'block';
+        document.querySelector(".choose-variant-btn").classList.remove("hidden");
+      } else {
+        document.querySelector('.ai-api-error').classList.remove('hidden');
+      }
+    }
+  }
+  function chooseRecommendedVariant() {
+    console.log('Write code to choose variant');
+  }
+  function tryAgain() {
+    document.querySelector('.variant-help-box.step-1').style.display = 'flex';
+    document.querySelector('.questionWrapper').style.display = 'block';
+    document.querySelector('.answerWrapper').style.display = 'none';
+    document.querySelector('.variant-help-box.step-2').style.display = 'none';
+    document.querySelectorAll('.ai-option.selected').forEach((x) => x.classList.remove('selected'));
+    document.querySelector('.get-recommendation-btn').style.display = 'block';
+    document.querySelector(".choose-variant-btn").classList.add("hidden");
+    document.querySelector('.try-again-btn').classList.add('hidden');
+    document.querySelector('.ai-api-error').classList.add('hidden');
+  }
+  async function getRecommendedVariant(selectedOptions, customer_id = '998923478236523') {
+    // this user id needs to be updated later (abhi)
+    const myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+    const product_tags = "{{ product.tags | join: ', '  }}";
+    const raw = JSON.stringify({
+      Product_tag: product_tags,
+      user_id: customer_id,
+      name: 'Test', // this name of customer needs to be updated later (abhi)
+      mobile_num: '9876543210', // this mobile_num needs to be updated later (abhi)
+      user_answers: selectedOptions, // [
+      //  "Investment & Resale, Exclusivity & Emotion over logic",
+      //  "Occasionally",
+      //   "White-collared",
+      //   "Yellow",
+      //   "No"
+      // ]
+    });
+    const requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow',
+    };
+    try {
+      const result = await fetch('/apps/ea_module/price/price-recommendation', requestOptions);
+      const data = await result.json();
+      return data;
+    } catch (err) {
+      console.log('AI recommendation API error', err);
+    }
+  }
 </script>

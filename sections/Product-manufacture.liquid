@@ -1,0 +1,199 @@
+<style>
+#shopify-section-{{ section.id }}.progress-tracker-section {
+  width: 100%;
+  margin: 10px auto 50px;
+  position: relative;
+}
+#shopify-section-{{ section.id }} .progress-swiper {
+  overflow: hidden;
+  padding: 0 100px; 
+}
+#shopify-section-{{ section.id }} .progress-step {
+  background: rgba(134, 134, 139, 0.06);
+  border-radius: 10px;
+  text-align: left;
+  padding: 10px;
+  box-sizing: border-box;
+}
+#shopify-section-{{ section.id }} .progress-step img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  height: auto;
+  object-fit: contain;
+}
+#shopify-section-{{ section.id }} .progress-step .step-title {
+  font-family: 'Lato', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 10px;
+  color: #1D1D1F;
+}
+#shopify-section-{{ section.id }} .progress-step .step-desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 10px;
+  color: #86868B;
+}
+#shopify-section-{{ section.id }} .progress-step .status {
+  font-family: 'Lato', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 10px;
+}
+#shopify-section-{{ section.id }} .progress-step .status.completed { color: #369F2D; }
+#shopify-section-{{ section.id }} .progress-step .status.in-progress { color: #8A38F5; }
+#shopify-section-{{ section.id }} .progress-step .status.pending { color: #86868B; }
+#shopify-section-{{ section.id }} .progress-step .status-label {
+  color: #1D1D1F;
+}
+#shopify-section-{{ section.id }} .swiper-button-prev,
+#shopify-section-{{ section.id }} .swiper-button-next {
+  color: #000;
+  top: 40%;
+}
+#shopify-section-{{ section.id }} .pagination-below {
+  position: absolute;
+  bottom: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 5;
+}
+#shopify-section-{{ section.id }} .swiper-pagination-bullet {
+  background: #D9D9D9;
+  opacity: 0.5;
+  width: 10px;
+  height: 10px;
+  margin: 0 4px;
+}
+#shopify-section-{{ section.id }} .swiper-pagination-bullet-active {
+  opacity: 1;
+  background: #1D1D1F;
+}
+@media (min-width: 1024px) {
+  #shopify-section-{{ section.id }} .pagination-below {
+    display: none !important;
+  }
+}
+@media (max-width: 1024px) {
+  #shopify-section-{{ section.id }} .progress-swiper {
+    padding: 0 16px; 
+  }
+}
+#shopify-section-{{ section.id }}:empty {
+  display: none !important;
+}
+</style>
+
+
+{% if section.blocks.size > 0 %}
+<section id="shopify-section-{{ section.id }}" class="progress-tracker-section">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
+  <div class="swiper progress-swiper">
+    <div class="swiper-wrapper">
+      {% for block in section.blocks %}
+        {% assign status_class = block.settings.step_status | downcase | replace: ' ', '-' %}
+        <div class="swiper-slide progress-step" {{ block.shopify_attributes }}>
+          {% if block.settings.step_image != blank %}
+            {{ block.settings.step_image | image_url: width: 400 | image_tag: alt: block.settings.step_title }}
+          {% endif %}
+          <h4 class="step-title">{{ block.settings.step_title }}</h4>
+          <p class="step-desc">{{ block.settings.step_description }}</p>
+          {% if block.settings.step_status != blank %}
+          <p class="status {{ status_class }}">
+            <span class="status-label">Status:</span> {{ block.settings.step_status }}
+          </p>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+  </div>
+
+  <div class="swiper-pagination pagination-below"></div>
+</section>
+{% endif %}
+
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  new Swiper("#shopify-section-{{ section.id }} .progress-swiper", {
+    slidesPerView: 1, 
+    spaceBetween: 16,
+    pagination: {
+      el: "#shopify-section-{{ section.id }} .pagination-below",
+      clickable: true,
+    },
+    navigation: {
+      nextEl: "#shopify-section-{{ section.id }} .swiper-button-next",
+      prevEl: "#shopify-section-{{ section.id }} .swiper-button-prev",
+    },
+    breakpoints: {
+      350:{slidesPerView:1},
+      400:{slidesPerView:1.2},
+      450:{slidesPerView:1.5},
+      600:{slidesPerView: 1.8},
+      768: { slidesPerView: 2 },
+      1100: { slidesPerView: 3 },
+      1200: {slidesPerView:3.5},
+      1300: { slidesPerView: 4 },
+      1600: { slidesPerView: 4.5 }
+    },
+  });
+});
+</script>
+
+
+{% schema %}
+{
+  "name": "Progress_Tracker",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "progress_step",
+      "name": "Progress Step",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "step_image",
+          "label": "Step Image"
+        },
+        {
+          "type": "richtext",
+          "id": "step_title",
+          "label": "Step Title"
+        },
+        {
+          "type": "textarea",
+          "id": "step_description",
+          "label": "Step Description"
+        },
+        {
+          "type": "select",
+          "id": "step_status",
+          "label": "Step Status",
+          "default": "Pending",
+          "options": [
+            { "value": "Completed", "label": "Completed" },
+            { "value": "In Progress", "label": "In Progress" },
+            { "value": "Pending", "label": "Pending" }
+          ]
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Progress_Tracker",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

@@ -1,4 +1,5 @@
-{% if customer.tags contains 'sales_rep' %}
+{% assign downcased_tag = customer.tags | downcase  %}
+{% if downcased_tag contains 'sales_rep' %}
     <script>
        const endlessAisleUser =  sessionStorage.getItem('EndlessAisleCustomerID');
        const endlessAisleRedirectLink = document.querySelector('a.endlessMobile');

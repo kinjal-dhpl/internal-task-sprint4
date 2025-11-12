@@ -1,0 +1,480 @@
+import {
+  ViewerApp, //  main app that creates and controls the 3D viewer on the page
+  addBasePlugins, // Importing base plugins ( lighting,camera controls,etc )
+  PickingPlugin, // lets you click/select objects in 3D.
+  DiamondPlugin, // adds special rendering for diamond-like materials.
+  AssetManagerPlugin,
+  Mesh,
+  MaterialConfiguratorPlugin,
+  EquirectangularReflectionMapping,
+  CanvasSnipperPlugin, // lets you take a snapshot of the 3D view as an image.
+  FileTransferPlugin, // used to export or transfer files.
+  Object3D, // geometry and material helpers.
+  Material,
+  Vector3,
+  Vector2, // geometry and material helpers.
+  Texture,
+  sRGBEncoding, //geometry and material helpers.
+  // ...
+} from "https://dist.pixotronics.com/webgi/runtime/bundle-0.11.0.mjs";
+
+window.CanvasSelectedMaterials = {};
+
+document.addEventListener(
+  "DOMContentLoaded",
+  (x) => {
+    console.log("DOM loaded once===========================");
+
+    async function intialize3D() {
+      console.log(
+        "INIT 3D==========",
+        document.querySelectorAll(
+          ".canvas-3d-container .customContextGridItems"
+        )
+      );
+      /**
+       * STEP 1: This starts a new WebGi viewer and connects it to your <canvas> element.
+       *  Everything 3D will be drawn inside that canvas.
+       *  */
+      const viewer = new ViewerApp({
+        canvas: document.getElementById("main-canvas"),
+      });
+
+      //manager acts as renderer
+      // Adds the Asset Manager plugin — this is like a file loader that helps import .glb, .pmat, .vjson and other 3D files into the viewer.
+      const manager = await viewer.addPlugin(AssetManagerPlugin);
+
+      //Just adding some plugins
+      await addBasePlugins(viewer); // Adds default features — camera, lighting, materials, environment
+      await viewer.addPlugin(PickingPlugin); // enables picking (clicking objects).
+      await viewer.addPlugin(DiamondPlugin); // enables diamond rendering.
+      viewer.renderer.refreshPipeline(); // refreshPipeline() updates the render pipeline so the changes take effect.
+
+      // const options = { autoScale: false };
+      // const assets = await manager.addFromPath(
+      //   "https://cdn.shopify.com/3d/models/41ded97398b32dad/R-0001-1-RENDER_glb.glb",
+      //   options
+      // );
+
+      /**
+       * This loads your .glb 3D model from Shopify’s CDN.
+       * importPath downloads and prepares the model to be added to the scene.
+       */
+
+      const importer = viewer.getManager().importer;
+      const mesh = new Mesh();
+
+      const options = {
+        processImported: true, // default = true
+      };
+
+      const productGlbFile = productGlbUrl;
+      console.log('productGlbFile',productGlbFile);
+
+      const models = await importer.importPath(
+        // "https://cdn.shopify.com/3d/models/1da2cd695bb73afd/R-0597-WS2-RENDER_glb.glb",
+        productGlbFile,
+        options
+      ); // This works similar to manager.addFromPath
+
+      const options3 = {
+        autoScale: true, // autoScale: true ensures it fits nicely inside the viewer’s frame.
+      };
+      await manager.addProcessedAssets(models, options3); // Adding the model to the scene: takes the imported model and actually places it in the viewer.
+
+      const materialConfigPlugin = await viewer.addPlugin(
+        MaterialConfiguratorPlugin
+      ); // MaterialConfiguratorPlugin lets you dynamically change materials/colors.
+      const snipper = await viewer.addPlugin(CanvasSnipperPlugin); // CanvasSnipperPlugin lets you take screenshots.
+      await viewer.addPlugin(FileTransferPlugin); // FileTransferPlugin allows saving/exporting files.
+
+      // const material = await viewer // Loads a pre-defined physical material file that contains reflections, lighting, and metal properties used for rendering the jewelry correctly.
+      //   .getManager()
+      //   .importer.importSinglePath(
+      //     "https://cdn.shopify.com/s/files/1/0750/4533/9449/files/physical-material.pmat"
+      //   );
+
+      // Loads a preset configuration that defines camera angles, lighting setups, and material mappings — basically, how the scene should look once loaded.
+      await viewer.load(
+        "https://cdn.shopify.com/s/files/1/0664/3780/8182/files/scene-config.vjson?v=1760428706"
+      );
+
+      //======================= CANVAS Custom logic ==============================//
+
+      viewer.scene.addEventListener("sceneMaterialUpdate", async (...e) => {
+        pdpCanvasPersonalizeOption = materialConfigPlugin.variations;
+        // console.log(materialConfigPlugin.variations);
+
+        const selectedOptions = materialConfigPlugin.variations.reduce(
+          (acc, x) => {
+            if (x.selectedIndex >= 0) {
+              const parentHeading = [
+                ...document.querySelectorAll(".customContextGridHeading"),
+              ].find((h) => h.textContent.trim() === x.title); // Find the matching parent heading by title
+
+              if (parentHeading) {
+                console.log(parentHeading);
+                const parentEl = parentHeading.parentElement;
+                const optionItems = parentEl.querySelectorAll(
+                  ".customContextGridItems"
+                );
+
+                optionItems.forEach((opt, idx) => {
+                  if (idx === x.selectedIndex) {
+                    opt.classList.add("material-option-active");
+                  } else {
+                    opt.classList.remove("material-option-active");
+                  }
+                });
+              }
+
+              acc.push({
+                title: x.title,
+                selectedIndex: x.selectedIndex,
+                materialName: x.materials?.[x.selectedIndex]?.name || "",
+              });
+            }
+
+            return acc;
+          },
+          []
+        );
+
+        if(selectedOptions.length === materialConfigPlugin.variations.length){
+          document.querySelector('.save-canvas-options').disabled = false;
+          CanvasSelectedMaterials = selectedOptions;
+        }
+        else{
+          document.querySelector('.save-canvas-options').disabled = true;
+        }
+
+        console.log('selectedOptions...');
+
+      });
+
+      document.querySelector('[data-action="save-personalization"]').addEventListener("click", async () => {
+        try {
+          // loader overlay
+          const personalizationImageCaptureEl = document.querySelector('#personalization-loader-overlay');
+          personalizationImageCaptureEl.classList.add('custom_active'); // add loader
+          console.log('Captured 5 files:',personalizationImageCaptureEl);
+          // Define the 5 viewpoints (Y-up world)
+          const views = [
+            { name: 'top',    u: { x:  0, y:  1, z:  0 } },  // +Y
+             { name: 'bottom', u: { x:  0, y: -1, z:  0 } },  // -Y
+            { name: 'left',   u: { x: -1, y:  0, z:  0 } },  // -X
+            { name: 'right',  u: { x:  1, y:  0, z:  0 } },  // +X
+            // front-top-right: diagonal (+X, +Y, +Z).
+            // If your "front" is -Z, flip z: {z: -1}
+            { name: 'ftr',    u: { x:  1, y:  1, z:  1 } }
+          ];
+
+          const files = [];
+          for (const v of views) {
+            await moveCameraByUnitOffset(viewer, v.u);
+            const file = await captureFile(snipper, `ring-${v.name}.webp`);
+            const data = {
+              fieldName : "files",
+              blob: file,
+              filename: v.name
+            }
+            files.push(data);
+
+            // OPTIONAL: download for quick manual verification
+            // downloadBlobFile(file, `ring-${v.name}.webp`);
+          }
+
+          // yahan close kara sakte ho modal
+          const personalizationSummaryEl = document.getElementById('personalization-summary');
+          const personalizationSummaryData = personalizationSummaryEl.querySelector('.summary-details');
+          const personalizationModalTriggeringInputEl = document.getElementById('personalization-options');
+          const personalizationImagesDataEl = personalizationSummaryEl.querySelector('.ring-thumbnails');
+          let SelectedMaterials = CanvasSelectedMaterials;
+          if(SelectedMaterials && personalizationSummaryEl && personalizationModalTriggeringInputEl) {
+            console.log(SelectedMaterials);
+            let personalizedSummaryHtml = '';
+            // create html
+            SelectedMaterials.forEach( (selection, index) => {
+              let metalTitle = selection.title;
+              let metalName = selection.materialName;
+              personalizedSummaryHtml += `
+              <div class="summary-item">
+                <span class="summary-label">${metalTitle}:</span>
+                <span class="summary-value" id="summary-metal-tone-${index + 1}">${metalName}</span>
+              </div>
+              `;
+            });
+            // end
+
+            personalizationSummaryData.innerHTML = personalizedSummaryHtml;
+
+            personalizationSummaryEl.setAttribute('selected','true');
+            personalizationSummaryEl.classList.remove('hidden');
+            personalizationModalTriggeringInputEl.classList.add('hidden');
+            const selectedNoPersonalization = document.querySelector("#no-personalization-radio");
+            selectedNoPersonalization.checked = false;
+
+          }
+
+          function closeModal() {
+              const modal = document.getElementById('personalization-modal');
+              modal.classList.remove('active');
+              document.body.style.overflow = ''; // Restore scrolling
+          }
+
+          const uploadResult = await uploadBlobs("/apps/ea_module_dev/internal/upload-files", files);
+          closeModal();
+          personalizationImageCaptureEl.classList.remove('custom_active'); // remove loader
+          console.log("abhi", uploadResult);
+
+          // update images on form bottom
+          let personalizationImages = uploadResult.data.fileUrls;
+          console.log('personalizationImages',personalizationImagesDataEl);
+          let uploadedImagesHtml = "";
+
+          // Loop through each uploaded image URL
+          personalizationImages.forEach((imgLink, index) => {
+            uploadedImagesHtml += `
+              <div class="ring-thumbnail">
+                <img src="${imgLink}" alt="Ring View">
+              </div>
+              <input type="hidden" name="properties[Personalization Image ${
+                index + 1
+              }]" value="${imgLink}">
+            `;
+          });
+          // Render all HTML inside your form container
+          personalizationImagesDataEl.innerHTML = uploadedImagesHtml;
+           // Show engraving form
+          const engravingForm = document.getElementById('engraving-form');
+          console.log("engravingForm",engravingForm);
+          if (engravingForm) engravingForm.classList.remove('hidden');
+
+          const personalizationPDPformEl = personalizationSummaryEl.closest('.pdp-form');
+
+          // enable next form ( engraving )
+          enableNextForm(personalizationPDPformEl);
+
+
+
+          // const file = await snipper.getFile('snapshot.webp');
+          // files.push(file);
+
+          // await injectCapturedFiles(files);
+
+          // At this point `files` is an array of 5 Blobs ready for upload to GCS.
+
+        } catch (e) {
+          console.error('Batch capture failed:', e);
+          alert(e?.message || 'Batch capture failed');
+        }
+      });
+    }
+
+    function setActiveSelectionsOnCanvas() {
+      const selectedOptions = pdpCanvasPersonalizeOption.reduce((acc, x) => {
+        // Check and handle active state inside same condition : selected Index
+        if (x.selectedIndex >= 0) {
+          // Find the matching parent heading by title
+          const parentHeading = [
+            ...document.querySelectorAll(".customContextGridHeading"),
+          ].find((h) => h.textContent.trim() === x.title);
+
+          if (parentHeading) {
+            const parentEl = parentHeading.parentElement;
+            const optionItems = parentEl.querySelectorAll(".customContextGridItems");
+
+            optionItems.forEach((opt, idx) => {
+              // Set 'active' only on the matched index
+              if (idx === x.selectedIndex) {
+                opt.classList.add("material-option-active");
+              } else {
+                opt.classList.remove("material-option-active");
+              }
+            });
+          }
+
+          // TODO: To be used later
+          acc.push({
+            title: x.title,
+            selectedIndex: x.selectedIndex,
+            materialName: x.materials?.[x.selectedIndex]?.name || "",
+          });
+        }
+
+        return acc;
+      }, []);
+    }
+
+    intialize3D();
+  },
+  { once: true }
+);
+
+
+// === Camera → Top (Y-up assumed; tweak if your scene uses Z-up) ===
+async function moveCameraToTop(viewer, { zUp = false } = {}) {
+  const cam = viewer.scene.activeCamera;                 // CameraController
+  const ctrl = cam.controls;                              // OrbitControls (from your screenshot)
+  const threeCam = (ctrl && ctrl.object) || cam._threeCamera || cam._camera?.threeObject || cam._camera;
+
+  // 1) Read current target
+  let tx = 0, ty = 0, tz = 0;
+  if (ctrl?.target) { tx = ctrl.target.x; ty = ctrl.target.y; tz = ctrl.target.z; }
+  else if (cam._target) { tx = cam._target.x; ty = cam._target.y; tz = cam._target.z; }
+
+  // 2) Distance from camera to target (use whichever position we can get)
+  const p = (threeCam?.position) || cam._position || { x: 0, y: 6, z: 6 };
+  const dx = p.x - tx, dy = p.y - ty, dz = p.z - tz;
+  const dist = Math.max(0.1, Math.hypot(dx, dy, dz));
+
+  // 3) Compute TOP position
+  const topPos = zUp
+    ? { x: tx, y: ty, z: tz + dist }          // Z-up scenes
+    : { x: tx, y: ty + dist, z: tz };         // Y-up scenes (likely your case)
+
+  // 4) Temporarily disable damping so it applies immediately
+  const prevDamping = !!ctrl?.enableDamping;
+  if (ctrl) ctrl.enableDamping = false;
+
+  // 5) Set target on both controller and camera controller
+  if (ctrl?.target?.set) ctrl.target.set(tx, ty, tz);
+  if (cam._target?.set) cam._target.set(tx, ty, tz);
+
+  // 6) Set camera position on BOTH layers (controller + wrapped camera)
+  if (threeCam?.position?.set) threeCam.position.set(topPos.x, topPos.y, topPos.z);
+  if (cam._position?.set) cam._position.set(topPos.x, topPos.y, topPos.z);
+
+  // 7) Nudge orientation (only if available; not required)
+  if (threeCam?.lookAt) threeCam.lookAt(tx, ty, tz);
+  cam.autoLookAtTarget = true;   // common on WebGI controllers
+  cam.setDirty?.();
+
+  // 8) Make OrbitControls commit the new pose
+  ctrl?.update?.();
+
+  // 9) Render new frame(s) before capture
+  await viewer.renderer?.refreshPipeline?.();
+  await new Promise(requestAnimationFrame);
+  await new Promise(requestAnimationFrame);
+
+  // 10) Restore damping
+  if (ctrl) ctrl.enableDamping = prevDamping;
+}
+
+// Moves camera to target + (unitOffset * distance) and snaps a fresh frame
+async function moveCameraByUnitOffset(viewer, unitOffset /* {x,y,z} */) {
+  const cam = viewer.scene.activeCamera;          // CameraController
+  const ctrl = cam.controls;                       // OrbitControls
+  const threeCam = (ctrl && ctrl.object) || cam._threeCamera || cam._camera?.threeObject || cam._camera;
+
+  // Read target (fallback origin)
+  let tx = 0, ty = 0, tz = 0;
+  if (ctrl?.target) { tx = ctrl.target.x; ty = ctrl.target.y; tz = ctrl.target.z; }
+  else if (cam._target) { tx = cam._target.x; ty = cam._target.y; tz = cam._target.z; }
+
+  // Current cam position (from threeCam or controller)
+  const p = (threeCam?.position) || cam._position || { x: 0, y: 6, z: 6 };
+  const dx = p.x - tx, dy = p.y - ty, dz = p.z - tz;
+  const dist = Math.max(0.1, Math.hypot(dx, dy, dz));
+
+  // Normalize the unit offset in case it isn't unit length
+  const len = Math.max(1e-6, Math.hypot(unitOffset.x, unitOffset.y, unitOffset.z));
+  const ux = unitOffset.x / len, uy = unitOffset.y / len, uz = unitOffset.z / len;
+
+  // New absolute position
+  const nx = tx + ux * dist;
+  const ny = ty + uy * dist;
+  const nz = tz + uz * dist;
+
+  // Apply (disable damping for instant commit)
+  const prevDamping = !!ctrl?.enableDamping;
+  if (ctrl) ctrl.enableDamping = false;
+
+  if (ctrl?.target?.set) ctrl.target.set(tx, ty, tz);
+  if (cam._target?.set) cam._target.set(tx, ty, tz);
+
+  if (threeCam?.position?.set) threeCam.position.set(nx, ny, nz);
+  if (cam._position?.set) cam._position.set(nx, ny, nz);
+
+  threeCam?.lookAt?.(tx, ty, tz);
+  cam.autoLookAtTarget = true;
+  cam.setDirty?.();
+  ctrl?.update?.();
+
+  await viewer.renderer?.refreshPipeline?.();
+  await new Promise(requestAnimationFrame);
+
+  if (ctrl) ctrl.enableDamping = prevDamping;
+}
+
+
+async function captureFile(snipper, name, {
+  mimeType = 'image/webp',
+  scale = 1.5,
+  dpr = window.devicePixelRatio
+} = {}) {
+  return snipper.getFile(name, { mimeType, scale, displayPixelRatio: dpr });
+}
+
+// quick local verify (optional)
+function downloadBlobFile(file, filename) {
+  const url = URL.createObjectURL(file);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename || file.name || 'snapshot.webp';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+async function injectCapturedFiles(files) {
+  // files = array of File or Blob objects (like from snipper.getFile)
+  const input = document.getElementById('custom-image-top');
+
+  console.log("abhi", input);
+  if (!input) return;
+
+  // Create a DataTransfer object (acts like a drag-and-drop payload)
+  const dt = new DataTransfer();
+
+  // If your Blob is not already a File, wrap it as one
+  files.forEach((blob, i) => {
+    const file = blob instanceof File ? blob : new File([blob], `capture-${i+1}.webp`, { type: blob.type || 'image/webp' });
+    dt.items.add(file);
+  });
+
+  // Assign the FileList to the input element
+  input.files = dt.files;
+
+  // Trigger a 'change' event so any upload handler reacts
+  input.dispatchEvent(new Event('change', { bubbles: true }));
+
+  console.log('Input now contains', input.files.length, 'files');
+}
+
+async function uploadBlobs(url, files, additionalData = {}) {
+  const formData = new FormData();
+
+  formData.append("files", files[0].blob, "ring-top.webp");
+  formData.append("files", files[1].blob, "ring-left.webp");
+  formData.append("files", files[2].blob, "ring-bottom.webp");
+  formData.append("files", files[3].blob, "ring-right.webp");
+  formData.append("files", files[4].blob, "ring-ftr.webp");
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+    }
+
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error("Error uploading blobs:", error);
+    throw error;
+  }
+}

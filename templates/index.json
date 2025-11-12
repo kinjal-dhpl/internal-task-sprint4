@@ -204,10 +204,10 @@
     "step_3_x6b4Fe": {
       "type": "step-3",
       "settings": {
+        "selected_product": "eternal-glow-women-ring",
         "title": "Step 3",
         "title2": "View Price Options",
-        "subtitle": "12 Price Options For Each Design",
-        "selected_product": "eternal-glow-women-ring"
+        "subtitle": "12 Price Options For Each Design"
       }
     },
     "step_4_FFUaaY": {
@@ -419,107 +419,6 @@
         "swipe_on_mobile": false,
         "padding_top": 36,
         "padding_bottom": 36
-      }
-    },
-    "rich_text_HteCyG": {
-      "type": "rich-text",
-      "blocks": {
-        "heading_VADk7U": {
-          "type": "heading",
-          "settings": {
-            "heading": "FAQ’S",
-            "heading_size": "h1"
-          }
-        },
-        "text_9QWgjW": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Trust us, there is an answer to every question</p>"
-          }
-        }
-      },
-      "block_order": [
-        "heading_VADk7U",
-        "text_9QWgjW"
-      ],
-      "custom_css": [
-        "h2 {font-size: 56px; font-family: \"oregon-ldo-medium\"; color: #1c1c1c;}",
-        ".rich-text__text {margin-top: 5px;}",
-        "p {font-family: \"oregon-ldo-medium\"; font-size: 16px; color: #a5a5a5;}"
-      ],
-      "settings": {
-        "desktop_content_position": "center",
-        "content_alignment": "center",
-        "color_scheme": "",
-        "full_width": true,
-        "padding_top": 40,
-        "padding_bottom": 0
-      }
-    },
-    "nested_faq_FQybnH": {
-      "type": "nested-faq",
-      "blocks": {
-        "row_T8rPhp": {
-          "type": "row",
-          "settings": {
-            "question": "What will I get different at RINGS & I?",
-            "answer": "<p>RINGS & I is a personalised diamond ring studio.<br/>You get made-to-order diamond rings <br/>We have 1200 design prototypes for you to try in person <br/>You can pick a design, choose your size, metal tone, metal finish, engrave it<br/>Then you pick a personal price out of the 9 price options we offer and place an order</p>"
-          }
-        },
-        "row_C4JH3N": {
-          "type": "row",
-          "settings": {
-            "question": "Why do you have 12 prices?",
-            "answer": "<p>We believe you should only pay for what you need and you should have the flexibility to pick a design & price combination that suits you.<br/>We offer 3 options in metal & diamond colour-clarity. This make 9 price variants. It's just like car variants. Pick the one that suits you and we can help you with a recommendation</p>"
-          }
-        },
-        "row_EUzWgK": {
-          "type": "row",
-          "settings": {
-            "question": "Where are you located?",
-            "answer": "<p>We are currently in Pune at Sadashiv Peth.</p><p>Google location:<br/>We will soon be available in Mumbai | Bengaluru | Delhi<br/>Until then you can book a virtual appointment with us for other locations.</p>"
-          }
-        },
-        "row_FmDGnM": {
-          "type": "row",
-          "settings": {
-            "question": "Are there any extra charges for booking an appointment?",
-            "answer": "<p>No extra charges for booking an appointment.</p>"
-          }
-        },
-        "row_r8cUeP": {
-          "type": "row",
-          "settings": {
-            "question": "Am I expected to buy after booking the appointment?",
-            "answer": "<p>No, the appointment is for you to explore and understand. You can buy only if you like our process and get exactly what you want</p>"
-          }
-        },
-        "row_tVErcD": {
-          "type": "row",
-          "settings": {
-            "question": "Can I understand online before I visit?",
-            "answer": "<p>Absolutely, we do have a virtual appointment setup. You can choose the method of interaction that is most convenient and preferable for you. You can also mix it…choosing to do some parts online and others in-person</p>"
-          }
-        },
-        "row_9j7VVT": {
-          "type": "row",
-          "settings": {
-            "question": "How long is the appointment?",
-            "answer": ""
-          }
-        }
-      },
-      "block_order": [
-        "row_T8rPhp",
-        "row_C4JH3N",
-        "row_EUzWgK",
-        "row_FmDGnM",
-        "row_r8cUeP",
-        "row_tVErcD",
-        "row_9j7VVT"
-      ],
-      "settings": {
-        "title": "About Rings & I- Peronsliased Diamond Ring Studio"
       }
     },
     "nested_faq_RDFMgq": {
@@ -809,8 +708,6 @@
     "landing_collection_slider_r6LfFM",
     "rich_text_tXD6RC",
     "multicolumn_B9KaVH",
-    "rich_text_HteCyG",
-    "nested_faq_FQybnH",
     "nested_faq_RDFMgq",
     "nested_faq_nMKxdy",
     "nested_faq_efUt98",

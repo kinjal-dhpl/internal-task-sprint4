@@ -69,6 +69,10 @@
           class="product-variant-id"
         > {% endcomment %}
 
+         {% comment %} ============================= Personalizations ============================= {% endcomment %}
+         {% render 'form-script' %}
+         {% comment %} ============================= END ============================= {% endcomment %}
+
         <input
           type="hidden"
           name="properties[price]"
@@ -99,7 +103,8 @@
             id="ProductSubmitButton-{{ section_id }}"
             type="submit"
             name="add"
-            class="main_atc_button product-form__submit button button--full-width {% if show_dynamic_checkout %}button--secondary{% else %}button--primary{% endif %}"
+            disabled
+            class="hidden product-form__submit button button--full-width {% if show_dynamic_checkout %}button--secondary{% else %}button--primary{% endif %}"
             {% if product.selected_or_first_available_variant.available == false or quantity_rule_soldout or is_price_zero %}
               disabled
             {% endif %}

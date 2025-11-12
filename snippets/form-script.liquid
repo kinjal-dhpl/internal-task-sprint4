@@ -1,0 +1,445 @@
+{{ 'form-script.css' | asset_url | stylesheet_tag }}
+
+<div class="personalization-engrave-form" data-selected="false">
+  <div class="personalization-header">
+    <h2 class="personalization-title">Personalize Your Ring For Free.</h2>
+
+  </div>
+
+  <!-- Initial Options (shown by default) -->
+   <div class="personalization-form pdp-form" id="personalize-form"> 
+    <div class="personalization-title">
+      <span class="personalization-label">Personalize:</span>
+    </div>
+    <div class="personalization-data">
+
+      <!-- Option 1: Add Metal Tone & Finish -->
+      <div class="personalization-card personalization-options" id="personalization-options" data-action="open-modal">
+        <input type="radio" name="personalization_choice" value="add_personalization" id="personalization-radio"
+          class="personalization-radio hidden-input" />
+        <label for="personalization-radio" class="card-content">
+          <span class="option-text">Add (Metal Tone &amp; Finish)</span>
+          <span class="option-price">Free</span>
+        </label>
+      </div>
+
+      <!-- Personalization Summary -->
+      <div class="personalization-summary hidden" id="personalization-summary">
+        <div class="summary-card">
+          <div class="summary-content">
+            <div class="summary-details">
+            </div>
+            <button type="button" class="edit-button" data-action="edit-personalization">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Ring Thumbnails -->
+        <div class="ring-thumbnails"></div>
+      </div>
+
+      <!-- Option 2: No Personalization -->
+      <div class="personalization-card" data-action="no-personalization">
+        <input type="radio" name="personalization_choice" value="no_personalization" id="no-personalization-radio"
+          class="personalization-radio hidden-input" />
+        <label for="no-personalization-radio" class="card-content">
+          <span class="option-text">No Personalization</span>
+        </label>
+      </div>
+
+    </div>
+
+   </div>
+
+  {% comment %} <div class="personalization-options" id="personalization-options">
+    <!-- Option 1: Add Metal Tone & Finish - Opens Modal -->
+    <div class="personalization-card" data-action="open-modal">
+      <div class="card-content">
+        <span class="option-text">Add (Metal Tone & Finish)</span>
+        <span class="option-price">Free</span>
+      </div>
+    </div>
+    <!-- Option 2: No Personalization - Proceeds without customization -->
+    <div class="personalization-card" data-action="no-personalization">
+      <div class="card-content">
+        <span class="option-text">No Personalization</span>
+      </div>
+    </div>
+  </div>
+  <!-- Personalization Summary (shown after save) -->
+   <div class="personalization-summary hidden" id="personalization-summary">
+    <div class="summary-card">
+      <div class="summary-content">
+        <div class="summary-details">
+          <div class="summary-item">
+            <span class="summary-label">Metal Tone 1:</span>
+            <span class="summary-value" id="summary-metal-tone-1">Yellow</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">Metal Tone 2 (Rhodium):</span>
+            <span class="summary-value" id="summary-metal-tone-2">Yellow</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">Prong Rhodium:</span>
+            <span class="summary-value" id="summary-prong-rhodium">Yellow</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">Metal Finish 1:</span>
+            <span class="summary-value" id="summary-metal-finish-1">Polished</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">Metal Finish 2:</span>
+            <span class="summary-value" id="summary-metal-finish-2">Matte</span>
+          </div>
+        </div>
+        <button type="button" class="edit-button" data-action="edit-personalization">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+            <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <!-- Ring Thumbnails -->
+    <div class="ring-thumbnails">
+      <div class="ring-thumbnail active">
+        <img
+          src="https://cdn.shopify.com/s/files/1/0664/3780/8182/files/perp_50_3_1.jpg?v=1754636375"
+          alt="Ring View 1"
+        >
+      </div>
+      <div class="ring-thumbnail">
+        <img
+          src="https://cdn.shopify.com/s/files/1/0664/3780/8182/files/perp_50_3_1.jpg?v=1754636375"
+          alt="Ring View 2"
+        >
+      </div>
+      <div class="ring-thumbnail">
+        <img
+          src="https://cdn.shopify.com/s/files/1/0664/3780/8182/files/perp_50_3_1.jpg?v=1754636375"
+          alt="Ring View 3"
+        >
+      </div>
+      <div class="ring-thumbnail">
+        <img
+          src="https://cdn.shopify.com/s/files/1/0664/3780/8182/files/perp_50_3_1.jpg?v=1754636375"
+          alt="Ring View 4"
+        >
+      </div>
+    </div>
+  </div> {% endcomment %}
+
+  <!-- Engraving Form Section -->
+   <div class="engraving-form pdp-form" id="engraving-form">
+    <div class="engraving-header">
+      <h2 class="engraving-title">Personalize Engraving For Free.</h2>
+      <label class="engraving-label">Engraving:</label>
+    </div>
+
+    <div class="engraving-form-data">
+      <!-- Initial Engraving Options -->
+      <div class="engraving-options engrv-card" id="engraving-options">
+        <!-- Option 1: Add Engraving - Opens Modal -->
+        <div class="engraving-card" data-action="open-engraving-modal">
+          <div class="card-content">
+            <span class="option-text">Add Engraving</span>
+            <span class="option-price">Free</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Engraving Summary (shown after save) -->
+      <div class="engraving-summary hidden" id="engraving-summary">
+        <input type="radio" name="engraving_choice" value="add_engraving" id="engraving-radio" class="engraving-radio hidden-input hidden" />
+        <div class="summary-card">
+          <div class="summary-content">
+            <div class="summary-details">
+              <div class="summary-item engrave-summary-text">
+                <span class="summary-label">Engraved text:</span>
+                <span class="summary-value" id="summary-engraving-text"></span>
+              </div>
+            </div>
+            <button type="button" class="edit-button" data-action="edit-engraving">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Option 2: No Engraving -->
+      <div class="engraving-card engrv-card" data-action="no-engraving">
+        <input type="radio" name="engraving_choice" value="no_engraving" id="no-engraving-radio" class="engraving-radio hidden-input hidden" />
+        <label for="no-engraving-radio" class="card-content">
+          <span class="option-text">No Engraving</span>
+        </label>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Personal Fit Form Section -->
+   <div class="personal-fit-form pdp-form" id="personal-fit-form">
+    <div class="personal-fit-header">
+      <h2 class="personal-fit-title">Get The Perfect Personal Fit.</h2>
+    </div>
+
+    <!-- Initial Personal Fit Options -->
+    <div class="personal-fit-options" id="personal-fit-options">
+      <!-- Gender Selection -->
+      <div class="selection-group">
+        <label class="selection-label">Gender:</label>
+        <div class="selection-buttons">
+                    <button type="button" class="selection-btn gender-btn" data-value="male" data-group="gender">
+            <span class="gender-symbol">♂</span>
+            <span class="selection-text">Male</span>
+          </button>
+                    <button type="button" class="selection-btn gender-btn" data-value="female" data-group="gender">
+            <span class="gender-symbol">♀</span>
+            <span class="selection-text">Female</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Hand Selection -->
+      <div class="selection-group">
+        <label class="selection-label">Hand:</label>
+        <div class="selection-buttons">
+                    <button type="button" class="selection-btn hand-btn" data-value="left" data-group="hand">
+            <span class="hand-symbol">→</span>
+            <span class="selection-text">Left</span>
+          </button>
+          <button type="button" class="selection-btn hand-btn" data-value="right" data-group="hand">
+            <span class="hand-symbol">←</span>
+            <span class="selection-text">Right</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Finger Selection -->
+      <div class="selection-group">
+        <label class="selection-label">Finger:</label>
+        <div class="selection-buttons finger-buttons">
+                    <button type="button" class="selection-btn finger-btn" data-value="thumb" data-group="finger">
+            <span class="selection-text">Thumb</span>
+          </button>
+          <button type="button" class="selection-btn finger-btn" data-value="index" data-group="finger">
+            <span class="selection-text">Index</span>
+          </button>
+          <button type="button" class="selection-btn finger-btn" data-value="middle" data-group="finger">
+            <span class="selection-text">Middle</span>
+          </button>
+          <button type="button" class="selection-btn finger-btn" data-value="ring" data-group="finger">
+            <span class="selection-text">Ring</span>
+          </button>
+          <button type="button" class="selection-btn finger-btn" data-value="pinky" data-group="finger">
+            <span class="selection-text">Pinky</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Additional Fingerprint Section -->
+  <div class="additional-print-form pdp-form" id="additional-print-form">
+    <div class="additional-print-header">
+      <h2 class="additional-print-title">Get Additional Print</h2>
+    </div>
+
+    <!-- Fingerprint selection -->
+    <div class="selection-group" id="fingerprint-selection">
+      <span class="selection-label">Fingerprint:</span>
+
+      <div class="selection-options">
+        {% comment %} Saved Fingerprint Image {% endcomment %}
+        <div class="savedFingerprintData">
+          <!-- Hidden file input (opened manually via JS) -->
+          <input type="file" name="properties[Fingerprint]" id="fingerprint-file" accept="image/*" hidden />
+
+          <!-- Preview section -->
+          <div class="fingerprint-preview hidden" id="fingerprint-preview-container">
+            <div class="upload-preview">
+              <img id="fingerprint-preview-img" alt="Fingerprint preview" />
+              <span class="upload-text" id="fingerprint-file-name"></span>
+            </div>
+            <div class="preview-actions">
+              <button type="button" type="button" class="edit-btn" id="edit-fingerprint">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {% comment %} Option YES {% endcomment %}
+        <div class="fingerprint-option selection-option" id="yes-option">
+          <input type="radio" name="additional-print" id="additional-print-yes" value="yes" class="hidden-input" />
+          <label for="additional-print-yes" class="selection-btn fp-selection-btn" id="yes-btn">
+            <span class="selection-text">Yes</span>
+          </label>
+        </div>
+
+        {% comment %} Option NO {% endcomment %}
+        <div class="fingerprint-option selection-option" id="no-option">
+          <input type="radio" name="additional-print" id="additional-print-no" value="no" class="hidden-input" />
+          <label for="additional-print-no" class="selection-btn fp-selection-btn" id="no-btn">
+            <span class="selection-text">No</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+
+
+  <!-- Authenticity & Delivery Section -->
+   <div class="auth-delivery-form pdp-form" id="auth-delivery-form">
+    <div class="auth-delivery-header">
+      <h2 class="auth-delivery-title">Authenticity & Delivery</h2>
+    </div>
+
+    <!-- Studded Diamond Certification -->
+    <div class="studded-diamond-certificates">
+      <label class="certificate-title">Studded Diamond Certification:</label>
+      <div class="certificate-options studded-cert-buttons">
+        <input type="radio" name="properties[diamond-certificate]" id="SGL" value="15" class="hidden-input">
+        <label for="SGL" type="radio" class="diamond-cert-btn" data-group="studded-cert" value="15" data-value="SGL">SGL Certificate</label>
+        <input type="radio" name="properties[diamond-certificate]" id="EGL" value="15" class="hidden-input">
+        <label for="EGL" type="radio" class="diamond-cert-btn" data-group="studded-cert" value="15" data-value="EGL">EGL Certificate</label>
+        <input type="radio" name="properties[diamond-certificate]" id="IGI" value="25" class="hidden-input">
+        <label for="IGI" type="radio" class="diamond-cert-btn" data-group="studded-cert" value="25" data-value="IGI">IGI Certificate</label>
+      </div>
+    </div>
+
+    <!-- Solitaire Certificate (hardcoded) -->
+    <div class="selection-group">
+      <label class="selection-label">Solitaire Certificate:</label>
+      <div class="info-card">
+        <div class="info-card-title">GIA Certificate</div>
+        <div class="info-card-sub">World’s most trusted diamond grading</div>
+      </div>
+    </div>
+
+    <!-- Metal Certificate (hardcoded) -->
+    <div class="selection-group">
+      <label class="selection-label">Metal Certificate:</label>
+      <div class="info-card">
+        <div class="info-card-title">BIS Hallmark</div>
+        <div class="info-card-sub">Guaranteed gold purity certification</div>
+      </div>
+    </div>
+
+    <!-- Delivery Information (hardcoded for now) -->
+    <div class="selection-group">
+      <label class="selection-label">Delivery Information:</label>
+      <div class="delivery-card">
+        <div class="delivery-row">
+          <span>Auto calculate delivery date range</span>
+          <span class="chip chip-free">Free</span>
+        </div>
+        <div class="calculate-delivery-notify-msg">
+          Select Diamond Certificate for calculating delivery date
+        </div>
+        <div class="delivery-note hidden">Expected Delivery by 16th Sept</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Final Summary -->
+   <div class="final-summary-form hidden" id="final-summary-form">
+    <div class="price-details">
+      <div class="price-slab">
+        <span class="final-price-curreny">Rs.</span>
+        <span class="final-value" id="final-price">...</span>
+      </div>
+      <span class="incTaxes">(All taxes included)</span>
+    </div>
+
+    <div class="final-row">
+      <span class="final-label">Size</span>
+      <span class="final-value" id="final-size"></span>
+    </div>
+    <div class="final-row">
+      <span class="final-label">Metal Color</span>
+      <span class="final-value" id="final-metal-color"></span>
+    </div>
+
+    <div class="no-pers personalization-selected-option">
+      <span class="selection-title">Personalize:</span>
+      <span id="summary-personalize" class="selection-option-value">No Personalization</span>
+    </div>
+
+    <div class="personalize-selected-options final-card hidden">
+      <div class="final-grid">
+        <div class="final-item">
+          <div class="final-item-label">Metal tone 1</div>
+          <div class="final-item-value" id="final-metal-tone-1"></div>
+        </div>
+        <div class="final-item">
+          <div class="final-item-label">Metal tone 2</div>
+          <div class="final-item-value" id="final-metal-tone-2"></div>
+        </div>
+        <div class="final-item">
+          <div class="final-item-label">Prong Rhodium</div>
+          <div class="final-item-value" id="final-prong-rhodium"></div>
+        </div>
+        <div class="final-item">
+          <div class="final-item-label">Metal Finish 1</div>
+          <div class="final-item-value" id="final-metal-finish-1"></div>
+        </div>
+        <div class="final-item">
+          <div class="final-item-label">Metal Finish 2</div>
+          <div class="final-item-value" id="final-metal-finish-2"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="final-row">
+      <span class="final-label">Engraved Text</span>
+      <span class="final-value" id="final-engraving"></span>
+    </div>
+
+    <div class="final-card">
+      <div class="final-cols">
+        <div class="final-col">
+          <div class="final-item-label">Gender</div>
+          <div class="final-item-value" id="final-gender"></div>
+        </div>
+        <div class="final-col">
+          <div class="final-item-label">Hand</div>
+          <div class="final-item-value" id="final-hand"></div>
+        </div>
+        <div class="final-col">
+          <div class="final-item-label">Finger</div>
+          <div class="final-item-value" id="final-finger"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="final-row fp-container">
+      <span class="final-label">Finger Print</span>
+      <span class="final-value" style="width: 24px;">
+        <img style="width: 100%; height:auto;" src="" class="final-value" id="final-fprint-fingerprint" />
+      </span>
+      <span class="final-value hidden" id="final-text-fingerprint">No</span>
+    </div>
+
+  </div>
+</div>
+
+{% render 'form-script-js' %}
+
+<script>
+  window.ProductTags = {{ product.tags | json }};
+  window.ProductTagsReady = true;
+</script>

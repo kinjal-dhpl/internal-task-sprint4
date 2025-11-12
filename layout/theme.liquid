@@ -1922,6 +1922,10 @@ async function handleMessage(question) {
             initChat();
         });
     </script>
+
+        {% if template == 'product' %}
+    <script type="module" src="{{ "webgi-3d-viewer.js" | asset_url }}"></script>
+    {% endif %}
 </body>
 </html>
 

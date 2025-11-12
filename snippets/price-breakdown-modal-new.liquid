@@ -1,0 +1,328 @@
+<style>
+  .pb-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 4;
+  }
+  /* Container */
+  .price-breakdown-container {
+    max-width: 560px;
+    max-height: 85vh;
+    min-width: 300px;
+    width: 40%;
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+  }
+  .pb-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .pb-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  .close-btn {
+    border: none;
+    background: transparent;
+    font-size: 20px;
+    cursor: pointer;
+    color: #555;
+  }
+  .pb-subtitle {
+    font-size: 13px;
+    color: #777;
+    margin: 6px 0 20px;
+  }
+  .pb-title {
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  .pb-title h4 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: bold;
+  }
+  .pb-title p {
+    margin: 10px 0 0;
+    color: #555;
+  }
+  .pb-section {
+    margin-bottom: 16px;
+    background: rgba(134, 134, 139, 0.03);
+    padding: 10px;
+    border-radius: 10px;
+  }
+  .pb-row {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0px;
+    margin-bottom: 4px;
+  }
+  .pb-note {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: 0px;
+    color: #86868B;
+  }
+  .pb-box {
+    background: rgba(0, 0, 0, 0.04);
+    border-radius: 6px;
+    padding: 6px 8px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: 0px;
+    font-family: Lato;
+    color: rgba(29, 29, 31, 0.6);
+    margin-top: 10px;
+  }
+  .pb-total {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: 0px;
+    margin-top: 20px;
+    font-weight: bold;
+  }
+  .pb-total-note {
+    font-size: 12px;
+    color: #777;
+    margin-top: 4px;
+    text-align: right;
+  }
+  /* ========== Diamond Modal ========== */
+  .dm-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 6;
+  }
+  .diamond-modal {
+    background: #fff;
+    width: 100%;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    z-index: 7;
+  }
+  .diamond-modal-close {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: #555;
+  }
+  .diamond-modal-title {
+    margin: 0;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 100%;
+    letter-spacing: 0px;
+    font-family: Inter;
+  }
+  .diamond-modal-subtitle {
+    color: #86868B;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0px;
+    margin-top: 6px;
+    margin-bottom: 15px;
+  }
+  .diamond-modal-heading {
+    margin: 0;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: 0px;
+    text-align: center;
+  }
+  .diamond-modal-metal {
+    color: #86868B;
+    margin-top: 10px;
+    margin-bottom: 16px;
+    text-align: center;
+    font-style: Medium;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0px;
+  }
+  .diamond-modal-card {
+    background: #f9f9f9;
+    padding: 10px 12px;
+    border-radius: 8px;
+    margin-top: 10px;
+  }
+  .diamond-modal-card-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    font-size: 14px;
+  }
+  .diamond-modal-price {
+    color: #000;
+  }
+  .diamond-modal-card-sub {
+    font-size: 12px;
+    color: #777;
+    margin: 4px 0;
+  }
+  .diamond-modal-specs {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #555;
+  }
+  .diamond-modal-total {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+  }
+  .diamond-modal-total-label {
+    font-size: 12px;
+    color: #777;
+  }
+  .diamond-modal-total-value {
+    font-weight: 600;
+    font-size: 14px;
+    margin-top: 2px;
+  }
+  .diamond-head,
+  .diamond-head *{
+    cursor: pointer;
+  }
+</style>
+
+<!-- Modal Overlay -->
+<div class="pb-overlay hidden">.</div>
+
+<!-- Price Breakdown Container -->
+<div class="price-breakdown-container hidden">
+  <div class="pb-header">
+    <h3>Price Breakdown</h3>
+    <button class="pb-close-btn close-btn">&times;</button>
+  </div>
+  <p class="pb-subtitle">Detailed breakdown of pricing components</p>
+
+  <div class="pb-title">
+    <h4 class="pb-title-name"></h4>
+    <p class="pb-title-subtitle"></p>
+  </div>
+
+  <div class="pb-section diamond-section">
+    <div class="pb-row">
+      <span class="diamond-head"><strong>Diamond</strong> +</span>
+      <span class="diamond-price"></span>
+    </div>
+    <div class="pb-note diamond-type"></div>
+    <div class="pb-box diamond-details"></div>
+  </div>
+
+  <div class="pb-section metal-section">
+    <div class="pb-row">
+      <span><strong>Metal</strong></span>
+      <span class="metal-price"></span>
+    </div>
+    <div class="pb-note metal-type"></div>
+    <div class="pb-box metal-details"></div>
+  </div>
+
+  <div class="pb-section making-section">
+    <div class="pb-row">
+      <span><strong>Making Charges</strong></span>
+      <span class="making-price"></span>
+    </div>
+    <div class="pb-note">Labor, craftsmanship, certifications, logistics</div>
+    <div class="pb-box">Professional crafting & quality assurance</div>
+  </div>
+
+  <div class="pb-section gst-section">
+    <div class="pb-row">
+      <span><strong>GST</strong></span>
+      <span class="gst-price"></span>
+    </div>
+    <div class="pb-note">Goods & Services Tax (3%)</div>
+    <div class="pb-box">As per government regulations</div>
+  </div>
+
+  <div class="pb-total">
+    <span><strong>Total Price</strong></span>
+    <span class="total-price"><strong></strong></span>
+  </div>
+  <p class="pb-total-note">*All taxes included</p>
+
+  <!-- Diamond Modal -->
+  <div class="dm-overlay hidden">.</div>
+  <div class="diamond-modal hidden">
+    <button class="diamond-modal-close dm-close-btn">&times;</button>
+    <h2 class="diamond-modal-title">Diamond Details</h2>
+    <p class="diamond-modal-subtitle">Complete breakdown of all diamonds used</p>
+
+    <div class="diamond-modal-section">
+      <h3 class="diamond-modal-heading">Diamond Breakdown Details</h3>
+      <p class="diamond-modal-metal"></p>
+    </div>
+
+    <!-- Solitaire Diamond Card -->
+    <div class="diamond-modal-card solitaire-card">
+      <div class="diamond-modal-card-header">
+        <span class="solitaire-name">Studded Diamond</span>
+        <span class="solitaire-price diamond-modal-price"></span>
+      </div>
+      <p class="diamond-modal-card-sub solitaire-sub"></p>
+      <div class="diamond-modal-specs solitaire-specs">
+        <span class="solitaire-carat"></span>
+        <span class="solitaire-grade"></span>
+      </div>
+    </div>
+
+    <!-- Totals -->
+    <div class="diamond-modal-total">
+      <div>
+        <p class="diamond-modal-total-label">Total Diamonds</p>
+        <p class="diamond-modal-total-value total-pieces"></p>
+      </div>
+      <div>
+        <p class="diamond-modal-total-label">Total Diamond Value</p>
+        <p class="diamond-modal-total-value total-value"></p>
+      </div>
+    </div>
+  </div>
+</div>

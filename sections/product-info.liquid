@@ -1,0 +1,312 @@
+{{ 'product-info.css' | asset_url | stylesheet_tag }}
+
+<section class="info-tabs">
+  <!-- Tab Buttons -->
+  <div class="tab-buttons page-width ">
+    <button class="tab-btn active" data-tab="product-info">
+      <h2>Product Information</h2>
+      <span class="tab-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24">
+          <path d="M3 12h18M12 3v18" stroke="#000" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </span>
+    </button>
+
+    <button class="tab-btn" data-tab="policies">
+      <h2>Policies</h2>
+      <span class="tab-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24">
+          <path d="M3 12h18M12 3v18" stroke="#000" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </span>
+    </button>
+  </div>
+
+  <!-- Tab Content Wrapper -->
+  <div class="tab-contents page-width">
+    <!-- Product Information Tab -->
+    <div class="faq-sec-mobile">
+      <button class="tab-btn active tab-btn-mobile" data-tab="product-info">
+        <h2>Product Information</h2>
+        <span class="tab-icon">
+          <svg
+            class="toggleIcon"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path class="horizontal" d="M3 12h18" stroke="#000" stroke-width="2" stroke-linecap="round"></path>
+            <path class="vertical" d="M12 3v18" stroke="#000" stroke-width="2" stroke-linecap="round"></path>
+          </svg>
+        </span>
+      </button>
+      <div id="product-info" class="tab-content active">
+        {% if section.settings.top_head != blank %}
+          <p class="para-id">{{ section.settings.top_head }}</p>
+        {% endif %}
+        <div class="product-info-grid">
+          <!-- Left Box -->
+          {% assign dimensions = product.metafields.custom.dimension_info.value %}
+
+          {% if dimensions != blank %}
+            <div class="top-text display-flex-column">
+              <h2>Dimensions</h2>
+              <div class="info-box flex-grow">
+                {% for dimension in dimensions %}
+                  <div class="info-item">
+                    <h4>
+                      {% if dimension.image != blank %}
+                        <span style="height: 24px;">
+                          {{ dimension.image }}
+                        </span>
+                      {% endif %}
+                      {{ dimension.title }}
+                    </h4>
+                    {% if dimension.size != blank %}
+                      <p>{{ dimension.size }}</p>
+                    {% endif %}
+                    {% if dimension.description != blank %}
+                      <small>{{ dimension.description }}</small>
+                    {% endif %}
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          {% endif %}
+
+          <!-- Right Box -->
+          {% if section.settings.care_instructions != blank %}
+            <div class="top-text display-flex-column">
+              <h2>Care Instructions</h2>
+              <div class="info-box info-list flex-grow">
+                {{ section.settings.care_instructions }}
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <!-- Policies Tab -->
+    <div class="faq-sec-mobile">
+      <button class="tab-btn tab-btn-mobile" data-tab="policies">
+        <h2>Policies</h2>
+        <span class="tab-icon">
+          <svg
+            class="toggleIcon"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path class="horizontal" d="M3 12h18" stroke="#000" stroke-width="2" stroke-linecap="round"></path>
+            <path class="vertical" d="M12 3v18" stroke="#000" stroke-width="2" stroke-linecap="round"></path>
+          </svg>
+        </span>
+      </button>
+      <div id="policies" class="tab-content">
+        <div class="section-header">
+          <p>Simple, transparent policies designed to give you complete confidence in your purchase</p>
+        </div>
+
+        {% assign policies = product.metafields.custom.policymeta.value %}
+
+        {% if policies != blank %}
+          <div class="policies-container">
+            {% for policy in policies %}
+              {% if policy.image != blank
+                or policy.container_top_text != blank
+                or policy.container_desc != blank
+                or policy.container_bottom_text != blank
+              %}
+                <div class="policy-card">
+                  <div class="policy-icon">
+                    {% if policy.image != blank %}
+                      {{ policy.image }}
+                      <!-- if your icon is stored as SVG in a metaobject rich text -->
+                    {% endif %}
+                    {% if policy.container_top_text != blank %}
+                      <h3>{{ policy.container_top_text }}</h3>
+                    {% endif %}
+                  </div>
+
+                  {% if policy.container_desc != blank %}
+                    <p class="id-unique">{{ policy.container_desc }}</p>
+                  {% endif %}
+                  {% if policy.container_bottom_text != blank %}
+                    <p>{{ policy.container_bottom_text }}</p>
+                  {% endif %}
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {% if section.settings.important_info != blank %}
+          <div class="important-info">
+            <h2>Important information</h2>
+            <div class="info-list">
+              <ul>
+                <li>
+                  {{ section.settings.important_info }}
+                </li>
+              </ul>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% comment %} mandotary section  {% endcomment %}
+  {% assign ringmeta = product.metafields.custom.ringmeta.value %}
+  {% if ringmeta != blank %}
+    <div class="container">
+      <div class="for-link">
+        <a href="#" class="section-link">View All Stacking Options</a>
+      </div>
+      <div class="section-header page-width">
+        <h1 class="section-title">Complete Your Set</h1>
+        <p>Perfect pairing options to complement your solitaire ring</p>
+      </div>
+
+      <div class="swiper products-swiper">
+        <div class="products-grid page-width">
+          {% for ring in ringmeta %}
+            {% if ring.image != blank or ring.product_text != blank or ring.product_price != blank %}
+              <div class="product-card swiper-slide">
+                <div class="product-image">
+                  {% if ring.image != blank %}
+                    <img
+                      src="{{ ring.image | image_url }}"
+                      alt="{{ ring.text | escape }}"
+                      width=""
+                      height=""
+                    >
+                  {% endif %}
+                </div>
+                <div class="product-info">
+                  {% if ring.product_text != blank %}
+                    <h3 class="product-name">{{ ring.product_text }}</h3>
+                  {% endif %}
+                  {% if ring.product_price != blank %}
+                    <p class="product-price">{{ ring.product_price }}</p>
+                  {% endif %}
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+        <div class="swiper-pagination pagination-below"></div>
+      </div>
+
+      <div class="bottom-link">
+        <a href="#" class="section-link">View All Stacking Options</a>
+      </div>
+    </div>
+  {% endif %}
+</section>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css"
+>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    if (window.innerWidth < 768) {
+      document.querySelector('.products-grid').classList.add('swiper-wrapper');
+      document.querySelector('.products-grid').classList.remove('.page-width');
+    }
+    const buttons = document.querySelectorAll('.tab-btn');
+    const tabs = document.querySelectorAll('.tab-content');
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const targetId = btn.getAttribute('data-tab');
+        const targetTab = document.getElementById(targetId);
+        if (window.innerWidth <= 768) {
+          // Mobile behavior: toggle open/close like FAQ
+          const isOpen = btn.classList.contains('active');
+          buttons.forEach((b) => b.classList.remove('active'));
+          tabs.forEach((tab) => tab.classList.remove('active'));
+          if (!isOpen) {
+            btn.classList.add('active');
+            targetTab.classList.add('active');
+          }
+        } else {
+          buttons.forEach((b) => b.classList.remove('active'));
+          tabs.forEach((tab) => tab.classList.remove('active'));
+          btn.classList.add('active');
+          targetTab.classList.add('active');
+        }
+      });
+    });
+    const swiper = new Swiper('.products-swiper', {
+      slidesPerView: 3,
+      spaceBetween: 10,
+      loop: false,
+      slidesOffsetBefore: 2,
+      slidesOffsetAfter: 5,
+      centeredSlides: false,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      breakpoints: {
+        300: {
+          slidesPerView: 1.3,
+          spaceBetween: 0,
+        },
+        390: {
+          slidesPerView: 1.6,
+          spaceBetween: 0,
+        },
+        440: {
+          slidesPerView: 1.8,
+          spaceBetween: 10,
+        },
+        550: {
+          slidesPerView: 2.3,
+          spaceBetween: 10,
+        },
+      },
+    });
+    document.querySelectorAll('.tab-btn').forEach((button) => {
+      button.addEventListener('click', () => {
+        const verticalLine = button.querySelector('.vertical');
+        if (verticalLine) {
+          verticalLine.classList.toggle('hidden');
+        }
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "product_section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "top_head",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "care_instructions",
+      "label": "Care Instructions"
+    },
+    {
+      "type": "richtext",
+      "id": "important_info",
+      "label": "Important Information"
+    }
+  ],
+  "presets": [
+    {
+      "name": "product_section"
+    }
+  ]
+}
+{% endschema %}

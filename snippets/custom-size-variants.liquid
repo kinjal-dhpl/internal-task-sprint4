@@ -1,12 +1,86 @@
 <!-- custom-size-variants -->
 <style>
-  .product__custom-size-blockssss {
-    max-width: 44rem;
+.size-heading {
+  font-family: Lato;
+  font-weight: 700;
+  font-size: clamp(17.6px, calc(22 * (100vw / 1440)), 22px);
+  line-height: 100%;
+  letter-spacing: 0.22px;
+  margin-bottom: 16px;
+  color:#86868B;
+}
+label.form__label {
+  font-size: clamp(22.4px, calc(28 * (100vw / 1440)), 33.6px);
+  font-family: Lato;
+  font-weight: 600;
+  line-height: 100%;
+  letter-spacing: 0px;
+  color: #1D1D1F;
+  margin-bottom: 16px;
+}
+/* Custom Select Styling */
+.select-neo {
+  position: relative !important;
+  display: inline-block !important;
+  width: 100% !important;
+}
+.select-neo select {
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  width: 100% !important;
+  padding: 12px 40px 12px 16px !important;
+  font-family: Lato, sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  line-height: 1.5 !important;
+  color: #333 !important;
+  background-color: #ffffff !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 10px !important;
+  cursor: pointer !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+  outline: none !important;
+  max-width: unset;
+}
+.select-neo select:hover {
+  border-color: #9ca3af !important;
+}
+.select-neo select:focus {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+}
+.select-neo select:disabled {
+  color: #9ca3af !important;
+  background-color: #f9fafb !important;
+  cursor: not-allowed !important;
+}
+.select-neo::after {
+  content: '' !important;
+  position: absolute !important;
+  top: 50% !important;
+  right: 12px !important;
+  transform: translateY(-50%) !important;
+  width: 0 !important;
+  height: 0 !important;
+  border-left: 5px solid transparent !important;
+  border-right: 5px solid transparent !important;
+  border-top: 6px solid #333 !important;
+  pointer-events: none !important;
+  transition: transform 0.2s ease !important;
+}
+.select-neo select:focus + ::after {
+  transform: translateY(-50%) rotate(180deg) !important;
+}
+/* Placeholder styling */
+.select-neo select option[value=""] {
+  color: #9ca3af !important;
   }
 </style>
 
-<div class="product__custom-size-blockssss" {{ block.shopify_attributes }}>
+<div class="product__custom-size-blockssss form-step second-step" {{ block.shopify_attributes }}>
   <div>
+  <h2 class="size-heading">Find Your Perfect Fit</h2>
     <label for="custom-size-selector" class="text-sm font-medium form__label">Size:</label>
     <div class="select-neo">
       <select
@@ -29,6 +103,7 @@
 <div class="select"></div>
 
 <script>
+let currentVariants = []; // this will always hold latest 12 variants data
 (function() {
   'use strict';
 
@@ -172,6 +247,8 @@
   const PriceManager = {
     updatePrice(variantId, size) {
       const priceElements = document.querySelectorAll('.price-item.main_price');
+      const variantElements = document.querySelectorAll('.variant-link');
+      console.log("🚀 ~ updatePrice ~ variantElements:", variantElements);
       
       // Show loading state
       priceElements.forEach(el => {
@@ -179,19 +256,13 @@
         el.style.opacity = '0.6';
       });
 
-      // Check if we have cached data
-      if (window.ProductState.productPricingBySize[size]) {
-        this.updatePriceFromCache(variantId, size);
-        return;
-      }
-
       // Fetch from API
       this.fetchPriceFromAPI(variantId, size);
     },
 
     fetchPriceFromAPI(variantId, size) {
       const productId = "{{ product.id }}";
-      const apiUrl = `https://diamond-hq-staging.myshopify.com/apps/ea_module_dev/price/product?productId=${productId}&configSize=${size}`;
+      const apiUrl = `/apps/ea_module/price/product?productId=${productId}&configSize=${size}`;
 
       fetch(apiUrl, {
         method: 'GET',
@@ -203,6 +274,30 @@
       })
       .then(apiResponse => {
         if (apiResponse?.status === 'success' && Array.isArray(apiResponse.data)) {
+          currentVariants = apiResponse.data;
+          // ✅ Update variant name and price in DOM
+          apiResponse.data.forEach(item => {
+            const variantId = item.variantId?.split("/").pop(); // convert gid to numeric id
+            const variantName = item.variantName;
+            
+            // price object (first key inside price)
+            const priceKey = Object.keys(item.price)[0]; 
+            const totalPrice = item.price[priceKey]?.total_price_with_gst || 0;
+            // update variant name
+            const nameEl = document.querySelector(
+              `.variant-link[data-variant-id="${variantId}"] .variant-name`
+            );
+            if (nameEl) {
+              nameEl.textContent = variantName;
+            }
+            // update variant price
+            const priceEl = document.querySelector(
+              `.variant-link[data-variant-id="${variantId}"] .variant-price`
+            );
+            if (priceEl) {
+              priceEl.textContent = `₹ ${Number(totalPrice).toLocaleString('en-IN')}`;
+            }
+          });
           // Cache the data
           window.ProductState.productPricingBySize[size] = apiResponse;
           // Update price display

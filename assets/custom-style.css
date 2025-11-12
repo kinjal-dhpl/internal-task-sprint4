@@ -521,16 +521,9 @@ ul.pro__grid li span {
 .tablinks.active .normal{
     display: none;
 }
-.tablinks.active:first-child {
-    background: linear-gradient(90deg, #924C26 12.65%, #CE875E 49.25%, #924C26 88.11%);
-    color: #fff;
-    cursor: auto;
-}
-.tablinks.active:first-child {
-    background: linear-gradient(90deg, #924C26 12.65%, #CE875E 49.25%, #924C26 88.11%);
-}
-.tablinks.active:last-child {
-    background: linear-gradient(90deg, #B3B3B3 12.65%, #F2F2F2 49.25%, #B3B3B3 88.11%);
+.tablinks.active {
+    border: 1px solid #000000;
+    border-radius: 12px;
 }
 ul.pro__grid li a {
     text-decoration: none;
