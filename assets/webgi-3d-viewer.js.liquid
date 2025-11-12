@@ -224,6 +224,14 @@ document.addEventListener(
 
           const uploadResult = await uploadBlobs("/apps/ea_module_dev/internal/upload-files", files);
           closeModal();
+
+          // Update final summary if visible
+          const finalSummaryForm = document.getElementById('final-summary-form');
+          console.log("finalSummaryForm",finalSummaryForm);
+          if (finalSummaryForm && !finalSummaryForm.classList.contains('hidden')) {
+            updateFinalSummary();
+          }
+
           personalizationImageCaptureEl.classList.remove('custom_active'); // remove loader
           console.log("abhi", uploadResult);
 
