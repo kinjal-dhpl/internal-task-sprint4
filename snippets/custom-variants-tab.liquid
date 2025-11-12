@@ -19,7 +19,7 @@
     font-size: clamp(17.6px, calc(22 * (100vw / 1440)), 26.4px);
     line-height: 100%;
     letter-spacing: 0.22px;
-    color: #86868B;
+    color: #86868b;
     margin: unset;
   }
   .info-txt {
@@ -27,21 +27,21 @@
     font-size: clamp(11.2px, calc(14 * (100vw / 1440)), 16.8px);
     line-height: 100%;
     letter-spacing: 0px;
-    color: #6C6C6C;
+    color: #6c6c6c;
     margin: unset;
     display: flex;
     gap: 5px;
     cursor: pointer;
   }
   .info-txt span {
-      border-radius: 50%;
-      border: 1px solid #6C6C6C;
-      width: 14px;
-      height: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
+    border-radius: 50%;
+    border: 1px solid #6c6c6c;
+    width: 14px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
   }
   .tab {
     display: flex;
@@ -77,16 +77,16 @@
     font-size: 12px;
     line-height: 18px;
     letter-spacing: 0px;
-    color: #6E6E73;
+    color: #6e6e73;
   }
   .tab button.gold-tab:before {
-    background: linear-gradient(180deg, #FCF0DD 0%, #FFA20C 100%);
+    background: linear-gradient(180deg, #fcf0dd 0%, #ffa20c 100%);
   }
   .tab button.platinum-tab:before {
     background: linear-gradient(179.1deg, rgba(99, 97, 97, 0) -13.32%, #636161 99.23%);
   }
   .tab button.labgrown-tab:before {
-    background: linear-gradient(180deg, rgba(226, 226, 226, 0) 0%, #E2E2E2 100%);
+    background: linear-gradient(180deg, rgba(226, 226, 226, 0) 0%, #e2e2e2 100%);
   }
   .tabcontent {
     display: none;
@@ -108,7 +108,7 @@
     padding: 16px;
     background: #fff;
     width: 100%;
-    box-shadow: 0 0 3px rgba(0,0,0,0.05);
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.05);
     display: flex;
     flex-direction: column;
     gap: 6px;
@@ -129,7 +129,7 @@
     font-weight: bold;
     padding: 2px 4px;
     border-radius: 4px;
-    background: linear-gradient(90deg, #D4AF37 0%, #F9D423 100%);
+    background: linear-gradient(90deg, #d4af37 0%, #f9d423 100%);
     color: #000;
   }
   .metal-name-top-right.lab-grown {
@@ -180,205 +180,209 @@
     outline: 1px solid #000000;
   }
   .variant-help-box {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      border: 1px solid #d2c7ff;
-      border-radius: 8px;
-      padding: 16px;
-      background: #fff;
-      box-shadow: 0 0 0 1px rgba(130, 70, 255, 0.1);
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    border: 1px solid #d2c7ff;
+    border-radius: 8px;
+    padding: 16px;
+    background: #fff;
+    box-shadow: 0 0 0 1px rgba(130, 70, 255, 0.1);
+  }
+  .variant-help-box.step-2 {
+    display: none;
+  }
+  .variant-help-icon {
+    background: linear-gradient(90deg, #4c79ff 0%, #a84bff 100%);
+    color: #fff;
+    font-weight: 700;
+    font-size: 18px;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .variant-help-content h3 {
+    font-weight: 500;
+    font-size: clamp(12.8px, calc(16 * (100vw / 1440)), 19.2px);
+    line-height: clamp(19.2px, calc(24 * (100vw / 1440)), 28.8px);
+    letter-spacing: 0px;
+    margin: unset;
+  }
+  .variant-help-content p {
+    font-weight: 400;
+    font-size: clamp(9.6px, calc(12 * (100vw / 1440)), 14.4px);
+    line-height: clamp(14.4px, calc(18 * (100vw / 1440)), 21.6px);
+    letter-spacing: 0px;
+    margin: 4px 0 10px 0;
+  }
+  .try-btn {
+    background: linear-gradient(90deg, #4c79ff 0%, #a84bff 100%);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 14px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: opacity 0.2s;
+    font-weight: 600;
+    font-size: clamp(11.2px, calc(14 * (100vw / 1440)), 16.8px);
+    line-height: clamp(16.8px, calc(21 * (100vw / 1440)), 25.2px);
+    letter-spacing: 0px;
+  }
+  .try-btn:hover {
+    opacity: 0.9;
+  }
+  .price-options-container-modal {
+    max-width: 400px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    position: absolute;
+    top: 60px;
+  }
+  .price-options-main {
+    padding: 16px;
+    padding-bottom: 0;
+  }
+  .price-options-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .price-options-header h3 {
+    margin: unset;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 100%;
+    letter-spacing: 0px;
+  }
+  .close-btn {
+    border: none;
+    background: transparent;
+    font-size: 20px;
+    cursor: pointer;
+    color: #555;
+  }
+  .price-options-desc {
+    margin: 6px 0 16px 0;
+    color: #86868b;
+    font-family: Lato;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0px;
+  }
+  .price-options-section {
+    margin: 10px 0;
+  }
+  .price-options-section strong {
+    display: block;
+    color: #1d1d1f;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0px;
+  }
+  .price-options-section ul {
+    margin: 0;
+    padding-left: 16px;
+    list-style-type: disc;
+    color: #444;
+  }
+  .price-options-section li {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: 0px;
+    color: #86868b;
+  }
+  .price-options-note {
+    margin: unset;
+    padding: 16px;
+    margin-top: 16px;
+    color: #86868b;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0px;
+    border-top: 1px solid #0000001a;
+  }
+  .ai-question {
+    margin-bottom: 20px;
+  }
+  .ai-option {
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 5px 10px;
+    margin-top: 5px;
+    cursor: pointer;
+    user-select: none;
+    font-size: 12px;
+  }
+  .ai-option.selected {
+    border-color: black;
+    background-color: #f1f1f1;
+    font-weight: bold;
+  }
+  .get-recommendation-btn {
+    background: linear-gradient(90deg, #4c79ff 0%, #a84bff 100%);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 14px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: opacity 0.2s;
+    font-weight: 600;
+    font-size: clamp(11.2px, calc(14 * (100vw / 1440)), 16.8px);
+    line-height: clamp(16.8px, calc(21 * (100vw / 1440)), 25.2px);
+    letter-spacing: 0px;
+  }
+  .get-recommendation-btn:hover {
+    opacity: 0.9;
+  }
+  .answerWrapper {
+    display: none;
+  }
+  .ai-loader {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #8b5cf6; /* Purple accent */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 16px;
+  }
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
     }
-    .variant-help-box.step-2 {
-      display : none;
+    100% {
+      transform: rotate(360deg);
     }
-    .variant-help-icon {
-      background: linear-gradient(90deg, #4C79FF 0%, #A84BFF 100%);
-      color: #fff;
-      font-weight: 700;
-      font-size: 18px;
-      border-radius: 50%;
-      width: 28px;
-      height: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-    .variant-help-content h3 {
-      font-weight: 500;
-      font-size: clamp(12.8px, calc(16 * (100vw / 1440)), 19.2px);
-      line-height: clamp(19.2px, calc(24 * (100vw / 1440)), 28.8px);
-      letter-spacing: 0px;
-      margin: unset;
-    }
-    .variant-help-content p {
-      font-weight: 400;
-      font-size: clamp(9.6px, calc(12 * (100vw / 1440)), 14.4px);
-      line-height: clamp(14.4px, calc(18 * (100vw / 1440)), 21.6px);
-      letter-spacing: 0px;
-      margin: 4px 0 10px 0;
-    }
-    .try-btn {
-      background: linear-gradient(90deg, #4C79FF 0%, #A84BFF 100%);
-      color: white;
-      border: none;
-      border-radius: 6px;
-      padding: 8px 14px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      transition: opacity 0.2s;
-      font-weight: 600;
-      font-size: clamp(11.2px, calc(14 * (100vw / 1440)), 16.8px);
-      line-height: clamp(16.8px, calc(21 * (100vw / 1440)), 25.2px);
-      letter-spacing: 0px;
-    }
-    .try-btn:hover {
-      opacity: 0.9;
-    }
-    .price-options-container-modal {
-      max-width: 400px;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      font-family: Arial, sans-serif;
-      font-size: 14px;
-      line-height: 1.5;
-      position: absolute;
-      top: 60px;
-    }
-    .price-options-main {
-      padding: 16px;
-      padding-bottom: 0;
-    }
-    .price-options-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .price-options-header h3 {
-      margin: unset;
-      font-weight: 600;
-      font-size: 22px;
-      line-height: 100%;
-      letter-spacing: 0px;
-    }
-    .close-btn {
-      border: none;
-      background: transparent;
-      font-size: 20px;
-      cursor: pointer;
-      color: #555;
-    }
-    .price-options-desc {
-      margin: 6px 0 16px 0;
-      color: #86868B;
-      font-family: Lato;
-      font-weight: 500;
-      font-size: 16px;
-      line-height: 24px;
-      letter-spacing: 0px;
-    }
-    .price-options-section {
-      margin: 10px 0;
-    }
-    .price-options-section strong {
-      display: block;
-      color: #1D1D1F;
-      font-weight: 500;
-      font-size: 16px;
-      line-height: 24px;
-      letter-spacing: 0px;
-    }
-    .price-options-section ul {
-      margin: 0;
-      padding-left: 16px;
-      list-style-type: disc;
-      color: #444;
-    }
-    .price-options-section li {
-      font-weight: 500;
-      font-size: 14px;
-      line-height: 21px;
-      letter-spacing: 0px;
-      color: #86868B
-    }
-    .price-options-note {
-      margin: unset;
-      padding: 16px;
-      margin-top: 16px;
-      color: #86868B;
-      font-size: 16px;
-      line-height: 24px;
-      letter-spacing: 0px;
-      border-top: 1px solid #0000001a;
-    }
-     .ai-question {
-        margin-bottom: 20px;
-      }
-      .ai-option {
-        display: inline-block;
-        border: 1px solid #ccc;
-        border-radius: 20px;
-        padding: 5px 10px;
-        margin-top: 5px;
-        cursor: pointer;
-        user-select: none;
-        font-size: 12px;
-      }
-      .ai-option.selected {
-        border-color: black;
-        background-color: #f1f1f1;
-        font-weight: bold;
-      }
-      .get-recommendation-btn {
-        background: linear-gradient(90deg, #4C79FF 0%, #A84BFF 100%);
-        color: white;
-        border: none;
-        border-radius: 6px;
-        padding: 8px 14px;
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        transition: opacity 0.2s;
-        font-weight: 600;
-        font-size: clamp(11.2px, calc(14 * (100vw / 1440)), 16.8px);
-        line-height: clamp(16.8px, calc(21 * (100vw / 1440)), 25.2px);
-        letter-spacing: 0px;
-      }
-      .get-recommendation-btn:hover {
-        opacity: 0.9;
-      }
-      .answerWrapper{
-       display: none;
-      }
-    .ai-loader {
-      border: 4px solid #f3f3f3;
-      border-top: 4px solid #8b5cf6; /* Purple accent */
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      animation: spin 1s linear infinite;
-      margin-bottom: 16px;
-    }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    .ai-loader-message {
-      color: #555;
-      font-size: 16px;
-      text-align: center;
-      max-width: 260px;
-      line-height: 1.4;
-    }
-    .ai-loader-sparkle {
-      color: #8b5cf6;
-      font-size: 18px;
-    }
+  }
+  .ai-loader-message {
+    color: #555;
+    font-size: 16px;
+    text-align: center;
+    max-width: 260px;
+    line-height: 1.4;
+  }
+  .ai-loader-sparkle {
+    color: #8b5cf6;
+    font-size: 18px;
+  }
 </style>
 
 <div class="tab-heading-container">
@@ -450,7 +454,7 @@
         <div class="variant-link" data-variant-id="{{ variant.id }}" onclick="selectVariant('{{ variant.id }}', this)">
           <div class="variant-box" data-variant-id="{{ variant.id }}">
             <div class="top-row">
-                            <h2 class="variant-name"></h2>
+              <h2 class="variant-name"></h2>
               {% comment %}
                 <img src="{{ product.featured_image | img_url: '200x' }}" class="variant-image" alt=""/>
                 <div class="metal-name-top-right">{{ variant.option1 }}</div>
@@ -486,19 +490,19 @@
           >
             <div class="variant-box" data-variant-id="{{ variant.id }}">
               <div class="top-row">
-                              <h2 class="variant-name"></h2>
-              {% comment %}
-                <img src="{{ product.featured_image | img_url: '200x' }}" class="variant-image" alt=""/>
-                <div class="metal-name-top-right lab-grown">{{ variant.option1 }}</div>
-              {% endcomment %}
-            </div>
-            <p class="variant-pack-size">
-              {{ variant.title | replace: 'Gold', '' | replace: 'Lab Grown', '' | replace: '/', '' | strip }}
-            </p>
-            {% comment %} <p class="variant-color-clarity">{{ variant.option2 }}</p> {% endcomment %}
-            <div class="price-container" data-variant-id="{{ variant.id }}">
-              <p class="variant-price"></p>
-              <span class="plus-breakup-text">+ Break-up</span>
+                <h2 class="variant-name"></h2>
+                {% comment %}
+                  <img src="{{ product.featured_image | img_url: '200x' }}" class="variant-image" alt=""/>
+                  <div class="metal-name-top-right lab-grown">{{ variant.option1 }}</div>
+                {% endcomment %}
+              </div>
+              <p class="variant-pack-size">
+                {{ variant.title | replace: 'Gold', '' | replace: 'Lab Grown', '' | replace: '/', '' | strip }}
+              </p>
+              {% comment %} <p class="variant-color-clarity">{{ variant.option2 }}</p> {% endcomment %}
+              <div class="price-container" data-variant-id="{{ variant.id }}">
+                <p class="variant-price"></p>
+                <span class="plus-breakup-text">+ Break-up</span>
               </div>
               <p class="variant-pack-size">{{ variant.title }}</p>
               <p class="variant-color-clarity">{{ variant.option2 }}</p>
@@ -516,27 +520,26 @@
     {% for variant in product.variants %}
       {% assign diamond = variant.option2 | downcase %}
       {% if diamond contains 'lab grown' or diamond contains 'lab' %}
-          <div
-            class="variant-link"
-            data-variant-id="{{ variant.id }}"
-            onclick="selectVariant('{{ variant.id }}', this)"
-          >          
+        <div
+          class="variant-link"
+          data-variant-id="{{ variant.id }}"
+          onclick="selectVariant('{{ variant.id }}', this)"
+        >
           <div class="variant-box" data-variant-id="{{ variant.id }}">
             <div class="top-row">
-
               <h2 class="variant-name"></h2>
-                {% comment %}
-                  <img src="{{ product.featured_image | img_url: '200x' }}" class="variant-image" alt=""/>
-                  <div class="metal-name-top-right">{{ variant.option1 }}</div>
-                {% endcomment %}
-              </div>
-              <p class="variant-pack-size">
-                {{ variant.title | replace: 'Platinum', '' | replace: 'Natural', '' | replace: '/', '' | strip }}
-              </p>
-              {% comment %} <p class="variant-color-clarity">{{ variant.option2 }}</p> {% endcomment %}
-              <div class="price-container" data-variant-id="{{ variant.id }}">
-                <p class="variant-price"></p>
-                <span class="plus-breakup-text">+ Break-up</span>
+              {% comment %}
+                <img src="{{ product.featured_image | img_url: '200x' }}" class="variant-image" alt=""/>
+                <div class="metal-name-top-right">{{ variant.option1 }}</div>
+              {% endcomment %}
+            </div>
+            <p class="variant-pack-size">
+              {{ variant.title | replace: 'Platinum', '' | replace: 'Natural', '' | replace: '/', '' | strip }}
+            </p>
+            {% comment %} <p class="variant-color-clarity">{{ variant.option2 }}</p> {% endcomment %}
+            <div class="price-container" data-variant-id="{{ variant.id }}">
+              <p class="variant-price"></p>
+              <span class="plus-breakup-text">+ Break-up</span>
             </div>
             <div class="price" data-variant-id="{{ variant.id }}">{{ variant.price | money }}</div>
           </div>
@@ -571,7 +574,6 @@
     <h3>Help us understand your preferences</h3>
     <p>Select words that best describe yours needs and lifestyle.</p>
     <div class="questionWrapper">
-
       <h3>Top priorities for your ring</h3>
       <div class="ai-question" id="priority">
         <span class="ai-option">Right Design & Budget, Resale</span>
@@ -693,7 +695,7 @@
         document.querySelectorAll('.tabcontent').forEach((el) => (el.style.display = 'none'));
         document.querySelectorAll('.tablinks').forEach((btn) => btn.classList.remove('active'));
         // Show this tab
-          tabContent.style.display = 'block';
+        tabContent.style.display = 'block';
         this.currentTab = tabContent.id;
         // Activate corresponding button
         const metalType = tabContent.getAttribute('data-metal');
@@ -871,10 +873,9 @@
           0
         );
         // Set price breakdown modal subtitle text if diamond color & clarity is present
-        if(!diamondTotalPrice){
+        if (!diamondTotalPrice) {
           diamondSectionEl.classList.add('hide-pb-section');
-        }
-        else {
+        } else {
           priceBreakDownTopSubTitleText = `${priceBreakDownTopSubTitleText} | ${diamondColorClarityText}`;
         }
         const sizeKey = Object.keys(selectedVariant.price)[0];
@@ -884,10 +885,28 @@
         // --- Title Section ---
         priceBreakupModal.querySelector('.pb-title-name').textContent = `${selectedVariantName} - Price Breakdown`;
         priceBreakupModal.querySelector('.pb-title-subtitle').textContent = priceBreakDownTopSubTitleText;
+        // --- Solitaire Section ---
+        // abhi - Need to create diamond like second popup for solitaire
+        const solitaireDetails = priceData.solitare?.details || [];
+        if (solitaireDetails.length !== 0) {
+          const totalPrice = solitaireDetails.reduce((sum, d) => sum + (d.price || 0), 0);
+          const totalCarat = solitaireDetails.reduce((sum, d) => sum + (d.carat || 0), 0);
+          priceBreakupModal.querySelector('.solitaire-price').textContent = `₹${formatPrice(totalPrice)}`;
+          priceBreakupModal.querySelector('.solitaire-shape').textContent = details.diamondType;
+          priceBreakupModal.querySelector('.solitaire-details').textContent = `${totalCarat} ct | ${
+            solitaireDetails[0].color
+          }-${solitaireDetails[0].clarity}${solitaireDetails[0].shape ? ' | ' + solitaireDetails[0].shape : ''}`;
+
+          priceBreakupModal.querySelector('.solitaire-section').classList.remove('hidden');
+        }
         // --- Diamond Section ---
         priceBreakupModal.querySelector('.diamond-price').textContent = `₹${formatPrice(diamondTotalPrice)}`;
         priceBreakupModal.querySelector('.diamond-type').textContent = details.diamondType;
-        priceBreakupModal.querySelector('.diamond-details').textContent = `${diamondTotalCarat} ct | ${diamondColorClarityText}${details.diamondShape ? ' | ' + details.diamondShape : ''}`;
+        priceBreakupModal.querySelector(
+          '.diamond-details'
+        ).textContent = `${diamondTotalCarat} ct | ${diamondColorClarityText}${
+          details.diamondShape ? ' | ' + details.diamondShape : ''
+        }`;
         // --- Metal Section ---
         priceBreakupModal.querySelector('.metal-price').textContent = `₹${formatPrice(priceData.metal_price)}`;
         priceBreakupModal.querySelector('.metal-type').textContent = details.metalType;
@@ -904,32 +923,45 @@
         priceBreakupModal?.classList.remove('hidden');
         pbOverlay?.classList.remove('hidden');
         if (!diamondModal) return;
-        const solitaireData = priceData.solitare?.details?.[0] || {};
-        const accentData = priceData.diamond?.round || [];
         diamondModal.querySelector(
           '.diamond-modal-metal'
         ).textContent = `${selectedVariant.variantName} - ${details.metalPurity}`;
-        // --- Solitaire Diamond Card ---
-        diamondModal.querySelector('.solitaire-price').textContent = `₹${formatPrice(solitaireData.price || 0)}`;
-        diamondModal.querySelector('.solitaire-carat').textContent = `Carat: ${solitaireData.carat || 0} ct`;
-        diamondModal.querySelector('.solitaire-grade').textContent = `Grade: ${solitaireData.color || '—'}-${
-          solitaireData.clarity || '—'
-        }-${solitaireData.cut || '—'}`;
-        // --- Accent Diamonds Card ---
-        const totalAccentPrice = accentData.reduce((sum, d) => sum + (d.price || 0), 0);
-        diamondModal.querySelector('.accent-price').textContent = `₹${formatPrice(totalAccentPrice)}`;
-        diamondModal.querySelector('.accent-carat').textContent = `Carat per piece: ${accentData
-          .map((d) => d.carat || 0)
-          .join(' ct, ')} ct`;
-        diamondModal.querySelector('.accent-grade').textContent = `Grade: ${priceData.diamond?.color || '—'}-${
-          priceData.diamond?.clarity || '—'
-        }`;
+
+        const diamondsData = priceData.diamond || {};
+        // --- Round Diamond Card ---
+        const roundDiamonds = diamondsData.round || [];
+        const roundDiamondsPrice = roundDiamonds.reduce((sum, d) => sum + (d.price || 0), 0);
+        if (roundDiamonds.length) {
+          const totalCarat = roundDiamonds.reduce((sum, d) => sum + (d.carat || 0), 0);
+          diamondModal.querySelector('.round-diamond-card').classList.remove('hidden');
+          diamondModal.querySelector('.round-diamond-price').textContent = `₹${formatPrice(roundDiamondsPrice)}`;
+          diamondModal.querySelector('.round-diamond-carat').textContent = `Carat: ${totalCarat} ct`;
+          diamondModal.querySelector('.round-diamond-grade').textContent = `Grade: ${priceData.diamond.color || '—'}-${
+            priceData.diamond.clarity || '—'
+          }`;
+        }
+
+        // --- Other Diamond Card ---
+        const otherDiamonds = diamondsData.others || [];
+        const otherDiamondsPrice = otherDiamonds.reduce((sum, d) => sum + (d.price || 0), 0);
+        if (otherDiamonds.length) {
+          const totalCarat = otherDiamonds.reduce((sum, d) => sum + (d.carat || 0), 0);
+          diamondModal.querySelector('.round-diamond-card').classList.remove('hidden');
+          diamondModal.querySelector('.round-diamond-price').textContent = `₹${formatPrice(otherDiamondsPrice)}`;
+          diamondModal.querySelector('.round-diamond-carat').textContent = `Carat: ${totalCarat} ct`;
+          diamondModal.querySelector('.round-diamond-grade').textContent = `Grade: ${priceData.diamond.color || '—'}-${
+            priceData.diamond.clarity || '—'
+          }`;
+        }
         // --- Totals ---
-        const totalDiamondsCount =
-          (priceData.solitare?.details?.length || 0) + accentData.reduce((sum, d) => sum + (d.total_count || 0), 0);
-        const totalDiamondValue = (solitaireData.price || 0) + totalAccentPrice;
+        const totalDiamondsCount = [...roundDiamonds, ...otherDiamonds].reduce(
+          (sum, d) => sum + (d.total_count || 0),
+          0
+        );
         diamondModal.querySelector('.total-pieces').textContent = `${totalDiamondsCount} pieces`;
-        diamondModal.querySelector('.total-value').textContent = `₹${formatPrice(totalDiamondValue)}`;
+        diamondModal.querySelector('.total-value').textContent = `₹${formatPrice(
+          otherDiamondsPrice + roundDiamondsPrice
+        )}`;
       });
     });
     // 🧠 Helper: Extract diamond & metal details
@@ -999,13 +1031,14 @@
     if (allSelected) {
       document.querySelector('.get-recommendation-btn').style.display = 'none';
       document.querySelector('.questionWrapper').style.display = 'none';
-      document.querySelector(".ai-loader").classList.remove("hidden");
+      document.querySelector('.ai-loader').classList.remove('hidden');
       const recommendedVariant = await getRecommendedVariant(selections);
-      document.querySelector(".ai-loader").classList.add("hidden");
+      document.querySelector('.ai-loader').classList.add('hidden');
       document.querySelector('.try-again-btn').classList.remove('hidden');
-      if (recommendedVariant) { // need to update this
+      if (recommendedVariant) {
+        // need to update this
         document.querySelector('.answerWrapper').style.display = 'block';
-        document.querySelector(".choose-variant-btn").classList.remove("hidden");
+        document.querySelector('.choose-variant-btn').classList.remove('hidden');
       } else {
         document.querySelector('.ai-api-error').classList.remove('hidden');
       }
@@ -1021,7 +1054,7 @@
     document.querySelector('.variant-help-box.step-2').style.display = 'none';
     document.querySelectorAll('.ai-option.selected').forEach((x) => x.classList.remove('selected'));
     document.querySelector('.get-recommendation-btn').style.display = 'block';
-    document.querySelector(".choose-variant-btn").classList.add("hidden");
+    document.querySelector('.choose-variant-btn').classList.add('hidden');
     document.querySelector('.try-again-btn').classList.add('hidden');
     document.querySelector('.ai-api-error').classList.add('hidden');
   }

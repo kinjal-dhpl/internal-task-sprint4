@@ -87,7 +87,7 @@
     font-size: 14px;
     line-height: 21px;
     letter-spacing: 0px;
-    color: #86868B;
+    color: #86868b;
   }
   .pb-box {
     background: rgba(0, 0, 0, 0.04);
@@ -117,9 +117,10 @@
     margin-top: 4px;
     text-align: right;
   }
-  .pb-total, .pb-total-note {
+  .pb-total,
+  .pb-total-note {
     padding: 10px;
-}
+  }
   /* ========== Diamond Modal ========== */
   .dm-overlay {
     position: fixed;
@@ -164,7 +165,7 @@
     font-family: Inter;
   }
   .diamond-modal-subtitle {
-    color: #86868B;
+    color: #86868b;
     font-weight: 500;
     font-size: 16px;
     line-height: 24px;
@@ -181,7 +182,7 @@
     text-align: center;
   }
   .diamond-modal-metal {
-    color: #86868B;
+    color: #86868b;
     margin-top: 10px;
     margin-bottom: 16px;
     text-align: center;
@@ -233,7 +234,7 @@
     margin-top: 2px;
   }
   .diamond-head,
-  .diamond-head *{
+  .diamond-head * {
     cursor: pointer;
   }
 </style>
@@ -255,9 +256,18 @@
       <p class="pb-title-subtitle"></p>
     </div>
   </div>
-  
+
   {% comment %} BD-1 modal {% endcomment %}
   <div class="breakdown-main-data">
+    <div class="pb-section solitaire-section hidden">
+      <div class="pb-row">
+        <span><strong>Solitare</strong></span>
+        <span class="solitaire-price">23000</span>
+      </div>
+      <div class="pb-note solitaire-shape">I-SI</div>
+      <div class="pb-box solitaire-details">3.4carat</div>
+    </div>
+
     <div class="pb-section diamond-section">
       <div class="pb-row">
         <span class="diamond-head"><strong>Diamond</strong> +</span>
@@ -266,7 +276,7 @@
       <div class="pb-note diamond-type"></div>
       <div class="pb-box diamond-details"></div>
     </div>
-  
+
     <div class="pb-section metal-section">
       <div class="pb-row">
         <span><strong>Metal</strong></span>
@@ -275,7 +285,7 @@
       <div class="pb-note metal-type"></div>
       <div class="pb-box metal-details"></div>
     </div>
-  
+
     <div class="pb-section making-section">
       <div class="pb-row">
         <span><strong>Making Charges</strong></span>
@@ -284,7 +294,7 @@
       <div class="pb-note">Labor, craftsmanship, certifications, logistics</div>
       <div class="pb-box">Professional crafting & quality assurance</div>
     </div>
-  
+
     <div class="pb-section gst-section">
       <div class="pb-row">
         <span><strong>GST</strong></span>
@@ -293,7 +303,7 @@
       <div class="pb-note">Goods & Services Tax (3%)</div>
       <div class="pb-box">As per government regulations</div>
     </div>
-  
+
     <div class="pb-total">
       <span><strong>Total Price</strong></span>
       <span class="total-price"><strong></strong></span>
@@ -313,16 +323,29 @@
       <p class="diamond-modal-metal"></p>
     </div>
 
-    <!-- Solitaire Diamond Card -->
-    <div class="diamond-modal-card solitaire-card">
+    <!-- Round Shape Diamond Card -->
+    <div class="diamond-modal-card round-diamond-card hidden">
       <div class="diamond-modal-card-header">
-        <span class="solitaire-name">Studded Diamond</span>
-        <span class="solitaire-price diamond-modal-price"></span>
+        <span class="round-diamond-name">Studded Round Diamonds</span>
+        <span class="round-diamond-price diamond-modal-price"></span>
       </div>
       <p class="diamond-modal-card-sub solitaire-sub"></p>
       <div class="diamond-modal-specs solitaire-specs">
-        <span class="solitaire-carat"></span>
-        <span class="solitaire-grade"></span>
+        <span class="round-diamond-carat"></span>
+        <span class="round-diamond-grade"></span>
+      </div>
+    </div>
+
+    <!-- Other shape Diamond Card -->
+    <div class="diamond-modal-card other-diamond-card hidden">
+      <div class="diamond-modal-card-header">
+        <span class="other-diamond-name">Studded Other Shape Diamonds</span>
+        <span class="other-diamond-price diamond-modal-price"></span>
+      </div>
+      <p class="diamond-modal-card-sub solitaire-sub"></p>
+      <div class="diamond-modal-specs solitaire-specs">
+        <span class="other-diamond-carat"></span>
+        <span class="other-diamond-grade"></span>
       </div>
     </div>
 
