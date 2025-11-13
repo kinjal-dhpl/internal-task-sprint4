@@ -451,7 +451,13 @@
       {% assign metal = variant.option1 | downcase %}
       {% assign diamond = variant.option2 | downcase %}
       {% if metal contains 'gold' and diamond contains 'natural' %}
-        <div class="variant-link" data-variant-id="{{ variant.id }}" onclick="selectVariant('{{ variant.id }}', this)">
+        <div
+          class="variant-link"
+          data-variant-id="{{ variant.id }}"
+          data-option1="{{ variant.option1 }}"
+          data-option2="{{ variant.option2 }}"
+          onclick="selectVariant('{{ variant.id }}', this)"
+        >
           <div class="variant-box" data-variant-id="{{ variant.id }}">
             <div class="top-row">
               <h2 class="variant-name"></h2>
@@ -486,6 +492,8 @@
           <div
             class="variant-link"
             data-variant-id="{{ variant.id }}"
+            data-option1="{{ variant.option1 }}"
+            data-option2="{{ variant.option2 }}"
             onclick="selectVariant('{{ variant.id }}', this)"
           >
             <div class="variant-box" data-variant-id="{{ variant.id }}">
@@ -523,6 +531,8 @@
         <div
           class="variant-link"
           data-variant-id="{{ variant.id }}"
+          data-option1="{{ variant.option1 }}"
+          data-option2="{{ variant.option2 }}"
           onclick="selectVariant('{{ variant.id }}', this)"
         >
           <div class="variant-box" data-variant-id="{{ variant.id }}">
@@ -618,10 +628,10 @@
         <span class="icon">✨</span>
         <span>AI Recommendation</span>
       </div>
-      <p class="product-name">Delightful</p>
-      <p class="product-detail">14KT IJSI</p>
-      <p class="price">₹95,000</p>
-      <p class="note">Based on your preferences: Daily Wear</p>
+      <p class="product-name">-</p>
+      <p class="product-detail">-</p>
+      <p class="product-price">-</p>
+      <p class="note">Based on your preferences: -</p>
     </div>
     <div class="ai-loader hidden">
       <div class="ai-loader-message">
@@ -630,7 +640,7 @@
     </div>
     <p class="hidden ai-api-error">Oops! Our AI went diamond hunting and got lost. Try again in a bit!</p>
     <button class="get-recommendation-btn" onclick="getRecommendation()">Get Recommendations</button>
-    <button class="choose-variant-btn get-recommendation-btn hidden" onclick="chooseRecommendedVariant()">
+    <button class="choose-variant-btn get-recommendation-btn hidden" onclick="chooseRecommendedVariant(this)">
       Choose Variant
     </button>
     <button class="try-again-btn get-recommendation-btn hidden" onclick="tryAgain()">Try Again</button>
@@ -1033,19 +1043,38 @@
       document.querySelector('.questionWrapper').style.display = 'none';
       document.querySelector('.ai-loader').classList.remove('hidden');
       const recommendedVariant = await getRecommendedVariant(selections);
+      const firstVariant = recommendedVariant?.data[0];
+
       document.querySelector('.ai-loader').classList.add('hidden');
       document.querySelector('.try-again-btn').classList.remove('hidden');
-      if (recommendedVariant) {
-        // need to update this
-        document.querySelector('.answerWrapper').style.display = 'block';
+      if (firstVariant) {
+        const selectedVariant = document.querySelector(
+          `.variant-link[data-option1="${firstVariant.option1}"][data-option2="${firstVariant.option2}"]`
+        );
+
+        const variant_id = selectedVariant.getAttribute('data-variant-id');
+        console.log('abhi', variant_id);
+        document.querySelector('.choose-variant-btn').setAttribute('data-variant-id', variant_id);
+
+        const variantName = selectedVariant.querySelector('.variant-name').textContent;
+        const variantPrice = selectedVariant.querySelector('.variant-price').textContent;
+        const answerWrapper = document.querySelector('.answerWrapper');
+        answerWrapper.querySelector('.product-name').innerText = variantName;
+        answerWrapper.querySelector('.product-price').innerText = variantPrice;
+        answerWrapper.querySelector('.product-detail').innerText = `${firstVariant.option1}-${firstVariant.option2}`;
+        answerWrapper.querySelector('.note').innerText = `Based on your preferences: ${selections.join(', ')}`;
+        answerWrapper.style.display = 'block';
         document.querySelector('.choose-variant-btn').classList.remove('hidden');
       } else {
         document.querySelector('.ai-api-error').classList.remove('hidden');
       }
     }
   }
-  function chooseRecommendedVariant() {
-    console.log('Write code to choose variant');
+  function chooseRecommendedVariant(btn) {
+    const variant_id = btn.getAttribute('data-variant-id');
+    console.log('Write code to choose abhi', variant_id);
+    document.querySelector(`.variant-box[data-variant-id="${variant_id}"]`).click();
+    tryAgain();
   }
   function tryAgain() {
     document.querySelector('.variant-help-box.step-1').style.display = 'flex';
