@@ -25,10 +25,11 @@
 
     // helper functions
     function setText(id, value) {
-        console.log('setText', value);
         // saveSelectedOptions
         let keyname = id?.split('final-')[1];
-        if (id) pdpSelectedFormOptions[keyname] = value;
+        if (id && !id.includes('metal-color')) {
+            pdpSelectedFormOptions[keyname] = value;
+        }
 
         const el = document.getElementById(id);
         if (el) el.textContent = value;
@@ -45,7 +46,6 @@
 
     // Populate final summary from selections
     function updateFinalSummary() {
-        console.log('updateFinalSummary function called');
         // Size
         const selectedSizeBtn = document.querySelector("#custom-size-selector");
         const noOptionSelectedText = 'No Option Selected';
@@ -83,14 +83,10 @@
         // Engraving - check current state
         const engravingForm = document.querySelector('#engraving-form');
         let selectedEngravingOption = engravingForm.querySelector('input:checked')?.value;
-        console.log('selectedEngravingOption', selectedEngravingOption);
         if (selectedEngravingOption) {
             const engravedText = engravingForm.querySelector('#summary-engraving-text').textContent;
-            console.log('Selected engraving option found:', selectedEngravingOption);
-            console.log('Value to set:', engravedText);
             setText('final-engraving', engravedText);
         } else {
-            console.log('No engraving option selected. Using default text:', noOptionSelectedText);
             setText('final-engraving', noOptionSelectedText);
         }
 
@@ -105,17 +101,14 @@
         const isFingerPrintSelected = document.getElementById("additional-print-yes");
         const isFpInputs = document.querySelectorAll('[name="additional-print"]');
         if (isFingerPrintSelected && !isFingerPrintSelected.checked) {
-            console.log('fingerprint not selected');
             pdpSelectedFormOptions['Fingerprint'] = "No";
         }
 
         // Metal tones / finishes (from personalization summary if available)
         const personalizeForm = document.querySelector('#personalize-form');
         const personalizesummarydata = document.querySelector("#personalization-summary");
-        console.log('Debugggggg personalization......',personalizesummarydata);
         if (personalizesummarydata && personalizesummarydata.getAttribute('selected') && personalizesummarydata.querySelectorAll('.summary-item')?.length) {
             // update summary UI
-            console.log('Debugggggg final update me personalization data');
             const personalizationReviewDataEl = document.querySelector("#final-summary-form .final-card .final-grid");
             let personalSelectionHtml = '';
             CanvasSelectedMaterials.forEach((selection, index) => {
@@ -135,7 +128,6 @@
             document.querySelector('.no-pers').classList.add('hidden');
         }
         else {
-            console.log('Debugggggg personalization not selected');
             copyText('summary-personalize', selectedPersonalization);
             document.querySelector('.personalize-selected-options').classList.add('hidden');
             document.querySelector('.no-pers').classList.remove('hidden');
@@ -491,7 +483,6 @@
         }
 
         function handleNoEngraving() {
-            console.log('No engraving selected');
             //reset input if have value
             clearEngraveTextInput();
 

@@ -131,10 +131,6 @@ let currentVariants = []; // this will always hold latest 12 variants data
       this.initializeVariantPrices();
       
       this.isInitialized = true;
-      console.log('✅ ProductState initialized:', {
-        variantId: this.selectedVariantId,
-        size: this.selectedSize
-      });
     },
 
     // NEW: Initialize Shopify variant prices
@@ -174,7 +170,6 @@ let currentVariants = []; // this will always hold latest 12 variants data
 
     updateVariant(variantId) {
     const previousVariant = this.selectedVariantId;
-    console.log('🔄 ProductState.updateVariant:', previousVariant, '->', variantId);
     
     this.selectedVariantId = variantId;
     this.updateURL();
@@ -248,7 +243,6 @@ let currentVariants = []; // this will always hold latest 12 variants data
     updatePrice(variantId, size) {
       const priceElements = document.querySelectorAll('.price-item.main_price');
       const variantElements = document.querySelectorAll('.variant-link');
-      console.log("🚀 ~ updatePrice ~ variantElements:", variantElements);
       
       // Show loading state
       priceElements.forEach(el => {

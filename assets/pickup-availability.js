@@ -13,7 +13,6 @@ if (!customElements.get('pickup-availability')) {
       }
 
       fetchAvailability(variantId) {
-        console.log(variantId,'variantId')
         // window.updateMetaUIFromVariantChange(variantId);
         let rootUrl = this.dataset.rootUrl;
         if (!rootUrl.endsWith('/')) {
