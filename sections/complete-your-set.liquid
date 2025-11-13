@@ -1,272 +1,287 @@
-{{ 'component-card.css' | asset_url | stylesheet_tag }}
-{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{%- assign product_list = blank -%}
+{% if product and product.metafields.custom.complete_your_set %}
+{% assign product_list = product.metafields.custom.complete_your_set.value %}
+{% endif %}
 
-{%- style -%}
+{% if product_list and product_list.count > 0 %}
+  {%- style -%}
   .section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+  padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
   }
 
   .cys-{{ section.id }}__heading {
-    margin: 0;
+  margin: 0;
+  }
+
+  .cys-wrapper{
+    position: relative;
   }
 
   @media screen and (min-width: 750px) {
-    .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
-    }
+  .section-{{ section.id }}-padding {
+  padding-top: {{ section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
   }
 
   .cys-{{ section.id }}__header {
-    display: grid;
-    grid-template-columns: 1fr;
-    row-gap: 8px;
-    align-items: end;
-    margin-bottom: 16px;
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 8px;
+  align-items: end;
+  margin-bottom: 16px;
   }
 
   .cys-{{ section.id }}__subrow {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    column-gap: 16px;
-    align-items: center;
-    gap: 12px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 16px;
+  align-items: center;
+  gap: 12px;
   }
 
   .cys-{{ section.id }}__link {
-    text-decoration: underline;
-    font-size: 14px;
-    line-height: 1.4;
-    white-space: nowrap;
-    display: inline-flex;
+  text-decoration: underline;
+  font-size: 14px;
+  line-height: 1.4;
+  white-space: nowrap;
+  display: inline-flex;
   }
 
   .cys-{{ section.id }}__item {
-    list-style: none;
+  list-style: none;
   }
 
   .cys-{{ section.id }}__card {
-    display: block;
-    text-decoration: none;
-    color: inherit;
-    border-radius: 16px;
-    height: 100%;
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
-    background: rgba(255, 255, 255, 0.85);
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 16px;
+  height: 100%;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  background: rgba(255, 255, 255, 0.85);
   }
 
   .cys-{{ section.id }}__media {
-    margin-bottom: 12px;
+  margin-bottom: 12px;
   }
 
   .cys-{{ section.id }}__image-frame {
-    position: relative;
-    width: 100%;
-    padding-top: 100%;
-    border-radius: 16px;
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    overflow: hidden;
-    background: rgba(0, 0, 0, 0.03);
+  position: relative;
+  width: 100%;
+  padding-top: 100%;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.03);
   }
 
   .cys-{{ section.id }}__image {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   }
 
   .cys-{{ section.id }}__placeholder {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.05);
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.05);
+  }
+
+  .cys-{{ section.id }}__placeholder-img{
+    width:100%;
+    height:100%;
+    object-fit: cover;
   }
 
   .cys-{{ section.id }}__placeholder svg {
-    width: 60%;
-    height: 60%;
+  width: 60%;
+  height: 60%;
   }
 
   .cys-{{ section.id }}__title {
-    margin: 8px 8px 4px;
-    font-size: 14px;
+  margin: 8px 8px 4px;
+  font-size: 14px;
   }
 
   .cys-{{ section.id }}__price {
-    margin: 0 8px 16px;
-    font-size: 14px;
-    font-weight: 600;
+  margin: 0 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
   }
 
   .cys-{{ section.id }}__price .price {
-    margin: 0;
+  margin: 0;
   }
 
   .cys-{{ section.id }}__scroller {
-    position: relative;
-    overflow-x: auto;
-    padding-bottom: 12px;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+  position: relative;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
   }
 
   .cys-{{ section.id }}__scroller::-webkit-scrollbar {
-    display: none;
+  display: none;
   }
 
   .cys-{{ section.id }}__scroller.swiper {
-    overflow: visible;
-    padding-bottom: 24px;
+  overflow: visible;
+  padding-bottom: 24px;
   }
 
   .cys-{{ section.id }}__list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
   }
 
   .cys-{{ section.id }}__list:not(.swiper-wrapper) {
-    display: flex;
-    gap: 20px;
+  display: flex;
+  gap: 20px;
   }
 
   .cys-{{ section.id }}__item:not(.swiper-slide) {
-    flex: 0 0 calc((100% - 4 * 20px) / 5);
-    min-width: 220px;
-    max-width: 260px;
+  flex: 0 0 calc((100% - 4 * 20px) / 5);
+  min-width: 220px;
+  max-width: 260px;
   }
 
   .cys-{{ section.id }}__item:not(.swiper-slide):last-child {
-    margin-right: 0;
+  margin-right: 0;
   }
 
   .cys-{{ section.id }}__pagination {
-    display: none;
-    margin-top: 12px;
+  display: none;
+  margin-top: 12px;
   }
 
   .cys-{{ section.id }}__scroller.swiper + .cys-{{ section.id }}__pagination {
-    display: block;
+  display: block;
   }
 
   .cys-{{ section.id }}__mobile-link {
-    display: none;
-    margin-top: 12px;
-    text-align: center;
+  display: none;
+  margin-top: 12px;
+  text-align: center;
   }
 
   .cys-{{ section.id }}__mobile-link a {
-    text-decoration: underline;
-    font-size: 14px;
-    line-height: 1.4;
+  text-decoration: underline;
+  font-size: 14px;
+  line-height: 1.4;
   }
 
   .cys-{{ section.id }}__scroller.swiper .swiper-button-next,
   .cys-{{ section.id }}__scroller.swiper .swiper-button-prev {
-    display: none !important;
+  display: none !important;
   }
 
   .cys-{{ section.id }}__scroller.is-dragging {
-    cursor: grabbing;
+  cursor: grabbing;
   }
 
   .cys-{{ section.id }}__pagination.swiper-pagination-bullets {
-    text-align: center;
+  text-align: center;
   }
 
   .cys-{{ section.id }}__pagination .swiper-pagination-bullet {
-    width: 8px;
-    height: 8px;
-    background: currentColor;
-    opacity: 0.3;
-    transition: opacity 0.2s ease;
+  width: 8px;
+  height: 8px;
+  background: currentColor;
+  opacity: 0.3;
+  transition: opacity 0.2s ease;
   }
 
   .cys-{{ section.id }}__pagination .swiper-pagination-bullet-active {
-    opacity: 1;
+  opacity: 1;
   }
 
   @media screen and (max-width: 1199px) {
-    .cys-{{ section.id }}__item:not(.swiper-slide) {
-      flex: 0 0 min(260px, calc(100% / 2.2));
-    }
+  .cys-{{ section.id }}__item:not(.swiper-slide) {
+  flex: 0 0 min(260px, calc(100% / 2.2));
+  }
   }
 
   @media screen and (max-width: 749px) {
-    .cys-{{ section.id }}__subrow {
-      grid-template-columns: 1fr;
-      justify-items: flex-start;
-    }
-
-    .cys-{{ section.id }}-desktop{
-      display: none;
-    }
-
-    .cys-{{ section.id }}__link {
-      justify-self: flex-start;
-    }
-
-    .cys-{{ section.id }}__mobile-link {
-      display: block;
-    }
+  .cys-{{ section.id }}__subrow {
+  grid-template-columns: 1fr;
+  justify-items: flex-start;
   }
 
-{%- endstyle -%}
+  .cys-{{ section.id }}-desktop{
+  display: none;
+  }
 
-<div id="cys-{{ section.id }}" class="color-{{ section.settings.color_scheme }} gradient">
-  <div class="page-width section-{{ section.id }}-padding isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-    <div class="cys-{{ section.id }}__header">
-      {% if section.settings.heading != blank %}
-        <h2 class="cys-{{ section.id }}__heading inline-richtext {{ section.settings.heading_size }}">{{ section.settings.heading }}</h2>
-      {% endif %}
-      <div class="cys-{{ section.id }}__subrow">
-        {% if section.settings.subtext != blank %}
+  .cys-{{ section.id }}__link {
+  justify-self: flex-start;
+  }
+
+  .cys-{{ section.id }}__mobile-link {
+  display: block;
+  }
+  }
+
+  {%- endstyle -%}
+
+  <div id="cys-{{ section.id }}" class="color-{{ section.settings.color_scheme }} gradient">
+    <div
+      class="page-width section-{{ section.id }}-padding isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+      <div class="cys-{{ section.id }}__header">
+        {% if section.settings.heading != blank %}
+        <h2 class="cys-{{ section.id }}__heading inline-richtext {{ section.settings.heading_size }}">{{
+          section.settings.heading }}</h2>
+        {% endif %}
+        <div class="cys-{{ section.id }}__subrow">
+          {% if section.settings.subtext != blank %}
           <div class="rte">{{ section.settings.subtext }}</div>
-        {% else %}
+          {% else %}
           <div></div>
-        {% endif %}
-        {% if section.settings.link_label != blank and section.settings.link_url != blank %}
-          <a class="cys-{{ section.id }}-desktop cys-{{ section.id }}__link" href="{{ section.settings.link_url }}">{{ section.settings.link_label }}</a>
-        {% endif %}
+          {% endif %}
+          {% if section.settings.link_label != blank and section.settings.link_url != blank %}
+          <a class="cys-{{ section.id }}-desktop cys-{{ section.id }}__link" href="{{ section.settings.link_url }}">{{
+            section.settings.link_label }}</a>
+          {% endif %}
+        </div>
       </div>
-    </div>
 
-    {%- assign product_list = blank -%}
-    {% if product and product.metafields.custom.complete_your_set %}
-      {% assign product_list = product.metafields.custom.complete_your_set.value %}
-    {% endif %}
-    {% if product_list and product_list.count > 0 %}
+
       {% assign image_class = 'cys-' | append: section.id | append: '__image' %}
-      <div class="cys-{{ section.id }}__scroller" data-cys-scroller>
-        <div class="cys-{{ section.id }}__list" role="list">
-          {% for prod in product_list %}
+      <div class="cys-wrapper">
+        <div class="cys-{{ section.id }}__scroller" data-cys-scroller>
+          <div class="cys-{{ section.id }}__list" role="list">
+            {% for prod in product_list %}
             <div class="cys-{{ section.id }}__item" role="listitem">
               <a class="cys-{{ section.id }}__card" href="{{ prod.url }}">
                 <div class="cys-{{ section.id }}__media">
                   <div class="cys-{{ section.id }}__image-frame">
-                  {% assign chosen_image = prod.featured_media %}
-                  {% if chosen_image == blank and prod.media %}
+                    {% assign chosen_image = prod.featured_media %}
+                    {% if chosen_image == blank and prod.media %}
                     {% assign chosen_image = prod.media.first %}
-                  {% endif %}
-                  {% if chosen_image != blank %}
+                    {% endif %}
+                    {% if chosen_image != blank %}
                     {% assign render_image = chosen_image %}
                     {% if chosen_image.image %}
-                      {% assign render_image = chosen_image.image %}
+                    {% assign render_image = chosen_image.image %}
                     {% elsif chosen_image.preview_image %}
-                      {% assign render_image = chosen_image.preview_image %}
+                    {% assign render_image = chosen_image.preview_image %}
                     {% endif %}
-                    {{ render_image | image_url: width: 800 | image_tag: loading: 'lazy', alt: prod.title, class: image_class }}
-                  {% else %}
+                    {{ render_image | image_url: width: 800 | image_tag: loading: 'lazy', alt: prod.title, class:
+                    image_class }}
+                    {% else %}
                     {% assign placeholder_class = 'cys-' | append: section.id | append: '__placeholder-svg' %}
                     <div class="cys-{{ section.id }}__placeholder">
-                      {{ 'product-apparel-1' | placeholder_svg_tag: placeholder_class }}
+                      <img src="https://cdn.shopify.com/s/files/1/0664/3780/8182/files/2bbab5adc3c4a5612b2e22f89d92071d6d783b64.png?v=1759995602" alt="Placeholder image"
+                        class="cys-{{ section.id }}__placeholder-img" loading="lazy">
                     </div>
-                  {% endif %}
+                    {% endif %}
                   </div>
                 </div>
                 <h3 class="cys-{{ section.id }}__title">{{ prod.title }}</h3>
@@ -275,203 +290,205 @@
                 </div>
               </a>
             </div>
-          {% endfor %}
+            {% endfor %}
+          </div>
         </div>
+        <div class="cys-{{ section.id }}__pagination"></div>
       </div>
-      <div class="cys-{{ section.id }}__pagination"></div>
       {% if section.settings.link_label != blank and section.settings.link_url != blank %}
-        <div class="cys-{{ section.id }}__mobile-link">
-          <a href="{{ section.settings.link_url }}">{{ section.settings.link_label }}</a>
-        </div>
+      <div class="cys-{{ section.id }}__mobile-link">
+        <a href="{{ section.settings.link_url }}">{{ section.settings.link_label }}</a>
+      </div>
       {% endif %}
-    {% endif %}
+
+
+    </div>
   </div>
-</div>
 
-<script>
-  (function () {
-    const sectionRoot = document.getElementById('cys-{{ section.id }}');
-    if (!sectionRoot) return;
+  <script>
+    (function () {
+      const sectionRoot = document.getElementById('cys-{{ section.id }}');
+      if (!sectionRoot) return;
 
-    const scroller = sectionRoot.querySelector('[data-cys-scroller]');
-    const list = scroller ? scroller.querySelector('.cys-{{ section.id }}__list') : null;
-    if (!scroller || !list) return;
+      const scroller = sectionRoot.querySelector('[data-cys-scroller]');
+      const list = scroller ? scroller.querySelector('.cys-{{ section.id }}__list') : null;
+      if (!scroller || !list) return;
 
-    const items = Array.from(list.querySelectorAll('.cys-{{ section.id }}__item'));
-    const pagination = sectionRoot.querySelector('.cys-{{ section.id }}__pagination');
-    let swiperInstance = null;
+      const items = Array.from(list.querySelectorAll('.cys-{{ section.id }}__item'));
+      const pagination = sectionRoot.querySelector('.cys-{{ section.id }}__pagination');
+      let swiperInstance = null;
 
-    const loadSwiperAssets = (callback) => {
-      if (window.Swiper) {
-        callback();
-        return;
-      }
+      const loadSwiperAssets = (callback) => {
+        if (window.Swiper) {
+          callback();
+          return;
+        }
 
-      const existingStylesheet = document.querySelector('link[data-cys-swiper]');
-      if (!existingStylesheet) {
-        const linkEl = document.createElement('link');
-        linkEl.rel = 'stylesheet';
-        linkEl.href = 'https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css';
-        linkEl.setAttribute('data-cys-swiper', 'true');
-        document.head.appendChild(linkEl);
-      }
+        const existingStylesheet = document.querySelector('link[data-cys-swiper]');
+        if (!existingStylesheet) {
+          const linkEl = document.createElement('link');
+          linkEl.rel = 'stylesheet';
+          linkEl.href = 'https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css';
+          linkEl.setAttribute('data-cys-swiper', 'true');
+          document.head.appendChild(linkEl);
+        }
 
-      const existingScript = document.querySelector('script[data-cys-swiper]');
-      if (existingScript) {
-        existingScript.addEventListener('load', callback, { once: true });
-      } else {
-        const scriptEl = document.createElement('script');
-        scriptEl.src = 'https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js';
-        scriptEl.async = true;
-        scriptEl.setAttribute('data-cys-swiper', 'true');
-        scriptEl.addEventListener('load', callback, { once: true });
-        document.head.appendChild(scriptEl);
-      }
-    };
+        const existingScript = document.querySelector('script[data-cys-swiper]');
+        if (existingScript) {
+          existingScript.addEventListener('load', callback, { once: true });
+        } else {
+          const scriptEl = document.createElement('script');
+          scriptEl.src = 'https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js';
+          scriptEl.async = true;
+          scriptEl.setAttribute('data-cys-swiper', 'true');
+          scriptEl.addEventListener('load', callback, { once: true });
+          document.head.appendChild(scriptEl);
+        }
+      };
 
-    const enableSwiper = () => {
-      if (swiperInstance || window.innerWidth >= 768) {
-        return;
-      }
-
-      loadSwiperAssets(() => {
+      const enableSwiper = () => {
         if (swiperInstance || window.innerWidth >= 768) {
           return;
         }
 
-        scroller.classList.add('swiper', 'cys-{{ section.id }}__swiper');
-        list.classList.add('swiper-wrapper');
-        items.forEach((item) => item.classList.add('swiper-slide'));
+        loadSwiperAssets(() => {
+          if (swiperInstance || window.innerWidth >= 768) {
+            return;
+          }
 
-        if (pagination) {
-          pagination.classList.add('swiper-pagination');
-        }
+          scroller.classList.add('swiper', 'cys-{{ section.id }}__swiper');
+          list.classList.add('swiper-wrapper');
+          items.forEach((item) => item.classList.add('swiper-slide'));
 
-        swiperInstance = new Swiper(scroller, {
-          slidesPerView: 1.7,
-          spaceBetween: 16,
-          watchOverflow: true,
-          pagination: pagination
-            ? {
+          if (pagination) {
+            pagination.classList.add('swiper-pagination');
+          }
+
+          swiperInstance = new Swiper(scroller, {
+            slidesPerView: 1.7,
+            spaceBetween: 16,
+            watchOverflow: true,
+            pagination: pagination
+              ? {
                 el: pagination,
                 clickable: true,
               }
-            : undefined,
+              : undefined,
+          });
         });
-      });
-    };
+      };
 
-    const disableSwiper = () => {
-      if (!swiperInstance && !list.classList.contains('swiper-wrapper')) {
-        return;
-      }
+      const disableSwiper = () => {
+        if (!swiperInstance && !list.classList.contains('swiper-wrapper')) {
+          return;
+        }
 
-      if (swiperInstance) {
-        swiperInstance.destroy(true, true);
-        swiperInstance = null;
-      }
+        if (swiperInstance) {
+          swiperInstance.destroy(true, true);
+          swiperInstance = null;
+        }
 
-      scroller.classList.remove('swiper', 'cys-{{ section.id }}__swiper');
-      list.classList.remove('swiper-wrapper');
-      items.forEach((item) => item.classList.remove('swiper-slide'));
+        scroller.classList.remove('swiper', 'cys-{{ section.id }}__swiper');
+        list.classList.remove('swiper-wrapper');
+        items.forEach((item) => item.classList.remove('swiper-slide'));
 
-      if (pagination) {
-        pagination.classList.remove('swiper-pagination');
-      }
-    };
+        if (pagination) {
+          pagination.classList.remove('swiper-pagination');
+        }
+      };
 
-    const handleResize = () => {
-      if (window.innerWidth < 768) {
-        enableSwiper();
-      } else {
-        disableSwiper();
-      }
-    };
+      const handleResize = () => {
+        if (window.innerWidth < 768) {
+          enableSwiper();
+        } else {
+          disableSwiper();
+        }
+      };
 
-    handleResize();
-    window.addEventListener('resize', handleResize);
-  })();
-</script>
+      handleResize();
+      window.addEventListener('resize', handleResize);
+    })();
+  </script>
+
+{% endif %}
 
 {% schema %}
 {
-  "name": "Complete your set",
-  "tag": "section",
-  "class": "section",
-  "settings": [
-    {
-      "type": "inline_richtext",
-      "id": "heading",
-      "default": "Complete your set",
-      "label": "Heading"
-    },
-    {
-      "type": "inline_richtext",
-      "id": "subtext",
-      "default": "Perfect pairing options to complement your solitaire ring",
-      "label": "Subtext"
-    },
-    {
-      "type": "text",
-      "id": "link_label",
-      "label": "Right link label",
-      "default": "View all stacking options"
-    },
-    {
-      "type": "url",
-      "id": "link_url",
-      "label": "Right link URL"
-    },
-    {
-      "type": "select",
-      "id": "heading_size",
-      "options": [
-        { "value": "h2", "label": "H2" },
-        { "value": "h1", "label": "H1" },
-        { "value": "h0", "label": "Display" }
-      ],
-      "default": "h2",
-      "label": "Heading size"
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "Color scheme",
-      "info": "Applies to cards.",
-      "default": "scheme-1"
-    },
-    {
-      "type": "header",
-      "content": "Section padding"
-    },
-    {
-      "type": "range",
-      "id": "padding_top",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "Top padding",
-      "default": 36
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "Bottom padding",
-      "default": 36
-    }
-  ],
-  "presets": [
-    {
-      "name": "Complete your set",
-      "settings": {}
-    }
-  ]
+"name": "Complete your set",
+"tag": "section",
+"class": "section",
+"settings": [
+{
+"type": "inline_richtext",
+"id": "heading",
+"default": "Complete your set",
+"label": "Heading"
+},
+{
+"type": "inline_richtext",
+"id": "subtext",
+"default": "Perfect pairing options to complement your solitaire ring",
+"label": "Subtext"
+},
+{
+"type": "text",
+"id": "link_label",
+"label": "Right link label",
+"default": "View all stacking options"
+},
+{
+"type": "url",
+"id": "link_url",
+"label": "Right link URL"
+},
+{
+"type": "select",
+"id": "heading_size",
+"options": [
+{ "value": "h2", "label": "H2" },
+{ "value": "h1", "label": "H1" },
+{ "value": "h0", "label": "Display" }
+],
+"default": "h2",
+"label": "Heading size"
+},
+{
+"type": "color_scheme",
+"id": "color_scheme",
+"label": "Color scheme",
+"info": "Applies to cards.",
+"default": "scheme-1"
+},
+{
+"type": "header",
+"content": "Section padding"
+},
+{
+"type": "range",
+"id": "padding_top",
+"min": 0,
+"max": 100,
+"step": 4,
+"unit": "px",
+"label": "Top padding",
+"default": 36
+},
+{
+"type": "range",
+"id": "padding_bottom",
+"min": 0,
+"max": 100,
+"step": 4,
+"unit": "px",
+"label": "Bottom padding",
+"default": 36
+}
+],
+"presets": [
+{
+"name": "Complete your set",
+"settings": {}
+}
+]
 }
 {% endschema %}
-
-
