@@ -108,6 +108,7 @@
         const personalizeForm = document.querySelector('#personalize-form');
         const personalizesummarydata = document.querySelector("#personalization-summary");
         if (personalizesummarydata && personalizesummarydata.getAttribute('selected') && personalizesummarydata.querySelectorAll('.summary-item')?.length) {
+           
             // update summary UI
             const personalizationReviewDataEl = document.querySelector("#final-summary-form .final-card .final-grid");
             let personalSelectionHtml = '';
@@ -124,6 +125,7 @@
             });
             personalizationReviewDataEl.innerHTML = personalSelectionHtml;
             // end
+            delete pdpSelectedFormOptions.personalize; // delete previous entry if any
             document.querySelector('.personalize-selected-options').classList.remove('hidden');
             document.querySelector('.no-pers').classList.add('hidden');
         }

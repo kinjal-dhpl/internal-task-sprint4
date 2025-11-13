@@ -152,6 +152,7 @@ document.addEventListener(
           // loader overlay
           const personalizationImageCaptureEl = document.querySelector('#personalization-loader-overlay');
           personalizationImageCaptureEl.classList.add('custom_active'); // add loader
+          delete pdpSelectedFormOptions.personalize; // delete previous entry if any
           // Define the 5 viewpoints (Y-up world)
           const views = [
             { name: 'top',    u: { x:  0, y:  1, z:  0 } },  // +Y
@@ -217,6 +218,7 @@ document.addEventListener(
 
           const uploadResult = await uploadBlobs("/apps/ea_module_dev/internal/upload-files", files);
           closeModal();
+          
 
           // Update final summary if visible
           const finalSummaryForm = document.getElementById('final-summary-form');
@@ -236,7 +238,7 @@ document.addEventListener(
               <div class="ring-thumbnail">
                 <img src="${imgLink}" alt="Ring View">
               </div>
-              <input type="hidden" name="properties[Personalization Image ${
+              <input type="hidden" name="properties[personalization Image ${
                 index + 1
               }]" value="${imgLink}">
             `;
