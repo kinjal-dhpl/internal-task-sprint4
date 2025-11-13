@@ -85,7 +85,7 @@ label.form__label {
     <div class="select-neo">
       <select
         id="custom-size-selector"
-        name="properties[Size]"
+        name="properties[size]"
         class="ymq-no-strong-drop-down ymq-dropdown ymq-attrib-ymq-variant-0 ymq-shopify-option"
         required
       >
@@ -386,16 +386,6 @@ let currentVariants = []; // this will always hold latest 12 variants data
         productForm.appendChild(priceInput);
       }
       priceInput.value = `Rs. ${this.formatPrice(price)}`;
-
-      // Update size input
-      let sizeInput = productForm.querySelector('input[name="properties[Size]"]');
-      if (!sizeInput) {
-        sizeInput = document.createElement('input');
-        sizeInput.type = 'hidden';
-        sizeInput.name = 'properties[Size]';
-        productForm.appendChild(sizeInput);
-      }
-      sizeInput.value = size;
     },
 
     formatPrice(price) {
