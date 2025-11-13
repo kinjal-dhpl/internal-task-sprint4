@@ -461,21 +461,14 @@
           <div class="variant-box" data-variant-id="{{ variant.id }}">
             <div class="top-row">
               <h2 class="variant-name"></h2>
-              {% comment %}
-                <img src="{{ product.featured_image | img_url: '200x' }}" class="variant-image" alt=""/>
-                <div class="metal-name-top-right">{{ variant.option1 }}</div>
-              {% endcomment %}
             </div>
             <p class="variant-pack-size">
               {{ variant.title | replace: 'Gold', '' | replace: 'Natural', '' | replace: '/', '' | strip }}
             </p>
-            {% comment %} <p class="variant-color-clarity">{{ variant.option2 }}</p> {% endcomment %}
             <div class="price-container" data-variant-id="{{ variant.id }}">
               <p class="variant-price"></p>
               <span class="plus-breakup-text">+ Break-up</span>
-            </div>
-            {% comment %} <div class="price" data-variant-id="{{ variant.id }}">{{ variant.price | money }}</div> {% endcomment %}
-          </div>
+            </div></div>
         </div>
       {% endif %}
     {% endfor %}
@@ -499,22 +492,15 @@
             <div class="variant-box" data-variant-id="{{ variant.id }}">
               <div class="top-row">
                 <h2 class="variant-name"></h2>
-                {% comment %}
-                  <img src="{{ product.featured_image | img_url: '200x' }}" class="variant-image" alt=""/>
-                  <div class="metal-name-top-right lab-grown">{{ variant.option1 }}</div>
-                {% endcomment %}
               </div>
               <p class="variant-pack-size">
                 {{ variant.title | replace: 'Gold', '' | replace: 'Lab Grown', '' | replace: '/', '' | strip }}
               </p>
-              {% comment %} <p class="variant-color-clarity">{{ variant.option2 }}</p> {% endcomment %}
               <div class="price-container" data-variant-id="{{ variant.id }}">
                 <p class="variant-price"></p>
                 <span class="plus-breakup-text">+ Break-up</span>
               </div>
-              <p class="variant-pack-size">{{ variant.title }}</p>
-              <p class="variant-color-clarity">{{ variant.option2 }}</p>
-              <div class="price" data-variant-id="{{ variant.id }}">{{ variant.price | money }}</div>
+              {% comment %} <p class="variant-color-clarity">{{ variant.option2 }}</p> {% endcomment %}
             </div>
           </div>
         {% endif %}
@@ -538,21 +524,15 @@
           <div class="variant-box" data-variant-id="{{ variant.id }}">
             <div class="top-row">
               <h2 class="variant-name"></h2>
-              {% comment %}
-                <img src="{{ product.featured_image | img_url: '200x' }}" class="variant-image" alt=""/>
-                <div class="metal-name-top-right">{{ variant.option1 }}</div>
-              {% endcomment %}
             </div>
             <p class="variant-pack-size">
               {{ variant.title | replace: 'Platinum', '' | replace: 'Natural', '' | replace: '/', '' | strip }}
             </p>
-            {% comment %} <p class="variant-color-clarity">{{ variant.option2 }}</p> {% endcomment %}
             <div class="price-container" data-variant-id="{{ variant.id }}">
               <p class="variant-price"></p>
               <span class="plus-breakup-text">+ Break-up</span>
             </div>
-            <div class="price" data-variant-id="{{ variant.id }}">{{ variant.price | money }}</div>
-          </div>
+            </div>
         </div>
       {% endif %}
     {% endfor %}

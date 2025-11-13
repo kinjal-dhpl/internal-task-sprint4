@@ -108,6 +108,7 @@
             console.log('fingerprint not selected');
             pdpSelectedFormOptions['Fingerprint'] = "No";
         }
+
         // Metal tones / finishes (from personalization summary if available)
         const personalizeForm = document.querySelector('#personalize-form');
         const personalizesummarydata = document.querySelector("#personalization-summary");
@@ -139,6 +140,7 @@
             document.querySelector('.personalize-selected-options').classList.add('hidden');
             document.querySelector('.no-pers').classList.remove('hidden');
         }
+
         // pass into PDP Form properties
         // Create and append the new hidden input
         const form = document.querySelector('form[action="/cart/add"]');
@@ -165,6 +167,7 @@
         }
 
     }
+
     document.addEventListener("DOMContentLoaded", () => {
         const yesBtn = document.getElementById("yes-btn");
         const noBtn = document.getElementById("no-btn");
@@ -383,16 +386,16 @@
                 savePersonalFitSelections();
             });
         });
+
         // get days after date
         function getDateAfterDays(days) {
             const today = new Date();
-            const futureDate = new Date(today);
-            futureDate.setDate(today.getDate() + days); // add X days
-            const day = futureDate.getDate(); // day of month
-            const month = futureDate.toLocaleString('default', { month: 'short' }); // short month name e.g., "Oct"
-            console.log(day, month, 'uuguhjbhbh6789868976876987687');
+            const futureDate = new Date(today.getTime() + days * 24 * 60 * 60 * 1000);
+            const day = futureDate.getDate();
+            const month = futureDate.toLocaleString('default', { month: 'short' });
             return `${day} ${month}`;
         }
+
         // Handle Authenticity & Delivery interactions
         const certButtons = document.querySelectorAll('.diamond-cert-btn');
         const deliveryDateContainer = document.querySelector('.delivery-note');
@@ -400,8 +403,7 @@
         certButtons.forEach(inputLabel => {
             inputLabel.addEventListener('click', function () {
 
-                const estimateDuration = inputLabel.getAttribute('value');
-                console.log(inputLabel, 'input')
+                const estimateDuration = inputLabel.getAttribute('data-value');
                 let expectedDeliveryDay = estimateDuration ? getDateAfterDays(estimateDuration) : getDateAfterDays(15);
                 if (expectedDeliveryDay) {
                     console.log('jghsdjfhgsdjhfjhfg', expectedDeliveryDay);
@@ -411,7 +413,7 @@
                 }
 
                 const group = this.getAttribute('data-group');
-                const value = this.getAttribute('data-value');
+                const value = this.getAttribute('value');
                 const groupButtons = document.querySelectorAll(`[data-group="${group}"]`);
                 groupButtons.forEach(btn => btn.classList.remove('active'));
                 this.classList.add('active');
