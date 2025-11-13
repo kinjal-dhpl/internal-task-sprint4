@@ -159,7 +159,7 @@
         "padding_top": 40,
         "padding_bottom": 52
       }
-          },
+    },
     "product_info_VaGAPD": {
       "type": "product-info",
       "name": "product_section",
@@ -167,6 +167,20 @@
         "top_head": "",
         "care_instructions": "<ul><li>Clean with mild soap and warm water </li><li>Store separately to avoid scratches</li><li>Professional cleaning recommended annually</li><li>Avoid harsh chemicals and ultrasonic cleaners</li></ul>",
         "important_info": ""
+      }
+    },
+    "complete_your_set_pQULma": {
+      "type": "complete-your-set",
+      "name": "Complete your set",
+      "settings": {
+        "heading": "Complete your set",
+        "subtext": "Perfect pairing options to complement your solitaire ring",
+        "link_label": "View all stacking options",
+        "link_url": "",
+        "heading_size": "h2",
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 28
       }
     },
     "product_manufacture_pKKXCy": {
@@ -247,7 +261,7 @@
     "related-products",
     "custom_liquid_YdP4Y9",
     "product_info_VaGAPD",
-    // "complete_your_set",
+    "complete_your_set_pQULma",
     "product_manufacture_pKKXCy"
   ]
 }
