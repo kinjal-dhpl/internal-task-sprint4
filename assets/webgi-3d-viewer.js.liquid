@@ -69,7 +69,6 @@ document.addEventListener(
       };
 
       const productGlbFile = productGlbUrl;
-      console.log('productGlbFile',productGlbFile);
 
       const models = await importer.importPath(
         // "https://cdn.shopify.com/3d/models/1da2cd695bb73afd/R-0597-WS2-RENDER_glb.glb",
@@ -103,7 +102,6 @@ document.addEventListener(
 
       viewer.scene.addEventListener("sceneMaterialUpdate", async (...e) => {
         pdpCanvasPersonalizeOption = materialConfigPlugin.variations;
-        // console.log(materialConfigPlugin.variations);
 
         const selectedOptions = materialConfigPlugin.variations.reduce(
           (acc, x) => {
@@ -113,7 +111,6 @@ document.addEventListener(
               ].find((h) => h.textContent.trim() === x.title); // Find the matching parent heading by title
 
               if (parentHeading) {
-                console.log(parentHeading);
                 const parentEl = parentHeading.parentElement;
                 const optionItems = parentEl.querySelectorAll(
                   ".customContextGridItems"
@@ -148,8 +145,6 @@ document.addEventListener(
           document.querySelector('.save-canvas-options').disabled = true;
         }
 
-        console.log('selectedOptions...');
-
       });
 
       document.querySelector('[data-action="save-personalization"]').addEventListener("click", async () => {
@@ -157,7 +152,6 @@ document.addEventListener(
           // loader overlay
           const personalizationImageCaptureEl = document.querySelector('#personalization-loader-overlay');
           personalizationImageCaptureEl.classList.add('custom_active'); // add loader
-          console.log('Captured 5 files:',personalizationImageCaptureEl);
           // Define the 5 viewpoints (Y-up world)
           const views = [
             { name: 'top',    u: { x:  0, y:  1, z:  0 } },  // +Y
@@ -191,7 +185,6 @@ document.addEventListener(
           const personalizationImagesDataEl = personalizationSummaryEl.querySelector('.ring-thumbnails');
           let SelectedMaterials = CanvasSelectedMaterials;
           if(SelectedMaterials && personalizationSummaryEl && personalizationModalTriggeringInputEl) {
-            console.log(SelectedMaterials);
             let personalizedSummaryHtml = '';
             // create html
             SelectedMaterials.forEach( (selection, index) => {
@@ -227,17 +220,14 @@ document.addEventListener(
 
           // Update final summary if visible
           const finalSummaryForm = document.getElementById('final-summary-form');
-          console.log("finalSummaryForm",finalSummaryForm);
           if (finalSummaryForm && !finalSummaryForm.classList.contains('hidden')) {
             updateFinalSummary();
           }
 
           personalizationImageCaptureEl.classList.remove('custom_active'); // remove loader
-          console.log("abhi", uploadResult);
 
           // update images on form bottom
           let personalizationImages = uploadResult.data.fileUrls;
-          console.log('personalizationImages',personalizationImagesDataEl);
           let uploadedImagesHtml = "";
 
           // Loop through each uploaded image URL
@@ -255,7 +245,6 @@ document.addEventListener(
           personalizationImagesDataEl.innerHTML = uploadedImagesHtml;
            // Show engraving form
           const engravingForm = document.getElementById('engraving-form');
-          console.log("engravingForm",engravingForm);
           if (engravingForm) engravingForm.classList.remove('hidden');
 
           const personalizationPDPformEl = personalizationSummaryEl.closest('.pdp-form');
@@ -438,7 +427,6 @@ async function injectCapturedFiles(files) {
   // files = array of File or Blob objects (like from snipper.getFile)
   const input = document.getElementById('custom-image-top');
 
-  console.log("abhi", input);
   if (!input) return;
 
   // Create a DataTransfer object (acts like a drag-and-drop payload)
@@ -455,8 +443,6 @@ async function injectCapturedFiles(files) {
 
   // Trigger a 'change' event so any upload handler reacts
   input.dispatchEvent(new Event('change', { bubbles: true }));
-
-  console.log('Input now contains', input.files.length, 'files');
 }
 
 async function uploadBlobs(url, files, additionalData = {}) {
