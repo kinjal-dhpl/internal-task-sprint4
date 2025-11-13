@@ -11,7 +11,6 @@
         if (!nextForm) {
             return;
         }
-        console.log('certificatesContainer', targettedFrom, 'next', nextForm);
         nextForm.classList.add('active');
         // Scroll smoothly to the next form
         nextForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -100,9 +99,9 @@
         // Finger print ** passing input image data is missed here. Flagged to add it later **
         const isFingerPrintSelected = document.getElementById("additional-print-yes");
         const isFpInputs = document.querySelectorAll('[name="additional-print"]');
-        if (isFingerPrintSelected && !isFingerPrintSelected.checked) {
-            pdpSelectedFormOptions['fingerprint'] = "No";
-        }
+        // if (isFingerPrintSelected && !isFingerPrintSelected.checked) {
+        //    pdpSelectedFormOptions['fingerprint'] = "No";
+        // }
 
         // Metal tones / finishes (from personalization summary if available)
         const personalizeForm = document.querySelector('#personalize-form');
@@ -125,7 +124,7 @@
             });
             personalizationReviewDataEl.innerHTML = personalSelectionHtml;
             // end
-            delete pdpSelectedFormOptions.personalize; // delete previous entry if any
+            pdpSelectedFormOptions['personalization'] = 'yes';
             document.querySelector('.personalize-selected-options').classList.remove('hidden');
             document.querySelector('.no-pers').classList.add('hidden');
         }
@@ -187,6 +186,13 @@
         fileInput.addEventListener("change", (e) => {
             const file = e.target.files[0];
             if (!file) return;
+            const maxSize = 1 * 200 * 1024; // 200KB
+
+            if (file.size > maxSize) {
+              alert("File size should be less than 200KB");
+              fileInput.value = ""; // reset file input
+              return;
+            }
             const reader = new FileReader();
             reader.onload = (event) => {
                 previewImg.src = event.target.result;
@@ -200,7 +206,7 @@
                 noRadio.checked = false;
                 finalSummaryFpImageEl.src = event.target.result;
                 finalSummaryFpNoText.classList.add('hidden');
-                pdpSelectedFormOptions['Fingerprint'] = event.target.result;
+                // pdpSelectedFormOptions['fingerprint'] = event.target;
                 enableNextForm(fingerprintFormEl);
             };
             reader.readAsDataURL(file);
@@ -279,7 +285,6 @@
 
                     if (personalizedSummaryContainer && personalizedSummaryContainer.classList.contains('hidden')) {
                         selectedPersonalization.checked = false;
-                        console.log('Removed selection');
                     }
                     // Call the global function to open modal
                     if (window.openPersonalizationModal) {

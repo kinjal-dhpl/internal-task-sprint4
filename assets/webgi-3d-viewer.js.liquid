@@ -205,9 +205,7 @@ document.addEventListener(
             personalizationSummaryEl.setAttribute('selected','true');
             personalizationSummaryEl.classList.remove('hidden');
             personalizationModalTriggeringInputEl.classList.add('hidden');
-            const selectedNoPersonalization = document.querySelector("#no-personalization-radio");
-            selectedNoPersonalization.checked = false;
-
+            document.querySelector("#no-personalization-radio").checked = false;
           }
 
           function closeModal() {
