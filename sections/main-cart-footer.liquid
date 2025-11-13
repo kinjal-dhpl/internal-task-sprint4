@@ -215,16 +215,8 @@
         cartPayload.push({
           quantity: item.quantity,
           variant_id: `${item.id}`,
-          size: normalizedProps['Size'], // size is passed as a top-level property too
-          properties: {
-            metal_tone: normalizedProps['Metal Tone'] || null,
-            metal_finish: normalizedProps['Metal Finish'] || null,
-            engraving: normalizedProps['Engraving'] || null,
-            certification: normalizedProps['Certification'] || null,
-            hand: normalizedProps['Hand'] || null,
-            finger: normalizedProps['Finger'] || null,
-            prong_rhodium: normalizedProps['Prong Rhodium'] || null,
-          },
+          size: rawProps['size'], // size is passed as a top-level property too
+          properties: rawProps,
         });
       });
 
