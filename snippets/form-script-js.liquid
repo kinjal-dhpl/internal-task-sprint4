@@ -101,7 +101,7 @@
         const isFingerPrintSelected = document.getElementById("additional-print-yes");
         const isFpInputs = document.querySelectorAll('[name="additional-print"]');
         if (isFingerPrintSelected && !isFingerPrintSelected.checked) {
-            pdpSelectedFormOptions['Fingerprint'] = "No";
+            pdpSelectedFormOptions['fingerprint'] = "No";
         }
 
         // Metal tones / finishes (from personalization summary if available)
@@ -113,7 +113,7 @@
             const personalizationReviewDataEl = document.querySelector("#final-summary-form .final-card .final-grid");
             let personalSelectionHtml = '';
             CanvasSelectedMaterials.forEach((selection, index) => {
-                let metalTitle = selection.title;
+                let metalTitle = selection.title.toLowerCase();
                 let metalName = selection.materialName;
                 personalSelectionHtml += `
                 <div class="final-item">
@@ -129,7 +129,7 @@
             document.querySelector('.personalize-selected-options').classList.remove('hidden');
             document.querySelector('.no-pers').classList.add('hidden');
         }
-        else {
+        else if(document.querySelector("#no-personalization-radio") && document.querySelector("#no-personalization-radio").checked){
             copyText('summary-personalize', selectedPersonalization);
             document.querySelector('.personalize-selected-options').classList.add('hidden');
             document.querySelector('.no-pers').classList.remove('hidden');
