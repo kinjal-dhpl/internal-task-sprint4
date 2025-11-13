@@ -169,21 +169,6 @@
         "important_info": ""
       }
     },
-    "complete_your_set": {
-      "type": "complete-your-set",
-      "settings": {
-        "heading": "Complete Your Set",
-        "subtext": "Perfect pairing options to complement your solitaire ring",
-        "link_label": "View All Stacking Options",
-        "link_url": "",
-        "heading_size": "h2",
-        "metafield_namespace": "custom",
-        "metafield_key": "complete_your_set",
-        "color_scheme": "background-1",
-        "padding_top": 36,
-        "padding_bottom": 28
-      }
-    },
     "product_manufacture_pKKXCy": {
       "type": "Product-manufacture",
       "blocks": {
@@ -262,7 +247,7 @@
     "related-products",
     "custom_liquid_YdP4Y9",
     "product_info_VaGAPD",
-    "complete_your_set",
+    // "complete_your_set",
     "product_manufacture_pKKXCy"
   ]
 }
