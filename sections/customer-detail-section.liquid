@@ -2027,7 +2027,7 @@ window.getStatusOptions = getStatusOptions;
               let itemHTML = "";
               let cartSubtotalElem = 0;
               cartItems.forEach(item => {
-                const size = item.properties?.Size ? item.properties.Size.trim() : null;
+                const size = item.properties?.size ? item.properties.size.trim() : null;
 
                 {% comment %} for subtotal {% endcomment %}
                  if (item.properties && Object.keys(item.properties).length > 0) {
