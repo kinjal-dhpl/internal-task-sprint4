@@ -508,7 +508,7 @@ div.endless--container{width: 75%;}
 
 
 
-  fetch("/apps/ea_module_dev/customers", requestOptions)
+  fetch(`${window.EA_MODULE_BASE_URL}/customers`, requestOptions)
 
     .then(response => response.json())
 

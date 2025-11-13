@@ -69,7 +69,7 @@
 
     try {
       const res = await fetch(
-      `https://diamond-hq-staging.myshopify.com/apps/ea_module_dev/price/product?productId=${productId}&configSize=${selectedSize}`      );
+      `${window.EA_MODULE_BASE_URL}/price/product?productId=${productId}&configSize=${selectedSize}`      );
       const json = await res.json();
 
       if (json.status === 'success') {

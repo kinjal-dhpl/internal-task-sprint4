@@ -1203,7 +1203,7 @@ document.addEventListener("click", function(e) {
           method: "GET",
           redirect: "follow"
         };
-        fetch(`/apps/ea_module_dev/customers/${customerID}`, requestOptions)
+        fetch(`${window.EA_MODULE_BASE_URL}/customers/${customerID}`, requestOptions)
           .then((response) => {
             if (!response.ok) {
               throw new Error(`HTTP error! Status: ${response.status}`);
@@ -1377,7 +1377,7 @@ if (Array.isArray(customerAddress) && customerAddress.length > 0 && addressMainG
               method: "GET",
               redirect: "follow"
             };
-            fetch(`/apps/ea_module_dev/orders/${orderID}`, requestOptions)
+            fetch(`${window.EA_MODULE_BASE_URL}/orders/${orderID}`, requestOptions)
               .then((response) => {
                 if (!response.ok) {
                   throw new Error(`HTTP error! Status: ${response.status}`);
@@ -1860,7 +1860,7 @@ window.getStatusOptions = getStatusOptions;
             lineItemId: lineId
           };
 
-          const response = await fetch('/apps/ea_module_dev/gati/status-update', {
+          const response = await fetch(`${window.EA_MODULE_BASE_URL}/gati/status-update`, {
             method: 'POST',
             headers: { 
               'Content-Type': 'application/json'
@@ -2134,7 +2134,7 @@ window.getStatusOptions = getStatusOptions;
         redirect: "follow"
       };
 
-    fetch("/apps/ea_module_dev/orders/locations", requestOptions)
+    fetch(`${window.EA_MODULE_BASE_URL}/orders/locations`, requestOptions)
       .then((response) => {
             if (!response.ok) {
               throw new Error(`HTTP error! Status: ${response.status}`);
@@ -2193,7 +2193,7 @@ window.getStatusOptions = getStatusOptions;
 
         const orderId = select.getAttribute('order-Id');
        
-        fetch(`/apps/ea_module_dev/orders/${orderId}/qc-status`, requestOptions)
+        fetch(`${window.EA_MODULE_BASE_URL}/orders/${orderId}/qc-status`, requestOptions)
           .then((response) => {
             if (!response.ok) {
               throw new Error(`HTTP error! Status: ${response.status}`);
@@ -2355,7 +2355,7 @@ function validateFormAndCreatePayload() {
           redirect: "follow"
         };
 
-      fetch("/apps/ea_module_dev/draft-orders/endless-aisle", requestOptions)
+      fetch(`${window.EA_MODULE_BASE_URL}/draft-orders/endless-aisle`, requestOptions)
       .then((response) => {
             if (!response.ok) {
               offGlobalLoader();
@@ -2424,7 +2424,7 @@ function validateFormAndCreatePayload() {
               }
             };
 
-            fetch(`/apps/ea_module_dev/draft-orders/${draftOrderId}/status`, requestOptions)
+            fetch(`${window.EA_MODULE_BASE_URL}/draft-orders/${draftOrderId}/status`, requestOptions)
               .then(response => {
                 if (!response.ok) {
                   throw new Error(`HTTP error! Status: ${response.status}`);
@@ -2550,7 +2550,7 @@ function validateFormAndCreatePayload() {
             } 
             const draftGID = document.querySelector('button.payment_step_share').getAttribute("draft-order-id");
             const draftOrderId = draftGID.split("/").pop();
-            const apiUrl = `/apps/ea_module_dev/draft-orders/${draftOrderId}/payment`;
+            const apiUrl = `${window.EA_MODULE_BASE_URL}/draft-orders/${draftOrderId}/payment`;
 
             const payload = {
               transactionMethod: selectedMethod,
@@ -2788,7 +2788,7 @@ document.addEventListener('keydown', function(e) {
       if (currentApiType === 'statusChange') {
         onGlobalLoader();
         
-        response = await fetch('/apps/ea_module_dev/gati/status-update', {
+        response = await fetch(`${window.EA_MODULE_BASE_URL}/gati/status-update`, {
           method: 'POST',
           headers: { 
             'Content-Type': 'application/json'
@@ -2855,7 +2855,7 @@ document.addEventListener('keydown', function(e) {
           return;
         }
 
-        response = await fetch('/apps/ea_module_dev/orders/tracking-info', {
+        response = await fetch(`${window.EA_MODULE_BASE_URL}/orders/tracking-info`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -2976,7 +2976,7 @@ async function saveManualPayment() {
 
   try {
     onGlobalLoader(); // show loader
-    const response = await fetch('/apps/ea_module_dev/orders/manual-payment', {
+    const response = await fetch(`${window.EA_MODULE_BASE_URL}/orders/manual-payment`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -3074,7 +3074,7 @@ async function saveManualPayment() {
         button.innerHTML = '<span class="loading"></span>';
 
         try {
-            const response = await fetch('/apps/ea_module_dev/otp/generate', {
+            const response = await fetch(`${window.EA_MODULE_BASE_URL}/otp/generate`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -3117,7 +3117,7 @@ async function saveManualPayment() {
     button.innerHTML = '<span class="loading"></span>';
 
     try {
-        const response = await fetch('/apps/ea_module_dev/otp/verify', {
+        const response = await fetch(`${window.EA_MODULE_BASE_URL}/otp/verify`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -3170,7 +3170,7 @@ async function saveManualPayment() {
         resendButton.disabled = true;
 
         try {
-            const response = await fetch('/apps/ea_module_dev/otp/resend', {
+            const response = await fetch(`${window.EA_MODULE_BASE_URL}/otp/resend`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -3322,7 +3322,7 @@ async function sendInvoiceEmail() {
   buttonText.textContent = 'Sending...';
 
   try {
-    const response = await fetch(`/apps/ea_module_dev/orders/${currentInvoiceOrderId}/send-invoice`, {
+    const response = await fetch(`${window.EA_MODULE_BASE_URL}/orders/${currentInvoiceOrderId}/send-invoice`, {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json' 

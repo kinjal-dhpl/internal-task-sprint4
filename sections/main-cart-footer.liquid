@@ -235,7 +235,7 @@
         redirect: 'follow',
       };
 
-      const response = await fetch(`/apps/ea_module_dev/draft-orders/cart`, requestOptions);
+      const response = await fetch(`${window.EA_MODULE_BASE_URL}/draft-orders/cart`, requestOptions);
 
       if (!response.ok) {
         console.error('Draft order creation failed with status:', response.status);

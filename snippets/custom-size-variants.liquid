@@ -256,7 +256,7 @@ let currentVariants = []; // this will always hold latest 12 variants data
 
     fetchPriceFromAPI(variantId, size) {
       const productId = "{{ product.id }}";
-      const apiUrl = `/apps/ea_module_dev/price/product?productId=${productId}&configSize=${size}`;
+      const apiUrl = `${window.EA_MODULE_BASE_URL}/price/product?productId=${productId}&configSize=${size}`;
 
       fetch(apiUrl, {
         method: 'GET',

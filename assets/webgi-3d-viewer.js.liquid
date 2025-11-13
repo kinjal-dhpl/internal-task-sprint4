@@ -214,7 +214,7 @@ document.addEventListener(
               document.body.style.overflow = ''; // Restore scrolling
           }
 
-          const uploadResult = await uploadBlobs("/apps/ea_module_dev/internal/upload-files", files);
+          const uploadResult = await uploadBlobs(`${window.EA_MODULE_BASE_URL}/internal/upload-files`,files);
           closeModal();
           
 

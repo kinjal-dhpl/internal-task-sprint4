@@ -93,7 +93,7 @@
         console.log(cartPayload[0].properties, 'cartPayload');
 
         // --- 4. Send API request ---
-        const response = await fetch(`/apps/ea_module_dev/draft-orders/cart`, {
+        const response = await fetch(`${window.EA_MODULE_BASE_URL}/draft-orders/cart`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ items: cartPayload }),

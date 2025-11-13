@@ -866,7 +866,7 @@ button.apply-btn {
       return;
     }
     const draftId = draftGID.split("/").pop();
-    const apiUrl = `/apps/ea_module_dev/draft-orders/${draftId}/send-invoice`;
+    const apiUrl = `${window.EA_MODULE_BASE_URL}/draft-orders/${draftId}/send-invoice`;
 
     button.disabled = true;
     button.textContent = "Sending...";
@@ -969,7 +969,7 @@ button.apply-btn {
 
   const draftGID = document.querySelector('button.payment_step_share').getAttribute("draft-order-id");
   const draftOrderId = draftGID.split("/").pop();
-  const apiUrl = `/apps/ea_module_dev/orders/${draftOrderId}/apply-discount`;
+  const apiUrl = `${window.EA_MODULE_BASE_URL}/orders/${draftOrderId}/apply-discount`;
 
   const payload = {
     value: discountValue,

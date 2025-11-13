@@ -514,6 +514,11 @@
       console.log("Google Analytics Session ID:", sessionID);
   }
 </script>
+<script>
+    const shopname = Shopify?.shop;
+    const baseURL = shopname === "ringsandi.myshopify.com" ? "/apps/ea_module" : "/apps/ea_module_dev";
+    window.EA_MODULE_BASE_URL = baseURL;
+</script>
 
   </head>
 

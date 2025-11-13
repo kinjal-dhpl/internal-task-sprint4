@@ -242,7 +242,7 @@ div.endless--container{width: 75%;}
               redirect: "follow"
             };
             const encodedQuery = encodeURIComponent(query);
-           fetch(`/apps/ea_module_dev/customers/search?query=${encodedQuery}`, requestOptions)
+           fetch(`${window.EA_MODULE_BASE_URL}/customers/search?query=${encodedQuery}`, requestOptions)
           .then(response => {
             if (!response.ok) {
               throw new Error(`HTTP error! Status: ${response.status}`);

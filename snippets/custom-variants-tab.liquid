@@ -1092,7 +1092,7 @@
       redirect: 'follow',
     };
     try {
-      const result = await fetch('/apps/ea_module_dev/price/price-recommendation', requestOptions);
+      const result = await fetch(`${window.EA_MODULE_BASE_URL}/price/price-recommendation`, requestOptions);
       const data = await result.json();
       return data;
     } catch (err) {
