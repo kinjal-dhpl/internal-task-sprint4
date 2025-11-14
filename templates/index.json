@@ -362,6 +362,7 @@
         "column_aNJxU4": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/testimonial-4.jpg",
             "title": "",
             "text": "<p>We Had An Excellent Experience With Rings & I And I Would Highly Recommend Their Services. The Team Is Very Professional And We Were Super Happy With The Results. We Wanted ......</p>",
             "link_label": "Emily Rousseau & Gareth Smith",
