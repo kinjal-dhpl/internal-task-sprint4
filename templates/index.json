@@ -372,6 +372,7 @@
         "column_paA4H6": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/testimonial-3.jpg",
             "title": "",
             "text": "<p>I had a great time at RINGS & I, it felt like being a kid in a candy shop because there were so many choices. The people working there were very kind and took their time to teach me about the rings. They made...</p>",
             "link_label": "Rajlaxmi Patil",
