@@ -257,6 +257,7 @@
         "row_Ywaa8r": {
           "type": "row",
           "settings": {
+            "image": "shopify://shop_images/ready-to-buy-2.jpg",
             "text1": "Schedule a",
             "text2": "Video Call",
             "button": "Book Virtual Appointment",
