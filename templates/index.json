@@ -382,6 +382,7 @@
         "column_9pAkX3": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/testimonial-2.jpg",
             "title": "",
             "text": "<p>If you want a special, personalized diamond ring, \"Rings & I studio\" is the best. They work with you to create exactly what you're looking for, and their prices are good. They have a \"Concept Tour\" that s....</p>",
             "link_label": "Aishwarya Hodage",
@@ -391,6 +392,7 @@
         "column_q7tnaB": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/testimonial-1.jpg",
             "title": "",
             "text": "<p>I Haven't Seen Many Designs For Male Diamond Ring In The Market. It Was My Engagement & I Had To Make To Sure That The Ring I Select Resembles Who I Am. A Friend Introduced Me To Rings & I And Al...</p>",
             "link_label": "Sanket Kamble",
