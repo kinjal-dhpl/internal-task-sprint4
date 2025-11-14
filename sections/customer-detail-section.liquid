@@ -2047,12 +2047,12 @@ window.getStatusOptions = getStatusOptions;
                 if (item.properties && Object.keys(item.properties).length > 0) {
                   for (const [key, value] of Object.entries(item.properties)) {
                     if (value && value.trim() !== '') {
-                      // Convert "Metal Tone" → "metal_tone"
-                      const normalizedKey = key.trim().toLowerCase().replace(/\s+/g, '_');
-                      normalizedProps[normalizedKey] = value.trim();
+                      // Keep original key without normalization
+                      const originalKey = key.trim();
+                      normalizedProps[originalKey] = value.trim();
                     } else {
-                      const normalizedKey = key.trim().toLowerCase().replace(/\s+/g, '_');
-                      normalizedProps[normalizedKey] = null;
+                      const originalKey = key.trim();
+                      normalizedProps[originalKey] = null;
                     }
                   }
                 }
