@@ -247,6 +247,7 @@
         "col_77cNTV": {
           "type": "col",
           "settings": {
+            "image": "shopify://shop_images/imagee.jpg",
             "text1": "Schedule Store",
             "text2": "Visit",
             "button": "Book Studio Appointment",
