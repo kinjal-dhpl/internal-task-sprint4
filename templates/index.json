@@ -267,6 +267,7 @@
         "row_AcnRB8": {
           "type": "row",
           "settings": {
+            "image": "shopify://shop_images/ready-to-buy-3.jpg",
             "text1": "Chat on",
             "text2": "WhatsApp",
             "button": "Talk to Our Ring Expert",
