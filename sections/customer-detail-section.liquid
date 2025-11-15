@@ -2044,22 +2044,18 @@ window.getStatusOptions = getStatusOptions;
             if (cartItems.length > 0) {
               let itemHTML = "";
               let cartSubtotalElem = 0;
+              
+              // Calculate cartSubtotalElem using same logic as cartTotalValueAmt
+              cartSubtotalElem = cartItems.reduce((sum, item) => {
+                const priceString = item.properties?.price || '0';
+                // Remove "Rs.", commas, and any whitespace, then convert to number
+                const priceNumber = parseFloat(priceString.replace(/Rs\.?\s?|,/g, ''));
+                return sum + (isNaN(priceNumber) ? 0 : priceNumber);
+              }, 0);
+              
               cartItems.forEach(item => {
                 const size = item.properties?.size ? item.properties.size.trim() : null;
 
-                {% comment %} for subtotal {% endcomment %}
-                 if (item.properties && Object.keys(item.properties).length > 0) {
-                    Object.entries(item.properties).forEach(([key, value]) => {
-                        if (typeof value === "string" && value.includes("Rs.")) {
-                            // Remove currency symbol and commas, then parse to float
-                            let price = parseFloat(value.replace("Rs.", "").replace(/,/g, "").trim());
-                            if (!isNaN(price)) {
-                                cartSubtotalElem += price;
-                            }
-                        }
-                    });
-                }
-                 {% comment %} end here {% endcomment %}
                 // Build normalized properties object
                 const normalizedProps = {};
                 if (item.properties && Object.keys(item.properties).length > 0) {
@@ -2089,7 +2085,11 @@ window.getStatusOptions = getStatusOptions;
                     for (const [key, value] of Object.entries(item.properties)) {
                        if (key.trim().toLowerCase() === "price") continue;
                       if (value && value.trim() !== '') {
-                        propertiesHTML += `<p class="item-props-elem">${key.trim()}: ${value.trim()}</p>`;
+                        let displayValue = value.trim();
+                        if (displayValue.startsWith('http://') || displayValue.startsWith('https://')) {
+                          displayValue = displayValue.length > 30 ? displayValue.substring(0, 30) + '......' : displayValue;
+                        }
+                        propertiesHTML += `<p class="item-props-elem">${key.trim()}: ${displayValue}</p>`;
                       }
                     }
                     propertiesHTML += '</div>';
@@ -2116,7 +2116,17 @@ window.getStatusOptions = getStatusOptions;
                                         <div class="summary-row total"><span>Total</span><span class="letter-spacing-two">₹ ${cartSubtotalElem.toFixed(2)}</span></div>`;
 
               document.querySelector('div.product--summary--detail').innerHTML = itemHTML;
-              document.querySelector('.order-details div.order-summary').innerHTML = cartPriceSummary;
+              
+              const orderSummaryElement1 = document.querySelector('.order-details div.order-summary');
+              const orderSummaryElement2 = document.querySelector('.order-summary.cusotm-checkout');
+              
+              if (orderSummaryElement1) {
+                orderSummaryElement1.innerHTML = cartPriceSummary;
+              }
+              
+              if (orderSummaryElement2) {
+                orderSummaryElement2.innerHTML = cartPriceSummary;
+              }
 
               const pancardHTML = document.querySelector('.pan-card-section');
               const cartTotalValueAmt = result.items.reduce((sum, item) => {
@@ -2518,9 +2528,20 @@ function validateFormAndCreatePayload() {
     `;
 
     const productSummary = document.querySelector('div.product--summary--detail');
-    const orderSummary = document.querySelector('.order-details div.order-summary');
-    if (productSummary) productSummary.innerHTML = itemHTML;
-    if (orderSummary) orderSummary.innerHTML = cartPriceSummary;
+    const orderSummary1 = document.querySelector('.order-details div.order-summary');
+    const orderSummary2 = document.querySelector('.order-summary.cusotm-checkout');
+    
+    if (productSummary) {
+      productSummary.innerHTML = itemHTML;
+    }
+    
+    if (orderSummary1) {
+      orderSummary1.innerHTML = cartPriceSummary;
+    }
+    
+    if (orderSummary2) {
+      orderSummary2.innerHTML = cartPriceSummary;
+    }
   }
 
   offGlobalLoader();

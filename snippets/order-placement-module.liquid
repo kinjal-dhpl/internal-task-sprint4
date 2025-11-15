@@ -752,18 +752,18 @@ button.apply-btn {
     document.querySelector('.order-summary.cusotm-checkout .summary-row.total .letter-spacing-two').innerText = draftOrder?.totalPrice;
   }
   
-  if (cartTotalValueAmt && draftOrder?.totalPrice) {
+  if (window.cartTotalValueAmt && draftOrder?.totalPrice) {
     const orderDetailsContainer = document.querySelector('.order-placement-container .order-details');
     
     // Remove existing payment info if it exists
-    const existingInfo = orderDetailsContainer.querySelector('.advance-payment-info');
+    const existingInfo = orderDetailsContainer?.querySelector('.advance-payment-info');
     if (existingInfo) {
       existingInfo.remove();
     }
     
     // Calculate remaining amount
     const advanceAmount = parseFloat(draftOrder.totalPrice.replace(/[^0-9.-]+/g, '')) || 0;
-    const remainingAmount = cartTotalValueAmt - advanceAmount;
+    const remainingAmount = window.cartTotalValueAmt - advanceAmount;
     
     // Format amounts
     const formattedAdvance = advanceAmount.toLocaleString('en-IN', {
