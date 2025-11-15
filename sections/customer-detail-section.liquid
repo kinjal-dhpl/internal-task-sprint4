@@ -1601,14 +1601,14 @@ if (Array.isArray(customerAddress) && customerAddress.length > 0 && addressMainG
             </td>
             <td class="product-details">
               <div>
-                <p>Metal Tone: <span>${item?.customAttributes?.find(a => a?.key === 'metal_tone')?.value || ''}</span></p>
-                <p>Prong Rhodium: <span>${item?.customAttributes?.find(a => a?.key === 'prong_rhodium')?.value || ''}</span></p>
-                <p>Metal finish: <span>${item?.customAttributes?.find(a => a?.key === 'metal_finish')?.value || ''}</span></p>
+                <p>Metal Tone: <span>${item?.customAttributes?.find(a => a?.key === 'metal 01')?.value || ''}</span></p>
+                <p>Prong Rhodium: <span>${item?.customAttributes?.find(a => a?.key === 'metal 03')?.value || ''}</span></p>
+                <p>Metal finish: <span>${item?.customAttributes?.find(a => a?.key === 'gem 01')?.value || ''}</span></p>
                 ${(() => {
                   // Get personalization images
                   const personalizationImages = [];
                   for (let i = 1; i <= 5; i++) {
-                    const imgAttr = item?.customAttributes?.find(a => a?.key === 'personalization_image_' + i);
+                    const imgAttr = item?.customAttributes?.find(a => a?.key === 'personalization image ' + i);
                     if (imgAttr?.value) {
                       personalizationImages.push(imgAttr.value);
                     }
@@ -2621,37 +2621,9 @@ function validateFormAndCreatePayload() {
           }
 </script>
 
+{% render 'product-properties-constants' %}
+
 <script>
-// Whitelist of allowed property keys to display
-const ALLOWED_PROPERTIES = [
-  'personalization_image_1',
-  'personalization_image_2',
-  'personalization_image_3',
-  'personalization_image_4',
-  'personalization_image_5',
-  'fingerprint',
-  'diamond-certificate',
-  'engraving',
-  'gender',
-  'hand',
-  'finger',
-  'metal_01',
-  'metal_02',
-  'metal_03',
-  'gem_01',
-  'gem_02',
-  'personalization'
-];
-
-// Custom key mapping for specific fields
-const KEY_DISPLAY_MAP = {
-  'metal_01': 'Metal Tone 1 [Base]',
-  'metal_02': 'Metal 2 Rhodium',
-  'metal_03': 'Prong Rhodium',
-  'gem_01': 'Metal Finish 1',
-  'gem_02': 'Metal Finish 2'
-};
-
 // Format key from snake_case or kebab-case to Title Case
 function formatAttributeKey(key) {
   const lowerKey = key.toLowerCase();
@@ -2691,17 +2663,13 @@ function openProductDetailsModal(customAttributes) {
     
     if (attr.key.startsWith('_product_image_')) {
       images.push(attr);
-    } else if (key.startsWith('personalization_image_')) {
+    } else if (key.startsWith('personalization image')) {
       // Store personalization images separately
       personalizationImages.push(attr);
     } else {
       attributesMap[key] = value;
     }
   });
-  
-  console.log('Attributes Map:', attributesMap);
-  console.log('Images:', images);
-  console.log('Personalization Images:', personalizationImages);
   
   // Helper function to check if value is an image URL
   function isImageUrl(value) {
@@ -2712,59 +2680,50 @@ function openProductDetailsModal(customAttributes) {
   }
 
   // Display all whitelisted properties (always show all fields)
-  let propertiesHTML = '<div class="attributes-grid">';
-  
-  ALLOWED_PROPERTIES.forEach(propertyKey => {
-    // Skip personalization_image_* as they'll be displayed separately
-    if (propertyKey.toLowerCase().startsWith('personalization_image_')) {
-      return;
-    }
-
-    const formattedKey = formatAttributeKey(propertyKey);
-    const value = attributesMap[propertyKey.toLowerCase()] || '-';
-    
-    // Check if value is an image URL (for fingerprint, etc.)
-    if (isImageUrl(value)) {
-      propertiesHTML += `
-        <div class="attribute-row">
-          <span class="attribute-key">${formattedKey}:</span>
-          <span class="attribute-value">
-            <img src="${value}" alt="${formattedKey}" style="max-width: 100px; max-height: 100px; border-radius: 8px; object-fit: contain;" onerror="this.parentElement.innerHTML='Invalid Image'">
-          </span>
+  const attributesHTML = `
+    <div class="attributes-grid">
+      ${ALLOWED_PROPERTIES
+        .filter(propertyKey => !propertyKey.toLowerCase().startsWith('personalization image'))
+        .map(propertyKey => {
+          const formattedKey = formatAttributeKey(propertyKey);
+          const value = attributesMap[propertyKey.toLowerCase()] || '-';
+          
+          // Check if value is an image URL (for fingerprint, etc.)
+          if (isImageUrl(value)) {
+            return `
+              <div class="attribute-row">
+                <span class="attribute-key">${formattedKey}:</span>
+                <span class="attribute-value">
+                  <img src="${value}" alt="${formattedKey}" style="max-width: 100px; max-height: 100px; border-radius: 8px; object-fit: contain;" onerror="this.parentElement.innerHTML='Invalid Image'">
+                </span>
+              </div>
+            `;
+          } else {
+            return `
+              <div class="attribute-row">
+                <span class="attribute-key">${formattedKey}:</span>
+                <span class="attribute-value">${value}</span>
+              </div>
+            `;
+          }
+        }).join('')}
+    </div>
+    ${personalizationImages.length > 0 ? `
+      <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid #e0e0e0;">
+        <h3 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #1a1a1a;">Personalization Images</h3>
+        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; max-width: 600px;">
+          ${personalizationImages
+            .filter(img => img.value && img.value !== '-')
+            .map(img => `
+              <div style="position: relative; aspect-ratio: 1; overflow: hidden; border-radius: 8px; background: #f5f5f5; border: 1px solid #e0e0e0;">
+                <img src="${img.value}" alt="Personalization Image" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;color:#999;font-size:10px;\'>Invalid</div>'">
+              </div>
+            `).join('')}
         </div>
-      `;
-    } else {
-      propertiesHTML += `
-        <div class="attribute-row">
-          <span class="attribute-key">${formattedKey}:</span>
-          <span class="attribute-value">${value}</span>
-        </div>
-      `;
-    }
-  });
-  
-  propertiesHTML += '</div>';
-  attributesContainer.innerHTML = propertiesHTML;
-
-  // Display personalization images in a row (if any exist)
-  if (personalizationImages.length > 0) {
-    let personalizationHTML = '<div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid #e0e0e0;">';
-    personalizationHTML += '<h3 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #1a1a1a;">Personalization Images</h3>';
-    personalizationHTML += '<div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; max-width: 600px;">';
-    
-    personalizationImages.forEach((img) => {
-      if (img.value && img.value !== '-') {
-        personalizationHTML += `
-          <div style="position: relative; aspect-ratio: 1; overflow: hidden; border-radius: 8px; background: #f5f5f5; border: 1px solid #e0e0e0;">
-            <img src="${img.value}" alt="Personalization Image" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;color:#999;font-size:10px;\'>Invalid</div>'">
-          </div>
-        `;
-      }
-    });
-    
-    personalizationHTML += '</div></div>';
-    attributesContainer.innerHTML += personalizationHTML;
-  }
+      </div>
+    ` : ''}
+  `;
+  attributesContainer.innerHTML = attributesHTML;
   
   // Display images
   if (images.length > 0) {
