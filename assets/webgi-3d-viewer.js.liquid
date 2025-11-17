@@ -356,7 +356,12 @@ document.addEventListener(
           if (j === 0) {
             button.classList.add("material-option-active");
           }
-          const { optionName, matName } = filteredOptions[j];
+          const { optionName, matName, colorName } = filteredOptions[j];
+          if(colorName) {
+            const colorDiv = document.createElement('div')
+            colorDiv.classList.add('color-div')
+            button.append(colorDiv);
+          }
           const oName = document.createElement('p')
           oName.innerText = optionName
           button.append(oName);
