@@ -373,7 +373,7 @@ document.addEventListener(
           const { optionName, matName, colorName } = filteredOptions[j];
           if (colorName) {
             const colorDiv = document.createElement('div')
-            colorDiv.setAttribute('style', `background: ${getColor(optionName)}`)
+            colorDiv.setAttribute('style', `background: ${getColor(optionName)}; display: block !important; width: 15px; height: 15px; border-radius: 100%;`)
             colorDiv.classList.add('color-div')
             button.append(colorDiv);
           }
