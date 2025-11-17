@@ -833,7 +833,7 @@ img#fingerprint-preview-img {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 13px 30px;
+  padding: 13px;
   border-bottom: 1px solid #eee;
 }
 
