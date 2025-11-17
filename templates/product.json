@@ -189,7 +189,6 @@
         "progress_step_YUmKUK": {
           "type": "progress_step",
           "settings": {
-            "step_image": "shopify://shop_images/Frame_65_8202e3f6-2384-42e6-b751-cafc8668a136.png",
             "step_title": "<p>Date 1: <strong>Design Confirmation</strong></p>",
             "step_description": "Your ring design is finalized and approved for production",
             "step_status": "Completed"
@@ -198,7 +197,6 @@
         "progress_step_ewazyJ": {
           "type": "progress_step",
           "settings": {
-            "step_image": "shopify://shop_images/Frame_65_1.png",
             "step_title": "<p>Date 2-3:<strong> Metal Preparation</strong></p>",
             "step_description": "Pure gold/platinum is refined and prepared for casting",
             "step_status": "Completed"
@@ -207,7 +205,6 @@
         "progress_step_3FXHG3": {
           "type": "progress_step",
           "settings": {
-            "step_image": "shopify://shop_images/Frame_65_2.png",
             "step_title": "<p>Date 4-5:<strong> Ring Casting</strong></p>",
             "step_description": "Your ring band is cast using traditional lost-wax technique",
             "step_status": "In Progress"
@@ -216,7 +213,6 @@
         "progress_step_f6Hh9X": {
           "type": "progress_step",
           "settings": {
-            "step_image": "shopify://shop_images/Frame_65_3.png",
             "step_title": "<p>Date 6-7: <strong>Stone Setting</strong></p>",
             "step_description": "Certified diamond is carefully set by expert craftsmen",
             "step_status": "Pending"
@@ -225,7 +221,6 @@
         "progress_step_PwzWHg": {
           "type": "progress_step",
           "settings": {
-            "step_image": "shopify://shop_images/Frame_65_8202e3f6-2384-42e6-b751-cafc8668a136.png",
             "step_title": "<p>Date 8-9: <strong>Design Confirmation</strong></p>",
             "step_description": "Your ring design is finalized and approved for production",
             "step_status": "Pending"
@@ -234,7 +229,6 @@
         "progress_step_xXMJq4": {
           "type": "progress_step",
           "settings": {
-            "step_image": "shopify://shop_images/Frame_65_2.png",
             "step_title": "<p>Date 10-11:<strong> Ring Casting</strong></p>",
             "step_description": "Your ring band is cast using traditional lost-wax technique",
             "step_status": "Pending"
@@ -251,6 +245,15 @@
       ],
       "name": "Progress_Tracker",
       "settings": {}
+    },
+    "product_info_pechQ3": {
+      "type": "product-info",
+      "name": "product_section",
+      "settings": {
+        "top_head": "",
+        "care_instructions": "",
+        "important_info": ""
+      }
     }
   },
   "order": [
@@ -262,6 +265,7 @@
     "custom_liquid_YdP4Y9",
     "product_info_VaGAPD",
     "complete_your_set_pQULma",
-    "product_manufacture_pKKXCy"
+    "product_manufacture_pKKXCy",
+    "product_info_pechQ3"
   ]
 }
