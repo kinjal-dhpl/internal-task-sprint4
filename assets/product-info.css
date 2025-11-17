@@ -474,6 +474,11 @@ h2.info-tabs {
     align-items: center;
     gap: 10px;
 }
+.single-info-head p{
+    font-size: 16px;
+    color: #1d1d1f;
+    font-weight: 600;
+}
 
 @media (max-width: 767px) {
     .product-info-grid {
