@@ -50,6 +50,7 @@
           <!-- Left Box -->
           {% assign width_dimensions = product.metafields.custom.ring_width.value %}
           {% assign height_dimensions = product.metafields.custom.ring_height_size.value %}
+          {% assign diamond_setting = product.metafields.custom.diamond_setting.value %}
 
             <div class="top-text display-flex-column">
               <h2>Dimensions</h2>
@@ -91,7 +92,7 @@
                     </svg>
                     <p>Diamon Setting</p>
                   </div>
-                  <p class="single-info-value">6-prong</p>
+                  <p class="single-info-value">{{ diamond_setting }}</p>
                   <p class="single-info-desc">Classic secure setting style</p>
                 </div>
               </div>
