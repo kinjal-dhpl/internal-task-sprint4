@@ -386,10 +386,16 @@
             });
         });
 
-        // get days after date
+        // get days after date (excluding Sundays)
         function getDateAfterDays(days) {
             const today = new Date();
-            const futureDate = new Date(today.getTime() + days * 24 * 60 * 60 * 1000);
+            let futureDate = new Date(today.getTime() + days * 24 * 60 * 60 * 1000);
+            
+            // Exclude Sundays - if the date falls on Sunday (day 0), move to Monday
+            while (futureDate.getDay() === 0) {
+                futureDate = new Date(futureDate.getTime() + 24 * 60 * 60 * 1000);
+            }
+            
             const day = futureDate.getDate();
             const month = futureDate.toLocaleString('default', { month: 'short' });
             return `${day} ${month}`;
