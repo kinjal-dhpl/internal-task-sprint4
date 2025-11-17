@@ -753,7 +753,7 @@ button.apply-btn {
     document.querySelector('.order-summary.cusotm-checkout .summary-row.total .letter-spacing-two').innerText = draftOrder?.totalPrice;
   }
   
-  if (window.cartTotalValueAmt && draftOrder?.totalPrice) {
+  if (cartTotalValueAmt && draftOrder?.totalPrice) {
     const orderDetailsContainer = document.querySelector('.order-placement-container .order-details');
     
     // Remove existing payment info if it exists
@@ -764,7 +764,7 @@ button.apply-btn {
     
     // Calculate remaining amount
     const advanceAmount = parseFloat(draftOrder.totalPrice.replace(/[^0-9.-]+/g, '')) || 0;
-    const remainingAmount = window.cartTotalValueAmt - advanceAmount;
+    const remainingAmount = cartTotalValueAmt - advanceAmount;
     
     // Format amounts
     const formattedAdvance = advanceAmount.toLocaleString('en-IN', {

@@ -2057,17 +2057,19 @@ window.getStatusOptions = getStatusOptions;
               let itemHTML = "";
               let cartSubtotalElem = 0;
               
-              // Calculate cartSubtotalElem using same logic as cartTotalValueAmt
-              cartSubtotalElem = cartItems.reduce((sum, item) => {
+              
+              cartItems.forEach(item => {
+                const size = item.properties?.size ? item.properties.size.trim() : null;
+
+
+          {% comment %} for subtotal {% endcomment %}
                 const priceString = item.properties?.price || '0';
                 // Remove "Rs.", commas, and any whitespace, then convert to number
                 const priceNumber = parseFloat(priceString.replace(/Rs\.?\s?|,/g, ''));
                 // Multiply by quantity to get total price for this item
-                return sum + (isNaN(priceNumber) ? 0 : priceNumber * (item.quantity || 1));
-              }, 0);
-              
-              cartItems.forEach(item => {
-                const size = item.properties?.size ? item.properties.size.trim() : null;
+                cartSubtotalElem += (isNaN(priceNumber) ? 0 : priceNumber * (item.quantity || 1));
+                 {% comment %} end here {% endcomment %}
+
 
                 // Build normalized properties object
                 const normalizedProps = {};
@@ -2140,16 +2142,7 @@ window.getStatusOptions = getStatusOptions;
 
               document.querySelector('div.product--summary--detail').innerHTML = itemHTML;
               
-              const orderSummaryElement1 = document.querySelector('.order-details div.order-summary');
-              const orderSummaryElement2 = document.querySelector('.order-summary.cusotm-checkout');
-              
-              if (orderSummaryElement1) {
-                orderSummaryElement1.innerHTML = cartPriceSummary;
-              }
-              
-              if (orderSummaryElement2) {
-                orderSummaryElement2.innerHTML = cartPriceSummary;
-              }
+              document.querySelector('.order-details div.order-summary').innerHTML = cartPriceSummary;
 
               const pancardHTML = document.querySelector('.pan-card-section');
               const cartTotalValueAmt = result.items.reduce((sum, item) => {
@@ -2552,20 +2545,9 @@ function validateFormAndCreatePayload() {
     `;
 
     const productSummary = document.querySelector('div.product--summary--detail');
-    const orderSummary1 = document.querySelector('.order-details div.order-summary');
-    const orderSummary2 = document.querySelector('.order-summary.cusotm-checkout');
-    
-    if (productSummary) {
-      productSummary.innerHTML = itemHTML;
-    }
-    
-    if (orderSummary1) {
-      orderSummary1.innerHTML = cartPriceSummary;
-    }
-    
-    if (orderSummary2) {
-      orderSummary2.innerHTML = cartPriceSummary;
-    }
+    const orderSummary = document.querySelector('.order-details div.order-summary');
+    if (productSummary) productSummary.innerHTML = itemHTML;
+    if (orderSummary) orderSummary.innerHTML = cartPriceSummary;
   }
 
   offGlobalLoader();
@@ -2697,7 +2679,6 @@ function openProductDetailsModal(customAttributes) {
   attributesContainer.innerHTML = '';
   imagesContainer.innerHTML = '';
   
-  // Convert attributes array to object for easy lookup
   const attributesMap = {};
   const images = [];
   const personalizationImages = [];
