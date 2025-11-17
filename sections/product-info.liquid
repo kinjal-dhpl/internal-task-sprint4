@@ -49,6 +49,7 @@
         <div class="product-info-grid">
           <!-- Left Box -->
           {% assign width_dimensions = product.metafields.custom.ring_width.value %}
+          {% assign height_dimensions = product.metafields.custom.ring_height.value %}
 
             <div class="top-text display-flex-column">
               <h2>Dimensions</h2>
@@ -61,7 +62,17 @@
                     <p>Ring Width</p>
                   </div>
                   <p class="single-info-value">{{ width_dimensions }}</p>
-                  <p>Brand width at widest point</p>
+                  <p class="single-info-desc">Brand width at widest point</p>
+                </div>
+                <div class="single-info">
+                  <div class="single-info-head">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <path d="M11 4H21V6H11V4ZM6 7V11H4V7H1L5 3L9 7H6ZM6 17H9L5 21L1 17H4V13H6V17ZM11 18H21V20H11V18ZM9 11H21V13H9V11Z" fill="#1D1D1F"/>
+                    </svg>
+                    <p>Ring Height</p>
+                  </div>
+                  <p class="single-info-value">{{ height_dimensions }}</p>
+                  <p class="single-info-desc">Total height including setting</p>
                 </div>
               </div>
             </div>
