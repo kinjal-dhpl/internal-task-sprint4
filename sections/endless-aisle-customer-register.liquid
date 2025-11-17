@@ -510,7 +510,14 @@ div.endless--container{width: 75%;}
 
   fetch(`${window.EA_MODULE_BASE_URL}/customers`, requestOptions)
 
-    .then(response => response.json())
+    .then(response => {
+      if (!response.ok) {
+        return response.json().then(result => {
+          throw { result, statusCode: response.status };
+        });
+      }
+      return response.json();
+    })
 
     .then(result => {
 
@@ -538,6 +545,12 @@ div.endless--container{width: 75%;}
 
         successInCustomerCreation(customerID, loaderButton);
 
+      } else {
+
+        loaderButton.style.display = 'none';
+
+        errorInCustomerCreation("Failed to create customer. Please try again.");
+
       }
 
     })
@@ -546,7 +559,17 @@ div.endless--container{width: 75%;}
 
       loaderButton.style.display = 'none';
 
-      errorInCustomerCreation("Server issue,Please try again later!");
+      if (error.result && error.result.errors && error.result.errors.length > 0) {
+
+        const errorMessage = error.result.errors[0].message || "Unknown error";
+
+        errorInCustomerCreation(errorMessage);
+
+      } else {
+
+        errorInCustomerCreation("Server issue,Please try again later!");
+
+      }
 
       console.error("Fetch error:", error);
 

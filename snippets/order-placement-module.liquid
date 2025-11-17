@@ -695,6 +695,7 @@ button.apply-btn {
         <option value="upi">UPI</option>
         <option value="card">Card</option>
         <option value="cash">Cash</option>
+        <option value="gold exchange">Gold Exchange</option>
       </select>
       <div id="paymentError" class="error-message" >Please select a valid payment method.</div>
 
@@ -756,7 +757,7 @@ button.apply-btn {
     const orderDetailsContainer = document.querySelector('.order-placement-container .order-details');
     
     // Remove existing payment info if it exists
-    const existingInfo = orderDetailsContainer.querySelector('.advance-payment-info');
+    const existingInfo = orderDetailsContainer?.querySelector('.advance-payment-info');
     if (existingInfo) {
       existingInfo.remove();
     }

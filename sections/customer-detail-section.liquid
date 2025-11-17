@@ -912,14 +912,26 @@ function formatTimestamp(timestampString) {
   }
 }
 
+function normalizeDisplayStatus(status) {
+  // Normalize specific status texts for consistent UI display
+  if (status && typeof status === 'string') {
+    // Convert "Order Placed AT Factory" to "Order Placed at Factory"
+    return status.replace(/Order Placed AT Factory/gi, 'Order Placed at Factory');
+  }
+  return status;
+}
+
 function createStepElement(label, timestamp = null) {
   const step = document.createElement('div');
   step.className = 'step';
   step.setAttribute('data-status', label.toLowerCase());
   
+  // Normalize the label for display
+  const normalizedLabel = normalizeDisplayStatus(label);
+  
   step.innerHTML = `
     <div class="timestamp mobile"></div>
-    <div class="label">${label}</div>
+    <div class="label">${normalizedLabel}</div>
     <div class="circle"></div>
     <div class="timestamp desktop"></div>
   `;
@@ -1007,7 +1019,7 @@ function showpincodePopup(event, lineItemId, allTimelineData) {
       for (let k = lastHardcodedIndex + 1; k < hardcodedPosition; k++) {
         finalTimeline.push({
           status: hardcodedStatuses[k].status,
-          displayStatus: hardcodedSteps[k].querySelector('.label').textContent.trim(),
+          displayStatus: normalizeDisplayStatus(hardcodedSteps[k].querySelector('.label').textContent.trim()),
           timestamp: timeline[i].timestamp,
           isSkipped: true,
           isHardcoded: true
@@ -1017,7 +1029,7 @@ function showpincodePopup(event, lineItemId, allTimelineData) {
       // Add the current matched status
       finalTimeline.push({
         status: currentTimelineStatus,
-        displayStatus: timeline[i].status.trim(),
+        displayStatus: normalizeDisplayStatus(timeline[i].status.trim()),
         timestamp: timeline[i].timestamp,
         isSkipped: false,
         isHardcoded: true
@@ -1028,7 +1040,7 @@ function showpincodePopup(event, lineItemId, allTimelineData) {
       // This is a new status not in hardcoded list (duplicate or new)
       finalTimeline.push({
         status: currentTimelineStatus,
-        displayStatus: timeline[i].status.trim(),
+        displayStatus: normalizeDisplayStatus(timeline[i].status.trim()),
         timestamp: timeline[i].timestamp,
         isSkipped: false,
         isHardcoded: false,
@@ -1601,9 +1613,27 @@ if (Array.isArray(customerAddress) && customerAddress.length > 0 && addressMainG
             </td>
             <td class="product-details">
               <div>
-                <p>Metal Tone: <span>${item?.customAttributes?.find(a => a?.key === 'metal_tone')?.value || ''}</span></p>
-                <p>Prong Rhodium: <span>${item?.customAttributes?.find(a => a?.key === 'prong_rhodium')?.value || ''}</span></p>
-                <p>Metal finish: <span>${item?.customAttributes?.find(a => a?.key === 'metal_finish')?.value || ''}</span></p>
+                <p>Metal Tone: <span>${item?.customAttributes?.find(a => a?.key === 'metal 01')?.value || ''}</span></p>
+                <p>Prong Rhodium: <span>${item?.customAttributes?.find(a => a?.key === 'metal 03')?.value || ''}</span></p>
+                <p>Metal finish: <span>${item?.customAttributes?.find(a => a?.key === 'gem 01')?.value || ''}</span></p>
+                ${(() => {
+                  // Get personalization images
+                  const personalizationImages = [];
+                  for (let i = 1; i <= 5; i++) {
+                    const imgAttr = item?.customAttributes?.find(a => a?.key === 'personalization image ' + i);
+                    if (imgAttr?.value) {
+                      personalizationImages.push(imgAttr.value);
+                    }
+                  }
+                  
+                  // Display images if any exist
+                  if (personalizationImages.length > 0) {
+                    return '<div style="display: flex; gap: 4px; margin-top: 8px;">' + personalizationImages.map(img => 
+                      '<img src="' + img + '" alt="Personalization" style="width: 28px; height: 28px; object-fit: cover; border-radius: 3px; border: 1px solid #e0e0e0;" onerror="this.style.display=\'none\'">'
+                    ).join('') + '</div>';
+                  }
+                  return '';
+                })()}
                 <p class="view-all-product-details" onclick='openProductDetailsModal(${JSON.stringify(item.customAttributes).replace(/'/g, "&apos;")})'>View All</p>
               </div>
             </td>
@@ -2026,22 +2056,21 @@ window.getStatusOptions = getStatusOptions;
             if (cartItems.length > 0) {
               let itemHTML = "";
               let cartSubtotalElem = 0;
+              
+              
               cartItems.forEach(item => {
                 const size = item.properties?.size ? item.properties.size.trim() : null;
 
-                {% comment %} for subtotal {% endcomment %}
-                 if (item.properties && Object.keys(item.properties).length > 0) {
-                    Object.entries(item.properties).forEach(([key, value]) => {
-                        if (typeof value === "string" && value.includes("Rs.")) {
-                            // Remove currency symbol and commas, then parse to float
-                            let price = parseFloat(value.replace("Rs.", "").replace(/,/g, "").trim());
-                            if (!isNaN(price)) {
-                                cartSubtotalElem += price;
-                            }
-                        }
-                    });
-                }
+
+          {% comment %} for subtotal {% endcomment %}
+                const priceString = item.properties?.price || '0';
+                // Remove "Rs.", commas, and any whitespace, then convert to number
+                const priceNumber = parseFloat(priceString.replace(/Rs\.?\s?|,/g, ''));
+                // Multiply by quantity to get total price for this item
+                cartSubtotalElem += (isNaN(priceNumber) ? 0 : priceNumber * (item.quantity || 1));
                  {% comment %} end here {% endcomment %}
+
+
                 // Build normalized properties object
                 const normalizedProps = {};
                 if (item.properties && Object.keys(item.properties).length > 0) {
@@ -2071,7 +2100,21 @@ window.getStatusOptions = getStatusOptions;
                     for (const [key, value] of Object.entries(item.properties)) {
                        if (key.trim().toLowerCase() === "price") continue;
                       if (value && value.trim() !== '') {
-                        propertiesHTML += `<p class="item-props-elem">${key.trim()}: ${value.trim()}</p>`;
+                        const normalizedKey = key.trim().toLowerCase();
+                        // Check if it's a personalization image or fingerprint
+                        const isPersonalizationImage = normalizedKey.startsWith('personalization image');
+                        const isFingerprint = normalizedKey === 'fingerprint';
+                        
+                        if (isPersonalizationImage || isFingerprint) {
+                          // Trim the URL to 30 characters max
+                          const trimmedValue = value.trim().length > 30 
+                            ? value.trim().substring(0, 30) + '...' 
+                            : value.trim();
+                          propertiesHTML += `<p class="item-props-elem" style="margin: 0;">${key.trim()}: <a href="${value.trim()}" target="_blank" style="color: #007bff; text-decoration: underline; cursor: pointer;">${trimmedValue}</a></p>`;
+                        } else {
+                          // Render normally
+                          propertiesHTML += `<p class="item-props-elem">${key.trim()}: ${value.trim()}</p>`;
+                        }
                       }
                     }
                     propertiesHTML += '</div>';
@@ -2098,6 +2141,7 @@ window.getStatusOptions = getStatusOptions;
                                         <div class="summary-row total"><span>Total</span><span class="letter-spacing-two">₹ ${cartSubtotalElem.toFixed(2)}</span></div>`;
 
               document.querySelector('div.product--summary--detail').innerHTML = itemHTML;
+              
               document.querySelector('.order-details div.order-summary').innerHTML = cartPriceSummary;
 
               const pancardHTML = document.querySelector('.pan-card-section');
@@ -2105,7 +2149,8 @@ window.getStatusOptions = getStatusOptions;
               const priceString = item.properties?.price || '0';
               // Remove "Rs.", commas, and any whitespace, then convert to number
               const priceNumber = parseFloat(priceString.replace(/Rs\.?\s?|,/g, ''));
-              return sum + (isNaN(priceNumber) ? 0 : priceNumber);
+              // Multiply by quantity to get total price for this item
+              return sum + (isNaN(priceNumber) ? 0 : priceNumber * (item.quantity || 1));
             }, 0);
             window.cartTotalValueAmt = cartTotalValueAmt;
             console.log(cartTotalValueAmt, 'cartTotalValueAmt');
@@ -2603,22 +2648,21 @@ function validateFormAndCreatePayload() {
           }
 </script>
 
-<script>
-// Whitelist of allowed property keys to display
-const ALLOWED_PROPERTIES = [
-  'metal_tone',
-  'prong_rhodium',
-  'metal_finish',
-  'engraving',
-  'certification',
-  'hand',
-  'finger'
-];
+{% render 'product-properties-constants' %}
 
-// Format key from snake_case to Title Case
+<script>
+// Format key from snake_case or kebab-case to Title Case
 function formatAttributeKey(key) {
+  const lowerKey = key.toLowerCase();
+  
+  // Check if there's a custom mapping
+  if (KEY_DISPLAY_MAP[lowerKey]) {
+    return KEY_DISPLAY_MAP[lowerKey];
+  }
+  
+  // Default formatting
   return key
-    .replace(/_+(.)/g, (match, char) => ' ' + char.toUpperCase())
+    .replace(/[-_]+(.)/g, (match, char) => ' ' + char.toUpperCase())
     .replace(/^(.)/, (match, char) => char.toUpperCase());
 }
 
@@ -2635,40 +2679,77 @@ function openProductDetailsModal(customAttributes) {
   attributesContainer.innerHTML = '';
   imagesContainer.innerHTML = '';
   
-  // Filter attributes: only allowed properties and images
-  const filteredProperties = customAttributes.filter(attr => {
+  const attributesMap = {};
+  const images = [];
+  const personalizationImages = [];
+  
+  customAttributes.forEach(attr => {
     const key = attr.key.toLowerCase();
-    return ALLOWED_PROPERTIES.includes(key);
+    const value = attr.value;
+    
+    if (attr.key.startsWith('_product_image_')) {
+      images.push(attr);
+    } else if (key.startsWith('personalization image')) {
+      // Store personalization images separately
+      personalizationImages.push(attr);
+    } else {
+      attributesMap[key] = value;
+    }
   });
   
-  const images = customAttributes.filter(attr => 
-    attr.key.startsWith('_product_image_')
-  );
-  
-  console.log('Filtered Properties:', filteredProperties);
-  console.log('Images:', images);
-  
-  // Display filtered properties
-  if (filteredProperties.length > 0) {
-    let propertiesHTML = '<div class="attributes-grid">';
-    
-    filteredProperties.forEach(attr => {
-      const formattedKey = formatAttributeKey(attr.key);
-      const value = attr.value || '-';
-      
-      propertiesHTML += `
-        <div class="attribute-row">
-          <span class="attribute-key">${formattedKey}:</span>
-          <span class="attribute-value">${value}</span>
-        </div>
-      `;
-    });
-    
-    propertiesHTML += '</div>';
-    attributesContainer.innerHTML = propertiesHTML;
-  } else {
-    attributesContainer.innerHTML = '<p class="no-data">No product details available</p>';
+  // Helper function to check if value is an image URL
+  function isImageUrl(value) {
+    if (!value || value === '-') return false;
+    const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg', '.bmp'];
+    const lowerValue = value.toLowerCase();
+    return imageExtensions.some(ext => lowerValue.includes(ext)) || lowerValue.includes('cdn.shopify.com');
   }
+
+  // Display all whitelisted properties (always show all fields)
+  const attributesHTML = `
+    <div class="attributes-grid">
+      ${ALLOWED_PROPERTIES
+        .filter(propertyKey => !propertyKey.toLowerCase().startsWith('personalization image'))
+        .map(propertyKey => {
+          const formattedKey = formatAttributeKey(propertyKey);
+          const value = attributesMap[propertyKey.toLowerCase()] || '-';
+          
+          // Check if value is an image URL (for fingerprint, etc.)
+          if (isImageUrl(value)) {
+            return `
+              <div class="attribute-row">
+                <span class="attribute-key">${formattedKey}:</span>
+                <span class="attribute-value">
+                  <img src="${value}" alt="${formattedKey}" style="max-width: 100px; max-height: 100px; border-radius: 8px; object-fit: contain;" onerror="this.parentElement.innerHTML='Invalid Image'">
+                </span>
+              </div>
+            `;
+          } else {
+            return `
+              <div class="attribute-row">
+                <span class="attribute-key">${formattedKey}:</span>
+                <span class="attribute-value">${value}</span>
+              </div>
+            `;
+          }
+        }).join('')}
+    </div>
+    ${personalizationImages.length > 0 ? `
+      <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid #e0e0e0;">
+        <h3 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #1a1a1a;">Personalization Images</h3>
+        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; max-width: 600px;">
+          ${personalizationImages
+            .filter(img => img.value && img.value !== '-')
+            .map(img => `
+              <div style="position: relative; aspect-ratio: 1; overflow: hidden; border-radius: 8px; background: #f5f5f5; border: 1px solid #e0e0e0;">
+                <img src="${img.value}" alt="Personalization Image" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;color:#999;font-size:10px;\'>Invalid</div>'">
+              </div>
+            `).join('')}
+        </div>
+      </div>
+    ` : ''}
+  `;
+  attributesContainer.innerHTML = attributesHTML;
   
   // Display images
   if (images.length > 0) {
@@ -3057,6 +3138,14 @@ async function saveManualPayment() {
         document.getElementById('otpModal').style.display = 'none';
         if (currentState.resendTimeout) {
             clearInterval(currentState.resendTimeout);
+        }
+        
+        // Reset dropdown to previous state if OTP not verified
+        if (currentState.lineId) {
+            const dropdown = document.querySelector(`.dropdown-${currentState.lineId}`);
+            if (dropdown) {
+                dropdown.value = 'Select Status';
+            }
         }
     }
 

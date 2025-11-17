@@ -115,17 +115,40 @@
                     <div class="product-properties">
                       <div>
                         <p>
-                          Metal Tone: <span>{{ line_item.properties.metal_tone }}</span>
+                          Metal Tone: <span>{{ line_item.properties['metal 01'] }}</span>
                         </p>
                         <p>
-                          Prong Rhodium: <span>{{ line_item.properties.prong_rhodium }}</span>
+                          Prong Rhodium: <span>{{ line_item.properties['metal 03'] }}</span>
                         </p>
                         <p>
-                          Metal finish: <span>{{ line_item.properties.metal_finish }}</span>
+                          Metal finish: <span>{{ line_item.properties['gem 01'] }}</span>
                         </p>
                         <p>
                           Engraving: <span>{{ line_item.properties.engraving }}</span>
                         </p>
+                        {% comment %} Display personalization images if they exist {% endcomment %}
+                        {% assign has_personalization_images = false %}
+                        {% for i in (1..5) %}
+                          {% assign img_key = 'personalization image ' | append: i %}
+                          {% assign img_value = line_item.properties[img_key] %}
+                          {% if img_value != blank %}
+                            {% assign has_personalization_images = true %}
+                            {% break %}
+                          {% endif %}
+                        {% endfor %}
+                        
+                        {% if has_personalization_images %}
+                          <div style="display: flex; gap: 4px; margin-top: 8px;">
+                            {% for i in (1..5) %}
+                              {% assign img_key = 'personalization image ' | append: i %}
+                              {% assign img_value = line_item.properties[img_key] %}
+                              {% if img_value != blank %}
+                                <img src="{{ img_value }}" alt="Personalization {{ i }}" style="width: 28px; height: 28px; object-fit: cover; border-radius: 3px; border: 1px solid #e0e0e0;" onerror="this.style.display='none'">
+                              {% endif %}
+                            {% endfor %}
+                          </div>
+                        {% endif %}
+                        
                         <p
                           class="view-all-product-details"
                           onclick="openProductDetailsModal({{ line_item.properties | json | escape }})"
@@ -710,23 +733,21 @@
  });
 </script>
 
+{% render 'product-properties-constants' %}
 
 <script>
-  // Whitelist of allowed property keys to display
-  const ALLOWED_PROPERTIES = [
-    'metal_tone',
-    'prong_rhodium',
-    'metal_finish',
-    'engraving',
-    'certification',
-    'hand',
-    'finger',
-  ];
-
-  // Format key from snake_case to Title Case
+  // Format key from snake_case or kebab-case to Title Case
   function formatAttributeKey(key) {
+    const lowerKey = key.toLowerCase();
+    
+    // Check if there's a custom mapping
+    if (KEY_DISPLAY_MAP[lowerKey]) {
+      return KEY_DISPLAY_MAP[lowerKey];
+    }
+    
+    // Default formatting
     return key
-      .replace(/_+(.)/g, (match, char) => ' ' + char.toUpperCase())
+      .replace(/[-_]+(.)/g, (match, char) => ' ' + char.toUpperCase())
       .replace(/^(.)/, (match, char) => char.toUpperCase());
   }
 
@@ -751,46 +772,79 @@
     attributesContainer.innerHTML = '';
     imagesContainer.innerHTML = '';
 
-    // Convert array of arrays to filterable format
-    const filteredProperties = [];
+    // Convert array of arrays to object for easy lookup
+    const attributesMap = {};
     const images = [];
+    const personalizationImages = [];
 
     customAttributes.forEach((attr) => {
       // attr is an array [key, value]
       const key = attr[0];
       const value = attr[1];
 
-      if (ALLOWED_PROPERTIES.includes(key.toLowerCase())) {
-        filteredProperties.push({ key, value });
-      } else if (key.startsWith('_product_image_')) {
+      if (key.startsWith('_product_image_')) {
         images.push({ key, value });
+      } else if (key.toLowerCase().startsWith('personalization image')) {
+        // Store personalization images separately
+        personalizationImages.push({ key, value });
+      } else {
+        attributesMap[key.toLowerCase()] = value;
       }
     });
 
-    console.log('Filtered Properties:', filteredProperties);
-    console.log('Images:', images);
-
-    // Display filtered properties
-    if (filteredProperties.length > 0) {
-      let propertiesHTML = '<div class="attributes-grid">';
-
-      filteredProperties.forEach((attr) => {
-        const formattedKey = formatAttributeKey(attr.key);
-        const value = attr.value || '-';
-
-        propertiesHTML += `
-        <div class="attribute-row">
-          <span class="attribute-key">${formattedKey}:</span>
-          <span class="attribute-value">${value}</span>
-        </div>
-      `;
-      });
-
-      propertiesHTML += '</div>';
-      attributesContainer.innerHTML = propertiesHTML;
-    } else {
-      attributesContainer.innerHTML = '<p class="no-data">No product details available</p>';
+    // Helper function to check if value is an image URL
+    function isImageUrl(value) {
+      if (!value || value === '-') return false;
+      const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg', '.bmp'];
+      const lowerValue = value.toLowerCase();
+      return imageExtensions.some(ext => lowerValue.includes(ext)) || lowerValue.includes('cdn.shopify.com');
     }
+
+    // Display all whitelisted properties (always show all fields)
+    const attributesHTML = `
+      <div class="attributes-grid">
+        ${ALLOWED_PROPERTIES
+          .filter(propertyKey => !propertyKey.toLowerCase().startsWith('personalization image'))
+          .map(propertyKey => {
+            const formattedKey = formatAttributeKey(propertyKey);
+            const value = attributesMap[propertyKey.toLowerCase()] || '-';
+            
+            // Check if value is an image URL (for fingerprint, etc.)
+            if (isImageUrl(value)) {
+              return `
+                <div class="attribute-row">
+                  <span class="attribute-key">${formattedKey}:</span>
+                  <span class="attribute-value">
+                    <img src="${value}" alt="${formattedKey}" style="max-width: 100px; max-height: 100px; border-radius: 8px; object-fit: contain;" onerror="this.parentElement.innerHTML='Invalid Image'">
+                  </span>
+                </div>
+              `;
+            } else {
+              return `
+                <div class="attribute-row">
+                  <span class="attribute-key">${formattedKey}:</span>
+                  <span class="attribute-value">${value}</span>
+                </div>
+              `;
+            }
+          }).join('')}
+      </div>
+      ${personalizationImages.length > 0 ? `
+        <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid #e0e0e0;">
+          <h3 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #1a1a1a;">Personalization Images</h3>
+          <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; max-width: 600px;">
+            ${personalizationImages
+              .filter(img => img.value && img.value !== '-')
+              .map(img => `
+                <div style="position: relative; aspect-ratio: 1; overflow: hidden; border-radius: 8px; background: #f5f5f5; border: 1px solid #e0e0e0;">
+                  <img src="${img.value}" alt="Personalization Image" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;color:#999;font-size:10px;\'>Invalid</div>'">
+                </div>
+              `).join('')}
+          </div>
+        </div>
+      ` : ''}
+    `;
+    attributesContainer.innerHTML = attributesHTML;
 
     // Display images
     if (images.length > 0) {
