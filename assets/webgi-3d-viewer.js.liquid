@@ -326,6 +326,8 @@ document.addEventListener(
         container.appendChild(headingContainer);
         configuratorDiv.appendChild(container);
         const filterContainer = document.createElement("div");
+        filterContainer.classList.add('customContextGridItemsContainer')
+        filterContainer.setAttribute("style", "")
 
         const filteredOptions = options.filter((option) => {
           if (option.toBeShownIn) {
