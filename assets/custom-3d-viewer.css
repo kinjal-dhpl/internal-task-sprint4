@@ -1,12 +1,5 @@
-<<<<<<< Updated upstream
 .customContextGridItemsContainer {
     display: flex;
     align-items: center;
     gap: 20px;
-=======
-.customContextGridItemsContainer {
-    display: flex;
-    align-items: center;
-    gap: 20px;
->>>>>>> Stashed changes
 }
