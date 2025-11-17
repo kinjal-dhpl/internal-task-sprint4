@@ -479,6 +479,11 @@ h2.info-tabs {
     color: #1d1d1f;
     font-weight: 600;
 }
+.single-info-value {
+    font-size: 16px;
+    color: #1d1d1f;
+    font-weight: 400;
+}
 
 @media (max-width: 767px) {
     .product-info-grid {
