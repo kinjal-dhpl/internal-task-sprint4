@@ -469,6 +469,12 @@ h2.info-tabs {
     display: none;
 }
 
+.single-info-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 @media (max-width: 767px) {
     .product-info-grid {
         display: flex;
