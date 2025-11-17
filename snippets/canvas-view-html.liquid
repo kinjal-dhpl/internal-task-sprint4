@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 {% comment %}
   CANVAS 3D VIEW INTEGRATION WITH IJEWEL
 {% endcomment %}
@@ -26,3 +27,33 @@
   {% endif %}
   <div id="close-canvas-view">x</div>
 </div>
+=======
+{% comment %}
+  CANVAS 3D VIEW INTEGRATION WITH IJEWEL
+{% endcomment %}
+
+<div class="canvas-viewer-wrapper">
+  <div class="canvas-3d-container">
+    <div class="display-flex">
+      <canvas id="main-canvas" height="800" width="1200"></canvas>
+    </div>
+    <div
+      id="mconfigurator"
+      style="
+        position: absolute;
+        top: 15%;
+        left: 60%;
+      "
+    ></div>
+  </div>
+  {% if enable_action_btn %}
+    <div class="canvas-action-btns">
+      <button type="button" class="btn-save save-canvas-options" data-action="save-personalization">
+        Save
+      </button>
+      <button type="button" class="btn-save canvas-options-cancel-btn" data-action="close-modal">Cancel</button>
+    </div>
+  {% endif %}
+  <div id="close-canvas-view">x</div>
+</div>
+>>>>>>> Stashed changes
