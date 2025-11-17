@@ -164,7 +164,7 @@
       "type": "product-info",
       "name": "product_section",
       "settings": {
-        "top_head": "",
+        "top_head": "Ring Dimensions and care instructions",
         "care_instructions": "<ul><li>Clean with mild soap and warm water </li><li>Store separately to avoid scratches</li><li>Professional cleaning recommended annually</li><li>Avoid harsh chemicals and ultrasonic cleaners</li></ul>",
         "important_info": ""
       }
@@ -245,15 +245,6 @@
       ],
       "name": "Progress_Tracker",
       "settings": {}
-    },
-    "product_info_pechQ3": {
-      "type": "product-info",
-      "name": "product_section",
-      "settings": {
-        "top_head": "Ring Dimensions and care instructions",
-        "care_instructions": "",
-        "important_info": ""
-      }
     }
   },
   "order": [
@@ -265,7 +256,6 @@
     "custom_liquid_YdP4Y9",
     "product_info_VaGAPD",
     "complete_your_set_pQULma",
-    "product_manufacture_pKKXCy",
-    "product_info_pechQ3"
+    "product_manufacture_pKKXCy"
   ]
 }
