@@ -328,7 +328,7 @@ document.addEventListener(
         configuratorDiv.appendChild(container);
         const filterContainer = document.createElement("div");
         filterContainer.classList.add('customContextGridItemsContainer')
-        filterContainer.setAttribute("style", "")
+        filterContainer.setAttribute("style", "display: flex; align-items: center; gap: 20px;")
 
         const filteredOptions = options.filter((option) => {
           if (option.toBeShownIn) {
