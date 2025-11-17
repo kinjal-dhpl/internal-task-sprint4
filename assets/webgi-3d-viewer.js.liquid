@@ -25,6 +25,21 @@ document.addEventListener(
   "DOMContentLoaded",
   (x) => {
     console.log("DOM loaded once===========================");
+    function getColor(colorName) {
+      const map = {
+        "Yellow": "#E8C547",
+        "White": "#DADADA",
+        "Rose": "#E5A3A3",
+        "Champagne": "#C7B199",
+        "Polished": "#bcbcbc",
+        "Matte": "#999999",
+        "Horizontal Velvet": "#888",
+        "Vertical Satin": "#777",
+      };
+
+      return map[colorName] || "#000";
+    }
+
 
     async function intialize3D() {
       console.log(
@@ -135,8 +150,7 @@ document.addEventListener(
             event.target.parentElement.getAttribute("config-type");
           const otherSelected = document
             .querySelector(
-              `[layer-name="${layerName}"][config-type="${
-                currentConfigType === "color" ? "finish" : "color"
+              `[layer-name="${layerName}"][config-type="${currentConfigType === "color" ? "finish" : "color"
               }"] .material-option-active`
             )
             ?.getAttribute("mat-name");
@@ -357,8 +371,9 @@ document.addEventListener(
             button.classList.add("material-option-active");
           }
           const { optionName, matName, colorName } = filteredOptions[j];
-          if(colorName) {
+          if (colorName) {
             const colorDiv = document.createElement('div')
+            colorDiv.setAttribute('style', `background: ${getColor(optionName)}`)
             colorDiv.classList.add('color-div')
             button.append(colorDiv);
           }
@@ -454,9 +469,8 @@ document.addEventListener(
                 personalizedSummaryHtml += `
               <div class="summary-item">
                 <span class="summary-label">${metalTitle}:</span>
-                <span class="summary-value" id="summary-metal-tone-${
-                  index + 1
-                }">${metalName}</span>
+                <span class="summary-value" id="summary-metal-tone-${index + 1
+                  }">${metalName}</span>
               </div>
               `;
               });
@@ -506,9 +520,8 @@ document.addEventListener(
               <div class="ring-thumbnail">
                 <img src="${imgLink}" alt="Ring View">
               </div>
-              <input type="hidden" name="properties[personalization image ${
-                index + 1
-              }]" value="${imgLink}">
+              <input type="hidden" name="properties[personalization image ${index + 1
+                }]" value="${imgLink}">
             `;
             });
             // Render all HTML inside your form container
@@ -640,8 +653,8 @@ async function injectCapturedFiles(files) {
       blob instanceof File
         ? blob
         : new File([blob], `capture-${i + 1}.webp`, {
-            type: blob.type || "image/webp",
-          });
+          type: blob.type || "image/webp",
+        });
     dt.items.add(file);
   });
 
