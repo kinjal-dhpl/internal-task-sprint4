@@ -40,199 +40,445 @@ document.addEventListener(
         canvas: document.getElementById("main-canvas"),
       });
 
-      //manager acts as renderer
-      // Adds the Asset Manager plugin — this is like a file loader that helps import .glb, .pmat, .vjson and other 3D files into the viewer.
-      const manager = await viewer.addPlugin(AssetManagerPlugin);
-
       //Just adding some plugins
-      await addBasePlugins(viewer); // Adds default features — camera, lighting, materials, environment
-      await viewer.addPlugin(PickingPlugin); // enables picking (clicking objects).
-      await viewer.addPlugin(DiamondPlugin); // enables diamond rendering.
-      viewer.renderer.refreshPipeline(); // refreshPipeline() updates the render pipeline so the changes take effect.
+      await addBasePlugins(viewer);
+      await viewer.addPlugin(DiamondPlugin);
 
-      // const options = { autoScale: false };
-      // const assets = await manager.addFromPath(
-      //   "https://cdn.shopify.com/3d/models/41ded97398b32dad/R-0001-1-RENDER_glb.glb",
-      //   options
-      // );
-
-      /**
-       * This loads your .glb 3D model from Shopify’s CDN.
-       * importPath downloads and prepares the model to be added to the scene.
-       */
-
-      const importer = viewer.getManager().importer;
-      const mesh = new Mesh();
-
-      const options = {
-        processImported: true, // default = true
-      };
+      viewer.renderer.refreshPipeline();
 
       const productGlbFile = productGlbUrl;
+      console.log("productGlbFile", productGlbFile);
 
-      const models = await importer.importPath(
-        // "https://cdn.shopify.com/3d/models/1da2cd695bb73afd/R-0597-WS2-RENDER_glb.glb",
-        productGlbFile,
-        options
-      ); // This works similar to manager.addFromPath
-
-      const options3 = {
-        autoScale: true, // autoScale: true ensures it fits nicely inside the viewer’s frame.
+      // Default layer definitions. Define all your layers here. Edit this structure to apply your own layer naming and materials
+      const defaultLayerConfig = {
+        "Metal 01": "yellow-gold-polish.pmat",
+        "Metal 02": "yellow-gold-polish.pmat",
+        "Metal 03": "yellow-gold-polish.pmat",
       };
-      await manager.addProcessedAssets(models, options3); // Adding the model to the scene: takes the imported model and actually places it in the viewer.
 
-      const materialConfigPlugin = await viewer.addPlugin(
-        MaterialConfiguratorPlugin
-      ); // MaterialConfiguratorPlugin lets you dynamically change materials/colors.
+      const baseURL = "https://cdn.shopify.com/s/files/1/0664/3780/8182/files/";
+
+      // used for storing materials for each diamond layer
+      const layerMaterialMap = {};
+
+      async function getOrCreateMaterial(layerName, matName) {
+        let material = layerMaterialMap[matName];
+        if (material !== undefined) {
+          return material;
+        } else {
+          const matURL = baseURL + matName;
+          if (matURL !== undefined) {
+            material = await viewer.load(matURL);
+            material.name = matName;
+            layerMaterialMap[matName] = material;
+            return material;
+          } else {
+            console.warn("Unable to find material for layer ", layerName);
+          }
+        }
+      }
+
+      async function applyMaterialToLayer(layerName, material) {
+        const manager = viewer.getManager();
+
+        const materials = manager.materials.findMaterialsByName(layerName);
+
+        if (materials && materials.length > 0) {
+          manager.materials.applyMaterial(material, layerName);
+        } else {
+          console.warn("Unable to find matching materials in Layers");
+        }
+      }
+
+      async function applyLayerConfig(layerConfig) {
+        for (let layerName in layerConfig) {
+          const matName = layerConfig[layerName];
+          const material = await getOrCreateMaterial(layerName, matName);
+
+          applyMaterialToLayer(layerName, material);
+          //  console.log(layerName, matName, material)
+        }
+      }
+
+      // Loads a 3d model, with auto scaling, and centering.
+      async function loadModel(url) {
+        const model = await viewer.load(url, {
+          autoScale: true,
+          autoCenter: true,
+        });
+        return model;
+      }
+
+      await loadModel(
+        "https://cdn.shopify.com/3d/models/edeaa3dd5bf5f97e/33.glb" //config 13
+        // "https://cdn.shopify.com/3d/models/5b2acaf4e6375be3/R-0009-F2-RENDER_glb.glb" // config 22
+        // "https://cdn.shopify.com/3d/models/06c4020a82b8af36/withNewLayerNames.glb"
+        // "https://cdn.shopify.com/3d/models/1da2cd695bb73afd/R-0597-WS2-RENDER_glb.glb"
+      );
+
+      const onClickColor = async (event) => {
+        const name = event.target.getAttribute("mat-name").toLowerCase();
+        const layerName = event.target.layer;
+        event.preventDefault();
+        event.stopPropagation();
+        event.target.parentElement
+          .querySelectorAll(".customContextGridItems.material-option-active")
+          .forEach((el) => {
+            el.classList.remove("material-option-active");
+          });
+
+        event.target.classList.add("material-option-active");
+        let layerConfig = {};
+        if (layerName === "Metal 01" || layerName === "Metal 02") {
+          const currentConfigType =
+            event.target.parentElement.getAttribute("config-type");
+          const otherSelected = document
+            .querySelector(
+              `[layer-name="${layerName}"][config-type="${
+                currentConfigType === "color" ? "finish" : "color"
+              }"] .material-option-active`
+            )
+            ?.getAttribute("mat-name");
+
+          const color = currentConfigType === "color" ? name : otherSelected;
+          const finish = currentConfigType === "finish" ? name : otherSelected;
+
+          const materialName = `${color}-${finish}.pmat`;
+          layerConfig[layerName] = materialName;
+        }
+
+        if (layerName === "Metal 03") {
+          layerConfig[layerName] = `${name}-polish.pmat`;
+        }
+        applyLayerConfig(layerConfig);
+        viewer.renderer.refreshPipeline();
+      };
+
+      const configuratorDiv = document.getElementById("mconfigurator");
+      configuratorDiv.innerHTML = "";
+
+      const allMaterialConfig = [
+        {
+          name: "Metal Tone 1",
+          layerName: "Metal 01",
+          configType: "color",
+          toBeShownIn: [
+            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+            20, 21, 22, 23, 24,
+          ],
+          options: [
+            {
+              optionName: "Yellow",
+              matName: "yellow-gold",
+            },
+            {
+              optionName: "White",
+              matName: "white-gold",
+            },
+            {
+              optionName: "Rose",
+              matName: "rose-gold",
+            },
+            {
+              optionName: "Champagne",
+              matName: "champagne",
+            },
+          ],
+        },
+        {
+          name: "Metal Tone 2",
+          layerName: "Metal 02",
+          configType: "color",
+          toBeShownIn: [
+            4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+          ],
+          options: [
+            {
+              optionName: "Yellow",
+              matName: "yellow-gold",
+            },
+            {
+              optionName: "White",
+              matName: "white-gold",
+            },
+            {
+              optionName: "Rose",
+              matName: "rose-gold",
+            },
+            {
+              optionName: "Champagne",
+              matName: "champagne",
+            },
+          ],
+        },
+        {
+          name: "Prong Rhodium",
+          layerName: "Metal 03",
+          configType: "color",
+          toBeShownIn: [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
+          options: [
+            {
+              optionName: "Yellow",
+              matName: "yellow-gold",
+            },
+            {
+              optionName: "White",
+              matName: "white-gold",
+            },
+            {
+              optionName: "Rose",
+              matName: "rose-gold",
+            },
+            {
+              optionName: "Champagne",
+              matName: "champagne",
+            },
+          ],
+        },
+        {
+          name: "Metal Finish 1",
+          layerName: "Metal 01",
+          configType: "finish",
+          toBeShownIn: [
+            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+            20, 21, 22, 23, 24,
+          ],
+          options: [
+            {
+              optionName: "Polished",
+              matName: "polish",
+              toBeShownIn: [
+                1, 3, 4, 5, 8, 9, 11, 12, 13, 14, 17, 18, 20, 21, 22, 24,
+              ],
+            },
+            {
+              optionName: "Matte",
+              matName: "matte",
+              toBeShownIn: [
+                2, 3, 6, 7, 9, 10, 11, 12, 15, 16, 18, 19, 20, 21, 23, 24,
+              ],
+            },
+            {
+              optionName: "Horizontal Velvet",
+              matName: "hori-velvet",
+              toBeShownIn: [3, 9, 11, 12, 18, 20, 21, 24],
+            },
+            {
+              optionName: "Vertical Satin",
+              matName: "vert-satin",
+              toBeShownIn: [3, 9, 11, 12, 18, 20, 21, 24],
+            },
+          ],
+        },
+        {
+          name: "Metal Finish 2",
+          layerName: "Metal 02",
+          configType: "finish",
+          toBeShownIn: [
+            4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+          ],
+          options: [
+            {
+              optionName: "Polished",
+              matName: "polish",
+              toBeShownIn: [4, 6, 8, 9, 10, 11, 13, 15, 17, 18, 19, 20, 21],
+            },
+            {
+              optionName: "Matte",
+              matName: "matte",
+              toBeShownIn: [5, 7, 8, 9, 10, 12, 14, 16, 17, 18, 19, 21],
+            },
+            {
+              optionName: "Horizontal Velvet",
+              matName: "hori-velvet",
+              toBeShownIn: [8, 9, 10, 17, 18, 19],
+            },
+            {
+              optionName: "Vertical Satin",
+              matName: "vert-satin",
+              toBeShownIn: [8, 9, 10, 17, 18, 19],
+            },
+          ],
+        },
+      ];
+
+      const scenarioTag = 18; // Change this value to test different scenarios
+
+      const filteredMaterialConfig = allMaterialConfig.filter((config) =>
+        config.toBeShownIn.includes(scenarioTag)
+      );
+
+      for (let i = 0; i < filteredMaterialConfig.length; i++) {
+        const { name, layerName, configType, options } =
+          filteredMaterialConfig[i];
+        const container = document.createElement("div");
+        container.classList.add("variations", "customContextGrid");
+        container.setAttribute(
+          "style",
+          "top: 20px; left: 20px; gap: 0.25rem; width: 13.5rem;"
+        );
+
+        container.setAttribute("layer-name", layerName);
+        container.setAttribute("config-type", configType);
+        const headingContainer = document.createElement("div");
+        headingContainer.classList.add("customContextGridHeading");
+        headingContainer.textContent = name;
+        container.appendChild(headingContainer);
+        configuratorDiv.appendChild(container);
+
+        const filteredOptions = options.filter((option) => {
+          if (option.toBeShownIn) {
+            return option.toBeShownIn.includes(scenarioTag);
+          }
+          return true;
+        });
+
+        for (let j = 0; j < filteredOptions.length; j++) {
+          const button = document.createElement("div");
+          button.classList.add("customContextGridItems");
+          button.setAttribute("style", "width: 2.5rem; height: 2.5rem;");
+          if (j === 0) {
+            button.classList.add("material-option-active");
+          }
+          const { optionName, matName } = filteredOptions[j];
+          button.innerHTML = optionName;
+          button.setAttribute("mat-name", matName);
+          button.layer = layerName;
+          button.onclick = onClickColor;
+          container.append(button);
+        }
+      }
+
       const snipper = await viewer.addPlugin(CanvasSnipperPlugin); // CanvasSnipperPlugin lets you take screenshots.
       await viewer.addPlugin(FileTransferPlugin); // FileTransferPlugin allows saving/exporting files.
 
-      // const material = await viewer // Loads a pre-defined physical material file that contains reflections, lighting, and metal properties used for rendering the jewelry correctly.
-      //   .getManager()
-      //   .importer.importSinglePath(
-      //     "https://cdn.shopify.com/s/files/1/0750/4533/9449/files/physical-material.pmat"
-      //   );
+      // Apply default layers
+      await applyLayerConfig(defaultLayerConfig);
 
       // Loads a preset configuration that defines camera angles, lighting setups, and material mappings — basically, how the scene should look once loaded.
       await viewer.load(
         "https://cdn.shopify.com/s/files/1/0664/3780/8182/files/scene-config.vjson?v=1760428706"
       );
 
-      //======================= CANVAS Custom logic ==============================//
+      document
+        .querySelector('[data-action="save-personalization"]')
+        .addEventListener("click", async () => {
+          try {
+            // loader overlay
+            const personalizationImageCaptureEl = document.querySelector(
+              "#personalization-loader-overlay"
+            );
+            personalizationImageCaptureEl.classList.add("custom_active"); // add loader
+            delete pdpSelectedFormOptions.personalize; // delete previous entry if any
+            // Define the 5 viewpoints (Y-up world)
+            const views = [
+              { name: "top", u: { x: 0, y: 1, z: 0 } }, // +Y
+              { name: "bottom", u: { x: 0, y: -1, z: 0 } }, // -Y
+              { name: "left", u: { x: -1, y: 0, z: 0 } }, // -X
+              { name: "right", u: { x: 1, y: 0, z: 0 } }, // +X
+              // front-top-right: diagonal (+X, +Y, +Z).
+              // If your "front" is -Z, flip z: {z: -1}
+              { name: "ftr", u: { x: 1, y: 1, z: 1 } },
+            ];
 
-      viewer.scene.addEventListener("sceneMaterialUpdate", async (...e) => {
-        pdpCanvasPersonalizeOption = materialConfigPlugin.variations;
+            const files = [];
+            for (const v of views) {
+              await moveCameraByUnitOffset(viewer, v.u);
+              const file = await captureFile(snipper, `ring-${v.name}.webp`);
+              const data = {
+                fieldName: "files",
+                blob: file,
+                filename: v.name,
+              };
+              files.push(data);
 
-        const selectedOptions = materialConfigPlugin.variations.reduce(
-          (acc, x) => {
-            if (x.selectedIndex >= 0) {
-              const parentHeading = [
-                ...document.querySelectorAll(".customContextGridHeading"),
-              ].find((h) => h.textContent.trim() === x.title); // Find the matching parent heading by title
-
-              if (parentHeading) {
-                const parentEl = parentHeading.parentElement;
-                const optionItems = parentEl.querySelectorAll(
-                  ".customContextGridItems"
-                );
-
-                optionItems.forEach((opt, idx) => {
-                  if (idx === x.selectedIndex) {
-                    opt.classList.add("material-option-active");
-                  } else {
-                    opt.classList.remove("material-option-active");
-                  }
-                });
-              }
-
-              acc.push({
-                title: x.title,
-                selectedIndex: x.selectedIndex,
-                materialName: x.materials?.[x.selectedIndex]?.name || "",
-              });
+              // OPTIONAL: download for quick manual verification
+              // downloadBlobFile(file, `ring-${v.name}.webp`);
             }
 
-            return acc;
-          },
-          []
-        );
-
-        if(selectedOptions.length === materialConfigPlugin.variations.length){
-          document.querySelector('.save-canvas-options').disabled = false;
-          CanvasSelectedMaterials = selectedOptions;
-        }
-        else{
-          document.querySelector('.save-canvas-options').disabled = true;
-        }
-
-      });
-
-      document.querySelector('[data-action="save-personalization"]').addEventListener("click", async () => {
-        try {
-          // loader overlay
-          const personalizationImageCaptureEl = document.querySelector('#personalization-loader-overlay');
-          personalizationImageCaptureEl.classList.add('custom_active'); // add loader
-          delete pdpSelectedFormOptions.personalize; // delete previous entry if any
-          // Define the 5 viewpoints (Y-up world)
-          const views = [
-            { name: 'top',    u: { x:  0, y:  1, z:  0 } },  // +Y
-             { name: 'bottom', u: { x:  0, y: -1, z:  0 } },  // -Y
-            { name: 'left',   u: { x: -1, y:  0, z:  0 } },  // -X
-            { name: 'right',  u: { x:  1, y:  0, z:  0 } },  // +X
-            // front-top-right: diagonal (+X, +Y, +Z).
-            // If your "front" is -Z, flip z: {z: -1}
-            { name: 'ftr',    u: { x:  1, y:  1, z:  1 } }
-          ];
-
-          const files = [];
-          for (const v of views) {
-            await moveCameraByUnitOffset(viewer, v.u);
-            const file = await captureFile(snipper, `ring-${v.name}.webp`);
-            const data = {
-              fieldName : "files",
-              blob: file,
-              filename: v.name
-            }
-            files.push(data);
-
-            // OPTIONAL: download for quick manual verification
-            // downloadBlobFile(file, `ring-${v.name}.webp`);
-          }
-
-          // yahan close kara sakte ho modal
-          const personalizationSummaryEl = document.getElementById('personalization-summary');
-          const personalizationSummaryData = personalizationSummaryEl.querySelector('.summary-details');
-          const personalizationModalTriggeringInputEl = document.getElementById('personalization-options');
-          const personalizationImagesDataEl = personalizationSummaryEl.querySelector('.ring-thumbnails');
-          let SelectedMaterials = CanvasSelectedMaterials;
-          if(SelectedMaterials && personalizationSummaryEl && personalizationModalTriggeringInputEl) {
-            let personalizedSummaryHtml = '';
-            // create html
-            SelectedMaterials.forEach( (selection, index) => {
-              let metalTitle = selection.title;
-              let metalName = selection.materialName;
-              personalizedSummaryHtml += `
+            // yahan close kara sakte ho modal
+            const personalizationSummaryEl = document.getElementById(
+              "personalization-summary"
+            );
+            const personalizationSummaryData =
+              personalizationSummaryEl.querySelector(".summary-details");
+            const personalizationModalTriggeringInputEl =
+              document.getElementById("personalization-options");
+            const personalizationImagesDataEl =
+              personalizationSummaryEl.querySelector(".ring-thumbnails");
+            let SelectedMaterials = Array.from(
+              document.getElementById("mconfigurator").children
+            ).map((child) => {
+              const title = child.querySelector(
+                ".customContextGridHeading"
+              ).innerText;
+              const materialName = child.querySelector(
+                ".customContextGridItems.material-option-active"
+              ).innerText;
+              return { title, materialName };
+            });
+            if (
+              SelectedMaterials &&
+              personalizationSummaryEl &&
+              personalizationModalTriggeringInputEl
+            ) {
+              let personalizedSummaryHtml = "";
+              // create html
+              SelectedMaterials.forEach((selection, index) => {
+                let metalTitle = selection.title;
+                let metalName = selection.materialName;
+                personalizedSummaryHtml += `
               <div class="summary-item">
                 <span class="summary-label">${metalTitle}:</span>
-                <span class="summary-value" id="summary-metal-tone-${index + 1}">${metalName}</span>
+                <span class="summary-value" id="summary-metal-tone-${
+                  index + 1
+                }">${metalName}</span>
               </div>
               `;
-            });
-            // end
+              });
+              // end
 
-            personalizationSummaryData.innerHTML = personalizedSummaryHtml;
+              personalizationSummaryData.innerHTML = personalizedSummaryHtml;
 
-            personalizationSummaryEl.setAttribute('selected','true');
-            personalizationSummaryEl.classList.remove('hidden');
-            personalizationModalTriggeringInputEl.classList.add('hidden');
-            document.querySelector("#no-personalization-radio").checked = false;
-          }
+              personalizationSummaryEl.setAttribute("selected", "true");
+              personalizationSummaryEl.classList.remove("hidden");
+              personalizationModalTriggeringInputEl.classList.add("hidden");
+              document.querySelector(
+                "#no-personalization-radio"
+              ).checked = false;
+            }
 
-          function closeModal() {
-              const modal = document.getElementById('personalization-modal');
-              modal.classList.remove('active');
-              document.body.style.overflow = ''; // Restore scrolling
-          }
+            function closeModal() {
+              const modal = document.getElementById("personalization-modal");
+              modal.classList.remove("active");
+              document.body.style.overflow = ""; // Restore scrolling
+            }
 
-          const uploadResult = await uploadBlobs(`${window.EA_MODULE_BASE_URL}/internal/upload-files`,files);
-          closeModal();
-          
+            const uploadResult = await uploadBlobs(
+              `${window.EA_MODULE_BASE_URL}/internal/upload-files`,
+              files
+            );
+            closeModal();
 
-          // Update final summary if visible
-          const finalSummaryForm = document.getElementById('final-summary-form');
-          if (finalSummaryForm && !finalSummaryForm.classList.contains('hidden')) {
-            updateFinalSummary();
-          }
+            // Update final summary if visible
+            const finalSummaryForm =
+              document.getElementById("final-summary-form");
+            if (
+              finalSummaryForm &&
+              !finalSummaryForm.classList.contains("hidden")
+            ) {
+              updateFinalSummary();
+            }
 
-          personalizationImageCaptureEl.classList.remove('custom_active'); // remove loader
+            personalizationImageCaptureEl.classList.remove("custom_active"); // remove loader
 
-          // update images on form bottom
-          let personalizationImages = uploadResult.data.fileUrls;
-          let uploadedImagesHtml = "";
+            // update images on form bottom
+            let personalizationImages = uploadResult.data.fileUrls;
+            let uploadedImagesHtml = "";
 
-          // Loop through each uploaded image URL
-          personalizationImages.forEach((imgLink, index) => {
-            uploadedImagesHtml += `
+            // Loop through each uploaded image URL
+            personalizationImages.forEach((imgLink, index) => {
+              uploadedImagesHtml += `
               <div class="ring-thumbnail">
                 <img src="${imgLink}" alt="Ring View">
               </div>
@@ -240,67 +486,30 @@ document.addEventListener(
                 index + 1
               }]" value="${imgLink}">
             `;
-          });
-          // Render all HTML inside your form container
-          personalizationImagesDataEl.innerHTML = uploadedImagesHtml;
-           // Show engraving form
-          const engravingForm = document.getElementById('engraving-form');
-          if (engravingForm) engravingForm.classList.remove('hidden');
-
-          const personalizationPDPformEl = personalizationSummaryEl.closest('.pdp-form');
-
-          // enable next form ( engraving )
-          enableNextForm(personalizationPDPformEl);
-
-
-
-          // const file = await snipper.getFile('snapshot.webp');
-          // files.push(file);
-
-          // await injectCapturedFiles(files);
-
-          // At this point `files` is an array of 5 Blobs ready for upload to GCS.
-
-        } catch (e) {
-          console.error('Batch capture failed:', e);
-          alert(e?.message || 'Batch capture failed');
-        }
-      });
-    }
-
-    function setActiveSelectionsOnCanvas() {
-      const selectedOptions = pdpCanvasPersonalizeOption.reduce((acc, x) => {
-        // Check and handle active state inside same condition : selected Index
-        if (x.selectedIndex >= 0) {
-          // Find the matching parent heading by title
-          const parentHeading = [
-            ...document.querySelectorAll(".customContextGridHeading"),
-          ].find((h) => h.textContent.trim() === x.title);
-
-          if (parentHeading) {
-            const parentEl = parentHeading.parentElement;
-            const optionItems = parentEl.querySelectorAll(".customContextGridItems");
-
-            optionItems.forEach((opt, idx) => {
-              // Set 'active' only on the matched index
-              if (idx === x.selectedIndex) {
-                opt.classList.add("material-option-active");
-              } else {
-                opt.classList.remove("material-option-active");
-              }
             });
+            // Render all HTML inside your form container
+            personalizationImagesDataEl.innerHTML = uploadedImagesHtml;
+            // Show engraving form
+            const engravingForm = document.getElementById("engraving-form");
+            if (engravingForm) engravingForm.classList.remove("hidden");
+
+            const personalizationPDPformEl =
+              personalizationSummaryEl.closest(".pdp-form");
+
+            // enable next form ( engraving )
+            enableNextForm(personalizationPDPformEl);
+
+            // const file = await snipper.getFile('snapshot.webp');
+            // files.push(file);
+
+            // await injectCapturedFiles(files);
+
+            // At this point `files` is an array of 5 Blobs ready for upload to GCS.
+          } catch (e) {
+            console.error("Batch capture failed:", e);
+            alert(e?.message || "Batch capture failed");
           }
-
-          // TODO: To be used later
-          acc.push({
-            title: x.title,
-            selectedIndex: x.selectedIndex,
-            materialName: x.materials?.[x.selectedIndex]?.name || "",
-          });
-        }
-
-        return acc;
-      }, []);
+        });
     }
 
     intialize3D();
@@ -308,76 +517,45 @@ document.addEventListener(
   { once: true }
 );
 
-
-// === Camera → Top (Y-up assumed; tweak if your scene uses Z-up) ===
-async function moveCameraToTop(viewer, { zUp = false } = {}) {
-  const cam = viewer.scene.activeCamera;                 // CameraController
-  const ctrl = cam.controls;                              // OrbitControls (from your screenshot)
-  const threeCam = (ctrl && ctrl.object) || cam._threeCamera || cam._camera?.threeObject || cam._camera;
-
-  // 1) Read current target
-  let tx = 0, ty = 0, tz = 0;
-  if (ctrl?.target) { tx = ctrl.target.x; ty = ctrl.target.y; tz = ctrl.target.z; }
-  else if (cam._target) { tx = cam._target.x; ty = cam._target.y; tz = cam._target.z; }
-
-  // 2) Distance from camera to target (use whichever position we can get)
-  const p = (threeCam?.position) || cam._position || { x: 0, y: 6, z: 6 };
-  const dx = p.x - tx, dy = p.y - ty, dz = p.z - tz;
-  const dist = Math.max(0.1, Math.hypot(dx, dy, dz));
-
-  // 3) Compute TOP position
-  const topPos = zUp
-    ? { x: tx, y: ty, z: tz + dist }          // Z-up scenes
-    : { x: tx, y: ty + dist, z: tz };         // Y-up scenes (likely your case)
-
-  // 4) Temporarily disable damping so it applies immediately
-  const prevDamping = !!ctrl?.enableDamping;
-  if (ctrl) ctrl.enableDamping = false;
-
-  // 5) Set target on both controller and camera controller
-  if (ctrl?.target?.set) ctrl.target.set(tx, ty, tz);
-  if (cam._target?.set) cam._target.set(tx, ty, tz);
-
-  // 6) Set camera position on BOTH layers (controller + wrapped camera)
-  if (threeCam?.position?.set) threeCam.position.set(topPos.x, topPos.y, topPos.z);
-  if (cam._position?.set) cam._position.set(topPos.x, topPos.y, topPos.z);
-
-  // 7) Nudge orientation (only if available; not required)
-  if (threeCam?.lookAt) threeCam.lookAt(tx, ty, tz);
-  cam.autoLookAtTarget = true;   // common on WebGI controllers
-  cam.setDirty?.();
-
-  // 8) Make OrbitControls commit the new pose
-  ctrl?.update?.();
-
-  // 9) Render new frame(s) before capture
-  await viewer.renderer?.refreshPipeline?.();
-  await new Promise(requestAnimationFrame);
-  await new Promise(requestAnimationFrame);
-
-  // 10) Restore damping
-  if (ctrl) ctrl.enableDamping = prevDamping;
-}
-
 // Moves camera to target + (unitOffset * distance) and snaps a fresh frame
 async function moveCameraByUnitOffset(viewer, unitOffset /* {x,y,z} */) {
-  const cam = viewer.scene.activeCamera;          // CameraController
-  const ctrl = cam.controls;                       // OrbitControls
-  const threeCam = (ctrl && ctrl.object) || cam._threeCamera || cam._camera?.threeObject || cam._camera;
+  const cam = viewer.scene.activeCamera; // CameraController
+  const ctrl = cam.controls; // OrbitControls
+  const threeCam =
+    (ctrl && ctrl.object) ||
+    cam._threeCamera ||
+    cam._camera?.threeObject ||
+    cam._camera;
 
   // Read target (fallback origin)
-  let tx = 0, ty = 0, tz = 0;
-  if (ctrl?.target) { tx = ctrl.target.x; ty = ctrl.target.y; tz = ctrl.target.z; }
-  else if (cam._target) { tx = cam._target.x; ty = cam._target.y; tz = cam._target.z; }
+  let tx = 0,
+    ty = 0,
+    tz = 0;
+  if (ctrl?.target) {
+    tx = ctrl.target.x;
+    ty = ctrl.target.y;
+    tz = ctrl.target.z;
+  } else if (cam._target) {
+    tx = cam._target.x;
+    ty = cam._target.y;
+    tz = cam._target.z;
+  }
 
   // Current cam position (from threeCam or controller)
-  const p = (threeCam?.position) || cam._position || { x: 0, y: 6, z: 6 };
-  const dx = p.x - tx, dy = p.y - ty, dz = p.z - tz;
+  const p = threeCam?.position || cam._position || { x: 0, y: 6, z: 6 };
+  const dx = p.x - tx,
+    dy = p.y - ty,
+    dz = p.z - tz;
   const dist = Math.max(0.1, Math.hypot(dx, dy, dz));
 
   // Normalize the unit offset in case it isn't unit length
-  const len = Math.max(1e-6, Math.hypot(unitOffset.x, unitOffset.y, unitOffset.z));
-  const ux = unitOffset.x / len, uy = unitOffset.y / len, uz = unitOffset.z / len;
+  const len = Math.max(
+    1e-6,
+    Math.hypot(unitOffset.x, unitOffset.y, unitOffset.z)
+  );
+  const ux = unitOffset.x / len,
+    uy = unitOffset.y / len,
+    uz = unitOffset.z / len;
 
   // New absolute position
   const nx = tx + ux * dist;
@@ -405,27 +583,27 @@ async function moveCameraByUnitOffset(viewer, unitOffset /* {x,y,z} */) {
   if (ctrl) ctrl.enableDamping = prevDamping;
 }
 
-
-async function captureFile(snipper, name, {
-  mimeType = 'image/webp',
-  scale = 1.5,
-  dpr = window.devicePixelRatio
-} = {}) {
+async function captureFile(
+  snipper,
+  name,
+  { mimeType = "image/webp", scale = 1.5, dpr = window.devicePixelRatio } = {}
+) {
   return snipper.getFile(name, { mimeType, scale, displayPixelRatio: dpr });
 }
 
 // quick local verify (optional)
 function downloadBlobFile(file, filename) {
   const url = URL.createObjectURL(file);
-  const a = document.createElement('a');
-  a.href = url; a.download = filename || file.name || 'snapshot.webp';
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename || file.name || "snapshot.webp";
   a.click();
   URL.revokeObjectURL(url);
 }
 
 async function injectCapturedFiles(files) {
   // files = array of File or Blob objects (like from snipper.getFile)
-  const input = document.getElementById('custom-image-top');
+  const input = document.getElementById("custom-image-top");
 
   if (!input) return;
 
@@ -434,7 +612,12 @@ async function injectCapturedFiles(files) {
 
   // If your Blob is not already a File, wrap it as one
   files.forEach((blob, i) => {
-    const file = blob instanceof File ? blob : new File([blob], `capture-${i+1}.webp`, { type: blob.type || 'image/webp' });
+    const file =
+      blob instanceof File
+        ? blob
+        : new File([blob], `capture-${i + 1}.webp`, {
+            type: blob.type || "image/webp",
+          });
     dt.items.add(file);
   });
 
@@ -442,7 +625,7 @@ async function injectCapturedFiles(files) {
   input.files = dt.files;
 
   // Trigger a 'change' event so any upload handler reacts
-  input.dispatchEvent(new Event('change', { bubbles: true }));
+  input.dispatchEvent(new Event("change", { bubbles: true }));
 }
 
 async function uploadBlobs(url, files, additionalData = {}) {
@@ -456,13 +639,15 @@ async function uploadBlobs(url, files, additionalData = {}) {
 
   try {
     const response = await fetch(url, {
-      method: 'POST',
+      method: "POST",
       body: formData,
     });
 
     if (!response.ok) {
       const errorText = await response.text();
-      throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+      throw new Error(
+        `HTTP error! status: ${response.status}, message: ${errorText}`
+      );
     }
 
     const result = await response.json();
