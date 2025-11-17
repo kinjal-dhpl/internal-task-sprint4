@@ -325,6 +325,7 @@ document.addEventListener(
         headingContainer.textContent = name;
         container.appendChild(headingContainer);
         configuratorDiv.appendChild(container);
+        const filterContainer = document.createElement("div");
 
         const filteredOptions = options.filter((option) => {
           if (option.toBeShownIn) {
@@ -345,8 +346,9 @@ document.addEventListener(
           button.setAttribute("mat-name", matName);
           button.layer = layerName;
           button.onclick = onClickColor;
-          container.append(button);
+          filterContainer.append(button);
         }
+        container.append(filterContainer)
       }
 
       const snipper = await viewer.addPlugin(CanvasSnipperPlugin); // CanvasSnipperPlugin lets you take screenshots.
