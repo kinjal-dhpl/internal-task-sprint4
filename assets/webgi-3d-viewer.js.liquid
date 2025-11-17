@@ -345,7 +345,9 @@ document.addEventListener(
             button.classList.add("material-option-active");
           }
           const { optionName, matName } = filteredOptions[j];
-          button.innerHTML = optionName;
+          const oName = document.createElement('p')
+          oName.innerText = optionName
+          button.append(oName);
           button.setAttribute("mat-name", matName);
           button.layer = layerName;
           button.onclick = onClickColor;
