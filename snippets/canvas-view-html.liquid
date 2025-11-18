@@ -26,3 +26,16 @@
   {% endif %}
   <div id="close-canvas-view">x</div>
 </div>
+
+<script>
+  console.log('settting')
+  let totalHeight = document.querySelector('.canvas-3d-container').innerHeight;
+  let totalWidth = document.querySelector('.canvas-3d-container').innerWidth;
+  let canvasWidth = document.querySelector('#main-canvas').innerWidth;
+  let buttonHeight = document.querySelector('.canvas-action-btns').innerHeight;
+  let configHeight = document.querySelector('#mconfigurator').innerHeight = totalHeight - buttonHeight;
+  let configWidth = document.querySelector('#mconfigurator').innerWidth = totalWidth - canvasWidth;
+  console.log('settting finish')
+  
+
+</script>
