@@ -1084,6 +1084,7 @@ button.save-canvas-options {
 
 .canvas-options-cancel-btn {
   color: #000 !important;
+  border: 1px solid black;
 }
 
 .canvas-options-cancel-btn:hover {
