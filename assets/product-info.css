@@ -255,7 +255,7 @@ h2.info-tabs {
     text-align: left;
 }
 .policy-info-desc {
-    font-family: Inters;
+    font-family: 'Lato';
     font-weight: 400;
     font-size: 14px;
     line-height: 21px;
@@ -714,7 +714,7 @@ h2.info-tabs {
 
     .policy-card .id-unique {
         padding: 0px 10px;
-        font-family: Inter;
+        font-family: 'Lato';
         font-weight: 400;
         font-size: 16px;
         line-height: 24px;
