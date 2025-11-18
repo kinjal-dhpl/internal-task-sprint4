@@ -485,9 +485,10 @@ h2.info-tabs {
     font-weight: 400;
 }
 .single-info-desc {
-    font-size: 14px;
+    font-size: 14px !important;
     color: #86868b;
-    font-weight: 400;
+    font-weight: 400 !important;
+    font-family: 'Inter';
 }
 
 .policies-holder {
