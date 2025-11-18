@@ -274,10 +274,9 @@ let currentVariants = []; // this will always hold latest 12 variants data
           console.log(currentVariants,'currentVariants')
           // ✅ Update variant name and price in DOM
           apiResponse.data.forEach(item => {
-            const variantId = item.variantId?.split("/").pop(); // convert gid to numeric id
-            if(variantId == variantId) {
-              console.log(item,'item')
-            }
+            const variantIds = item.variantId?.split("/").pop(); // convert gid to numeric id
+            console.log(variantIds,'variantIds')
+
             const variantName = item.variantName;
             console.log(variantName,'variantName')
             
@@ -286,14 +285,14 @@ let currentVariants = []; // this will always hold latest 12 variants data
             const totalPrice = item.price[priceKey]?.total_price_with_gst || 0;
             // update variant name
             const nameEl = document.querySelector(
-              `.variant-link[data-variant-id="${variantId}"] .variant-name`
+              `.variant-link[data-variant-id="${variantIds}"] .variant-name`
             );
             if (nameEl) {
               nameEl.textContent = variantName;
             }
             // update variant price
             const priceEl = document.querySelector(
-              `.variant-link[data-variant-id="${variantId}"] .variant-price`
+              `.variant-link[data-variant-id="${variantIds}"] .variant-price`
             );
             if (priceEl) {
               priceEl.textContent = `₹ ${Number(totalPrice).toLocaleString('en-IN')}`;
