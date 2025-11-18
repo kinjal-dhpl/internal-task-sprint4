@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const { height: buttonHeight } = buttons.getBoundingClientRect();
         
         // Apply new sizes
-        mconfig.style.height = (totalHeight - buttonHeight) + 'px';
+        mconfig.style.height = (totalHeight - buttonHeight) - 30 + 'px';
         mconfig.style.width = (totalWidth - canvasWidth) - 20 + 'px';
         console.log('opei')
     };
