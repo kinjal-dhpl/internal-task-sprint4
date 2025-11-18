@@ -195,14 +195,13 @@ h2.info-tabs {
 }
 
 .section-header p {
-    font-family: Lato;
+    font-family: 'Inter';
     font-weight: 400;
     font-size: 16px;
     line-height: 24px;
     margin: 0;
     color: #1D1D1F;
     margin-bottom: 16px;
-    color: #1D1D1F;
 }
 
 #toggleIcon {
@@ -623,7 +622,7 @@ h2.info-tabs {
     }
 
     .section-header p {
-        font-family: Inter;
+        font-family: 'Inter';
         font-weight: 400;
         font-size: 16px;
         line-height: 24px;
