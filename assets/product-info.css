@@ -255,7 +255,7 @@ h2.info-tabs {
     text-align: left;
 }
 .policy-info-desc {
-    font-family: Regular;
+    font-family: Inters;
     font-weight: 400;
     font-size: 14px;
     line-height: 21px;
@@ -496,6 +496,7 @@ h2.info-tabs {
 }
 
 .policy-card-heading {
+    font-family: Inter;
     font-size: 16px;
     font-weight: 600;
     color: #1d1d1f;
