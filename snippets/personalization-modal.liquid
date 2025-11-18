@@ -89,21 +89,23 @@ document.addEventListener('DOMContentLoaded', function() {
     window.openPersonalizationModal = function() {
         modal.classList.add('active');
         document.body.style.overflow = 'hidden'; // Prevent background scrolling
-        console.log('opei')
-        const container = document.querySelector('.canvas-3d-container');
-        const canvas = document.querySelector('#main-canvas');
-        const buttons = document.querySelector('.canvas-action-btns');
-        const mconfig = document.querySelector('#mconfigurator');
-        
-        // Get sizes using getBoundingClientRect()
-        const { height: totalHeight, width: totalWidth } = container.getBoundingClientRect();
-        const { width: canvasWidth } = canvas.getBoundingClientRect();
-        const { height: buttonHeight } = buttons.getBoundingClientRect();
-        
-        // Apply new sizes
-        mconfig.style.height = (totalHeight - buttonHeight) - 30 + 'px';
-        mconfig.style.width = (totalWidth - canvasWidth) - 20 + 'px';
-        console.log('opei')
+        if(window.innerWidth > 786) {
+            console.log('opei')
+            const container = document.querySelector('.canvas-3d-container');
+            const canvas = document.querySelector('#main-canvas');
+            const buttons = document.querySelector('.canvas-action-btns');
+            const mconfig = document.querySelector('#mconfigurator');
+            
+            // Get sizes using getBoundingClientRect()
+            const { height: totalHeight, width: totalWidth } = container.getBoundingClientRect();
+            const { width: canvasWidth } = canvas.getBoundingClientRect();
+            const { height: buttonHeight } = buttons.getBoundingClientRect();
+            
+            // Apply new sizes
+            mconfig.style.height = (totalHeight - buttonHeight) - 30 + 'px';
+            mconfig.style.width = (totalWidth - canvasWidth) - 20 + 'px';
+            console.log('opei')
+        }
     };
     
     function closeModal() {
