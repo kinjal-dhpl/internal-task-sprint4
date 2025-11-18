@@ -113,7 +113,7 @@
     <!-- Policies Tab -->
     <div class="faq-sec-mobile">
       <button class="tab-btn tab-btn-mobile" data-tab="policies">
-        <h2>{{ policy_heading }}</h2>
+        <h2>Policies</h2>
         <span class="tab-icon">
           <svg
             class="toggleIcon"
@@ -130,41 +130,41 @@
       </button>
       <div id="policies" class="tab-content">
         <div class="section-header">
-          <p>Simple, transparent policies designed to give you complete confidence in your purchase</p>
+          <p>{{ section.settings.policy_heading }}</p>
         </div>
 
-        {% assign policies = product.metafields.custom.policymeta.value %}
-
-        {% if policies != blank %}
-          <div class="policies-container">
-            {% for policy in policies %}
-              {% if policy.image != blank
-                or policy.container_top_text != blank
-                or policy.container_desc != blank
-                or policy.container_bottom_text != blank
-              %}
-                <div class="policy-card">
-                  <div class="policy-icon">
-                    {% if policy.image != blank %}
-                      {{ policy.image }}
-                      <!-- if your icon is stored as SVG in a metaobject rich text -->
-                    {% endif %}
-                    {% if policy.container_top_text != blank %}
-                      <h3>{{ policy.container_top_text }}</h3>
-                    {% endif %}
-                  </div>
-
-                  {% if policy.container_desc != blank %}
-                    <p class="id-unique">{{ policy.container_desc }}</p>
-                  {% endif %}
-                  {% if policy.container_bottom_text != blank %}
-                    <p>{{ policy.container_bottom_text }}</p>
-                  {% endif %}
-                </div>
-              {% endif %}
-            {% endfor %}
+        <div class="policies-container">
+          <div class="policy-card">
+            <div>
+              <div class="policy-icon"></div>
+              <p>{{ section.settings.policy_text_heading1 }}</p>
+            </div>
+              <p class="id-unique">{{ section.settings.policy_text_subheading1 }}</p>
+              <p>{{ section.settings.policy_text_desc1 }}</p>
           </div>
-        {% endif %}
+        </div>
+        <div class="policies-container">
+          <div class="policy-card">
+            <div>
+              <div class="policy-icon"></div>
+              <p>{{ section.settings.policy_text_heading2 }}</p>
+            </div>
+              <p class="id-unique">{{ section.settings.policy_text_subheading2 }}</p>
+              <p>{{ section.settings.policy_text_desc2 }}</p>
+          </div>
+        </div>
+        <div class="policies-container">
+          <div class="policy-card">
+            <div>
+              <div class="policy-icon"></div>
+              <p>{{ section.settings.policy_text_heading3 }}</p>
+            </div>
+              <p class="id-unique">{{ section.settings.policy_text_subheading3 }}</p>
+              <p>{{ section.settings.policy_text_desc3 }}</p>
+          </div>
+        </div>
+
+
 
         {% if section.settings.important_info != blank %}
           <div class="important-info">
@@ -247,11 +247,6 @@
       "label": "Product Info Tab Heading"
     },
     {
-      "type": "text",
-      "id": "policy_heading",
-      "label": "Policy Tab Heading"
-    },
-    {
       "type": "richtext",
       "id": "care_instructions",
       "label": "Care Instructions"
@@ -260,6 +255,56 @@
       "type": "richtext",
       "id": "important_info",
       "label": "Important Information"
+    },
+    {
+      "type": "text",
+      "id": "policy_heading",
+      "label": "Policy Tab Heading"
+    },
+    {
+      "type": "text",
+      "id": "policy_text_heading1",
+      "label": "Policy Point 1 Heading"
+    },
+    {
+      "type": "text",
+      "id": "policy_text_heading2",
+      "label": "Policy Point 2 Heading"
+    },
+    {
+      "type": "text",
+      "id": "policy_text_heading3",
+      "label": "Policy Point 3 Heading"
+    },
+    {
+      "type": "text",
+      "id": "policy_text_subheading1",
+      "label": "Policy Point 1 SubHeading"
+    },
+    {
+      "type": "text",
+      "id": "policy_text_subheading2",
+      "label": "Policy Point 2 SubHeading"
+    },
+    {
+      "type": "text",
+      "id": "policy_text_subheading3",
+      "label": "Policy Point 3 SubHeading"
+    },
+    {
+      "type": "text",
+      "id": "policy_text_desc1",
+      "label": "Policy Point 1 Description"
+    },
+    {
+      "type": "text",
+      "id": "policy_text_desc2",
+      "label": "Policy Point 2 Description"
+    },
+    {
+      "type": "text",
+      "id": "policy_text_desc3",
+      "label": "Policy Point 3 Description"
     }
   ],
   "presets": [
