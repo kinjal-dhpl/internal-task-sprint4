@@ -271,6 +271,7 @@ let currentVariants = []; // this will always hold latest 12 variants data
       .then(apiResponse => {
         if (apiResponse?.status === 'success' && Array.isArray(apiResponse.data)) {
           currentVariants = apiResponse.data;
+          console.log(currentVariants,'currentVariants')
           // ✅ Update variant name and price in DOM
           apiResponse.data.forEach(item => {
             const variantId = item.variantId?.split("/").pop(); // convert gid to numeric id
