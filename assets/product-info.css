@@ -254,6 +254,16 @@ h2.info-tabs {
     margin: 6px;
     text-align: left;
 }
+.policy-info-desc {
+    font-family: Regular;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: 0px;
+    color: #86868b;
+    margin: 6px;
+    text-align: left;
+}
 
 /* ===== IMPORTANT INFO ===== */
 .important-info {
