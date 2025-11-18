@@ -166,7 +166,17 @@
       "settings": {
         "top_head": "Ring Dimensions and care instructions",
         "care_instructions": "<ul><li>Clean with mild soap and warm water </li><li>Store separately to avoid scratches</li><li>Professional cleaning recommended annually</li><li>Avoid harsh chemicals and ultrasonic cleaners</li></ul>",
-        "important_info": "<ul><li>All Policies apply from date of purchase.</li><li>Original receipt required for all services.</li><li>Custom engraving may effect return eligibility.</li><li>All services avaiable for original purchaser.</li></ul>"
+        "important_info": "<ul><li>All Policies apply from date of purchase.</li><li>Original receipt required for all services.</li><li>Custom engraving may effect return eligibility.</li><li>All services avaiable for original purchaser.</li></ul>",
+        "policy_heading": "Simple, trasnparent policies designed to give you confidence in your products",
+        "policy_text_heading1": "15- Day Returns",
+        "policy_text_heading2": "Lifetime Exchange",
+        "policy_text_heading3": "Buyback Gurantee",
+        "policy_text_subheading1": "Full refund if not completely satisfied.",
+        "policy_text_subheading2": "Exchange for different style or size anytime.",
+        "policy_text_subheading3": "We buy back your ring at fair market price.",
+        "policy_text_desc1": "No questions asked, return policy within 15 days.",
+        "policy_text_desc2": "Free exchange service for the life of the product.",
+        "policy_text_desc3": "Transparent buyback process with certified appraisal."
       }
     },
     "complete_your_set_pQULma": {
