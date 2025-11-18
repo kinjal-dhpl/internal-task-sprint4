@@ -136,7 +136,9 @@ document.addEventListener(
 
       const onClickColor = async (event) => {
         const name = event.target.getAttribute("mat-name").toLowerCase();
+        console.log("🚀 ~ onClickColor ~ name:", name)
         const layerName = event.target.layer;
+        console.log("🚀 ~ onClickColor ~ layerName:", layerName)
         event.preventDefault();
         event.stopPropagation();
         event.target.parentElement
