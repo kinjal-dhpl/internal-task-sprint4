@@ -219,11 +219,8 @@ h2.info-tabs {
 
 
 .policies-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 16px;
-    margin-bottom: 30px;
-   justify-content: center;
+    flex: 0 0 auto;
+    width: 33%;
 }
 
 .policy-card {
