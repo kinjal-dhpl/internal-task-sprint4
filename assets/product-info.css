@@ -86,7 +86,7 @@ h2.info-tabs {
 }
 
 .product-info-grid .info-list ul li {
-    font-family: Inter;
+    font-family: 'Lato';
     font-weight: 400;
     font-size: 16px;
     line-height: 24px;
@@ -118,7 +118,7 @@ h2.info-tabs {
 }
 
 .info-box p {
-    font-family: Inter-Variable;
+    font-family: 'Lato';
     font-weight: 400;
     font-size: 16px;
     line-height: 24px;
@@ -160,7 +160,7 @@ h2.info-tabs {
 }
 
 .para-id {
-    font-family: Inter-Variable;
+    font-family: 'Lato';
     font-weight: 400;
     font-size: 16px;
     line-height: 24px;
@@ -245,7 +245,7 @@ h2.info-tabs {
 }
 
 .policy-card .id-unique {
-    font-family: Inter;
+    font-family: 'Lato';
     font-weight: 400;
     font-size: 16px;
     line-height: 24px;
@@ -255,7 +255,7 @@ h2.info-tabs {
     text-align: left;
 }
 .policy-info-desc {
-    font-family: Inters;
+    font-family: 'Lato';
     font-weight: 400;
     font-size: 14px;
     line-height: 21px;
@@ -359,7 +359,7 @@ h2.info-tabs {
 
 
 .top-text h2 {
-    font-family: Inter;
+    font-family: 'Lato';
     font-weight: 600;
     font-size: 20px;
     line-height: 30px;
@@ -476,6 +476,7 @@ h2.info-tabs {
     font-size: 16px;
     color: #1d1d1f;
     font-weight: 600;
+    font-family: 'Lato';
 }
 .single-info-value {
     font-size: 16px;
@@ -496,7 +497,7 @@ h2.info-tabs {
 }
 
 .policy-card-heading {
-    font-family: Inter;
+    font-family: 'Lato';
     font-size: 16px;
     font-weight: 600;
     color: #1d1d1f;
@@ -564,7 +565,7 @@ h2.info-tabs {
     }
 
     .product-info-grid .info-list ul li {
-        font-family: Inter;
+        font-family: 'Lato';
         font-weight: 400;
         font-size: 14px;
         line-height: 21px;
@@ -586,7 +587,7 @@ h2.info-tabs {
     }
 
     .info-box p {
-        font-family: Inter;
+        font-family: 'Lato';
         font-weight: 400;
         font-size: 14px;
         line-height: 21px;
@@ -603,7 +604,7 @@ h2.info-tabs {
     }
 
     .para-id {
-        font-family: Inter;
+        font-family: 'Lato';
         font-weight: 400;
         font-size: 16px;
         line-height: 24px;
@@ -714,7 +715,7 @@ h2.info-tabs {
 
     .policy-card .id-unique {
         padding: 0px 10px;
-        font-family: Inter;
+        font-family: 'Lato';
         font-weight: 400;
         font-size: 16px;
         line-height: 24px;
