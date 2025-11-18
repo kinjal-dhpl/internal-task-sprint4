@@ -489,8 +489,11 @@ let currentVariants = []; // this will always hold latest 12 variants data
 })();
 
 function updateProductInfoWeight(item, size) {
-  console.log(item,'weight')
-  console.log(size,'weight')
+  const variantPrice = item.price[`config_size_${size}`].metal.weight;
+  const productInfoWeightHolder = document.querySelector('.single-info-value.product-info-weight');
+  if(variantPrice && productInfoWeightHolder) {
+    productInfoWeightHolder.textContent = variantPrice;
+  }
   console.log(item.price[`config_size_${size}`].metal.weight,'weight');
 }
 </script>
