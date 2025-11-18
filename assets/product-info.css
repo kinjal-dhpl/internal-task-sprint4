@@ -256,17 +256,6 @@ h2.info-tabs {
     text-align: left;
 }
 
-.policy-card p {
-    font-family: Inter;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 21px;
-    color: #86868B;
-    letter-spacing: 0px;
-    margin: 0;
-    text-align: left;
-}
-
 /* ===== IMPORTANT INFO ===== */
 .important-info {
     display: flex;
@@ -702,17 +691,6 @@ h2.info-tabs {
         line-height: 24px;
         letter-spacing: 0px;
     }
-
-    .policy-card p {
-        padding: 0px 10px;
-        color: #86868B;
-        font-family: Inter;
-        font-weight: 400;
-        font-size: 14px;
-        line-height: 21px;
-        letter-spacing: 0px;
-    }
-
     .products-grid {
         display: block;
         gap: 0;
