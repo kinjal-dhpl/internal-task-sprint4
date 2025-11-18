@@ -508,6 +508,12 @@ h2.info-tabs {
 }
 
 @media (max-width: 767px) {
+    .policies-holder {
+        flex-direction: column;
+    }
+    .policies-container {
+        width: 100%;
+    }
     .product-info-grid {
         display: flex;
         flex-direction: column;
