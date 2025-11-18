@@ -86,7 +86,7 @@ h2.info-tabs {
 }
 
 .product-info-grid .info-list ul li {
-    font-family: 'Lato';
+    font-family: 'Inter';
     font-weight: 400;
     font-size: 16px;
     line-height: 24px;
@@ -567,7 +567,7 @@ h2.info-tabs {
     }
 
     .product-info-grid .info-list ul li {
-        font-family: 'Lato';
+        font-family: 'Inter';
         font-weight: 400;
         font-size: 14px;
         line-height: 21px;
