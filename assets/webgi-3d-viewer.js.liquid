@@ -151,7 +151,7 @@ document.addEventListener(
         let layerConfig = {};
         if (layerName === "Metal 01" || layerName === "Metal 02") {
           const currentConfigType =
-            event.target.parentElement.getAttribute("config-type");
+            event.target.parentElement.parentElement.getAttribute("config-type");
           const otherSelected = document
             .querySelector(
               `[layer-name="${layerName}"][config-type="${currentConfigType === "color" ? "finish" : "color"
