@@ -78,6 +78,8 @@ document.addEventListener(
       const layerMaterialMap = {};
 
       async function getOrCreateMaterial(layerName, matName) {
+        console.log("🚀 ~ getOrCreateMaterial ~ matName:", matName)
+        console.log("🚀 ~ getOrCreateMaterial ~ layerName:", layerName)
         let material = layerMaterialMap[matName];
         if (material !== undefined) {
           return material;
