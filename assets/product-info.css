@@ -498,6 +498,11 @@ h2.info-tabs {
     align-items: center;
     gap: 20px;
 }
+.policy-heading-icon {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
 
 @media (max-width: 767px) {
     .product-info-grid {
