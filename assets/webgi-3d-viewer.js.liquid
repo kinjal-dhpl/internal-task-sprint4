@@ -78,8 +78,6 @@ document.addEventListener(
       const layerMaterialMap = {};
 
       async function getOrCreateMaterial(layerName, matName) {
-        console.log("🚀 ~ getOrCreateMaterial ~ matName:", matName)
-        console.log("🚀 ~ getOrCreateMaterial ~ layerName:", layerName)
         let material = layerMaterialMap[matName];
         if (material !== undefined) {
           return material;
@@ -136,9 +134,7 @@ document.addEventListener(
 
       const onClickColor = async (event) => {
         const name = event.target.getAttribute("mat-name").toLowerCase();
-        console.log("🚀 ~ onClickColor ~ name:", name)
         const layerName = event.target.layer;
-        console.log("🚀 ~ onClickColor ~ layerName:", layerName)
         event.preventDefault();
         event.stopPropagation();
         event.target.parentElement
