@@ -254,7 +254,7 @@ let currentVariants = []; // this will always hold latest 12 variants data
       this.fetchPriceFromAPI(variantId, size);
     },
 
-    fetchPriceFromAPI(variantIds, size) {
+    fetchPriceFromAPI(variantId, size) {
       console.log(variantId,'variantId')
       console.log(size,'size')
       const productId = "{{ product.id }}";
