@@ -680,7 +680,6 @@ h2.info-tabs {
         display: flex;
         flex-direction: column;
         gap: 16px;
-        padding: 0px 16px;
     }
 
     .tab-buttons button.active:after {
