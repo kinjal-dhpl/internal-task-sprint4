@@ -2,24 +2,11 @@
 import {
   ViewerApp, //  main app that creates and controls the 3D viewer on the page
   addBasePlugins, // Importing base plugins ( lighting,camera controls,etc )
-  PickingPlugin, // lets you click/select objects in 3D.
   DiamondPlugin, // adds special rendering for diamond-like materials.
-  AssetManagerPlugin,
-  Mesh,
-  MaterialConfiguratorPlugin,
-  EquirectangularReflectionMapping,
   CanvasSnipperPlugin, // lets you take a snapshot of the 3D view as an image.
   FileTransferPlugin, // used to export or transfer files.
-  Object3D, // geometry and material helpers.
-  Material,
-  Vector3,
-  Vector2, // geometry and material helpers.
-  Texture,
-  sRGBEncoding, //geometry and material helpers.
-  // ...
-} from "https://dist.pixotronics.com/webgi/runtime/bundle-0.11.0.mjs";
 
-window.CanvasSelectedMaterials = {};
+} from "https://dist.pixotronics.com/webgi/runtime/bundle-0.11.0.mjs";
 
 document.addEventListener(
   "DOMContentLoaded",
