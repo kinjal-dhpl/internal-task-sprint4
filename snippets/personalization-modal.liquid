@@ -90,7 +90,6 @@ document.addEventListener('DOMContentLoaded', function() {
         modal.classList.add('active');
         document.body.style.overflow = 'hidden'; // Prevent background scrolling
         if(window.innerWidth > 786) {
-            console.log('opei')
             const container = document.querySelector('.canvas-3d-container');
             const canvas = document.querySelector('#main-canvas');
             const buttons = document.querySelector('.canvas-action-btns');
@@ -104,7 +103,6 @@ document.addEventListener('DOMContentLoaded', function() {
             // Apply new sizes
             mconfig.style.height = (totalHeight - buttonHeight) - 30 + 'px';
             mconfig.style.width = (totalWidth - canvasWidth) - 20 + 'px';
-            console.log('opei')
         }
     };
     
