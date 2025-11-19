@@ -48,33 +48,63 @@
         {% endif %}
         <div class="product-info-grid">
           <!-- Left Box -->
-          {% assign dimensions = product.metafields.custom.dimension_info.value %}
+          {% assign width_dimensions = product.metafields.custom.ring_width.value %}
+          {% assign height_dimensions = product.metafields.custom.ring_height_size.value %}
+          {% assign diamond_setting = product.metafields.custom.diamond_setting.value %}
 
-          {% if dimensions != blank %}
             <div class="top-text display-flex-column">
               <h2>Dimensions</h2>
               <div class="info-box flex-grow">
-                {% for dimension in dimensions %}
-                  <div class="info-item">
-                    <h4>
-                      {% if dimension.image != blank %}
-                        <span style="height: 24px;">
-                          {{ dimension.image }}
-                        </span>
-                      {% endif %}
-                      {{ dimension.title }}
-                    </h4>
-                    {% if dimension.size != blank %}
-                      <p>{{ dimension.size }}</p>
-                    {% endif %}
-                    {% if dimension.description != blank %}
-                      <small>{{ dimension.description }}</small>
-                    {% endif %}
+
+                {% if width_dimensions != blank %}
+                  <div class="single-info">
+                    <div class="single-info-head">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12.1054 0.43993C12.2447 0.300465 12.4102 0.189827 12.5923 0.11434C12.7744 0.038854 12.9696 0 13.1667 0C13.3638 0 13.559 0.038854 13.7411 0.11434C13.9232 0.189827 14.0886 0.300465 14.2279 0.43993L17.4079 3.62143C17.5474 3.76074 17.658 3.92617 17.7335 4.10827C17.809 4.29037 17.8479 4.48556 17.8479 4.68268C17.8479 4.8798 17.809 5.07499 17.7335 5.25709C17.658 5.43919 17.5474 5.60462 17.4079 5.74393L5.74393 17.4109C5.46264 17.6921 5.08118 17.8501 4.68343 17.8501C4.28568 17.8501 3.90422 17.6921 3.62293 17.4109L0.43993 14.2294C0.300466 14.0901 0.189827 13.9247 0.11434 13.7426C0.038854 13.5605 0 13.3653 0 13.1682C0 12.9711 0.038854 12.7759 0.11434 12.5938C0.189827 12.4117 0.300466 12.2462 0.43993 12.1069L12.1054 0.43993ZM3.42793 11.2399L1.49893 13.1674L4.68193 16.3504L16.3489 4.68343L13.1674 1.50043L11.2384 3.42943L12.9844 5.17543L11.9239 6.23593L10.1779 4.48993L8.98843 5.67943L10.7344 7.42543L9.67393 8.48593L7.92793 6.73993L6.73843 7.92943L8.48443 9.67543L7.42393 10.7359L5.67793 8.98993L4.48843 10.1794L6.23443 11.9254L5.17393 12.9859L3.42793 11.2399Z" fill="#1D1D1F"/>
+                      </svg>
+                      <p>Ring Width</p>
+                    </div>
+                    <p class="single-info-value">{{ width_dimensions }}</p>
+                    <p class="single-info-desc">Brand width at widest point</p>
                   </div>
-                {% endfor %}
+                {% endif %}
+                {% if height_dimensions != blank %}
+                  <div class="single-info">
+                    <div class="single-info-head">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M11 4H21V6H11V4ZM6 7V11H4V7H1L5 3L9 7H6ZM6 17H9L5 21L1 17H4V13H6V17ZM11 18H21V20H11V18ZM9 11H21V13H9V11Z" fill="#1D1D1F"/>
+                      </svg>
+                      <p>Ring Height</p>
+                    </div>
+                    <p class="single-info-value">{{ height_dimensions }}</p>
+                    <p class="single-info-desc">Total height including setting</p>
+                  </div>
+                {% endif %}
+
+                <div class="single-info">
+                  <div class="single-info-head">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <path d="M5.99919 19H17.9992L16.5742 9H7.42419L5.99919 19ZM11.9992 7C12.2825 7 12.5202 6.904 12.7122 6.712C12.9042 6.52 12.9999 6.28267 12.9992 6C12.9985 5.71733 12.9025 5.48 12.7112 5.288C12.5199 5.096 12.2825 5 11.9992 5C11.7159 5 11.4785 5.096 11.2872 5.288C11.0959 5.48 10.9999 5.71733 10.9992 6C10.9985 6.28267 11.0945 6.52033 11.2872 6.713C11.4799 6.90567 11.7172 7.00133 11.9992 7ZM14.8242 7H16.5742C17.0742 7 17.5075 7.16667 17.8742 7.5C18.2409 7.83333 18.4659 8.24167 18.5492 8.725L19.9742 18.725C20.0575 19.325 19.9035 19.8543 19.5122 20.313C19.1209 20.7717 18.6165 21.0007 17.9992 21H5.99919C5.38252 21 4.87819 20.771 4.48619 20.313C4.09419 19.855 3.94019 19.3257 4.02419 18.725L5.44919 8.725C5.53252 8.24167 5.75752 7.83333 6.12419 7.5C6.49086 7.16667 6.92419 7 7.42419 7H9.17419C9.12419 6.83333 9.08252 6.671 9.04919 6.513C9.01586 6.355 8.99919 6.184 8.99919 6C8.99919 5.16667 9.29085 4.45833 9.87419 3.875C10.4575 3.29167 11.1659 3 11.9992 3C12.8325 3 13.5409 3.29167 14.1242 3.875C14.7075 4.45833 14.9992 5.16667 14.9992 6C14.9992 6.18333 14.9825 6.35433 14.9492 6.513C14.9159 6.67167 14.8742 6.834 14.8242 7Z" fill="#1D1D1F"/>
+                    </svg>
+                    <p>Metal Weight</p>
+                  </div>
+                  <p class="single-info-value product-info-weight">4.2 grams</p> {% comment %} Get from api or selected vairant's meta {% endcomment %}
+                  <p class="single-info-desc">Approximate weight (varies by size)</p>
+                </div>
+                {% if diamond_setting != blank %}
+                  <div class="single-info">
+                    <div class="single-info-head">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M7.69 9.91497H16.31M7.69 9.91497H2.75M7.69 9.91497L11.34 19.966M7.69 9.91497L10.09 5.98197L10.64 4.96997M16.31 9.91497H21.25M16.31 9.91497L12.66 19.966M16.31 9.91497L13.91 5.98197L13.344 4.96997M2.75 9.91497C2.75 10.335 2.829 10.755 2.986 11.151C3.198 11.686 3.628 12.179 4.486 13.164L7.953 17.14C9.35 18.742 10.048 19.544 10.876 19.838C11.0287 19.892 11.1833 19.9346 11.34 19.966M2.75 9.91497C2.75 9.49497 2.829 9.07497 2.986 8.67797C3.198 8.14297 3.628 7.65097 4.486 6.66497C4.953 6.13097 5.186 5.86397 5.456 5.65697C5.85742 5.35104 6.3226 5.13947 6.817 5.03797C7.151 4.96997 7.505 4.96997 8.214 4.96997H10.64M11.34 19.966C11.7758 20.0522 12.2242 20.0522 12.66 19.966M10.64 4.96997H13.344M21.25 9.91497C21.25 10.335 21.171 10.755 21.014 11.151C20.802 11.686 20.372 12.179 19.514 13.164L16.047 17.14C14.65 18.742 13.952 19.544 13.124 19.838C12.9726 19.8915 12.8175 19.9343 12.66 19.966M21.25 9.91497C21.25 9.49497 21.171 9.07497 21.014 8.67797C20.802 8.14297 20.372 7.65097 19.514 6.66497C19.047 6.13097 18.814 5.86397 18.544 5.65697C18.1426 5.35104 17.6774 5.13947 17.183 5.03797C16.849 4.96997 16.495 4.96997 15.786 4.96997H13.344" stroke="#1D1D1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                      <p>Diamond Setting</p>
+                    </div>
+                    <p class="single-info-value">{{ diamond_setting }}</p>
+                    <p class="single-info-desc">Classic secure setting style</p>
+                  </div>
+                {% endif %}
               </div>
             </div>
-          {% endif %}
 
           <!-- Right Box -->
           {% if section.settings.care_instructions != blank %}
@@ -108,41 +138,61 @@
       </button>
       <div id="policies" class="tab-content">
         <div class="section-header">
-          <p>Simple, transparent policies designed to give you complete confidence in your purchase</p>
+          <p>{{ section.settings.policy_heading }}</p>
+        </div>
+        
+        <div class="policies-holder">
+          {% if section.settings.policy_text_heading1 != blank %}
+            <div class="policies-container">
+              <div class="policy-card">
+                <div class="policy-heading-icon">
+                  <div class="policy-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <path d="M15.5 21.5H10.5C6.729 21.5 4.843 21.5 3.672 20.328C2.501 19.156 2.5 17.271 2.5 13.5V6.5M2.5 6.5H21.5M2.5 6.5L3.1 5.7C4.278 4.13 4.867 3.345 5.711 2.922C6.556 2.5 7.537 2.5 9.5 2.5H14.5C16.463 2.5 17.444 2.5 18.289 2.922C19.133 3.345 19.722 4.13 20.9 5.7L21.5 6.5M21.5 6.5V13.5" stroke="#1D1D1F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M16 13.499C16 13.499 13.5 15.34 13.5 15.999C13.5 16.658 16 18.499 16 18.499M14 15.999H18.75C19.4795 15.999 20.1791 16.2888 20.6949 16.8046C21.2107 17.3204 21.5005 18.02 21.5005 18.7495C21.5005 19.479 21.2107 20.1786 20.6949 20.6944C20.1791 21.2102 19.4795 21.5 18.75 21.5" stroke="#1D1D1F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </div>
+                  <p class="policy-card-heading">{{ section.settings.policy_text_heading1 }}</p>
+                </div>
+                  <p class="id-unique">{{ section.settings.policy_text_subheading1 }}</p>
+                  <p class="policy-info-desc">{{ section.settings.policy_text_desc1 }}</p>
+              </div>
+            </div>
+          {% endif %}
+          {% if section.settings.policy_text_heading2 != blank %}
+            <div class="policies-container">
+              <div class="policy-card">
+                <div class="policy-heading-icon">
+                  <div class="policy-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <path d="M4.99319 12.984C4.77597 12.9837 4.56458 13.0543 4.39099 13.1849C4.21741 13.3155 4.09107 13.499 4.03108 13.7078C3.97109 13.9166 3.98071 14.1392 4.05849 14.342C4.13628 14.5449 4.27798 14.7168 4.46219 14.832L7.15019 17.52C7.2431 17.6128 7.35339 17.6864 7.47476 17.7367C7.59613 17.7869 7.7262 17.8127 7.85755 17.8127C7.98889 17.8126 8.11895 17.7867 8.24028 17.7364C8.36161 17.6861 8.47185 17.6124 8.56469 17.5195C8.65754 17.4265 8.73117 17.3163 8.78139 17.1949C8.83162 17.0735 8.85744 16.9435 8.85739 16.8121C8.85735 16.6808 8.83143 16.5507 8.78112 16.4294C8.73082 16.308 8.6571 16.1978 8.56419 16.105L7.44319 14.985H14.9932C15.2584 14.985 15.5128 14.8796 15.7003 14.6921C15.8878 14.5045 15.9932 14.2502 15.9932 13.985C15.9932 13.7197 15.8878 13.4654 15.7003 13.2779C15.5128 13.0903 15.2584 12.985 14.9932 12.985L4.99319 12.984ZM19.0072 11.015C19.2244 11.0152 19.4358 10.9447 19.6094 10.8141C19.783 10.6835 19.9093 10.4999 19.9693 10.2911C20.0293 10.0823 20.0197 9.85971 19.9419 9.65689C19.8641 9.45407 19.7224 9.28209 19.5382 9.16696L16.8502 6.47996C16.6626 6.29245 16.4081 6.18716 16.1428 6.18726C15.8776 6.18735 15.6232 6.29282 15.4357 6.48046C15.2482 6.6681 15.1429 6.92254 15.143 7.18781C15.1431 7.45308 15.2486 7.70745 15.4362 7.89496L16.5572 9.01496H9.00719C8.74198 9.01496 8.48762 9.12031 8.30009 9.30785C8.11255 9.49539 8.00719 9.74974 8.00719 10.015C8.00719 10.2802 8.11255 10.5345 8.30009 10.7221C8.48762 10.9096 8.74198 11.015 9.00719 11.015H19.0072Z" fill="#1D1D1F"/>
+                    </svg>
+                  </div>
+                  <p class="policy-card-heading">{{ section.settings.policy_text_heading2 }}</p>
+                </div>
+                  <p class="id-unique">{{ section.settings.policy_text_subheading2 }}</p>
+                  <p class="policy-info-desc">{{ section.settings.policy_text_desc2 }}</p>
+              </div>
+            </div>
+          {% endif %}
+          {% if section.settings.policy_text_heading3 != blank %}
+            <div class="policies-container">
+              <div class="policy-card">
+                <div class="policy-heading-icon">
+                  <div class="policy-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <path d="M15.998 8.5H17.998C17.998 5.663 15.243 4.369 12.998 4.071V2H10.998V4.071C8.75305 4.369 5.99805 5.663 5.99805 8.5C5.99805 11.206 8.66405 12.613 10.998 12.93V17.9C9.55005 17.649 7.99805 16.876 7.99805 15.5H5.99805C5.99805 18.089 8.42305 19.619 10.998 19.936V22H12.998V19.93C15.243 19.632 17.998 18.337 17.998 15.5C17.998 12.663 15.243 11.369 12.998 11.071V6.1C14.328 6.339 15.998 7.041 15.998 8.5ZM7.99805 8.5C7.99805 7.041 9.66805 6.339 10.998 6.1V10.899C9.62705 10.646 7.99805 9.897 7.99805 8.5ZM15.998 15.5C15.998 16.959 14.328 17.661 12.998 17.9V13.1C14.328 13.339 15.998 14.041 15.998 15.5Z" fill="#1D1D1F"/>
+                    </svg>
+                  </div>
+                  <p class="policy-card-heading">{{ section.settings.policy_text_heading3 }}</p>
+                </div>
+                  <p class="id-unique">{{ section.settings.policy_text_subheading3 }}</p>
+                  <p class="policy-info-desc">{{ section.settings.policy_text_desc3 }}</p>
+              </div>
+            </div>
+         {% endif %} 
         </div>
 
-        {% assign policies = product.metafields.custom.policymeta.value %}
-
-        {% if policies != blank %}
-          <div class="policies-container">
-            {% for policy in policies %}
-              {% if policy.image != blank
-                or policy.container_top_text != blank
-                or policy.container_desc != blank
-                or policy.container_bottom_text != blank
-              %}
-                <div class="policy-card">
-                  <div class="policy-icon">
-                    {% if policy.image != blank %}
-                      {{ policy.image }}
-                      <!-- if your icon is stored as SVG in a metaobject rich text -->
-                    {% endif %}
-                    {% if policy.container_top_text != blank %}
-                      <h3>{{ policy.container_top_text }}</h3>
-                    {% endif %}
-                  </div>
-
-                  {% if policy.container_desc != blank %}
-                    <p class="id-unique">{{ policy.container_desc }}</p>
-                  {% endif %}
-                  {% if policy.container_bottom_text != blank %}
-                    <p>{{ policy.container_bottom_text }}</p>
-                  {% endif %}
-                </div>
-              {% endif %}
-            {% endfor %}
-          </div>
-        {% endif %}
 
         {% if section.settings.important_info != blank %}
           <div class="important-info">
@@ -222,7 +272,7 @@
     {
       "type": "text",
       "id": "top_head",
-      "label": "Heading"
+      "label": "Product Info Tab Heading"
     },
     {
       "type": "richtext",
@@ -230,10 +280,60 @@
       "label": "Care Instructions"
     },
     {
+      "type": "text",
+      "id": "policy_heading",
+      "label": "Policy Tab Heading"
+    },
+    {
+      "type": "text",
+      "id": "policy_text_heading1",
+      "label": "Policy Point 1 Heading"
+    },
+    {
+      "type": "text",
+      "id": "policy_text_heading2",
+      "label": "Policy Point 2 Heading"
+    },
+    {
+      "type": "text",
+      "id": "policy_text_heading3",
+      "label": "Policy Point 3 Heading"
+    },
+    {
+      "type": "text",
+      "id": "policy_text_subheading1",
+      "label": "Policy Point 1 SubHeading"
+    },
+    {
+      "type": "text",
+      "id": "policy_text_subheading2",
+      "label": "Policy Point 2 SubHeading"
+    },
+    {
+      "type": "text",
+      "id": "policy_text_subheading3",
+      "label": "Policy Point 3 SubHeading"
+    },
+    {
+      "type": "text",
+      "id": "policy_text_desc1",
+      "label": "Policy Point 1 Description"
+    },
+    {
+      "type": "text",
+      "id": "policy_text_desc2",
+      "label": "Policy Point 2 Description"
+    },
+    {
+      "type": "text",
+      "id": "policy_text_desc3",
+      "label": "Policy Point 3 Description"
+    },
+    {
       "type": "richtext",
       "id": "important_info",
       "label": "Important Information"
-    }
+    },
   ],
   "presets": [
     {

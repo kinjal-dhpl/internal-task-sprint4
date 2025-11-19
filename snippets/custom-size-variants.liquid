@@ -271,7 +271,11 @@ let currentVariants = []; // this will always hold latest 12 variants data
           currentVariants = apiResponse.data;
           // ✅ Update variant name and price in DOM
           apiResponse.data.forEach(item => {
-            const variantId = item.variantId?.split("/").pop(); // convert gid to numeric id
+            const variantIds = item.variantId?.split("/").pop(); // convert gid to numeric id
+            if(variantIds == variantId) {
+              updateProductInfoWeight(item, size)
+            }
+
             const variantName = item.variantName;
             
             // price object (first key inside price)
@@ -279,14 +283,14 @@ let currentVariants = []; // this will always hold latest 12 variants data
             const totalPrice = item.price[priceKey]?.total_price_with_gst || 0;
             // update variant name
             const nameEl = document.querySelector(
-              `.variant-link[data-variant-id="${variantId}"] .variant-name`
+              `.variant-link[data-variant-id="${variantIds}"] .variant-name`
             );
             if (nameEl) {
               nameEl.textContent = variantName;
             }
             // update variant price
             const priceEl = document.querySelector(
-              `.variant-link[data-variant-id="${variantId}"] .variant-price`
+              `.variant-link[data-variant-id="${variantIds}"] .variant-price`
             );
             if (priceEl) {
               priceEl.textContent = `₹ ${Number(totalPrice).toLocaleString('en-IN')}`;
@@ -477,4 +481,13 @@ let currentVariants = []; // this will always hold latest 12 variants data
   }
 
 })();
+
+function updateProductInfoWeight(item, size) {
+  const variantPrice = item.price[`config_size_${size}`].metal.weight;
+  const productInfoWeightHolder = document.querySelector('.single-info-value.product-info-weight');
+  if(variantPrice && productInfoWeightHolder) {
+    productInfoWeightHolder.textContent = variantPrice;
+  }
+  console.log(item.price[`config_size_${size}`].metal.weight,'weight');
+}
 </script>

@@ -1,3 +1,4 @@
+
 import {
   ViewerApp, //  main app that creates and controls the 3D viewer on the page
   addBasePlugins, // Importing base plugins ( lighting,camera controls,etc )
@@ -24,6 +25,21 @@ document.addEventListener(
   "DOMContentLoaded",
   (x) => {
     console.log("DOM loaded once===========================");
+    function getColor(colorName) {
+      const map = {
+        "Yellow": "#E8C547",
+        "White": "#DADADA",
+        "Rose": "#E5A3A3",
+        "Champagne": "#C7B199",
+        "Polished": "#bcbcbc",
+        "Matte": "#999999",
+        "Horizontal Velvet": "#888",
+        "Vertical Satin": "#777",
+      };
+
+      return map[colorName] || "#000";
+    }
+
 
     async function intialize3D() {
       console.log(
@@ -131,11 +147,10 @@ document.addEventListener(
         let layerConfig = {};
         if (layerName === "Metal 01" || layerName === "Metal 02") {
           const currentConfigType =
-            event.target.parentElement.getAttribute("config-type");
+            event.target.parentElement.parentElement.getAttribute("config-type");
           const otherSelected = document
             .querySelector(
-              `[layer-name="${layerName}"][config-type="${
-                currentConfigType === "color" ? "finish" : "color"
+              `[layer-name="${layerName}"][config-type="${currentConfigType === "color" ? "finish" : "color"
               }"] .material-option-active`
             )
             ?.getAttribute("mat-name");
@@ -170,18 +185,22 @@ document.addEventListener(
             {
               optionName: "Yellow",
               matName: "yellow-gold",
+              colorName: "yellow-gold"
             },
             {
               optionName: "White",
               matName: "white-gold",
+              colorName: "white-gold"
             },
             {
               optionName: "Rose",
               matName: "rose-gold",
+              colorName: "rose-gold"
             },
             {
               optionName: "Champagne",
               matName: "champagne",
+              colorName: "champagne"
             },
           ],
         },
@@ -196,18 +215,22 @@ document.addEventListener(
             {
               optionName: "Yellow",
               matName: "yellow-gold",
+              colorName: "yellow-gold"
             },
             {
               optionName: "White",
               matName: "white-gold",
+              colorName: "white-gold"
             },
             {
               optionName: "Rose",
               matName: "rose-gold",
+              colorName: "rose-gold"
             },
             {
               optionName: "Champagne",
               matName: "champagne",
+              colorName: "champagne"
             },
           ],
         },
@@ -220,18 +243,22 @@ document.addEventListener(
             {
               optionName: "Yellow",
               matName: "yellow-gold",
+              colorName: "yellow-gold"
             },
             {
               optionName: "White",
               matName: "white-gold",
+              colorName: "white-gold"
             },
             {
               optionName: "Rose",
               matName: "rose-gold",
+              colorName: "rose-gold"
             },
             {
               optionName: "Champagne",
               matName: "champagne",
+              colorName: "champagne"
             },
           ],
         },
@@ -325,6 +352,9 @@ document.addEventListener(
         headingContainer.textContent = name;
         container.appendChild(headingContainer);
         configuratorDiv.appendChild(container);
+        const filterContainer = document.createElement("div");
+        filterContainer.classList.add('customContextGridItemsContainer')
+        filterContainer.setAttribute("style", "display: flex; align-items: center; gap: 10px; flex-wrap: wrap;")
 
         const filteredOptions = options.filter((option) => {
           if (option.toBeShownIn) {
@@ -340,13 +370,22 @@ document.addEventListener(
           if (j === 0) {
             button.classList.add("material-option-active");
           }
-          const { optionName, matName } = filteredOptions[j];
-          button.innerHTML = optionName;
+          const { optionName, matName, colorName } = filteredOptions[j];
+          if (colorName) {
+            const colorDiv = document.createElement('div')
+            colorDiv.setAttribute('style', `background: ${getColor(optionName)}; display: block !important; width: 15px; height: 15px; border-radius: 100%;`)
+            colorDiv.classList.add('color-div')
+            button.append(colorDiv);
+          }
+          const oName = document.createElement('p')
+          oName.innerText = optionName
+          button.append(oName);
           button.setAttribute("mat-name", matName);
           button.layer = layerName;
           button.onclick = onClickColor;
-          container.append(button);
+          filterContainer.append(button);
         }
+        container.append(filterContainer)
       }
 
       const snipper = await viewer.addPlugin(CanvasSnipperPlugin); // CanvasSnipperPlugin lets you take screenshots.
@@ -430,9 +469,8 @@ document.addEventListener(
                 personalizedSummaryHtml += `
               <div class="summary-item">
                 <span class="summary-label">${metalTitle}:</span>
-                <span class="summary-value" id="summary-metal-tone-${
-                  index + 1
-                }">${metalName}</span>
+                <span class="summary-value" id="summary-metal-tone-${index + 1
+                  }">${metalName}</span>
               </div>
               `;
               });
@@ -482,9 +520,8 @@ document.addEventListener(
               <div class="ring-thumbnail">
                 <img src="${imgLink}" alt="Ring View">
               </div>
-              <input type="hidden" name="properties[personalization image ${
-                index + 1
-              }]" value="${imgLink}">
+              <input type="hidden" name="properties[personalization image ${index + 1
+                }]" value="${imgLink}">
             `;
             });
             // Render all HTML inside your form container
@@ -616,8 +653,8 @@ async function injectCapturedFiles(files) {
       blob instanceof File
         ? blob
         : new File([blob], `capture-${i + 1}.webp`, {
-            type: blob.type || "image/webp",
-          });
+          type: blob.type || "image/webp",
+        });
     dt.items.add(file);
   });
 
