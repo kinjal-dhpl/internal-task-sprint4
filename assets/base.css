@@ -2,6 +2,10 @@
     font-family: 'oregon-ldo-medium';
     src: url('https://cdn.shopify.com/s/files/1/0843/6917/8903/files/oregon_ldo_medium.ttf?v=1716311295') format('truetype');
 }
+@font-face {
+    font-family: 'Inter';
+    src: url('https://cdn.shopify.com/s/files/1/0843/6917/8903/files/Inter-Regular.otf?v=1763468555') format('truetype');
+}
 /* h1, h2, h3, h4, h5, h6{
   font-family: 'oregon-ldo-medium';
 } */

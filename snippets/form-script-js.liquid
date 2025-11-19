@@ -111,7 +111,17 @@
             // update summary UI
             const personalizationReviewDataEl = document.querySelector("#final-summary-form .final-card .final-grid");
             let personalSelectionHtml = '';
-            CanvasSelectedMaterials.forEach((selection, index) => {
+            Array.from(
+                document.getElementById("mconfigurator").children
+              ).map((child) => {
+                const title = child.querySelector(
+                  ".customContextGridHeading"
+                ).innerText;
+                const materialName = child.querySelector(
+                  ".customContextGridItems.material-option-active"
+                ).innerText;
+                return { title, materialName };
+              }).forEach((selection, index) => {
                 let metalTitle = selection.title.toLowerCase();
                 let metalName = selection.materialName;
                 personalSelectionHtml += `

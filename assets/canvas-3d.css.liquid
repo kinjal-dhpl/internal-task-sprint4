@@ -38,6 +38,10 @@ canvas#main-canvas {
     height: 100% !important;
 }
 
+#mconfigurator {
+        overflow: auto;
+}
+
 
 /* ijewel watermark */
 #MainProduct-{{ section.id }}>div>div.product.product--small.product--left.product--thumbnail.product--mobile-show.grid.grid--1-col.grid--2-col-tablet>div.\33 d-cavas-viewer>div>div:nth-child(6) {
@@ -57,17 +61,6 @@ button#capture-btn {
 }
 
 /* Metal options container */
-.canvas-3d-container>div>div:last-child {
-    display: flex;
-    flex-direction:column;
-    background: #fff;
-    width: 40% !important;
-    position: static !important;
-    /* height: 100% !important; */
-    gap: 2%;
-    padding-left: 1rem;
-    /* box-shadow: 0 0 4px -2px #000; */
-}
 
 .canvas-3d-container>div>div:last-child .customContextGrid {
     width: 100% !important;
@@ -82,15 +75,31 @@ button#capture-btn {
     font-weight: 600;
 }
 
+.customContextGridItems div, .customContextGridItems p { 
+    pointer-events: none;
+}
 .customContextGridItems {
-    width: 9em !important;
-    aspect-ratio: 1;
     border: 1px solid #1C1B1F4D;
-    height: 8em !important;
     text-align: center;
     display: flex;
-    border-radius: 2em !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
+    height: unset !important;
+    width: max-content !important;
+    border-radius: 12px;
+    padding: 5px;
+    z-index: 5;
+}
+
+.customContextGridItems p {
+    font-size: 16px;
+    color: #333;
+    margin: 0;
+    font-weight: 400;
+    line-height: 24px;
+    font-family: "Inter";
 }
 
 .customContextGridItems.active,
@@ -117,6 +126,7 @@ img.customContextGridItemImage {
 .customContextGrid {
     position: static !important;
     border: unset !important;
+    width: 100% !important;
 }
 
 .canvas-3d-container>div>div:last-child .customContextGrid {
@@ -143,7 +153,7 @@ img.customContextGridItemImage {
 }
 
 .canvas-3d-container>div>div:last-child {
-    padding-left: 1rem;
+    /* padding-left: 1rem; */
     /* box-shadow: 0 0 4px -2px #000; */
 }
 
@@ -161,8 +171,14 @@ img.customContextGridItemImage {
 
 .customContextGridHeading{
     padding: 0 5px;
+    font-family: 'Lato';
+    font-weight: 700;
     line-height: normal;
     height: fit-content;
+    font-size: 20px;
+    color: #1d1d1f;
+    margin: 15px 0;
+    white-space: nowrap;
 }
 
 /* =========================== Canvas Loader ============================= */
@@ -221,9 +237,29 @@ img.customContextGridItemImage {
 }
 
 @media screen and (max-width: 760px) {
+    .customContextGridHeading {
+        font-size: 16px;
+        line-height: 24px;
+    }
+    .customContextGridItems p {
+        font-size: 14px;
+        line-height: 21px;
+    }
+    .customContextGrid {
+        width: 100% !important;
+    }
     .canvas-3d-container {
         width: 100%;
         height: 100%;
+        overflow-y: auto;
+    }
+
+    #mconfigurator {
+        position: relative !important;
+        overflow: auto;
+        padding: 20px;
+        top: unset !important;
+        left: unset !important;
     }
 
     .display-flex {
@@ -238,9 +274,9 @@ img.customContextGridItemImage {
     }
 
     .canvas-3d-container>div>div:last-child {
-        padding-inline: 2rem;
+        /* padding-inline: 2rem;
         padding-top: 1rem;
-        box-shadow: 0 0px 4px -1px #a3a3a3;
+        box-shadow: 0 0px 4px -1px #a3a3a3; */
     }
 
     /* ----------------- TEST ------------------- */
@@ -378,10 +414,10 @@ img.customContextGridItemImage {
         padding-bottom: 1rem;
     }
 
-    .customContextGridItems{
+    /* .customContextGridItems{
         width: 9em !important;
         height: 8em !important;
-    }
+    } */
 
     img.customContextGridItemImage{
         width: 3em;
@@ -400,8 +436,14 @@ img.customContextGridItemImage {
 
 }
 
-@media (min-width: 619px) {
+/* @media (min-width: 619px) {
   .canvas-3d-container>div>div:last-child{
-    height:66vh !important; /* to override inline style added dynamically */
+    height:66vh !important;
   }
+} */
+
+@media screen and (min-width: 1750px) {
+    #mconfigurator {
+        left: 57% !important;
+    }
 }

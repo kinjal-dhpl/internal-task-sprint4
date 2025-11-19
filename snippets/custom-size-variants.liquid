@@ -1,86 +1,92 @@
 <!-- custom-size-variants -->
 <style>
-.size-heading {
-  font-family: Lato;
-  font-weight: 700;
-  font-size: clamp(17.6px, calc(22 * (100vw / 1440)), 22px);
-  line-height: 100%;
-  letter-spacing: 0.22px;
-  margin-bottom: 16px;
-  color:#86868B;
-}
-label.form__label {
-  font-size: clamp(22.4px, calc(28 * (100vw / 1440)), 33.6px);
-  font-family: Lato;
-  font-weight: 600;
-  line-height: 100%;
-  letter-spacing: 0px;
-  color: #1D1D1F;
-  margin-bottom: 16px;
-}
-/* Custom Select Styling */
-.select-neo {
-  position: relative !important;
-  display: inline-block !important;
-  width: 100% !important;
-}
-.select-neo select {
-  -webkit-appearance: none !important;
-  -moz-appearance: none !important;
-  appearance: none !important;
-  width: 100% !important;
-  padding: 12px 40px 12px 16px !important;
-  font-family: Lato, sans-serif !important;
-  font-size: 16px !important;
-  font-weight: 400 !important;
-  line-height: 1.5 !important;
-  color: #333 !important;
-  background-color: #ffffff !important;
-  border: 1px solid #d1d5db !important;
-  border-radius: 10px !important;
-  cursor: pointer !important;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
-  outline: none !important;
-  max-width: unset;
-}
-.select-neo select:hover {
-  border-color: #9ca3af !important;
-}
-.select-neo select:focus {
-  border-color: #3b82f6 !important;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
-}
-.select-neo select:disabled {
-  color: #9ca3af !important;
-  background-color: #f9fafb !important;
-  cursor: not-allowed !important;
-}
-.select-neo::after {
-  content: '' !important;
-  position: absolute !important;
-  top: 50% !important;
-  right: 12px !important;
-  transform: translateY(-50%) !important;
-  width: 0 !important;
-  height: 0 !important;
-  border-left: 5px solid transparent !important;
-  border-right: 5px solid transparent !important;
-  border-top: 6px solid #333 !important;
-  pointer-events: none !important;
-  transition: transform 0.2s ease !important;
-}
-.select-neo select:focus + ::after {
-  transform: translateY(-50%) rotate(180deg) !important;
-}
-/* Placeholder styling */
-.select-neo select option[value=""] {
-  color: #9ca3af !important;
+  .size-heading {
+    font-family: Lato;
+    font-weight: 700;
+    font-size: clamp(17.6px, calc(22 * (100vw / 1440)), 22px);
+    line-height: 100%;
+    letter-spacing: 0.22px;
+    margin-bottom: 16px;
+    color: #86868b;
+  }
+  label.form__label {
+    font-size: clamp(22.4px, calc(28 * (100vw / 1440)), 33.6px);
+    font-family: Lato;
+    font-weight: 600;
+    line-height: 100%;
+    letter-spacing: 0px;
+    color: #1d1d1f;
+    margin-bottom: 16px;
+  }
+  /* Custom Select Styling */
+  .select-neo {
+    position: relative !important;
+    display: inline-block !important;
+    width: 100% !important;
+  }
+  .select-neo select {
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+    width: 100% !important;
+    padding: 12px 40px 12px 16px !important;
+    font-family: Lato, sans-serif !important;
+    font-size: 16px !important;
+    font-weight: 400 !important;
+    line-height: 1.5 !important;
+    color: #333 !important;
+    background-color: #ffffff !important;
+    border: 1px solid #d1d5db !important;
+    border-radius: 10px !important;
+    cursor: pointer !important;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+    outline: none !important;
+    max-width: unset;
+  }
+  .select-neo select:hover {
+    border-color: #9ca3af !important;
+  }
+  .select-neo select:focus {
+    border-color: #3b82f6 !important;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+  }
+  .select-neo select:disabled {
+    color: #9ca3af !important;
+    background-color: #f9fafb !important;
+    cursor: not-allowed !important;
+  }
+  .select-neo::after {
+    content: '' !important;
+    position: absolute !important;
+    top: 50% !important;
+    right: 12px !important;
+    transform: translateY(-50%) !important;
+    width: 0 !important;
+    height: 0 !important;
+    border-left: 5px solid transparent !important;
+    border-right: 5px solid transparent !important;
+    border-top: 6px solid #333 !important;
+    pointer-events: none !important;
+    transition: transform 0.2s ease !important;
+  }
+  .select-neo select:focus + ::after {
+    transform: translateY(-50%) rotate(180deg) !important;
+  }
+  /* Placeholder styling */
+  .select-neo select option[value=''] {
+    color: #9ca3af !important;
   }
 </style>
+{% assign product_tags = product.tags | downcase %}
+{% if product_tags contains 'male' %}
+  {% assign is_male = true %}
+{% else %}
+  {% assign is_male = false %}
+{% endif %}
 
 <div class="product__custom-size-blockssss form-step second-step" {{ block.shopify_attributes }}>
   <div>
-  <h2 class="size-heading">Find Your Perfect Fit</h2>
+    <h2 class="size-heading">Find Your Perfect Fit</h2>
     <label for="custom-size-selector" class="text-sm font-medium form__label">Size:</label>
     <div class="select-neo">
       <select
@@ -91,7 +97,16 @@ label.form__label {
       >
         <option value="" disabled>Select size</option>
         {% for i in (1..35) %}
-          <option value="{{ i }}">{{ i }}</option>
+          <option
+            value="{{ i }}"
+            {% if is_male == true %}
+              {%- if i == 20 %}selected{% endif %}
+            {% else %}
+              {%- if i == 12 %}selected{% endif -%}
+            {% endif %}
+          >
+            {{ i }}
+          </option>
         {% endfor %}
       </select>
     </div>
@@ -106,6 +121,8 @@ label.form__label {
 let currentVariants = []; // this will always hold latest 12 variants data
 (function() {
   'use strict';
+
+  const isMale = '{{ is_male }}';
 
   // Global state management
   window.ProductState = {
@@ -123,7 +140,7 @@ let currentVariants = []; // this will always hold latest 12 variants data
       const urlSize = url.searchParams.get('size');
       
       this.selectedVariantId = urlVariant || "{{ product.selected_or_first_available_variant.id }}";
-      this.selectedSize = urlSize || '12';
+      this.selectedSize = urlSize || isMale === 'true' ? '20' : '12';
       
       // Initialize variant configs from metafields
       this.initializeVariantConfigs();
@@ -271,7 +288,11 @@ let currentVariants = []; // this will always hold latest 12 variants data
           currentVariants = apiResponse.data;
           // ✅ Update variant name and price in DOM
           apiResponse.data.forEach(item => {
-            const variantId = item.variantId?.split("/").pop(); // convert gid to numeric id
+            const variantIds = item.variantId?.split("/").pop(); // convert gid to numeric id
+            if(variantIds == variantId) {
+              updateProductInfoWeight(item, size)
+            }
+
             const variantName = item.variantName;
             
             // price object (first key inside price)
@@ -279,14 +300,14 @@ let currentVariants = []; // this will always hold latest 12 variants data
             const totalPrice = item.price[priceKey]?.total_price_with_gst || 0;
             // update variant name
             const nameEl = document.querySelector(
-              `.variant-link[data-variant-id="${variantId}"] .variant-name`
+              `.variant-link[data-variant-id="${variantIds}"] .variant-name`
             );
             if (nameEl) {
               nameEl.textContent = variantName;
             }
             // update variant price
             const priceEl = document.querySelector(
-              `.variant-link[data-variant-id="${variantId}"] .variant-price`
+              `.variant-link[data-variant-id="${variantIds}"] .variant-price`
             );
             if (priceEl) {
               priceEl.textContent = `₹ ${Number(totalPrice).toLocaleString('en-IN')}`;
@@ -389,22 +410,6 @@ let currentVariants = []; // this will always hold latest 12 variants data
 
   // UI Management
   const UIManager = {
-    initializeSizeSelector() {
-      const sizeSelect = document.getElementById('custom-size-selector');
-      if (!sizeSelect) {
-        console.error("❌ Size selector not found!");
-        return;
-      }
-
-      // Set initial value
-      sizeSelect.value = window.ProductState.selectedSize;
-
-      // Add event listener
-      sizeSelect.addEventListener('change', (e) => {
-        window.ProductState.updateSize(e.target.value);
-      });
-    },
-
     updateSizeDisplay() {
       const sizeDisplays = document.querySelectorAll('[data-size-display]');
       sizeDisplays.forEach(el => {
@@ -450,7 +455,6 @@ let currentVariants = []; // this will always hold latest 12 variants data
     }
     
     window.ProductState.init();
-    UIManager.initializeSizeSelector();
     UIManager.updateSizeDisplay();
     hideTargetElements();
     
@@ -477,4 +481,13 @@ let currentVariants = []; // this will always hold latest 12 variants data
   }
 
 })();
+
+function updateProductInfoWeight(item, size) {
+  const variantPrice = item.price[`config_size_${size}`].metal.weight;
+  const productInfoWeightHolder = document.querySelector('.single-info-value.product-info-weight');
+  if(variantPrice && productInfoWeightHolder) {
+    productInfoWeightHolder.textContent = variantPrice;
+  }
+  console.log(item.price[`config_size_${size}`].metal.weight,'weight');
+}
 </script>

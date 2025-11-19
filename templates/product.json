@@ -164,9 +164,19 @@
       "type": "product-info",
       "name": "product_section",
       "settings": {
-        "top_head": "",
+        "top_head": "Ring Dimensions and care instructions",
         "care_instructions": "<ul><li>Clean with mild soap and warm water </li><li>Store separately to avoid scratches</li><li>Professional cleaning recommended annually</li><li>Avoid harsh chemicals and ultrasonic cleaners</li></ul>",
-        "important_info": ""
+        "important_info": "<ul><li>All Policies apply from date of purchase.</li><li>Original receipt required for all services.</li><li>Custom engraving may effect return eligibility.</li><li>All services avaiable for original purchaser.</li></ul>",
+        "policy_heading": "Simple, trasnparent policies designed to give you confidence in your products",
+        "policy_text_heading1": "15- Day Returns",
+        "policy_text_heading2": "Lifetime Exchange",
+        "policy_text_heading3": "Buyback Gurantee",
+        "policy_text_subheading1": "Full refund if not completely satisfied.",
+        "policy_text_subheading2": "Exchange for different style or size anytime.",
+        "policy_text_subheading3": "We buy back your ring at fair market price.",
+        "policy_text_desc1": "No questions asked, return policy within 15 days.",
+        "policy_text_desc2": "Free exchange service for the life of the product.",
+        "policy_text_desc3": "Transparent buyback process with certified appraisal."
       }
     },
     "complete_your_set_pQULma": {
@@ -189,7 +199,6 @@
         "progress_step_YUmKUK": {
           "type": "progress_step",
           "settings": {
-            "step_image": "shopify://shop_images/Frame_65_8202e3f6-2384-42e6-b751-cafc8668a136.png",
             "step_title": "<p>Date 1: <strong>Design Confirmation</strong></p>",
             "step_description": "Your ring design is finalized and approved for production",
             "step_status": "Completed"
@@ -198,7 +207,6 @@
         "progress_step_ewazyJ": {
           "type": "progress_step",
           "settings": {
-            "step_image": "shopify://shop_images/Frame_65_1.png",
             "step_title": "<p>Date 2-3:<strong> Metal Preparation</strong></p>",
             "step_description": "Pure gold/platinum is refined and prepared for casting",
             "step_status": "Completed"
@@ -207,7 +215,6 @@
         "progress_step_3FXHG3": {
           "type": "progress_step",
           "settings": {
-            "step_image": "shopify://shop_images/Frame_65_2.png",
             "step_title": "<p>Date 4-5:<strong> Ring Casting</strong></p>",
             "step_description": "Your ring band is cast using traditional lost-wax technique",
             "step_status": "In Progress"
@@ -216,7 +223,6 @@
         "progress_step_f6Hh9X": {
           "type": "progress_step",
           "settings": {
-            "step_image": "shopify://shop_images/Frame_65_3.png",
             "step_title": "<p>Date 6-7: <strong>Stone Setting</strong></p>",
             "step_description": "Certified diamond is carefully set by expert craftsmen",
             "step_status": "Pending"
@@ -225,7 +231,6 @@
         "progress_step_PwzWHg": {
           "type": "progress_step",
           "settings": {
-            "step_image": "shopify://shop_images/Frame_65_8202e3f6-2384-42e6-b751-cafc8668a136.png",
             "step_title": "<p>Date 8-9: <strong>Design Confirmation</strong></p>",
             "step_description": "Your ring design is finalized and approved for production",
             "step_status": "Pending"
@@ -234,7 +239,6 @@
         "progress_step_xXMJq4": {
           "type": "progress_step",
           "settings": {
-            "step_image": "shopify://shop_images/Frame_65_2.png",
             "step_title": "<p>Date 10-11:<strong> Ring Casting</strong></p>",
             "step_description": "Your ring band is cast using traditional lost-wax technique",
             "step_status": "Pending"
