@@ -1,11 +1,9 @@
-
 import {
   ViewerApp, //  main app that creates and controls the 3D viewer on the page
   addBasePlugins, // Importing base plugins ( lighting,camera controls,etc )
   DiamondPlugin, // adds special rendering for diamond-like materials.
   CanvasSnipperPlugin, // lets you take a snapshot of the 3D view as an image.
   FileTransferPlugin, // used to export or transfer files.
-
 } from "https://dist.pixotronics.com/webgi/runtime/bundle-0.11.0.mjs";
 
 document.addEventListener(
@@ -14,19 +12,18 @@ document.addEventListener(
     console.log("DOM loaded once===========================");
     function getColor(colorName) {
       const map = {
-        "Yellow": "#E8C547",
-        "White": "#DADADA",
-        "Rose": "#E5A3A3",
-        "Champagne": "#C7B199",
-        "Polished": "#bcbcbc",
-        "Matte": "#999999",
+        Yellow: "#E8C547",
+        White: "#DADADA",
+        Rose: "#E5A3A3",
+        Champagne: "#C7B199",
+        Polished: "#bcbcbc",
+        Matte: "#999999",
         "Horizontal Velvet": "#888",
         "Vertical Satin": "#777",
       };
 
       return map[colorName] || "#000";
     }
-
 
     async function intialize3D() {
       console.log(
@@ -48,9 +45,6 @@ document.addEventListener(
       await viewer.addPlugin(DiamondPlugin);
 
       viewer.renderer.refreshPipeline();
-
-      const productGlbFile = productGlbUrl;
-      console.log("productGlbFile", productGlbFile);
 
       // Default layer definitions. Define all your layers here. Edit this structure to apply your own layer naming and materials
       const defaultLayerConfig = {
@@ -113,7 +107,8 @@ document.addEventListener(
       }
 
       await loadModel(
-        "https://cdn.shopify.com/3d/models/edeaa3dd5bf5f97e/33.glb" //config 13
+        glbFileLink
+        // "https://cdn.shopify.com/3d/models/edeaa3dd5bf5f97e/33.glb" //config 13
         // "https://cdn.shopify.com/3d/models/5b2acaf4e6375be3/R-0009-F2-RENDER_glb.glb" // config 22
         // "https://cdn.shopify.com/3d/models/06c4020a82b8af36/withNewLayerNames.glb"
         // "https://cdn.shopify.com/3d/models/1da2cd695bb73afd/R-0597-WS2-RENDER_glb.glb"
@@ -134,10 +129,13 @@ document.addEventListener(
         let layerConfig = {};
         if (layerName === "Metal 01" || layerName === "Metal 02") {
           const currentConfigType =
-            event.target.parentElement.parentElement.getAttribute("config-type");
+            event.target.parentElement.parentElement.getAttribute(
+              "config-type"
+            );
           const otherSelected = document
             .querySelector(
-              `[layer-name="${layerName}"][config-type="${currentConfigType === "color" ? "finish" : "color"
+              `[layer-name="${layerName}"][config-type="${
+                currentConfigType === "color" ? "finish" : "color"
               }"] .material-option-active`
             )
             ?.getAttribute("mat-name");
@@ -172,22 +170,22 @@ document.addEventListener(
             {
               optionName: "Yellow",
               matName: "yellow-gold",
-              colorName: "yellow-gold"
+              colorName: "yellow-gold",
             },
             {
               optionName: "White",
               matName: "white-gold",
-              colorName: "white-gold"
+              colorName: "white-gold",
             },
             {
               optionName: "Rose",
               matName: "rose-gold",
-              colorName: "rose-gold"
+              colorName: "rose-gold",
             },
             {
               optionName: "Champagne",
               matName: "champagne",
-              colorName: "champagne"
+              colorName: "champagne",
             },
           ],
         },
@@ -202,22 +200,22 @@ document.addEventListener(
             {
               optionName: "Yellow",
               matName: "yellow-gold",
-              colorName: "yellow-gold"
+              colorName: "yellow-gold",
             },
             {
               optionName: "White",
               matName: "white-gold",
-              colorName: "white-gold"
+              colorName: "white-gold",
             },
             {
               optionName: "Rose",
               matName: "rose-gold",
-              colorName: "rose-gold"
+              colorName: "rose-gold",
             },
             {
               optionName: "Champagne",
               matName: "champagne",
-              colorName: "champagne"
+              colorName: "champagne",
             },
           ],
         },
@@ -230,22 +228,22 @@ document.addEventListener(
             {
               optionName: "Yellow",
               matName: "yellow-gold",
-              colorName: "yellow-gold"
+              colorName: "yellow-gold",
             },
             {
               optionName: "White",
               matName: "white-gold",
-              colorName: "white-gold"
+              colorName: "white-gold",
             },
             {
               optionName: "Rose",
               matName: "rose-gold",
-              colorName: "rose-gold"
+              colorName: "rose-gold",
             },
             {
               optionName: "Champagne",
               matName: "champagne",
-              colorName: "champagne"
+              colorName: "champagne",
             },
           ],
         },
@@ -340,8 +338,11 @@ document.addEventListener(
         container.appendChild(headingContainer);
         configuratorDiv.appendChild(container);
         const filterContainer = document.createElement("div");
-        filterContainer.classList.add('customContextGridItemsContainer')
-        filterContainer.setAttribute("style", "display: flex; align-items: center; gap: 10px; flex-wrap: wrap;")
+        filterContainer.classList.add("customContextGridItemsContainer");
+        filterContainer.setAttribute(
+          "style",
+          "display: flex; align-items: center; gap: 10px; flex-wrap: wrap;"
+        );
 
         const filteredOptions = options.filter((option) => {
           if (option.toBeShownIn) {
@@ -359,20 +360,25 @@ document.addEventListener(
           }
           const { optionName, matName, colorName } = filteredOptions[j];
           if (colorName) {
-            const colorDiv = document.createElement('div')
-            colorDiv.setAttribute('style', `background: ${getColor(optionName)}; display: block !important; width: 15px; height: 15px; border-radius: 100%;`)
-            colorDiv.classList.add('color-div')
+            const colorDiv = document.createElement("div");
+            colorDiv.setAttribute(
+              "style",
+              `background: ${getColor(
+                optionName
+              )}; display: block !important; width: 15px; height: 15px; border-radius: 100%;`
+            );
+            colorDiv.classList.add("color-div");
             button.append(colorDiv);
           }
-          const oName = document.createElement('p')
-          oName.innerText = optionName
+          const oName = document.createElement("p");
+          oName.innerText = optionName;
           button.append(oName);
           button.setAttribute("mat-name", matName);
           button.layer = layerName;
           button.onclick = onClickColor;
           filterContainer.append(button);
         }
-        container.append(filterContainer)
+        container.append(filterContainer);
       }
 
       const snipper = await viewer.addPlugin(CanvasSnipperPlugin); // CanvasSnipperPlugin lets you take screenshots.
@@ -456,8 +462,9 @@ document.addEventListener(
                 personalizedSummaryHtml += `
               <div class="summary-item">
                 <span class="summary-label">${metalTitle}:</span>
-                <span class="summary-value" id="summary-metal-tone-${index + 1
-                  }">${metalName}</span>
+                <span class="summary-value" id="summary-metal-tone-${
+                  index + 1
+                }">${metalName}</span>
               </div>
               `;
               });
@@ -507,8 +514,9 @@ document.addEventListener(
               <div class="ring-thumbnail">
                 <img src="${imgLink}" alt="Ring View">
               </div>
-              <input type="hidden" name="properties[personalization image ${index + 1
-                }]" value="${imgLink}">
+              <input type="hidden" name="properties[personalization image ${
+                index + 1
+              }]" value="${imgLink}">
             `;
             });
             // Render all HTML inside your form container
@@ -640,8 +648,8 @@ async function injectCapturedFiles(files) {
       blob instanceof File
         ? blob
         : new File([blob], `capture-${i + 1}.webp`, {
-          type: blob.type || "image/webp",
-        });
+            type: blob.type || "image/webp",
+          });
     dt.items.add(file);
   });
 

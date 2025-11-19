@@ -1,8 +1,9 @@
-{{ 'canvas-3d.css' |  asset_url |  stylesheet_tag }}
+{{ 'canvas-3d.css' | asset_url | stylesheet_tag }}
 {% comment %} variable declared for saving canvas material selected form option {% endcomment %}
 <script>
-  let pdpCanvasPersonalizeOption = "";
-  window.productGlbUrl = "{{ product.metafields.custom.product_glb_file_link | escape }}";
+  let pdpCanvasPersonalizeOption = '';
+  window.glbFileLink = '{{ product.metafields.custom.product_glb_file_link | escape }}';
+  window.productGlbUrl = '{{ product.tags | json }}';
 </script>
 
 <section
@@ -26,30 +27,30 @@
   {%- endif -%}
 
   {%- style -%}
-    .hide-pb-section{
-    display:none !important;
-  }
-    .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+      .hide-pb-section{
+      display:none !important;
     }
-
-    .product__info-wrapper .ymq-options-img-label[data-show="IGI"]{
-      background-position: 50%!important;
-    background-size: 100%!important;
-    background-repeat: no-repeat!important;
-    }
-
-    @media screen and (min-width: 750px) {
       .section-{{ section.id }}-padding {
-        padding-top: {{ section.settings.padding_top }}px;
-        padding-bottom: {{ section.settings.padding_bottom }}px;
+        padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+        padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
       }
-    }
 
-    .customContextGridItems.material-option-active{
-      border:1px solid #000 !important;
-    }
+      .product__info-wrapper .ymq-options-img-label[data-show="IGI"]{
+        background-position: 50%!important;
+      background-size: 100%!important;
+      background-repeat: no-repeat!important;
+      }
+
+      @media screen and (min-width: 750px) {
+        .section-{{ section.id }}-padding {
+          padding-top: {{ section.settings.padding_top }}px;
+          padding-bottom: {{ section.settings.padding_bottom }}px;
+        }
+      }
+
+      .customContextGridItems.material-option-active{
+        border:1px solid #000 !important;
+      }
   {%- endstyle -%}
 
   <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
@@ -89,10 +90,8 @@
   <div class="page-width">
     <div class="product product--{{ section.settings.media_size }} product--{{ section.settings.media_position }} product--{{ section.settings.gallery_layout }} product--mobile-{{ section.settings.mobile_thumbnails }} grid grid--1-col {% if product.media.size > 0 %}grid--2-col-tablet{% else %}product--no-media{% endif %}">
       <div class="grid__item product__media-wrapper{% if section.settings.media_position == 'right' %} medium-hide large-up-hide{% endif %}">
-              <div class="trigger-cavas-preview">
-        Open 3D Canvas
-      </div>          
-      {% render 'product-media-gallery', variant_images: variant_images %}
+        <div class="trigger-cavas-preview">Open 3D Canvas</div>
+        {% render 'product-media-gallery', variant_images: variant_images %}
       </div>
       <div class="product__info-wrapper grid__item{% if settings.page_width > 1400 and section.settings.media_size == "small" %} product__info-wrapper--extra-padding{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
         <product-info
@@ -829,28 +828,26 @@
 
 <script>
   let selectedPersonalizationCanvasOptions;
-        const canvasContainer = document.querySelector('.canvas-viewer-wrapper');
-        const canvasCloseButton = document.querySelector('#close-canvas-view');
-        const canvasViewerBtn = document.querySelector('.trigger-cavas-preview');
-        const personalizationModal = document.querySelector("#personalization-options");
-        const bodyTag = document.getElementsByTagName('BODY')[0];
-        function toggleCanvasView(show){
-          if(show){
-            personalizationModal.click();
-          }
-          else{
-            // canvasContainer.classList.add('hidden');
-          }
-        }
-        canvasViewerBtn.addEventListener('click', x => {
-          toggleCanvasView(true)
-          
-        });
-        canvasCloseButton.addEventListener('click', x => {
-          console.log('Hey close canvas');
-          toggleCanvasView(false)
-        });
-       </script>
+  const canvasContainer = document.querySelector('.canvas-viewer-wrapper');
+  const canvasCloseButton = document.querySelector('#close-canvas-view');
+  const canvasViewerBtn = document.querySelector('.trigger-cavas-preview');
+  const personalizationModal = document.querySelector('#personalization-options');
+  const bodyTag = document.getElementsByTagName('BODY')[0];
+  function toggleCanvasView(show) {
+    if (show) {
+      personalizationModal.click();
+    } else {
+      // canvasContainer.classList.add('hidden');
+    }
+  }
+  canvasViewerBtn.addEventListener('click', (x) => {
+    toggleCanvasView(true);
+  });
+  canvasCloseButton.addEventListener('click', (x) => {
+    console.log('Hey close canvas');
+    toggleCanvasView(false);
+  });
+</script>
 
 {% schema %}
 {
