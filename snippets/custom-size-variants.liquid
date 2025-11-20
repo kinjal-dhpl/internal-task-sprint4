@@ -410,6 +410,21 @@ let currentVariants = []; // this will always hold latest 12 variants data
 
   // UI Management
   const UIManager = {
+    initializeSizeSelector() {
+      const sizeSelect = document.getElementById('custom-size-selector');
+      if (!sizeSelect) {
+        console.error("❌ Size selector not found!");
+        return;
+      }
+
+      // Set initial value
+      sizeSelect.value = window.ProductState.selectedSize;
+
+      // Add event listener
+      sizeSelect.addEventListener('change', (e) => {
+        window.ProductState.updateSize(e.target.value);
+      });
+    },
     updateSizeDisplay() {
       const sizeDisplays = document.querySelectorAll('[data-size-display]');
       sizeDisplays.forEach(el => {
@@ -455,6 +470,7 @@ let currentVariants = []; // this will always hold latest 12 variants data
     }
     
     window.ProductState.init();
+    UIManager.initializeSizeSelector();
     UIManager.updateSizeDisplay();
     hideTargetElements();
     
