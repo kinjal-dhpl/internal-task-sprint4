@@ -78,10 +78,10 @@
   }
 </style>
 {% assign product_tags = product.tags | downcase %}
-{% if product_tags contains 'male' %}
-  {% assign is_male = true %}
-{% else %}
+{% if product_tags contains 'female' %}
   {% assign is_male = false %}
+{% else %}
+  {% assign is_male = true %}
 {% endif %}
 
 <div class="product__custom-size-blockssss form-step second-step" {{ block.shopify_attributes }}>
