@@ -1112,21 +1112,37 @@ function showpincodePopup(event, lineItemId, allTimelineData) {
     container.classList.add('vertical-timeline');
   }
 
-  // Update progress bar
-  if (activeSteps > 0) {
-    const totalSteps = allSteps.length - 1;
-    const highestActiveIndex = activeSteps - 1;
-
-    if (isMobile) {
-      const percentage = totalSteps > 0 ? (highestActiveIndex / totalSteps) * 100 : 0;
-      container.style.setProperty('--progress-height', percentage + '%');
-      container.style.removeProperty('--progress-width');
-    } else {
-      const stepWidth = totalSteps > 0 ? 100 / totalSteps : 0;
-      const percentage = Math.max(0, (highestActiveIndex + 0.1) * stepWidth);
+  // Update progress bar - Calculate based on actual circle center positions
+  if (activeSteps > 0 && !isMobile) {
+    const allStepsArray = Array.from(allSteps);
+    let lastActiveStep = null;
+    for (let i = allStepsArray.length - 1; i >= 0; i--) {
+      if (allStepsArray[i].classList.contains('active')) {
+        lastActiveStep = allStepsArray[i];
+        break;
+      }
+    }
+    
+    if (lastActiveStep) {
+      const circle = lastActiveStep.querySelector('.circle');
+      
+      const containerRect = container.getBoundingClientRect();
+      const activeCircleRect = circle.getBoundingClientRect();
+      
+      // Calculate center of active circle relative to container left edge
+      const activeCenter = activeCircleRect.left + activeCircleRect.width / 2 - containerRect.left;
+      
+      // Progress line goes from left: 0 to center of active circle
+      const percentage = containerRect.width > 0 ? (activeCenter / containerRect.width) * 100 : 0;
       container.style.setProperty('--progress-width', percentage + '%');
       container.style.removeProperty('--progress-height');
     }
+  } else if (activeSteps > 0 && isMobile) {
+    const totalSteps = allSteps.length - 1;
+    const highestActiveIndex = activeSteps - 1;
+    const percentage = totalSteps > 0 ? (highestActiveIndex / totalSteps) * 100 : 0;
+    container.style.setProperty('--progress-height', percentage + '%');
+    container.style.removeProperty('--progress-width');
   } else {
     container.style.setProperty('--progress-width', '0%');
     container.style.setProperty('--progress-height', '0%');
