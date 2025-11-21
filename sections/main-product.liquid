@@ -4,6 +4,11 @@
   let pdpCanvasPersonalizeOption = '';
   window.glbFileLink = '{{ product.metafields.custom.product_glb_file_link | escape }}';
   window.productGlbUrl = '{{ product.tags | json }}';
+  {% for tag in product.tags %}
+    {% if tag contains 'Scenario_' %}
+      window.personalizationScenario = '{{ tag | remove: 'Scenario_' | escape }}';
+    {% endif %}
+  {% endfor %}
 </script>
 
 <section

@@ -314,7 +314,14 @@ document.addEventListener(
         },
       ];
 
-      const scenarioTag = 18; // Change this value to test different scenarios
+      let scenarioTag = 1; // Change this value to test different scenarios
+
+      if (window.personalizationScenario) {
+        const scenario = Number(window.personalizationScenario);
+        if (scenario && !isNaN(scenario) && scenario > 0 && scenario <= 24) {
+          scenarioTag = scenario;
+        }
+      }
 
       const filteredMaterialConfig = allMaterialConfig.filter((config) =>
         config.toBeShownIn.includes(scenarioTag)
