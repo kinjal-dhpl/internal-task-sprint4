@@ -397,9 +397,9 @@
         savePersonalFitSelections();
       });
     });
-
+    
     function getDateAfterDays(requiredWorkingDays) {
-    // holidays list (MM-DD-YYYY format)
+    
     const excludedDates = [
         "01-01-2025",
         "01-14-2025",
@@ -427,7 +427,7 @@
         const isSunday = futureDate.getDay() === 0;
         const isHoliday = excludedDates.includes(mmddyyyy);
 
-        // count only working days
+        
         if (!isSunday && !isHoliday) {
             countedWorkingDays++;
         }
@@ -448,7 +448,6 @@
         const estimateDuration = inputLabel.getAttribute('data-value');
         let expectedDeliveryDay = estimateDuration ? getDateAfterDays(estimateDuration) : getDateAfterDays(15);
         if (expectedDeliveryDay) {
-          console.log('jghsdjfhgsdjhfjhfg', expectedDeliveryDay);
           deliveryDateContainer.textContent = `Expected delivery by ${expectedDeliveryDay}`;
           deliveryCalculateNotifyMessage.classList.add('hidden');
           deliveryDateContainer.classList.remove('hidden');
