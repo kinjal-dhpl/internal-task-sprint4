@@ -1181,17 +1181,18 @@
           container.style.setProperty('--progress-height', percentage - 2 + '%');
           container.style.removeProperty('--progress-width');
         } else {
-          // Horizontal timeline
-          const containerLeft = container.getBoundingClientRect().left;
-          const lastActiveLeft = lastActiveStep.getBoundingClientRect().left;
-          const firstStepLeft = firstStep.getBoundingClientRect().left;
-          const lastStepLeft = lastStep.getBoundingClientRect().left;
-
-          const totalWidth = lastStepLeft - firstStepLeft;
-          const progressWidth = lastActiveLeft - firstStepLeft;
-
-          const percentage = totalWidth > 0 ? (progressWidth / totalWidth) * 100 : 0;
-          container.style.setProperty('--progress-width', percentage - 2 + '%');
+          // Horizontal timeline - calculate to center of circle
+          const circle = lastActiveStep.querySelector('.circle');
+          
+          const containerRect = container.getBoundingClientRect();
+          const activeCircleRect = circle.getBoundingClientRect();
+          
+          // Calculate center of active circle relative to container left edge
+          const activeCenter = activeCircleRect.left + activeCircleRect.width / 2 - containerRect.left;
+          
+          // Progress line goes from left: 0 to center of active circle
+          const percentage = containerRect.width > 0 ? (activeCenter / containerRect.width) * 100 : 0;
+          container.style.setProperty('--progress-width', percentage + '%');
           container.style.removeProperty('--progress-height');
         }
       }
