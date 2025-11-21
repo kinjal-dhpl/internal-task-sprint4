@@ -97,6 +97,23 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
   }
+  .gold-variants-container {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .gold-column {
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .gold-column .variant-card-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10.5px;
+    padding-bottom: 0;
+  }
   .variant-link {
     text-decoration: none;
     flex: 0 0 32%;
@@ -446,32 +463,74 @@
 
 <!-- Variant Tabs Content -->
 <div id="goldTab" data-metal="gold" class="tabcontent">
-  <div class="variant-card-container">
-    {% for variant in product.variants %}
-      {% assign metal = variant.option1 | downcase %}
-      {% assign diamond = variant.option2 | downcase %}
-      {% if metal contains 'gold' and diamond contains 'natural' %}
-        <div
-          class="variant-link"
-          data-variant-id="{{ variant.id }}"
-          data-option1="{{ variant.option1 }}"
-          data-option2="{{ variant.option2 }}"
-          onclick="selectVariant('{{ variant.id }}', this)"
-        >
-          <div class="variant-box" data-variant-id="{{ variant.id }}">
-            <div class="top-row">
-              <h2 class="variant-name"></h2>
+<div class="gold-variants-container">
+    <!-- Left column: 14KT -->
+    <div class="gold-column gold-14k">
+      <div class="variant-card-container">
+        {% for variant in product.variants %}
+          {% assign metal = variant.option1 | downcase %}
+          {% assign diamond = variant.option2 | downcase %}
+          {% if metal contains 'gold' and diamond contains 'natural' %}
+            {% if variant.title contains '14KT' or variant.title contains '14K' %}
+            <div
+              class="variant-link"
+              data-variant-id="{{ variant.id }}"
+              data-option1="{{ variant.option1 }}"
+              data-option2="{{ variant.option2 }}"
+              onclick="selectVariant('{{ variant.id }}', this)"
+            >
+              <div class="variant-box" data-variant-id="{{ variant.id }}">
+                <div class="top-row">
+                  <h2 class="variant-name"></h2>
+                </div>
+                <p class="variant-pack-size">
+                  {{ variant.title | replace: 'Gold', '' | replace: 'Natural', '' | replace: '/', '' | strip }}
+                </p>
+                <div class="price-container" data-variant-id="{{ variant.id }}">
+                  <p class="variant-price"></p>
+                  <span class="plus-breakup-text">+ Break-up</span>
+                </div>
+              </div>
             </div>
-            <p class="variant-pack-size">
-              {{ variant.title | replace: 'Gold', '' | replace: 'Natural', '' | replace: '/', '' | strip }}
-            </p>
-            <div class="price-container" data-variant-id="{{ variant.id }}">
-              <p class="variant-price"></p>
-              <span class="plus-breakup-text">+ Break-up</span>
-            </div></div>
-        </div>
-      {% endif %}
-    {% endfor %}
+           {% endif %}
+        {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Right column: 18KT -->
+    <div class="gold-column gold-18k">
+      <div class="variant-card-container">
+        {% for variant in product.variants %}
+          {% assign metal = variant.option1 | downcase %}
+          {% assign diamond = variant.option2 | downcase %}
+          {% if metal contains 'gold' and diamond contains 'natural' %}
+            {% if variant.title contains '18KT' or variant.title contains '18K' %}
+            <div
+              class="variant-link"
+              data-variant-id="{{ variant.id }}"
+              data-option1="{{ variant.option1 }}"
+              data-option2="{{ variant.option2 }}"
+              onclick="selectVariant('{{ variant.id }}', this)"
+            >
+              <div class="variant-box" data-variant-id="{{ variant.id }}">
+                <div class="top-row">
+                  <h2 class="variant-name"></h2>
+                </div>
+                <p class="variant-pack-size">
+                  {{ variant.title | replace: 'Gold', '' | replace: 'Natural', '' | replace: '/', '' | strip }}
+                </p>
+                <div class="price-container" data-variant-id="{{ variant.id }}">
+                  <p class="variant-price"></p>
+                  <span class="plus-breakup-text">+ Break-up</span>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        {% endif %}
+        {% endfor %}
+      </div>
+    </div>
   </div>
 </div>
 
