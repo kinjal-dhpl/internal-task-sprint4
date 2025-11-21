@@ -1,702 +1,720 @@
 <script>
-    const pdpSelectedFormOptions = {};
-    const canvasViewerBtn = document.querySelector('.trigger-cavas-preview');
-    const personalizationModal = document.querySelector("#personalization-options");
-    const selectedPersonalization = document.querySelector("#personalization-radio");
-    canvasViewerBtn.addEventListener('click', x => {
-        personalizationModal.click();
-    });
-    function enableNextForm(targettedFrom) {
-        const nextForm = targettedFrom.nextElementSibling;
-        if (!nextForm) {
-            return;
-        }
-        nextForm.classList.add('active');
-        // Scroll smoothly to the next form
-        nextForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  const pdpSelectedFormOptions = {};
+  const canvasViewerBtn = document.querySelector('.trigger-cavas-preview');
+  const personalizationModal = document.querySelector('#personalization-options');
+  const selectedPersonalization = document.querySelector('#personalization-radio');
+  canvasViewerBtn.addEventListener('click', (x) => {
+    personalizationModal.click();
+  });
+  function enableNextForm(targettedFrom) {
+    const nextForm = targettedFrom.nextElementSibling;
+    if (!nextForm) {
+      return;
     }
-    function showLastPdpForms() {
-        const deliveryFormWrapper = document.querySelector("#auth-delivery-form");
-        // const finalFormWrapper = document.querySelector("#final-summary-form");
-        deliveryFormWrapper.classList.remove('hidden');
-        // finalFormWrapper.classList.remove('hidden');
-    }
+    nextForm.classList.add('active');
+    // Scroll smoothly to the next form
+    nextForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  function showLastPdpForms() {
+    const deliveryFormWrapper = document.querySelector('#auth-delivery-form');
+    // const finalFormWrapper = document.querySelector("#final-summary-form");
+    deliveryFormWrapper.classList.remove('hidden');
+    // finalFormWrapper.classList.remove('hidden');
+  }
 
-    // helper functions
-    function setText(id, value) {
-        // saveSelectedOptions
-        let keyname = id?.split('final-')[1];
-        if (id && !id.includes('metal-color')) {
-            pdpSelectedFormOptions[keyname] = value;
-        }
-
-        const el = document.getElementById(id);
-        if (el) el.textContent = value;
-    }
-    function copyText(fromId, toId) {
-        const src = document.getElementById(fromId);
-        const srcText = src.textContent || '-';
-        const dest = document.getElementById(toId);
-        if (src && dest) dest.textContent = srcText;
-        // saveSelectedOptions
-        let keyname = fromId?.split('summary-')[1];
-        if (keyname) pdpSelectedFormOptions[keyname] = srcText;
+  // helper functions
+  function setText(id, value) {
+    // saveSelectedOptions
+    let keyname = id?.split('final-')[1];
+    if (id && !id.includes('metal-color')) {
+      pdpSelectedFormOptions[keyname] = value;
     }
 
-    // Populate final summary from selections
-    function updateFinalSummary() {
-        // Size
-        const selectedSizeBtn = document.querySelector("#custom-size-selector");
-        const noOptionSelectedText = 'No Option Selected';
-        const sizeText = selectedSizeBtn ? selectedSizeBtn.value : 'Size not found';
-        const selectedOptions = {};
-        setText('final-size', sizeText);
-        // Metal Color from selected variant (PDP)
-        try {
-            const selectedVariantId = window.ProductState?.selectedVariantId || document.getElementById('SelectedVariantId')?.value;
-            const variants = Array.isArray(window.productVariants) ? window.productVariants : [];
-            let variant = null;
-            if (selectedVariantId && variants.length) {
-                variant = variants.find(v => String(v.id) === String(selectedVariantId) || String(v.id).endsWith(String(selectedVariantId)));
-            }
-            if (variant) {
-                const opt1 = variant.option1 || '';
-                const opt2 = variant.option2 || '';
-                const metalColorText = [opt1, opt2].filter(Boolean).join(' | ');
-                if (metalColorText) setText('final-metal-color', metalColorText);
-            }
-        } catch (e) {
-            // ignore
-            console.log('error', e);
-        }
-        //PRICE UI Update
-        const selectedVariant = document.querySelector('.variant-box.selected');
-        const selectedVariantTextContainer = selectedVariant.querySelector('.variant-price').textContent;
-        const extractNumberFromString = selectedVariantTextContainer?.split('₹')[1]?.trim();
-        let selectedVariantPrice;
-        if (extractNumberFromString) {
-            selectedVariantPrice = parseFloat(extractNumberFromString.replaceAll(',', ''));
-        }
-        // final summary price slab
-        if (selectedVariantPrice) setText('final-price', formatPrice(selectedVariantPrice));
-        // Engraving - check current state
-        const engravingForm = document.querySelector('#engraving-form');
-        let selectedEngravingOption = engravingForm.querySelector('input:checked')?.value;
-        if (selectedEngravingOption) {
-            const engravedText = engravingForm.querySelector('#summary-engraving-text').textContent;
-            setText('final-engraving', engravedText);
-        } else {
-            setText('final-engraving', noOptionSelectedText);
-        }
+    const el = document.getElementById(id);
+    if (el) el.textContent = value;
+  }
+  function copyText(fromId, toId) {
+    const src = document.getElementById(fromId);
+    const srcText = src.textContent || '-';
+    const dest = document.getElementById(toId);
+    if (src && dest) dest.textContent = srcText;
+    // saveSelectedOptions
+    let keyname = fromId?.split('summary-')[1];
+    if (keyname) pdpSelectedFormOptions[keyname] = srcText;
+  }
 
-        // Personal fit
-        const gender = document.querySelector('.gender-btn.active .selection-text');
-        const hand = document.querySelector('.hand-btn.active .selection-text');
-        const finger = document.querySelector('.finger-btn.active .selection-text');
-        setText('final-gender', gender ? gender.textContent : noOptionSelectedText);
-        setText('final-hand', hand ? hand.textContent : noOptionSelectedText);
-        setText('final-finger', finger ? finger.textContent : noOptionSelectedText);
-        // Finger print ** passing input image data is missed here. Flagged to add it later **
-        const isFingerPrintSelected = document.getElementById("additional-print-yes");
-        const isFpInputs = document.querySelectorAll('[name="additional-print"]');
-        // if (isFingerPrintSelected && !isFingerPrintSelected.checked) {
-        //    pdpSelectedFormOptions['fingerprint'] = "No";
-        // }
+  // Populate final summary from selections
+  function updateFinalSummary() {
+    // Size
+    const selectedSizeBtn = document.querySelector('#custom-size-selector');
+    const noOptionSelectedText = 'No Option Selected';
+    const sizeText = selectedSizeBtn ? selectedSizeBtn.value : 'Size not found';
+    const selectedOptions = {};
+    setText('final-size', sizeText);
+    // Metal Color from selected variant (PDP)
+    try {
+      const selectedVariantId =
+        window.ProductState?.selectedVariantId || document.getElementById('SelectedVariantId')?.value;
+      const variants = Array.isArray(window.productVariants) ? window.productVariants : [];
+      let variant = null;
+      if (selectedVariantId && variants.length) {
+        variant = variants.find(
+          (v) => String(v.id) === String(selectedVariantId) || String(v.id).endsWith(String(selectedVariantId))
+        );
+      }
+      if (variant) {
+        const opt1 = variant.option1 || '';
+        const opt2 = variant.option2 || '';
+        const metalColorText = [opt1, opt2].filter(Boolean).join(' | ');
+        if (metalColorText) setText('final-metal-color', metalColorText);
+      }
+    } catch (e) {
+      // ignore
+      console.log('error', e);
+    }
+    //PRICE UI Update
+    const selectedVariant = document.querySelector('.variant-box.selected');
+    const selectedVariantTextContainer = selectedVariant.querySelector('.variant-price').textContent;
+    const extractNumberFromString = selectedVariantTextContainer?.split('₹')[1]?.trim();
+    let selectedVariantPrice;
+    if (extractNumberFromString) {
+      selectedVariantPrice = parseFloat(extractNumberFromString.replaceAll(',', ''));
+    }
+    // final summary price slab
+    if (selectedVariantPrice) setText('final-price', formatPrice(selectedVariantPrice));
+    // Engraving - check current state
+    const engravingForm = document.querySelector('#engraving-form');
+    let selectedEngravingOption = engravingForm.querySelector('input:checked')?.value;
+    if (selectedEngravingOption) {
+      const engravedText = engravingForm.querySelector('#summary-engraving-text').textContent;
+      setText('final-engraving', engravedText);
+    } else {
+      setText('final-engraving', noOptionSelectedText);
+    }
 
-        // Metal tones / finishes (from personalization summary if available)
-        const personalizeForm = document.querySelector('#personalize-form');
-        const personalizesummarydata = document.querySelector("#personalization-summary");
-        if (personalizesummarydata && personalizesummarydata.getAttribute('selected') && personalizesummarydata.querySelectorAll('.summary-item')?.length) {
-           
-            // update summary UI
-            const personalizationReviewDataEl = document.querySelector("#final-summary-form .final-card .final-grid");
-            let personalSelectionHtml = '';
-            Array.from(
-                document.getElementById("mconfigurator").children
-              ).map((child) => {
-                const title = child.querySelector(
-                  ".customContextGridHeading"
-                ).innerText;
-                const materialName = child.querySelector(
-                  ".customContextGridItems.material-option-active"
-                ).innerText;
-                return { title, materialName };
-              }).forEach((selection, index) => {
-                let metalTitle = selection.title.toLowerCase();
-                let metalName = selection.materialName;
-                personalSelectionHtml += `
+    // Personal fit
+    const gender = document.querySelector('.gender-btn.active .selection-text');
+    const hand = document.querySelector('.hand-btn.active .selection-text');
+    const finger = document.querySelector('.finger-btn.active .selection-text');
+    setText('final-gender', gender ? gender.textContent : noOptionSelectedText);
+    setText('final-hand', hand ? hand.textContent : noOptionSelectedText);
+    setText('final-finger', finger ? finger.textContent : noOptionSelectedText);
+    // Finger print ** passing input image data is missed here. Flagged to add it later **
+    const isFingerPrintSelected = document.getElementById('additional-print-yes');
+    const isFpInputs = document.querySelectorAll('[name="additional-print"]');
+    // if (isFingerPrintSelected && !isFingerPrintSelected.checked) {
+    //    pdpSelectedFormOptions['fingerprint'] = "No";
+    // }
+
+    // Metal tones / finishes (from personalization summary if available)
+    const personalizeForm = document.querySelector('#personalize-form');
+    const personalizesummarydata = document.querySelector('#personalization-summary');
+    if (
+      personalizesummarydata &&
+      personalizesummarydata.getAttribute('selected') &&
+      personalizesummarydata.querySelectorAll('.summary-item')?.length
+    ) {
+      // update summary UI
+      const personalizationReviewDataEl = document.querySelector('#final-summary-form .final-card .final-grid');
+      let personalSelectionHtml = '';
+      Array.from(document.getElementById('mconfigurator').children)
+        .map((child) => {
+          const title = child.querySelector('.customContextGridHeading').innerText;
+          const materialName = child.querySelector('.customContextGridItems.material-option-active').innerText;
+          return { title, materialName };
+        })
+        .forEach((selection, index) => {
+          let metalTitle = selection.title.toLowerCase();
+          let metalName = selection.materialName;
+          personalSelectionHtml += `
                 <div class="final-item">
                     <div class="final-item-label">${metalTitle}</div>
                     <div class="final-item-value" id="final-metal-tone-${index}">${metalName}</div>
                 </div>
                 `;
-                pdpSelectedFormOptions[metalTitle] = metalName;
-            });
-            personalizationReviewDataEl.innerHTML = personalSelectionHtml;
-            // end
-            pdpSelectedFormOptions['personalization'] = 'yes';
-            document.querySelector('.personalize-selected-options').classList.remove('hidden');
-            document.querySelector('.no-pers').classList.add('hidden');
-        }
-        else if(document.querySelector("#no-personalization-radio") && document.querySelector("#no-personalization-radio").checked){
-            copyText('summary-personalize', selectedPersonalization);
-            document.querySelector('.personalize-selected-options').classList.add('hidden');
-            document.querySelector('.no-pers').classList.remove('hidden');
-        }
-
-        // pass into PDP Form properties
-        // Create and append the new hidden input
-        const form = document.querySelector('form[action="/cart/add"]');
-        if (form) {
-            const attributeData = {};
-            Object.entries(pdpSelectedFormOptions).forEach(([key, value]) => {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = `properties[${key}]`;
-                // Handle based on value type
-                if (Array.isArray(value)) {
-                    // If it's an array, join it as a readable string (comma-separated)
-                    input.value = value.join(', ');
-                } else if (typeof value === 'object' && value !== null) {
-                    // If it's an object, store it as a JSON string
-                    input.value = JSON.stringify(value);
-                } else {
-                    // For primitive types (string, number, boolean, etc.)
-                    input.value = value;
-                }
-                form.appendChild(input);
-                attributeData[key] = input.value; // Optional: store processed values too
-            });
-        }
-
+          pdpSelectedFormOptions[metalTitle] = metalName;
+        });
+      personalizationReviewDataEl.innerHTML = personalSelectionHtml;
+      // end
+      pdpSelectedFormOptions['personalization'] = 'yes';
+      document.querySelector('.personalize-selected-options').classList.remove('hidden');
+      document.querySelector('.no-pers').classList.add('hidden');
+    } else if (
+      document.querySelector('#no-personalization-radio') &&
+      document.querySelector('#no-personalization-radio').checked
+    ) {
+      copyText('summary-personalize', selectedPersonalization);
+      document.querySelector('.personalize-selected-options').classList.add('hidden');
+      document.querySelector('.no-pers').classList.remove('hidden');
     }
 
-    document.addEventListener("DOMContentLoaded", () => {
-        const yesBtn = document.getElementById("yes-btn");
-        const noBtn = document.getElementById("no-btn");
-        const yesRadio = document.getElementById("additional-print-yes");
-        const noRadio = document.getElementById("additional-print-no");
-        const yesOption = document.getElementById("yes-option");
-        const fileInput = document.getElementById("fingerprint-file");
-        const previewContainer = document.getElementById("fingerprint-preview-container");
-        const previewImg = document.getElementById("fingerprint-preview-img");
-        const fileNameText = document.getElementById("fingerprint-file-name");
-        const editBtn = document.getElementById("edit-fingerprint");
-        const closeBtn = document.getElementById("close-fingerprint");
-        const fingerprintFormEl = document.getElementById('additional-print-form');
-        const finalSummaryFpImageEl = document.getElementById("final-fprint-fingerprint");
-        const finalSummaryFpNoText = document.getElementById('final-text-fingerprint');
-        // Click Yes → open file picker
-        yesBtn.addEventListener("click", (e) => {
-            e.preventDefault();
-            fileInput.click();
-            showLastPdpForms();
-        });
-        // Handle file upload
-        fileInput.addEventListener("change", (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-            const maxSize = 1 * 200 * 1024; // 200KB
-
-            if (file.size > maxSize) {
-              alert("File size should be less than 200KB");
-              fileInput.value = ""; // reset file input
-              return;
-            }
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                previewImg.src = event.target.result;
-                fileNameText.textContent = file.name;
-                // Hide only Yes option
-                yesOption.classList.add("hidden");
-                previewContainer.classList.remove("hidden");
-
-                // Mark Yes radio checked
-                yesRadio.checked = true;
-                noRadio.checked = false;
-                finalSummaryFpImageEl.src = event.target.result;
-                finalSummaryFpNoText.classList.add('hidden');
-                // pdpSelectedFormOptions['fingerprint'] = event.target;
-                enableNextForm(fingerprintFormEl);
-            };
-            reader.readAsDataURL(file);
-        });
-        // Edit button → reopen file picker
-        editBtn.addEventListener("click", () => {
-            fileInput.click();
-        });
-        // Click No → reset everything
-        noBtn.addEventListener("click", x => {
-            resetFingerprint();
-            showLastPdpForms();
-            finalSummaryFpImageEl.src = '';
-            finalSummaryFpNoText.classList.remove('hidden');
-            enableNextForm(fingerprintFormEl);
-        });
-        // Close button → close modal
-        closeBtn?.addEventListener("click", () => {
-            // Replace with your modal close logic if needed
-            const modal = document.querySelector(".modal.active");
-            if (modal) modal.classList.remove("active");
-            resetFingerprint();
-        });
-        function resetFingerprint() {
-            previewContainer.classList.add("hidden");
-            yesOption.classList.remove("hidden");
-            previewImg.src = "";
-            fileNameText.textContent = "";
-            fileInput.value = "";
-            noRadio.checked = true;
-            yesRadio.checked = false;
+    // pass into PDP Form properties
+    // Create and append the new hidden input
+    const form = document.querySelector('form[action="/cart/add"]');
+    if (form) {
+      const attributeData = {};
+      Object.entries(pdpSelectedFormOptions).forEach(([key, value]) => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = `properties[${key}]`;
+        // Handle based on value type
+        if (Array.isArray(value)) {
+          // If it's an array, join it as a readable string (comma-separated)
+          input.value = value.join(', ');
+        } else if (typeof value === 'object' && value !== null) {
+          // If it's an object, store it as a JSON string
+          input.value = JSON.stringify(value);
+        } else {
+          // For primitive types (string, number, boolean, etc.)
+          input.value = value;
         }
+        form.appendChild(input);
+        attributeData[key] = input.value; // Optional: store processed values too
+      });
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const yesBtn = document.getElementById('yes-btn');
+    const noBtn = document.getElementById('no-btn');
+    const yesRadio = document.getElementById('additional-print-yes');
+    const noRadio = document.getElementById('additional-print-no');
+    const yesOption = document.getElementById('yes-option');
+    const fileInput = document.getElementById('fingerprint-file');
+    const previewContainer = document.getElementById('fingerprint-preview-container');
+    const previewImg = document.getElementById('fingerprint-preview-img');
+    const fileNameText = document.getElementById('fingerprint-file-name');
+    const editBtn = document.getElementById('edit-fingerprint');
+    const closeBtn = document.getElementById('close-fingerprint');
+    const fingerprintFormEl = document.getElementById('additional-print-form');
+    const finalSummaryFpImageEl = document.getElementById('final-fprint-fingerprint');
+    const finalSummaryFpNoText = document.getElementById('final-text-fingerprint');
+    // Click Yes → open file picker
+    yesBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      fileInput.click();
+      showLastPdpForms();
     });
-    document.addEventListener('DOMContentLoaded', function () {
-        //personalized data
-        let personalizedData;
-        const cards = document.querySelectorAll('.personalization-card');
-        const editButton = document.querySelector('[data-action="edit-personalization"]');
-        const optionsContainer = document.getElementById('personalization-options');
-        const summaryContainer = document.getElementById('personalization-summary');
-        const personalizationModal = document.getElementById('personalization-modal');
-        // personalized radio buttons
-        const selectedNoPersonalization = document.querySelector("#no-personalization-radio");
+    // Handle file upload
+    fileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const maxSize = 1 * 200 * 1024; // 200KB
+
+      if (file.size > maxSize) {
+        alert('File size should be less than 200KB');
+        fileInput.value = ''; // reset file input
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        previewImg.src = event.target.result;
+        fileNameText.textContent = file.name;
+        // Hide only Yes option
+        yesOption.classList.add('hidden');
+        previewContainer.classList.remove('hidden');
+
+        // Mark Yes radio checked
+        yesRadio.checked = true;
+        noRadio.checked = false;
+        finalSummaryFpImageEl.src = event.target.result;
+        finalSummaryFpNoText.classList.add('hidden');
+        // pdpSelectedFormOptions['fingerprint'] = event.target;
+        enableNextForm(fingerprintFormEl);
+      };
+      reader.readAsDataURL(file);
+    });
+    // Edit button → reopen file picker
+    editBtn.addEventListener('click', () => {
+      fileInput.click();
+    });
+    // Click No → reset everything
+    noBtn.addEventListener('click', (x) => {
+      resetFingerprint();
+      showLastPdpForms();
+      finalSummaryFpImageEl.src = '';
+      finalSummaryFpNoText.classList.remove('hidden');
+      enableNextForm(fingerprintFormEl);
+    });
+    // Close button → close modal
+    closeBtn?.addEventListener('click', () => {
+      // Replace with your modal close logic if needed
+      const modal = document.querySelector('.modal.active');
+      if (modal) modal.classList.remove('active');
+      resetFingerprint();
+    });
+    function resetFingerprint() {
+      previewContainer.classList.add('hidden');
+      yesOption.classList.remove('hidden');
+      previewImg.src = '';
+      fileNameText.textContent = '';
+      fileInput.value = '';
+      noRadio.checked = true;
+      yesRadio.checked = false;
+    }
+  });
+  document.addEventListener('DOMContentLoaded', function () {
+    //personalized data
+    let personalizedData;
+    const cards = document.querySelectorAll('.personalization-card');
+    const editButton = document.querySelector('[data-action="edit-personalization"]');
+    const optionsContainer = document.getElementById('personalization-options');
+    const summaryContainer = document.getElementById('personalization-summary');
+    const personalizationModal = document.getElementById('personalization-modal');
+    // personalized radio buttons
+    const selectedNoPersonalization = document.querySelector('#no-personalization-radio');
+
+    // Engraving form elements
+    const engravingCards = document.querySelectorAll('.engraving-card');
+    const engravingEditButton = document.querySelector('[data-action="edit-engraving"]');
+    const engravingForm = document.getElementById('engraving-form');
+    const engravingOptionsContainer = document.querySelector('.engraving-options');
+    const engravingSummaryContainer = document.getElementById('engraving-summary');
+
+    // Personal fit form elements
+    const personalFitForm = document.getElementById('personal-fit-form');
+    const selectionButtons = document.querySelectorAll('.selection-btn');
+    // Additional print elements
+    const additionalPrintButtons = document.querySelectorAll('.print-btn');
+    const additionalPrintForm = document.getElementById('additional-print-form');
+    const additionalPrintButtonsContainer = document.querySelector('.additional-print-buttons');
+    const authDeliveryForm = document.getElementById('auth-delivery-form');
+    const finalSummaryForm = document.getElementById('final-summary-form');
+    const fingerprintUpload = document.getElementById('fingerprint-upload');
+    const fingerprintFileInput = document.getElementById('fingerprint-file');
+    const fingerprintFileText = document.getElementById('fingerprint-file-text');
+    // Handle main form card clicks
+    cards.forEach((card) => {
+      card.addEventListener('click', function () {
+        const action = this.getAttribute('data-action');
+
+        if (action === 'open-modal') {
+          // clear selection input
+          const personalizedSummaryContainer = document.getElementById('personalization-summary');
+          // personalized radio buttons
+          const selectedNoPersonalization = document.querySelector('#no-personalization-radio');
+          let selectedPersonalization = document.querySelector('#personalization-radio');
+
+          if (personalizedSummaryContainer && personalizedSummaryContainer.classList.contains('hidden')) {
+            selectedPersonalization.checked = false;
+          }
+          // Call the global function to open modal
+          if (window.openPersonalizationModal) {
+            window.openPersonalizationModal();
+          }
+        } else if (action === 'no-personalization') {
+          handleNoPersonalization();
+        }
+      });
+    });
+
+    // Handle edit button click
+    if (editButton) {
+      editButton.addEventListener('click', function () {
+        if (window.openPersonalizationModal) {
+          window.openPersonalizationModal();
+        }
+      });
+    }
+
+    // Handle thumbnail clicks
+    const thumbnails = document.querySelectorAll('.ring-thumbnail');
+    thumbnails.forEach((thumbnail) => {
+      thumbnail.addEventListener('click', function () {
+        thumbnails.forEach((t) => t.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+
+    // Handle engraving form card clicks
+    engravingCards.forEach((card) => {
+      card.addEventListener('click', function () {
+        const action = this.getAttribute('data-action');
+
+        if (action === 'open-engraving-modal') {
+          // Call the global function to open engraving modal
+          if (window.openEngravingModal) {
+            window.openEngravingModal();
+          }
+        } else if (action === 'no-engraving') {
+          handleNoEngraving();
+        }
+      });
+    });
+
+    // Handle engraving edit button click
+    if (engravingEditButton) {
+      engravingEditButton.addEventListener('click', function () {
+        if (window.openEngravingModal) {
+          window.openEngravingModal();
+        }
+      });
+    }
+    // Handle save engraving button
+    const saveEngravingButton = document.querySelector('[data-action="save-engraving"]');
+    if (saveEngravingButton) {
+      saveEngravingButton.addEventListener('click', function () {
+        const engravingInput = document.querySelector('.engraving-text-input input');
+        const engraveRadioInput = document.querySelector('#engraving-radio');
+        const engravingText = engravingInput ? engravingInput.value.trim() : '';
+
+        // Update summary with entered text or mark as No Engraving
+        if (engraveRadioInput) {
+          engraveRadioInput.checked = true;
+        }
+        const summaryEngravingText = document.getElementById('summary-engraving-text');
+        if (summaryEngravingText) {
+          summaryEngravingText.textContent = engravingText !== '' ? engravingText : 'No Engraving';
+        }
+        // Show summary and hide options
+        if (engravingOptionsContainer) engravingOptionsContainer.classList.add('hidden');
+        if (engravingSummaryContainer) engravingSummaryContainer.classList.remove('hidden');
+        // Show personal fit form as next step
+        if (personalFitForm) personalFitForm.classList.remove('hidden');
+        // Update final summary if visible
+        if (finalSummaryForm && !finalSummaryForm.classList.contains('hidden')) {
+          updateFinalSummary();
+        }
+      });
+    }
+
+    // Handle personal fit selection button clicks
+    selectionButtons.forEach((button) => {
+      button.addEventListener('click', function () {
+        const group = this.getAttribute('data-group');
+        const value = this.getAttribute('data-value');
+
+        // Remove active class from all buttons in the same group
+        const groupButtons = document.querySelectorAll(`[data-group="${group}"]`);
+        groupButtons.forEach((btn) => btn.classList.remove('active'));
+
+        // Add active class to clicked button
+        this.classList.add('active');
+
+        console.log(`Selected ${group}: ${value}`);
+
+        // Auto-save personal fit selections
+        savePersonalFitSelections();
+      });
+    });
+    
+    function getDateAfterDays(requiredWorkingDays) {
+    
+    const excludedDates = [
+        "01-01-2025", //new year
+        "01-14-2025", //makar sankranti
+        "01-26-2025", //republic day
+        "08-15-2025", //Independence day
+        "10-02-2025", //Gandhi Jayanti
+        "12-25-2025", //christmas
+        "12-31-2025", //new year eve
+    ];
+
+    let futureDate = new Date(); 
+    let countedWorkingDays = 0;
+
+    while (countedWorkingDays < requiredWorkingDays) {
+        futureDate.setDate(futureDate.getDate() + 1);
+
+        const m = String(futureDate.getMonth() + 1).padStart(2, "0");
+        const d = String(futureDate.getDate()).padStart(2, "0");
+        const y = futureDate.getFullYear();
+        const mmddyyyy = `${m}-${d}-${y}`;
+
+        const isSunday = futureDate.getDay() === 0;
+        const isHoliday = excludedDates.includes(mmddyyyy);
+
         
+        if (!isSunday && !isHoliday) {
+            countedWorkingDays++;
+        }
+    }
 
-        // Engraving form elements
-        const engravingCards = document.querySelectorAll('.engraving-card');
-        const engravingEditButton = document.querySelector('[data-action="edit-engraving"]');
-        const engravingForm = document.getElementById('engraving-form');
-        const engravingOptionsContainer = document.querySelector('.engraving-options');
-        const engravingSummaryContainer = document.getElementById('engraving-summary');
+    const finalDay = futureDate.getDate();
+    const finalMonth = futureDate.toLocaleString("default", { month: "short" });
+    return `${finalDay} ${finalMonth}`;
+}
 
-        // Personal fit form elements
-        const personalFitForm = document.getElementById('personal-fit-form');
-        const selectionButtons = document.querySelectorAll('.selection-btn');
-        // Additional print elements
-        const additionalPrintButtons = document.querySelectorAll('.print-btn');
-        const additionalPrintForm = document.getElementById('additional-print-form');
-        const additionalPrintButtonsContainer = document.querySelector('.additional-print-buttons');
-        const authDeliveryForm = document.getElementById('auth-delivery-form');
-        const finalSummaryForm = document.getElementById('final-summary-form');
-        const fingerprintUpload = document.getElementById('fingerprint-upload');
-        const fingerprintFileInput = document.getElementById('fingerprint-file');
-        const fingerprintFileText = document.getElementById('fingerprint-file-text');
-        // Handle main form card clicks
-        cards.forEach(card => {
-            card.addEventListener('click', function () {
-                const action = this.getAttribute('data-action');
 
-                if (action === 'open-modal') {
-                    // clear selection input
-                    const personalizedSummaryContainer = document.getElementById('personalization-summary');
-                    // personalized radio buttons
-                    const selectedNoPersonalization = document.querySelector("#no-personalization-radio");
-                    let selectedPersonalization = document.querySelector("#personalization-radio");
-
-                    if (personalizedSummaryContainer && personalizedSummaryContainer.classList.contains('hidden')) {
-                        selectedPersonalization.checked = false;
-                    }
-                    // Call the global function to open modal
-                    if (window.openPersonalizationModal) {
-                        window.openPersonalizationModal();
-                    }
-                } else if (action === 'no-personalization') {
-                    handleNoPersonalization();
-                }
-            });
-        });
-
-        // Handle edit button click
-        if (editButton) {
-            editButton.addEventListener('click', function () {
-                if (window.openPersonalizationModal) {
-                    window.openPersonalizationModal();
-                }
-            });
+    // Handle Authenticity & Delivery interactions
+    const certButtons = document.querySelectorAll('.diamond-cert-btn');
+    const deliveryDateContainer = document.querySelector('.delivery-note');
+    const deliveryCalculateNotifyMessage = document.querySelector('.calculate-delivery-notify-msg');
+    certButtons.forEach((inputLabel) => {
+      inputLabel.addEventListener('click', function () {
+        const estimateDuration = inputLabel.getAttribute('data-value');
+        let expectedDeliveryDay = estimateDuration ? getDateAfterDays(estimateDuration) : getDateAfterDays(15);
+        if (expectedDeliveryDay) {
+          deliveryDateContainer.textContent = `Expected delivery by ${expectedDeliveryDay}`;
+          deliveryCalculateNotifyMessage.classList.add('hidden');
+          deliveryDateContainer.classList.remove('hidden');
         }
 
-        // Handle thumbnail clicks
-        const thumbnails = document.querySelectorAll('.ring-thumbnail');
-        thumbnails.forEach(thumbnail => {
-            thumbnail.addEventListener('click', function () {
-                thumbnails.forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
+        const group = this.getAttribute('data-group');
+        const value = this.getAttribute('value');
+        const groupButtons = document.querySelectorAll(`[data-group="${group}"]`);
+        groupButtons.forEach((btn) => btn.classList.remove('active'));
+        this.classList.add('active');
+        // Reveal final summary after any interaction in Auth & Delivery
+        if (finalSummaryForm) {
+          const addToBag = document.querySelector('button.product-form__submit');
+          const certificatesContainer = document.getElementById('auth-delivery-form');
 
-        // Handle engraving form card clicks
-        engravingCards.forEach(card => {
-            card.addEventListener('click', function () {
-                const action = this.getAttribute('data-action');
+          // remove hidden class
+          finalSummaryForm.classList.remove('hidden');
 
-                if (action === 'open-engraving-modal') {
-                    // Call the global function to open engraving modal
-                    if (window.openEngravingModal) {
-                        window.openEngravingModal();
-                    }
-                } else if (action === 'no-engraving') {
-                    handleNoEngraving();
-                }
-            });
-        });
-
-        // Handle engraving edit button click
-        if (engravingEditButton) {
-            engravingEditButton.addEventListener('click', function () {
-                if (window.openEngravingModal) {
-                    window.openEngravingModal();
-                }
-            });
+          // enable ATC btn
+          addToBag.disabled = false;
+          addToBag.classList.remove('hidden');
+          // move to final summary form
+          enableNextForm(certificatesContainer);
+          updateFinalSummary();
         }
-        // Handle save engraving button
-        const saveEngravingButton = document.querySelector('[data-action="save-engraving"]');
-        if (saveEngravingButton) {
-            saveEngravingButton.addEventListener('click', function () {
-                const engravingInput = document.querySelector('.engraving-text-input input');
-                const engraveRadioInput = document.querySelector("#engraving-radio");
-                const engravingText = engravingInput ? engravingInput.value.trim() : '';
-
-                // Update summary with entered text or mark as No Engraving
-                if (engraveRadioInput) {
-                    engraveRadioInput.checked = true;
-                }
-                const summaryEngravingText = document.getElementById('summary-engraving-text');
-                if (summaryEngravingText) {
-                    summaryEngravingText.textContent = engravingText !== '' ? engravingText : 'No Engraving';
-                }
-                // Show summary and hide options
-                if (engravingOptionsContainer) engravingOptionsContainer.classList.add('hidden');
-                if (engravingSummaryContainer) engravingSummaryContainer.classList.remove('hidden');
-                // Show personal fit form as next step
-                if (personalFitForm) personalFitForm.classList.remove('hidden');
-                // Update final summary if visible
-                if (finalSummaryForm && !finalSummaryForm.classList.contains('hidden')) {
-                    updateFinalSummary();
-                }
-            });
-        }
-
-        // Handle personal fit selection button clicks
-        selectionButtons.forEach(button => {
-            button.addEventListener('click', function () {
-                const group = this.getAttribute('data-group');
-                const value = this.getAttribute('data-value');
-
-                // Remove active class from all buttons in the same group
-                const groupButtons = document.querySelectorAll(`[data-group="${group}"]`);
-                groupButtons.forEach(btn => btn.classList.remove('active'));
-
-                // Add active class to clicked button
-                this.classList.add('active');
-
-                console.log(`Selected ${group}: ${value}`);
-
-                // Auto-save personal fit selections
-                savePersonalFitSelections();
-            });
-        });
-
-        // get days after date (excluding Sundays)
-        function getDateAfterDays(days) {
-            const today = new Date();
-            let futureDate = new Date(today.getTime() + days * 24 * 60 * 60 * 1000);
-            
-            // Exclude Sundays - if the date falls on Sunday (day 0), move to Monday
-            while (futureDate.getDay() === 0) {
-                futureDate = new Date(futureDate.getTime() + 24 * 60 * 60 * 1000);
-            }
-            
-            const day = futureDate.getDate();
-            const month = futureDate.toLocaleString('default', { month: 'short' });
-            return `${day} ${month}`;
-        }
-
-        // Handle Authenticity & Delivery interactions
-        const certButtons = document.querySelectorAll('.diamond-cert-btn');
-        const deliveryDateContainer = document.querySelector('.delivery-note');
-        const deliveryCalculateNotifyMessage = document.querySelector('.calculate-delivery-notify-msg');
-        certButtons.forEach(inputLabel => {
-            inputLabel.addEventListener('click', function () {
-
-                const estimateDuration = inputLabel.getAttribute('data-value');
-                let expectedDeliveryDay = estimateDuration ? getDateAfterDays(estimateDuration) : getDateAfterDays(15);
-                if (expectedDeliveryDay) {
-                    console.log('jghsdjfhgsdjhfjhfg', expectedDeliveryDay);
-                    deliveryDateContainer.textContent = `Expected delivery by ${expectedDeliveryDay}`;
-                    deliveryCalculateNotifyMessage.classList.add('hidden');
-                    deliveryDateContainer.classList.remove('hidden');
-                }
-
-                const group = this.getAttribute('data-group');
-                const value = this.getAttribute('value');
-                const groupButtons = document.querySelectorAll(`[data-group="${group}"]`);
-                groupButtons.forEach(btn => btn.classList.remove('active'));
-                this.classList.add('active');
-                // Reveal final summary after any interaction in Auth & Delivery
-                if (finalSummaryForm) {
-                    const addToBag = document.querySelector('button.product-form__submit');
-                    const certificatesContainer = document.getElementById('auth-delivery-form');
-
-                    // remove hidden class
-                    finalSummaryForm.classList.remove('hidden');
-
-                    // enable ATC btn
-                    addToBag.disabled = false;
-                    addToBag.classList.remove('hidden');
-                    // move to final summary form
-                    enableNextForm(certificatesContainer);
-                    updateFinalSummary();
-                }
-            });
-        });
-        // Handle fingerprint file selection
-        if (fingerprintFileInput) {
-            fingerprintFileInput.addEventListener('change', function () {
-                const file = this.files && this.files[0];
-                if (!file) return;
-                if (fingerprintFileText) fingerprintFileText.textContent = file.name;
-            });
-        }
-        function resetPersonalizationForm() {
-            if (personalizationModal) {
-                const customizationGroup = personalizationModal.querySelectorAll('.option-buttons');
-                customizationGroup.forEach(grp => {
-                    Array.from(grp.children).forEach((child, ind) => {
-                        if (ind === 0) {
-                            child.classList.add('active');
-                        }
-                        else {
-                            child.classList.remove('active');
-                        }
-                    })
-                });
-                personalizedData = null;
-            }
-        }
-
-
-        function handleNoPersonalization() {
-            console.log('No personalization selected');
-            resetPersonalizationForm();
-            // select no personalization
-            if (selectedPersonalization && selectedPersonalization.checked) {
-                selectedPersonalization.checked = false;
-            }
-            if (selectedNoPersonalization) {
-                selectedNoPersonalization.checked = true;
-                const personalizationSummaryEl = document.getElementById('personalization-summary');
-                const personalizationSummaryData = personalizationSummaryEl.querySelector('.summary-details');
-                const personalizationImagesDataEl = personalizationSummaryEl.querySelector('.ring-thumbnails');
-                personalizationSummaryEl.removeAttribute('selected');
-                personalizationSummaryData.innerHTML = '';
-                personalizationImagesDataEl.innerHTML = '';
-            }
-            // Hide summary and show options
-            if (summaryContainer) summaryContainer.classList.add('hidden');
-            if (optionsContainer) optionsContainer.classList.remove('hidden');
-
-            // Show engraving form
-            if (engravingForm) engravingForm.classList.remove('hidden');
-
-            // Update final summary if it's visible
-            if (finalSummaryForm && !finalSummaryForm.classList.contains('hidden')) {
-                console.log("DEBUGGGGGGGG handle no personalization to update final summary");
-                updateFinalSummary();
-            }
-        }
-
-        function handleNoEngraving() {
-            //reset input if have value
-            clearEngraveTextInput();
-
-            // Hide engraving summary and show options
-            if (engravingSummaryContainer) engravingSummaryContainer.classList.add('hidden');
-            if (engravingOptionsContainer) engravingOptionsContainer.classList.remove('hidden');
-            console.log('handleNoengraving', engravingOptionsContainer);
-
-            // Clear engraving text from summary
-            const summaryEngravingText = document.getElementById('summary-engraving-text');
-            if (summaryEngravingText) {
-                summaryEngravingText.textContent = 'No Engraving';
-            }
-
-            // Show personal fit form as next step
-            if (personalFitForm) personalFitForm.classList.remove('hidden');
-
-            // Update final summary if it's visible
-            if (finalSummaryForm && !finalSummaryForm.classList.contains('hidden')) {
-                updateFinalSummary();
-            }
-        }
-
-        // Global function to show personalization summary
-        window.showPersonalizationSummary = function (selections) {
-            // Update summary values
-            const summaryElements = {
-                'summary-metal-tone-1': selections['metal-tone-1'],
-                'summary-metal-tone-2': selections['metal-tone-2'],
-                'summary-prong-rhodium': selections['prong-rhodium'],
-                'summary-metal-finish-1': selections['metal-finish-1'],
-                'summary-metal-finish-2': selections['metal-finish-2']
-            };
-            personalizedData = summaryElements;
-            if (personalizedData) summaryContainer.setAttribute('selected', 'true');
-
-            Object.keys(summaryElements).forEach(id => {
-                const element = document.getElementById(id);
-                if (element && summaryElements[id]) {
-                    element.textContent = summaryElements[id];
-                }
-            });
-
-            // Show summary and hide options
-            if (optionsContainer) optionsContainer.classList.add('hidden');
-            if (summaryContainer) summaryContainer.classList.remove('hidden');
-
-            // Show engraving form
-            if (engravingForm) engravingForm.classList.remove('hidden');
-
-            console.log('Personalization summary shown:', selections);
-        };
-
-        // Global function to show engraving summary
-        window.showEngravingSummary = function (selections) {
-            // Update summary values - only engraving text
-            const engravingTextElement = document.getElementById('summary-engraving-text');
-            if (engravingTextElement && selections['engraving-text']) {
-                engravingTextElement.textContent = selections['engraving-text'];
-            }
-
-            // Show summary and hide options
-            if (engravingOptionsContainer) engravingOptionsContainer.classList.add('hidden');
-            if (engravingSummaryContainer) engravingSummaryContainer.classList.remove('hidden');
-
-            // Show personal fit form
-            if (personalFitForm) personalFitForm.style.display = 'block';
-
-            // Update final summary if visible
-            if (finalSummaryForm && finalSummaryForm.style.display !== 'none') {
-                updateFinalSummary();
-            }
-
-            console.log('Engraving summary shown:', selections);
-        };
-
-        // Function to save personal fit selections
-        function savePersonalFitSelections() {
-            const selections = {};
-
-            // Collect all selected options
-            selectionButtons.forEach(button => {
-                if (button.classList.contains('active')) {
-                    const group = button.getAttribute('data-group');
-                    const value = button.getAttribute('data-value');
-                    selections[group] = value;
-                }
-            });
-
-            // Add engraving data
-            const engravingSummaryEl = document.getElementById('summary-engraving-text');
-            const engravingText = engravingSummaryEl ? engravingSummaryEl.textContent.trim() : '';
-
-            if (engravingText === 'No Engraving') {
-                selections['engraved-text'] = 'no';
-            } else if (engravingText && engravingText !== '') {
-                selections['engraved-text'] = engravingText;
+      });
+    });
+    // Handle fingerprint file selection
+    if (fingerprintFileInput) {
+      fingerprintFileInput.addEventListener('change', function () {
+        const file = this.files && this.files[0];
+        if (!file) return;
+        if (fingerprintFileText) fingerprintFileText.textContent = file.name;
+      });
+    }
+    function resetPersonalizationForm() {
+      if (personalizationModal) {
+        const customizationGroup = personalizationModal.querySelectorAll('.option-buttons');
+        customizationGroup.forEach((grp) => {
+          Array.from(grp.children).forEach((child, ind) => {
+            if (ind === 0) {
+              child.classList.add('active');
             } else {
-                selections['engraved-text'] = 'no';
+              child.classList.remove('active');
             }
+          });
+        });
+        personalizedData = null;
+      }
+    }
 
-            // Add additional print data
-            const additionalPrintYes = document.querySelector('.print-btn[data-value="yes"].active');
-            if (additionalPrintYes) {
-                selections['additional-print'] = 'yes';
-                // Add image data if file is selected
-                if (fingerprintFileInput && fingerprintFileInput.files && fingerprintFileInput.files[0]) {
-                    const file = fingerprintFileInput.files[0];
-                    selections['additional-print-image'] = {
-                        name: file.name,
-                        size: file.size,
-                        type: file.type,
-                        lastModified: file.lastModified
-                    };
-                }
-            } else {
-                selections['additional-print'] = 'no';
-            }
+    function handleNoPersonalization() {
+      console.log('No personalization selected');
+      resetPersonalizationForm();
+      // select no personalization
+      if (selectedPersonalization && selectedPersonalization.checked) {
+        selectedPersonalization.checked = false;
+      }
+      if (selectedNoPersonalization) {
+        selectedNoPersonalization.checked = true;
+        const personalizationSummaryEl = document.getElementById('personalization-summary');
+        const personalizationSummaryData = personalizationSummaryEl.querySelector('.summary-details');
+        const personalizationImagesDataEl = personalizationSummaryEl.querySelector('.ring-thumbnails');
+        personalizationSummaryEl.removeAttribute('selected');
+        personalizationSummaryData.innerHTML = '';
+        personalizationImagesDataEl.innerHTML = '';
+      }
+      // Hide summary and show options
+      if (summaryContainer) summaryContainer.classList.add('hidden');
+      if (optionsContainer) optionsContainer.classList.remove('hidden');
 
-            console.log('Personal fit selections:', selections);
+      // Show engraving form
+      if (engravingForm) engravingForm.classList.remove('hidden');
 
-            // Add your logic here for processing the personal fit data
-            // For example, you might want to update the product configuration
-            // Reveal Additional Print only when all required fields are chosen
-            const hasAllPersonalFit = Boolean(selections.gender && selections.hand && selections.finger);
-            // if (additionalPrintForm) {
-            //     additionalPrintForm.classList.toggle('hidden', !hasAllPersonalFit);
-            // }
-            if (hasAllPersonalFit) additionalPrintForm.classList.add('active');
+      // Update final summary if it's visible
+      if (finalSummaryForm && !finalSummaryForm.classList.contains('hidden')) {
+        console.log('DEBUGGGGGGGG handle no personalization to update final summary');
+        updateFinalSummary();
+      }
+    }
+
+    function handleNoEngraving() {
+      //reset input if have value
+      clearEngraveTextInput();
+
+      // Hide engraving summary and show options
+      if (engravingSummaryContainer) engravingSummaryContainer.classList.add('hidden');
+      if (engravingOptionsContainer) engravingOptionsContainer.classList.remove('hidden');
+      console.log('handleNoengraving', engravingOptionsContainer);
+
+      // Clear engraving text from summary
+      const summaryEngravingText = document.getElementById('summary-engraving-text');
+      if (summaryEngravingText) {
+        summaryEngravingText.textContent = 'No Engraving';
+      }
+
+      // Show personal fit form as next step
+      if (personalFitForm) personalFitForm.classList.remove('hidden');
+
+      // Update final summary if it's visible
+      if (finalSummaryForm && !finalSummaryForm.classList.contains('hidden')) {
+        updateFinalSummary();
+      }
+    }
+
+    // Global function to show personalization summary
+    window.showPersonalizationSummary = function (selections) {
+      // Update summary values
+      const summaryElements = {
+        'summary-metal-tone-1': selections['metal-tone-1'],
+        'summary-metal-tone-2': selections['metal-tone-2'],
+        'summary-prong-rhodium': selections['prong-rhodium'],
+        'summary-metal-finish-1': selections['metal-finish-1'],
+        'summary-metal-finish-2': selections['metal-finish-2'],
+      };
+      personalizedData = summaryElements;
+      if (personalizedData) summaryContainer.setAttribute('selected', 'true');
+
+      Object.keys(summaryElements).forEach((id) => {
+        const element = document.getElementById(id);
+        if (element && summaryElements[id]) {
+          element.textContent = summaryElements[id];
         }
+      });
 
-        // Listen for PDP variant change and refresh Metal Color
-        document.addEventListener('pdp:variant-changed', function () {
-            updateFinalSummary();
-        });
-       
-        // Keep summary live when interactions change
-        document.addEventListener('change', () => updateFinalSummary());
-        document.addEventListener('click', (e) => {
-            if (e.target.closest('.selection-btn') || e.target.closest('.size-option')) {
-                updateFinalSummary();
-            }
-        });
+      // Show summary and hide options
+      if (optionsContainer) optionsContainer.classList.add('hidden');
+      if (summaryContainer) summaryContainer.classList.remove('hidden');
+
+      // Show engraving form
+      if (engravingForm) engravingForm.classList.remove('hidden');
+
+      console.log('Personalization summary shown:', selections);
+    };
+
+    // Global function to show engraving summary
+    window.showEngravingSummary = function (selections) {
+      // Update summary values - only engraving text
+      const engravingTextElement = document.getElementById('summary-engraving-text');
+      if (engravingTextElement && selections['engraving-text']) {
+        engravingTextElement.textContent = selections['engraving-text'];
+      }
+
+      // Show summary and hide options
+      if (engravingOptionsContainer) engravingOptionsContainer.classList.add('hidden');
+      if (engravingSummaryContainer) engravingSummaryContainer.classList.remove('hidden');
+
+      // Show personal fit form
+      if (personalFitForm) personalFitForm.style.display = 'block';
+
+      // Update final summary if visible
+      if (finalSummaryForm && finalSummaryForm.style.display !== 'none') {
+        updateFinalSummary();
+      }
+
+      console.log('Engraving summary shown:', selections);
+    };
+
+    // Function to save personal fit selections
+    function savePersonalFitSelections() {
+      const selections = {};
+
+      // Collect all selected options
+      selectionButtons.forEach((button) => {
+        if (button.classList.contains('active')) {
+          const group = button.getAttribute('data-group');
+          const value = button.getAttribute('data-value');
+          selections[group] = value;
+        }
+      });
+
+      // Add engraving data
+      const engravingSummaryEl = document.getElementById('summary-engraving-text');
+      const engravingText = engravingSummaryEl ? engravingSummaryEl.textContent.trim() : '';
+
+      if (engravingText === 'No Engraving') {
+        selections['engraved-text'] = 'no';
+      } else if (engravingText && engravingText !== '') {
+        selections['engraved-text'] = engravingText;
+      } else {
+        selections['engraved-text'] = 'no';
+      }
+
+      // Add additional print data
+      const additionalPrintYes = document.querySelector('.print-btn[data-value="yes"].active');
+      if (additionalPrintYes) {
+        selections['additional-print'] = 'yes';
+        // Add image data if file is selected
+        if (fingerprintFileInput && fingerprintFileInput.files && fingerprintFileInput.files[0]) {
+          const file = fingerprintFileInput.files[0];
+          selections['additional-print-image'] = {
+            name: file.name,
+            size: file.size,
+            type: file.type,
+            lastModified: file.lastModified,
+          };
+        }
+      } else {
+        selections['additional-print'] = 'no';
+      }
+
+      console.log('Personal fit selections:', selections);
+
+      // Add your logic here for processing the personal fit data
+      // For example, you might want to update the product configuration
+      // Reveal Additional Print only when all required fields are chosen
+      const hasAllPersonalFit = Boolean(selections.gender && selections.hand && selections.finger);
+      // if (additionalPrintForm) {
+      //     additionalPrintForm.classList.toggle('hidden', !hasAllPersonalFit);
+      // }
+      if (hasAllPersonalFit) additionalPrintForm.classList.add('active');
+    }
+
+    // Listen for PDP variant change and refresh Metal Color
+    document.addEventListener('pdp:variant-changed', function () {
+      updateFinalSummary();
     });
 
-    // Logic to handle fade out effect
-    const finalSummaryFormContainer = document.querySelector('#final-summary-form');
-    // personalize form ( radio inputs )
-    const personalizeFormContainer = document.querySelector('#personalize-form');
-    const personalizeFormOptionsCard = document.querySelectorAll('.personalization-card');
-    // engrave form (radio option)
-    const engraveFormContainer = document.querySelector('#engraving-form');
-    const engravingChoiceCards = document.querySelectorAll('.engrv-card');
-    const saveEngravingButton = document.querySelector("#engraving-modal button.btn-save")
-    // personal fit form ( sets active class )
-    const personalFitFormContainer = document.querySelector('#personal-fit-form');
-    const personalFitgenderOption = personalFitFormContainer.querySelectorAll('.gender-btn'); // active
-    const personalFitHandOption = personalFitFormContainer.querySelectorAll('.gender-btn');
-    const personalFitFingerOption = personalFitFormContainer.querySelector('.finger-btn');
-    // fingerprint upload form
-    const fingerPrintFormContainer = document.querySelector('#additional-print-form');
-    const fingerPrintSelectionInputOptions = fingerPrintFormContainer.querySelectorAll('[name="additional-print"]');
-    // Delivery Info form
-    const certificatesInfoContainer = document.querySelector('#auth-delivery-form');
-    const diamondSelectionButtons = document.querySelectorAll('.diamond-cert-btn');
-    //Final Summary Form
-    const finalSummaryFormWrapper = document.getElementById('final-summary-form');
-    //--------------- Input Change --------------------//
-    // Combine all radio input NodeLists into one array
-    const formRadioAllInputs = [
-        ...personalizeFormOptionsCard,
-        ...engravingChoiceCards,
-    ]
-    console.log('formRadioAllInputs', formRadioAllInputs);
-    formRadioAllInputs.forEach(option => {
-        const optionParent = option.parentElement;
-        const isFormContainer = option.closest('.pdp-form');
-        if (!isFormContainer) return;
-        console.log('option', option);
-        option.addEventListener('click', x => {
-            const optionInputs = optionParent.querySelectorAll('input');
-            let isSomeInputSelected = Array.from(optionInputs).find(input => input.checked);
-            if (isSomeInputSelected) enableNextForm(isFormContainer);
-        });
+    // Keep summary live when interactions change
+    document.addEventListener('change', () => updateFinalSummary());
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('.selection-btn') || e.target.closest('.size-option')) {
+        updateFinalSummary();
+      }
     });
-    document.addEventListener('DOMContentLoaded', x => {
-        document.querySelector("#engraving-modal button.btn-save").addEventListener('click', x => {
-            enableNextForm(engraveFormContainer);
-        });
-        fingerPrintSelectionInputOptions.forEach(fingerprintInput => {
-            fingerprintInput.addEventListener('change', x => enableNextForm(fingerprintInput));
-        });
-    })
+  });
+
+  // Logic to handle fade out effect
+  const finalSummaryFormContainer = document.querySelector('#final-summary-form');
+  // personalize form ( radio inputs )
+  const personalizeFormContainer = document.querySelector('#personalize-form');
+  const personalizeFormOptionsCard = document.querySelectorAll('.personalization-card');
+  // engrave form (radio option)
+  const engraveFormContainer = document.querySelector('#engraving-form');
+  const engravingChoiceCards = document.querySelectorAll('.engrv-card');
+  const saveEngravingButton = document.querySelector('#engraving-modal button.btn-save');
+  // personal fit form ( sets active class )
+  const personalFitFormContainer = document.querySelector('#personal-fit-form');
+  const personalFitgenderOption = personalFitFormContainer.querySelectorAll('.gender-btn'); // active
+  const personalFitHandOption = personalFitFormContainer.querySelectorAll('.gender-btn');
+  const personalFitFingerOption = personalFitFormContainer.querySelector('.finger-btn');
+  // fingerprint upload form
+  const fingerPrintFormContainer = document.querySelector('#additional-print-form');
+  const fingerPrintSelectionInputOptions = fingerPrintFormContainer.querySelectorAll('[name="additional-print"]');
+  // Delivery Info form
+  const certificatesInfoContainer = document.querySelector('#auth-delivery-form');
+  const diamondSelectionButtons = document.querySelectorAll('.diamond-cert-btn');
+  //Final Summary Form
+  const finalSummaryFormWrapper = document.getElementById('final-summary-form');
+  //--------------- Input Change --------------------//
+  // Combine all radio input NodeLists into one array
+  const formRadioAllInputs = [...personalizeFormOptionsCard, ...engravingChoiceCards];
+  console.log('formRadioAllInputs', formRadioAllInputs);
+  formRadioAllInputs.forEach((option) => {
+    const optionParent = option.parentElement;
+    const isFormContainer = option.closest('.pdp-form');
+    if (!isFormContainer) return;
+    console.log('option', option);
+    option.addEventListener('click', (x) => {
+      const optionInputs = optionParent.querySelectorAll('input');
+      let isSomeInputSelected = Array.from(optionInputs).find((input) => input.checked);
+      if (isSomeInputSelected) enableNextForm(isFormContainer);
+    });
+  });
+  document.addEventListener('DOMContentLoaded', (x) => {
+    document.querySelector('#engraving-modal button.btn-save').addEventListener('click', (x) => {
+      enableNextForm(engraveFormContainer);
+    });
+    fingerPrintSelectionInputOptions.forEach((fingerprintInput) => {
+      fingerprintInput.addEventListener('change', (x) => enableNextForm(fingerprintInput));
+    });
+  });
 </script>
