@@ -171,11 +171,40 @@
   }
   #engraving-modal .engraving-overlay.female {
     top: 46%;
+    left: 51%;
     width: 60%;
   }
   #engraving-modal .engraving-overlay.female .engraving-text {
     font-size: 22px !important; /* slightly smaller base for female image */
   }
+  @media (max-width: 480px) {
+  .#engraving-modal .engraving-overlay.male {
+    font-size: 28px;
+  }
+}
+/* ----- 425px ----- */
+@media (max-width: 425px) {
+  .#engraving-modal .engraving-overlay.male {
+    font-size: 26px;
+  }
+
+  .engraving-modal .engraving-overlay.female {
+    font-size: 20px;
+  }
+}
+
+
+/* ----- 375px ----- */
+@media (max-width: 375px) {
+  .#engraving-modal .engraving-overlay.male {
+    font-size: 23px;
+  }
+
+  .engraving-modal .engraving-overlay.female {
+    font-size: 18px;
+    top: 47px; /* you requested "top-47" */
+  }
+}
   /* Instructional Text */
   #engraving-modal .instruction-text {
     padding: 20px 30px 10px 30px;
@@ -302,14 +331,14 @@
       const containerWidth = Math.max(ringPreviewImg.clientWidth * multiplier, 60);
 
       // start with a base size
-      let fontSize = isFemale ? 32 : 36;
+      {% comment %} let fontSize = isFemale ? 32 : 36;
       engravingTextEl.style.fontSize = fontSize + 'px';
 
       // shrink until it fits (still useful even if text is short)
       while (fontSize > 8 && engravingTextEl.offsetWidth > containerWidth) {
           fontSize -= 1;
           engravingTextEl.style.fontSize = fontSize + 'px';
-      }
+      } {% endcomment %}
   }
 
   // Mirror text to engraving preview
