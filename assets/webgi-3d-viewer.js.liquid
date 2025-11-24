@@ -423,7 +423,7 @@ document.addEventListener(
             const files = [];
             for (const v of views) {
               await moveCameraByUnitOffset(viewer, v.u);
-              const file = await captureFile(snipper, `ring-${v.name}.webp`);
+              const file = await captureFile(snipper, `ring-${v.name}.jpg`);
               const data = {
                 fieldName: "files",
                 blob: file,
@@ -432,7 +432,7 @@ document.addEventListener(
               files.push(data);
 
               // OPTIONAL: download for quick manual verification
-              // downloadBlobFile(file, `ring-${v.name}.webp`);
+              // downloadBlobFile(file, `ring-${v.name}.jpg`);
             }
 
             // yahan close kara sakte ho modal
@@ -538,7 +538,7 @@ document.addEventListener(
             // enable next form ( engraving )
             enableNextForm(personalizationPDPformEl);
 
-            // const file = await snipper.getFile('snapshot.webp');
+            // const file = await snipper.getFile('snapshot.jpg');
             // files.push(file);
 
             // await injectCapturedFiles(files);
@@ -635,7 +635,7 @@ function downloadBlobFile(file, filename) {
   const url = URL.createObjectURL(file);
   const a = document.createElement("a");
   a.href = url;
-  a.download = filename || file.name || "snapshot.webp";
+  a.download = filename || file.name || "snapshot.jpg";
   a.click();
   URL.revokeObjectURL(url);
 }
@@ -654,7 +654,7 @@ async function injectCapturedFiles(files) {
     const file =
       blob instanceof File
         ? blob
-        : new File([blob], `capture-${i + 1}.webp`, {
+        : new File([blob], `capture-${i + 1}.jpg`, {
             type: blob.type || "image/webp",
           });
     dt.items.add(file);
@@ -670,11 +670,11 @@ async function injectCapturedFiles(files) {
 async function uploadBlobs(url, files, additionalData = {}) {
   const formData = new FormData();
 
-  formData.append("files", files[0].blob, "ring-top.webp");
-  formData.append("files", files[1].blob, "ring-left.webp");
-  formData.append("files", files[2].blob, "ring-bottom.webp");
-  formData.append("files", files[3].blob, "ring-right.webp");
-  formData.append("files", files[4].blob, "ring-ftr.webp");
+  formData.append("files", files[0].blob, "ring-top.jpg");
+  formData.append("files", files[1].blob, "ring-left.jpg");
+  formData.append("files", files[2].blob, "ring-bottom.jpg");
+  formData.append("files", files[3].blob, "ring-right.jpg");
+  formData.append("files", files[4].blob, "ring-ftr.jpg");
 
   try {
     const response = await fetch(url, {
