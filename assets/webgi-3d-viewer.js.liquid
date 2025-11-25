@@ -625,7 +625,7 @@ async function moveCameraByUnitOffset(viewer, unitOffset /* {x,y,z} */) {
 async function captureFile(
   snipper,
   name,
-  { mimeType = "image/webp", scale = 1.5, dpr = window.devicePixelRatio } = {}
+  { mimeType = "image/jpg", scale = 1.5, dpr = window.devicePixelRatio } = {}
 ) {
   return snipper.getFile(name, { mimeType, scale, displayPixelRatio: dpr });
 }
@@ -655,7 +655,7 @@ async function injectCapturedFiles(files) {
       blob instanceof File
         ? blob
         : new File([blob], `capture-${i + 1}.jpg`, {
-            type: blob.type || "image/webp",
+            type: blob.type || "image/jpg",
           });
     dt.items.add(file);
   });
