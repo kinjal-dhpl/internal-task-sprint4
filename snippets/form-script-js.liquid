@@ -401,13 +401,12 @@
     function getDateAfterDays(requiredWorkingDays) {
     
     const excludedDates = [
-        "01-01-2025", //new year
-        "01-14-2025", //makar sankranti
-        "01-26-2025", //republic day
-        "08-15-2025", //Independence day
-        "10-02-2025", //Gandhi Jayanti
-        "12-25-2025", //christmas
-        "12-31-2025", //new year eve
+        "12-25-2025",
+        "12-31-2025",
+        "01-01-2026",
+        "01-12-2026",
+        "01-13-2026",
+        "01-14-2026"
     ];
 
     let futureDate = new Date(); 
@@ -430,24 +429,33 @@
         }
     }
 
-    const finalDay = futureDate.getDate();
-    const finalMonth = futureDate.toLocaleString("default", { month: "short" });
-    return `${finalDay} ${finalMonth}`;
+    return new Date(futureDate);
 }
 
+    function formatDeliveryDateDisplay(dateObj) {
+      if (!(dateObj instanceof Date)) return '';
+      const finalDay = dateObj.getDate();
+      const finalMonth = dateObj.toLocaleString('default', { month: 'short' });
+      return `${finalDay} ${finalMonth}`;
+    }
 
     // Handle Authenticity & Delivery interactions
     const certButtons = document.querySelectorAll('.diamond-cert-btn');
     const deliveryDateContainer = document.querySelector('.delivery-note');
     const deliveryCalculateNotifyMessage = document.querySelector('.calculate-delivery-notify-msg');
+    const deliveryDateInput = document.getElementById('_delivery_date');
     certButtons.forEach((inputLabel) => {
       inputLabel.addEventListener('click', function () {
         const estimateDuration = inputLabel.getAttribute('data-value');
-        let expectedDeliveryDay = estimateDuration ? getDateAfterDays(estimateDuration) : getDateAfterDays(15);
-        if (expectedDeliveryDay) {
+        let expectedDeliveryDate = estimateDuration ? getDateAfterDays(estimateDuration) : getDateAfterDays(15);
+        if (expectedDeliveryDate) {
+          const expectedDeliveryDay = formatDeliveryDateDisplay(expectedDeliveryDate);
           deliveryDateContainer.textContent = `Expected delivery by ${expectedDeliveryDay}`;
           deliveryCalculateNotifyMessage.classList.add('hidden');
           deliveryDateContainer.classList.remove('hidden');
+          if (deliveryDateInput) {
+            deliveryDateInput.value = expectedDeliveryDate.toISOString().split('T')[0];
+          }
         }
 
         const group = this.getAttribute('data-group');

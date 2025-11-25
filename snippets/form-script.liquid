@@ -41,15 +41,21 @@
         <!-- Ring Thumbnails -->
         <div class="ring-thumbnails"></div>
       </div>
-
-      <!-- Option 2: No Personalization -->
-      <div class="personalization-card" data-action="no-personalization">
-        <input type="radio" name="personalization_choice" value="no_personalization" id="no-personalization-radio"
-          class="personalization-radio hidden-input" />
-        <label for="no-personalization-radio" class="card-content">
-          <span class="option-text">No Personalization</span>
-        </label>
-      </div>
+ 
+      {%- comment -%}
+        Note:
+        The explicit "No Personalization" card has been removed from the UI as requested.
+        We keep a hidden radio input with id "no-personalization-radio" so existing JS
+        (personalization modal, 3D viewer, summary logic) that references this element
+        continues to work without errors.
+      {%- endcomment -%}
+      <input
+        type="radio"
+        name="personalization_choice"
+        value="no_personalization"
+        id="no-personalization-radio"
+        class="personalization-radio hidden-input hidden"
+      />
 
     </div>
 
@@ -312,12 +318,12 @@
     <div class="studded-diamond-certificates">
       <label class="certificate-title">Studded Diamond Certification:</label>
       <div class="certificate-options studded-cert-buttons">
-        <input type="radio" name="properties[diamond-certificate]" id="SGL" data-value="15" value="SGL" class="hidden-input">
-        <label for="SGL" type="radio" class="diamond-cert-btn" data-group="studded-cert" data-value="15" value="SGL">SGL Certificate</label>
+        <input type="radio" name="properties[diamond-certificate]" id="SGL" data-value="50" value="SGL" class="hidden-input">
+        <label for="SGL" type="radio" class="diamond-cert-btn" data-group="studded-cert" data-value="50" value="SGL">SGL Certificate</label>
         <input type="radio" name="properties[diamond-certificate]" id="EGL" data-value="15" value="EGL" class="hidden-input">
         <label for="EGL" type="radio" class="diamond-cert-btn" data-group="studded-cert" data-value="15" value="EGL">EGL Certificate</label>
-        <input type="radio" name="properties[diamond-certificate]" id="IGI" data-value="25" value="IGI" class="hidden-input">
-        <label for="IGI" type="radio" class="diamond-cert-btn" data-group="studded-cert" data-value="25" value="IGI" >IGI Certificate</label>
+        <input type="radio" name="properties[diamond-certificate]" id="IGI" data-value="20" value="IGI" class="hidden-input">
+        <label for="IGI" type="radio" class="diamond-cert-btn" data-group="studded-cert" data-value="20" value="IGI" >IGI Certificate</label>
       </div>
     </div>
 
@@ -352,6 +358,20 @@
         </div>
         <div class="delivery-note hidden">Expected Delivery by 16th Sept</div>
       </div>
+
+      <!-- Hidden delivery metadata -->
+      <input
+        type="hidden"
+        name="properties[_delivery_date]"
+        id="_delivery_date"
+        value="{{ delivery_date | default: '' }}"
+      >
+      <input
+        type="hidden"
+        name="properties[_days_to_subtract]"
+        id="_days_to_subtract"
+        value="{{ shop.metafields.custom.days_to_subtract.value | default: 3 }}"
+      >
     </div>
   </div>
 
