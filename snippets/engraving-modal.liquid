@@ -1,276 +1,369 @@
 <!-- Engraving Modal -->
 <div id="engraving-modal" class="modal-overlay">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title">Engrave Your Ring</h3>
-            <button class="modal-close" data-action="close-engraving-modal">&times;</button>
-        </div>
-
-        <div class="modal-body">
-            <!-- Ring Image -->
-            <div class="ring-image-section">
-                <img src="https://cdn.shopify.com/s/files/1/0664/3780/8182/files/perp_50_3_1.jpg?v=1754636375" alt="Ring Preview" class="ring-preview">
-            </div>
-
-            <!-- Instructional Text -->
-            <div class="instruction-text">
-                <p>Type in names, initials or numbers. You can even combine them</p>
-            </div>
-
-            <!-- Text Input -->
-            <div class="input-section">
-                <input type="text" id="engraving-text-input" class="text-input" placeholder="First line" maxlength="20">
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="action-buttons-section">
-                <button class="btn-save" data-action="save-engraving" disabled>Save</button>
-                <button class="btn-cancel" data-action="close-engraving-modal">Cancel</button>
-            </div>
-        </div>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 class="modal-title">Engrave Your Ring</h3>
+      <button class="modal-close" data-action="close-engraving-modal">&times;</button>
     </div>
+
+    <div class="modal-body">
+      <!-- Ring Image -->
+      {% assign product_tags = product.tags | downcase %}
+      {% if product_tags contains 'female' %}
+        {% assign is_male = false %}
+      {% else %}
+        {% assign is_male = true %}
+      {% endif %}
+      <div class="ring-image-section">
+        {% if is_male %}
+          <img
+            src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/male_shank.jpg?v=1763724075"
+            alt="Ring Preview"
+            class="ring-preview male"
+          >
+        {% else %}
+          <img
+            src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/female_shank.jpg?v=1763724075"
+            alt="Ring Preview"
+            class="ring-preview female"
+          >
+        {% endif %}
+        <!-- Engraving overlay (mirrors input text) -->
+        <div
+          id="engraving-overlay"
+          class="engraving-overlay {% if is_male %}male{% else %}female{% endif %}"
+          aria-hidden="true"
+        >
+          <span class="engraving-text"></span>
+        </div>
+      </div>
+
+      <!-- Instructional Text -->
+      <div class="instruction-text">
+        <p>Type in names, initials or numbers. You can even combine them</p>
+      </div>
+
+      <!-- Text Input -->
+      <div class="input-section">
+        <input type="text" id="engraving-text-input" class="text-input" placeholder="First line" maxlength="8">
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons-section">
+        <button class="btn-save" data-action="save-engraving" disabled>Save</button>
+        <button class="btn-cancel" data-action="close-engraving-modal">Cancel</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <style>
-/* Engraving Modal Styles */
-#engraving-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-#engraving-modal.active {
-    display: flex;
-}
-#engraving-modal .modal-content {
-    background: white;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 500px;
-    max-height: 90vh;
-    overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-}
-#engraving-modal .modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 30px;
-    border-bottom: 1px solid #eee;
-}
-#engraving-modal .modal-title {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-    margin: 0;
-}
-#engraving-modal .modal-close {
-    background: none;
-    border: none;
-    font-size: 28px;
-    color: #999;
-    cursor: pointer;
-    padding: 0;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-#engraving-modal .modal-close:hover {
-    color: #333;
-}
-#engraving-modal .modal-body {
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-}
-/* Ring Image Section */
-#engraving-modal .ring-image-section {
-    width: 100%;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #f9f9f9;
-}
-#engraving-modal .ring-preview {
-    max-width: 100%;
-    max-height: 200px;
-    object-fit: contain;
-}
-/* Instructional Text */
-#engraving-modal .instruction-text {
-    padding: 20px 30px 10px 30px;
-    text-align: center;
-}
-#engraving-modal .instruction-text p {
-    font-size: 16px;
-    color: #666;
-    margin: 0;
-    line-height: 1.4;
-}
-/* Input Section */
-#engraving-modal .input-section {
-    padding: 0 30px 20px 30px;
-}
-#engraving-modal .text-input {
-    width: 100%;
-    padding: 12px 15px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 16px;
-    color: #333;
-    box-sizing: border-box;
-    transition: border-color 0.3s ease;
-}
-#engraving-modal .text-input:focus {
-    outline: none;
-    border-color: #333;
-}
-#engraving-modal .text-input::placeholder {
-    color: #999;
-}
-/* Action Buttons Section */
-#engraving-modal .action-buttons-section {
-    padding: 0 30px 30px 30px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-#engraving-modal .btn-save {
-    background: #333;
-    color: white;
-    border: none;
-    padding: 12px 20px;
-    border-radius: 6px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.3s ease;
-    width: 100%;
-}
-#engraving-modal .btn-save:hover {
-    background: #555;
-}
-#engraving-modal .btn-cancel {
-    background: none;
-    color: #666;
-    border: none;
-    padding: 8px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: color 0.3s ease;
-    text-decoration: underline;
-    width: 100%;
-}
-#engraving-modal .btn-cancel:hover {
-    color: #333;
-}
-/* Responsive */
-@media (max-width: 768px) {
+    /* Engraving Modal Styles */
+    #engraving-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    #engraving-modal.active {
+      display: flex;
+    }
     #engraving-modal .modal-content {
+      background: white;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 500px;
+      max-height: 90vh;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+    #engraving-modal .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 30px;
+      border-bottom: 1px solid #eee;
+    }
+    #engraving-modal .modal-title {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+      margin: 0;
+    }
+    #engraving-modal .modal-close {
+      background: none;
+      border: none;
+      font-size: 28px;
+      color: #999;
+      cursor: pointer;
+      padding: 0;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #engraving-modal .modal-close:hover {
+      color: #333;
+    }
+    #engraving-modal .modal-body {
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    /* Ring Image Section */
+    #engraving-modal .ring-image-section {
+      width: 100%;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f9f9f9;
+    }
+    #engraving-modal .ring-preview {
+      max-width: 100%;
+      max-height: 200px;
+      object-fit: contain;
+    }
+    /* Engraving overlay styles */
+    #engraving-modal .ring-image-section {
+      position: relative;
+    }
+    #engraving-modal .engraving-overlay {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 70%;
+      text-align: center;
+    }
+    #engraving-modal .engraving-text {
+      display: inline-block;
+      color: #c0c0c0;
+      font-family: 'Georgia', 'Times New Roman', serif;
+      letter-spacing: 1px;
+      line-height: 1;
+      text-transform: none;
+      -webkit-font-smoothing: antialiased;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8), 0 -1px 0 rgba(0, 0, 0, 0.08);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-shadow: 1px 1px 0 #fff, /* highlight */ -1px -1px 0 #000; /* depth */
+    }
+
+    /* Gender-specific overlay tweaks */
+    #engraving-modal .engraving-overlay.male {
+      top: 53%;
+      width: 70%;
+    }
+    #engraving-modal .engraving-overlay.female {
+      top: 46%;
+      left: 51%;
+      width: 60%;
+    }
+
+
+    /* FEMALE */
+  #engraving-modal .engraving-overlay.female .engraving-text {
+    font-size: clamp(18px, 5.2vw, 22px);
+  }
+
+  /* MALE */
+  #engraving-modal .engraving-overlay.male .engraving-text {
+    font-size: clamp(23px, 6vw, 36px);
+  }
+
+  /* Still needed for vertical adjust */
+  @media (max-width: 376px) {
+    #engraving-modal .engraving-overlay.female {
+      top: 47%;
+    }
+  }
+    /* Instructional Text */
+    #engraving-modal .instruction-text {
+      padding: 20px 30px 10px 30px;
+      text-align: center;
+    }
+    #engraving-modal .instruction-text p {
+      font-size: 16px;
+      color: #666;
+      margin: 0;
+      line-height: 1.4;
+    }
+    /* Input Section */
+    #engraving-modal .input-section {
+      padding: 0 30px 20px 30px;
+    }
+    #engraving-modal .text-input {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 16px;
+      color: #333;
+      box-sizing: border-box;
+      transition: border-color 0.3s ease;
+    }
+    #engraving-modal .text-input:focus {
+      outline: none;
+      border-color: #333;
+    }
+    #engraving-modal .text-input::placeholder {
+      color: #999;
+    }
+    /* Action Buttons Section */
+    #engraving-modal .action-buttons-section {
+      padding: 0 30px 30px 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    #engraving-modal .btn-save {
+      background: #333;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      width: 100%;
+    }
+    #engraving-modal .btn-save:hover {
+      background: #555;
+    }
+    #engraving-modal .btn-cancel {
+      background: none;
+      color: #666;
+      border: none;
+      padding: 8px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: color 0.3s ease;
+      text-decoration: underline;
+      width: 100%;
+    }
+    #engraving-modal .btn-cancel:hover {
+      color: #333;
+    }
+    /* Responsive */
+    @media (max-width: 768px) {
+      #engraving-modal .modal-content {
         width: 95%;
         margin: 20px;
-    }
-    
-    #engraving-modal .ring-image-section {
+      }
+
+      #engraving-modal .ring-image-section {
         padding: 15px;
-    }
-    
-    #engraving-modal .instruction-text {
+      }
+
+      #engraving-modal .instruction-text {
         padding: 15px 20px 10px 20px;
-    }
-    
-    #engraving-modal .input-section {
+      }
+
+      #engraving-modal .input-section {
         padding: 0 20px 15px 20px;
-    }
-    
-    #engraving-modal .action-buttons-section {
+      }
+
+      #engraving-modal .action-buttons-section {
         padding: 0 20px 20px 20px;
+      }
     }
-}
 </style>
 
 <script>
-function clearEngraveTextInput(){
-        const engraveTextInput = document.querySelector("#engraving-text-input");
-        if(engraveTextInput) engraveTextInput.value = '';
-    }
-document.addEventListener('DOMContentLoaded', function() {
+  function clearEngraveTextInput() {
+    const engraveTextInput = document.querySelector('#engraving-text-input');
+    if (engraveTextInput) engraveTextInput.value = '';
+  }
+  document.addEventListener('DOMContentLoaded', function () {
     const engravingModal = document.getElementById('engraving-modal');
     const closeButtons = document.querySelectorAll('[data-action="close-engraving-modal"]');
     const saveButton = document.querySelector('[data-action="save-engraving"]');
     const textInput = document.getElementById('engraving-text-input');
     // sdisable/enable submit btn
-    textInput.addEventListener('input',x=>{
-        saveButton.disabled = !(textInput.value.length > 0);
-    })
-    
+    textInput.addEventListener('input', (x) => {
+      saveButton.disabled = !(textInput.value.length > 0);
+    });
+
+    const engravingOverlay = document.getElementById('engraving-overlay');
+    const engravingTextEl = document.querySelector('#engraving-overlay .engraving-text');
+
+    // Mirror text only — font handled by CSS media queries
+    textInput.addEventListener('input', function () {
+      engravingTextEl.textContent = this.value;
+    });
+
     // Handle modal close
-    closeButtons.forEach(button => {
-        button.addEventListener('click', closeEngravingModal);
+    closeButtons.forEach((button) => {
+      button.addEventListener('click', closeEngravingModal);
     });
-    
+
     // Close modal when clicking overlay
-    engravingModal.addEventListener('click', function(e) {
-        if (e.target === engravingModal) {
-            closeEngravingModal();
-        }
-    });
-    
-    // Handle save button
-    saveButton.addEventListener('click', function() {
-        saveEngraving();
-    });
-    
-    // Keyboard support
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && engravingModal.classList.contains('active')) {
-            closeEngravingModal();
-        }
-    });
-    
-    // Global function to open engraving modal
-    window.openEngravingModal = function() {
-        engravingModal.classList.add('active');
-        document.body.style.overflow = 'hidden'; // Prevent background scrolling
-        // Focus on the text input
-        setTimeout(() => {
-            textInput.focus();
-        }, 100);
-    };
-    
-    function closeEngravingModal() {
-        clearEngraveTextInput();
-        engravingModal.classList.remove('active');
-        document.body.style.overflow = ''; // Restore scrolling
-    }
-    
-    function saveEngraving() {
-        const selections = {};
-        
-        // Get engraving text
-        selections['engraving-text'] = textInput.value.trim();
-        
-        console.log('Engraving saved:', selections);
-        
-        // Close modal after saving
+    engravingModal.addEventListener('click', function (e) {
+      if (e.target === engravingModal) {
         closeEngravingModal();
-        
-        // Show engraving summary
-        if (window.showEngravingSummary) {
-            window.showEngravingSummary(selections);
-        }
-        
-        // Add your logic here for processing the engraving data
-        // For example, you might want to update the product configuration
+      }
+    });
+
+    // Handle save button
+    saveButton.addEventListener('click', function () {
+      saveEngraving();
+    });
+
+    // Keyboard support
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && engravingModal.classList.contains('active')) {
+        closeEngravingModal();
+      }
+    });
+
+    // Global function to open engraving modal
+    window.openEngravingModal = function () {
+      engravingModal.classList.add('active');
+      document.body.style.overflow = 'hidden'; // Prevent background scrolling
+      // Focus on the text input
+      setTimeout(() => {
+        textInput.focus();
+      }, 100);
+    };
+
+    function closeEngravingModal() {
+      clearEngraveTextInput();
+      engravingModal.classList.remove('active');
+      document.body.style.overflow = ''; // Restore scrolling
     }
-});
+
+    function saveEngraving() {
+      const selections = {};
+
+      // Get engraving text
+      selections['engraving-text'] = textInput.value.trim();
+
+      console.log('Engraving saved:', selections);
+
+      // Close modal after saving
+      closeEngravingModal();
+
+      // Show engraving summary
+      if (window.showEngravingSummary) {
+        window.showEngravingSummary(selections);
+      }
+
+      // Add your logic here for processing the engraving data
+      // For example, you might want to update the product configuration
+    }
+  });
 </script>
