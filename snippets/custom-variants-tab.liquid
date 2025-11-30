@@ -1053,11 +1053,47 @@
   });
   document.querySelectorAll('.ai-question').forEach((section) => {
     section.addEventListener('click', (e) => {
-      if (e.target.classList.contains('ai-option')) {
-        // Remove selection from other options in same section
+      if (!e.target.classList.contains('ai-option')) return;
+      const option = e.target;
+      const isPriority = section.id === 'priority';
+      const errorEl = section.querySelector('.ai-error');
+
+      if (isPriority) {
+        const currentlySelected = Array.from(section.querySelectorAll('.ai-option.selected'));
+        const isOptionSelected = option.classList.contains('selected');
+
+        if (isOptionSelected) {
+          // Attempting to unselect
+          if (currentlySelected.length === 1) {
+            // Prevent removing the last selected option — keep it selected
+            // Optionally, briefly flash the error to indicate it's required
+            if (errorEl) {
+              errorEl.classList.remove('hidden');
+              setTimeout(() => errorEl.classList.add('hidden'), 1200);
+            }
+            return;
+          }
+          // If more than one selected, allow unselect
+          option.classList.remove('selected');
+        } else {
+          // Selecting a new option
+          option.classList.add('selected');
+          // Enforce max 2 selections — remove earliest selected(s) if needed
+          const afterSelected = Array.from(section.querySelectorAll('.ai-option.selected'));
+          if (afterSelected.length > 2) {
+            while (afterSelected.length > 2) {
+              const toRemove = afterSelected.shift();
+              toRemove.classList.remove('selected');
+            }
+          }
+        }
+
+        if (errorEl) errorEl.classList.add('hidden');
+      } else {
+        // Single-select behavior for other questions
         section.querySelectorAll('.ai-option').forEach((opt) => opt.classList.remove('selected'));
-        e.target.classList.add('selected');
-        e.target.parentElement.querySelector('.ai-error').classList.add('hidden');
+        option.classList.add('selected');
+        if (errorEl) errorEl.classList.add('hidden');
       }
     });
   });
@@ -1069,12 +1105,23 @@
     const selections = [];
     let allSelected = true;
     document.querySelectorAll('.ai-question').forEach((section) => {
-      const selected = section.querySelector('.selected');
-      if (selected) {
-        selections.push(selected.innerText);
+      if (section.id === 'priority') {
+        // Allow up to 2 selections for priority; push each selected option as a separate element
+        const selectedEls = Array.from(section.querySelectorAll('.ai-option.selected'));
+        if (selectedEls.length > 0) {
+          selectedEls.forEach((s) => selections.push(s.innerText.trim()));
+        } else {
+          section.querySelector('.ai-error').classList.remove('hidden');
+          allSelected = false;
+        }
       } else {
-        section.querySelector('.ai-error').classList.remove('hidden');
-        allSelected = false;
+        const selected = section.querySelector('.ai-option.selected');
+        if (selected) {
+          selections.push(selected.innerText.trim());
+        } else {
+          section.querySelector('.ai-error').classList.remove('hidden');
+          allSelected = false;
+        }
       }
     });
     if (allSelected) {
