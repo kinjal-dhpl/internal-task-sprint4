@@ -558,7 +558,18 @@ input[name="engraving_choice"]+label {
   border-radius: 8px;
   padding: 14px;
 }
+#errorMessage {
+    display: none;             /*hidden by default */
+    color: red;                /* error text color */
+    font-size: 14px;           /* size of text */
+    margin-top: 5px;           /* spacing below phone number */
+}
 
+/* When active, show the error */
+#errorMessage.active {
+    display: block;
+}
+    
 .delivery-row {
   display: flex;
   justify-content: space-between;
