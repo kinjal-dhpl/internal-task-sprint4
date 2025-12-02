@@ -1,22 +1,25 @@
 {{ 'form-script.css' | asset_url | stylesheet_tag }}
-
+{% assign product_tags = product.tags | downcase %}
 <div class="personalization-engrave-form" data-selected="false">
   <div class="personalization-header">
     <h2 class="personalization-title">Personalize Your Ring For Free.</h2>
-
   </div>
 
   <!-- Initial Options (shown by default) -->
-   <div class="personalization-form pdp-form" id="personalize-form"> 
+  <div class="personalization-form pdp-form" id="personalize-form">
     <div class="personalization-title">
       <span class="personalization-label">Personalize:</span>
     </div>
     <div class="personalization-data">
-
       <!-- Option 1: Add Metal Tone & Finish -->
       <div class="personalization-card personalization-options" id="personalization-options" data-action="open-modal">
-        <input type="radio" name="personalization_choice" value="add_personalization" id="personalization-radio"
-          class="personalization-radio hidden-input" />
+        <input
+          type="radio"
+          name="personalization_choice"
+          value="add_personalization"
+          id="personalization-radio"
+          class="personalization-radio hidden-input"
+        >
         <label for="personalization-radio" class="card-content">
           <span class="option-text">Add (Metal Tone &amp; Finish)</span>
           <span class="option-price">Free</span>
@@ -27,8 +30,7 @@
       <div class="personalization-summary hidden" id="personalization-summary">
         <div class="summary-card">
           <div class="summary-content">
-            <div class="summary-details">
-            </div>
+            <div class="summary-details"></div>
             <button type="button" class="edit-button" data-action="edit-personalization">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
@@ -41,7 +43,7 @@
         <!-- Ring Thumbnails -->
         <div class="ring-thumbnails"></div>
       </div>
- 
+
       {%- comment -%}
         Note:
         The explicit "No Personalization" card has been removed from the UI as requested.
@@ -55,92 +57,12 @@
         value="no_personalization"
         id="no-personalization-radio"
         class="personalization-radio hidden-input hidden"
-      />
-
-    </div>
-
-   </div>
-
-  {% comment %} <div class="personalization-options" id="personalization-options">
-    <!-- Option 1: Add Metal Tone & Finish - Opens Modal -->
-    <div class="personalization-card" data-action="open-modal">
-      <div class="card-content">
-        <span class="option-text">Add (Metal Tone & Finish)</span>
-        <span class="option-price">Free</span>
-      </div>
-    </div>
-    <!-- Option 2: No Personalization - Proceeds without customization -->
-    <div class="personalization-card" data-action="no-personalization">
-      <div class="card-content">
-        <span class="option-text">No Personalization</span>
-      </div>
+      >
     </div>
   </div>
-  <!-- Personalization Summary (shown after save) -->
-   <div class="personalization-summary hidden" id="personalization-summary">
-    <div class="summary-card">
-      <div class="summary-content">
-        <div class="summary-details">
-          <div class="summary-item">
-            <span class="summary-label">Metal Tone 1:</span>
-            <span class="summary-value" id="summary-metal-tone-1">Yellow</span>
-          </div>
-          <div class="summary-item">
-            <span class="summary-label">Metal Tone 2 (Rhodium):</span>
-            <span class="summary-value" id="summary-metal-tone-2">Yellow</span>
-          </div>
-          <div class="summary-item">
-            <span class="summary-label">Prong Rhodium:</span>
-            <span class="summary-value" id="summary-prong-rhodium">Yellow</span>
-          </div>
-          <div class="summary-item">
-            <span class="summary-label">Metal Finish 1:</span>
-            <span class="summary-value" id="summary-metal-finish-1">Polished</span>
-          </div>
-          <div class="summary-item">
-            <span class="summary-label">Metal Finish 2:</span>
-            <span class="summary-value" id="summary-metal-finish-2">Matte</span>
-          </div>
-        </div>
-        <button type="button" class="edit-button" data-action="edit-personalization">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-            <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-          </svg>
-        </button>
-      </div>
-    </div>
-    <!-- Ring Thumbnails -->
-    <div class="ring-thumbnails">
-      <div class="ring-thumbnail active">
-        <img
-          src="https://cdn.shopify.com/s/files/1/0664/3780/8182/files/perp_50_3_1.jpg?v=1754636375"
-          alt="Ring View 1"
-        >
-      </div>
-      <div class="ring-thumbnail">
-        <img
-          src="https://cdn.shopify.com/s/files/1/0664/3780/8182/files/perp_50_3_1.jpg?v=1754636375"
-          alt="Ring View 2"
-        >
-      </div>
-      <div class="ring-thumbnail">
-        <img
-          src="https://cdn.shopify.com/s/files/1/0664/3780/8182/files/perp_50_3_1.jpg?v=1754636375"
-          alt="Ring View 3"
-        >
-      </div>
-      <div class="ring-thumbnail">
-        <img
-          src="https://cdn.shopify.com/s/files/1/0664/3780/8182/files/perp_50_3_1.jpg?v=1754636375"
-          alt="Ring View 4"
-        >
-      </div>
-    </div>
-  </div> {% endcomment %}
 
   <!-- Engraving Form Section -->
-   <div class="engraving-form pdp-form" id="engraving-form">
+  <div class="engraving-form pdp-form" id="engraving-form">
     <div class="engraving-header">
       <h2 class="engraving-title">Personalize Engraving For Free.</h2>
       <label class="engraving-label">Engraving:</label>
@@ -160,7 +82,13 @@
 
       <!-- Engraving Summary (shown after save) -->
       <div class="engraving-summary hidden" id="engraving-summary">
-        <input type="radio" name="engraving_choice" value="add_engraving" id="engraving-radio" class="engraving-radio hidden-input hidden" />
+        <input
+          type="radio"
+          name="engraving_choice"
+          value="add_engraving"
+          id="engraving-radio"
+          class="engraving-radio hidden-input hidden"
+        >
         <div class="summary-card">
           <div class="summary-content">
             <div class="summary-details">
@@ -181,18 +109,22 @@
 
       <!-- Option 2: No Engraving -->
       <div class="engraving-card engrv-card" data-action="no-engraving">
-        <input type="radio" name="engraving_choice" value="no_engraving" id="no-engraving-radio" class="engraving-radio hidden-input hidden" />
+        <input
+          type="radio"
+          name="engraving_choice"
+          value="no_engraving"
+          id="no-engraving-radio"
+          class="engraving-radio hidden-input hidden"
+        >
         <label for="no-engraving-radio" class="card-content">
           <span class="option-text">No Engraving</span>
         </label>
       </div>
-
     </div>
-
   </div>
 
   <!-- Personal Fit Form Section -->
-   <div class="personal-fit-form pdp-form" id="personal-fit-form">
+  <div class="personal-fit-form pdp-form" id="personal-fit-form">
     <div class="personal-fit-header">
       <h2 class="personal-fit-title">Get The Perfect Personal Fit.</h2>
     </div>
@@ -203,11 +135,11 @@
       <div class="selection-group">
         <label class="selection-label">Gender:</label>
         <div class="selection-buttons">
-                    <button type="button" class="selection-btn gender-btn" data-value="male" data-group="gender">
+          <button type="button" class="selection-btn gender-btn" data-value="male" data-group="gender">
             <span class="gender-symbol">♂</span>
             <span class="selection-text">Male</span>
           </button>
-                    <button type="button" class="selection-btn gender-btn" data-value="female" data-group="gender">
+          <button type="button" class="selection-btn gender-btn" data-value="female" data-group="gender">
             <span class="gender-symbol">♀</span>
             <span class="selection-text">Female</span>
           </button>
@@ -218,7 +150,7 @@
       <div class="selection-group">
         <label class="selection-label">Hand:</label>
         <div class="selection-buttons">
-                    <button type="button" class="selection-btn hand-btn" data-value="left" data-group="hand">
+          <button type="button" class="selection-btn hand-btn" data-value="left" data-group="hand">
             <span class="hand-symbol">→</span>
             <span class="selection-text">Left</span>
           </button>
@@ -233,7 +165,7 @@
       <div class="selection-group">
         <label class="selection-label">Finger:</label>
         <div class="selection-buttons finger-buttons">
-                    <button type="button" class="selection-btn finger-btn" data-value="thumb" data-group="finger">
+          <button type="button" class="selection-btn finger-btn" data-value="thumb" data-group="finger">
             <span class="selection-text">Thumb</span>
           </button>
           <button type="button" class="selection-btn finger-btn" data-value="index" data-group="finger">
@@ -254,7 +186,17 @@
   </div>
 
   <!-- Additional Fingerprint Section -->
-  <div class="additional-print-form pdp-form" id="additional-print-form">
+  <div
+    class="
+      additional-print-form pdp-form
+      {% if product_tags contains 'fingerprint' %}
+        visible
+      {% else %}
+        hide-fingerprint-section
+      {% endif %}
+    "
+    id="additional-print-form"
+  >
     <div class="additional-print-header">
       <h2 class="additional-print-title">Get Additional Print</h2>
     </div>
@@ -267,12 +209,12 @@
         {% comment %} Saved Fingerprint Image {% endcomment %}
         <div class="savedFingerprintData">
           <!-- Hidden file input (opened manually via JS) -->
-          <input type="file" name="properties[fingerprint]" id="fingerprint-file" accept="image/*" hidden />
+          <input type="file" name="properties[fingerprint]" id="fingerprint-file" accept="image/*" hidden>
 
           <!-- Preview section -->
           <div class="fingerprint-preview hidden" id="fingerprint-preview-container">
             <div class="upload-preview">
-              <img id="fingerprint-preview-img" alt="Fingerprint preview" />
+              <img id="fingerprint-preview-img" alt="Fingerprint preview">
               <span class="upload-text" id="fingerprint-file-name"></span>
             </div>
             <div class="preview-actions">
@@ -287,7 +229,7 @@
 
         {% comment %} Option YES {% endcomment %}
         <div class="fingerprint-option selection-option" id="yes-option">
-          <input type="radio" name="additional-print" id="additional-print-yes" value="yes" class="hidden-input" />
+          <input type="radio" name="additional-print" id="additional-print-yes" value="yes" class="hidden-input">
           <label for="additional-print-yes" class="selection-btn fp-selection-btn" id="yes-btn">
             <span class="selection-text">Yes</span>
           </label>
@@ -295,21 +237,23 @@
 
         {% comment %} Option NO {% endcomment %}
         <div class="fingerprint-option selection-option" id="no-option">
-          <input type="radio" name="additional-print" id="additional-print-no" value="no" class="hidden-input" />
+          <input
+            type="radio"
+            name="additional-print"
+            id="additional-print-no"
+            value="no"
+            class="hidden-input"
+          >
           <label for="additional-print-no" class="selection-btn fp-selection-btn" id="no-btn">
             <span class="selection-text">No</span>
           </label>
         </div>
       </div>
     </div>
-
   </div>
 
-
-
-
   <!-- Authenticity & Delivery Section -->
-   <div class="auth-delivery-form pdp-form" id="auth-delivery-form">
+  <div class="auth-delivery-form pdp-form" id="auth-delivery-form">
     <div class="auth-delivery-header">
       <h2 class="auth-delivery-title">Authenticity & Delivery</h2>
     </div>
@@ -318,12 +262,39 @@
     <div class="studded-diamond-certificates">
       <label class="certificate-title">Studded Diamond Certification:</label>
       <div class="certificate-options studded-cert-buttons">
-        <input type="radio" name="properties[diamond-certificate]" id="SGL" data-value="15" value="SGL" class="hidden-input">
-        <label for="SGL" type="radio" class="diamond-cert-btn" data-group="studded-cert" data-value="15" value="SGL">SGL Certificate</label>
-        <input type="radio" name="properties[diamond-certificate]" id="EGL" data-value="15" value="EGL" class="hidden-input">
-        <label for="EGL" type="radio" class="diamond-cert-btn" data-group="studded-cert" data-value="15" value="EGL">EGL Certificate</label>
-        <input type="radio" name="properties[diamond-certificate]" id="IGI" data-value="20" value="IGI" class="hidden-input">
-        <label for="IGI" type="radio" class="diamond-cert-btn" data-group="studded-cert" data-value="20" value="IGI" >IGI Certificate</label>
+        <input
+          type="radio"
+          name="properties[diamond-certificate]"
+          id="SGL"
+          data-value="15"
+          value="SGL"
+          class="hidden-input"
+        >
+        <label for="SGL" type="radio" class="diamond-cert-btn" data-group="studded-cert" data-value="15" value="SGL"
+          >SGL Certificate</label
+        >
+        <input
+          type="radio"
+          name="properties[diamond-certificate]"
+          id="EGL"
+          data-value="15"
+          value="EGL"
+          class="hidden-input"
+        >
+        <label for="EGL" type="radio" class="diamond-cert-btn" data-group="studded-cert" data-value="15" value="EGL"
+          >EGL Certificate</label
+        >
+        <input
+          type="radio"
+          name="properties[diamond-certificate]"
+          id="IGI"
+          data-value="20"
+          value="IGI"
+          class="hidden-input"
+        >
+        <label for="IGI" type="radio" class="diamond-cert-btn" data-group="studded-cert" data-value="20" value="IGI"
+          >IGI Certificate</label
+        >
       </div>
     </div>
 
@@ -353,9 +324,7 @@
           <span>Auto calculate delivery date range</span>
           <span class="chip chip-free">Free</span>
         </div>
-        <div class="calculate-delivery-notify-msg">
-          Select Diamond Certificate for calculating delivery date
-        </div>
+        <div class="calculate-delivery-notify-msg">Select Diamond Certificate for calculating delivery date</div>
         <div class="delivery-note hidden">Expected Delivery by 16th Sept</div>
       </div>
 
@@ -376,7 +345,7 @@
   </div>
 
   <!-- Final Summary -->
-   <div class="final-summary-form hidden" id="final-summary-form">
+  <div class="final-summary-form hidden" id="final-summary-form">
     <div class="price-details">
       <div class="price-slab">
         <span class="final-price-curreny">Rs.</span>
@@ -447,13 +416,22 @@
     </div>
 
     <div class="final-row fp-container">
-      <span class="final-label">Finger Print</span>
+      <span
+        class="
+          final-label
+          {% if product_tags contains 'fingerprint' %}
+            visible
+          {% else %}
+            hidden
+          {% endif %}
+        "
+        >Finger Print</span
+      >
       <span class="final-value" style="width: 24px;">
-        <img style="width: 100%; height:auto;" src="" class="final-value" id="final-fprint-fingerprint" />
+        <img style="width: 100%; height:auto;" src="" class="final-value" id="final-fprint-fingerprint">
       </span>
       <span class="final-value hidden" id="final-text-fingerprint">No</span>
     </div>
-
   </div>
 </div>
 
