@@ -2,7 +2,7 @@
 <style>
 
   #billing--address{
-    display: none;
+    {% comment %} display: none; {% endcomment %}
   }
 .order-placement-container {
   display: flex;
@@ -526,19 +526,19 @@ button.apply-btn {
         <h2 class="shipping-title">Shipping</h2>
 
         <div class="shipping-options">
-          <label class="shipping-option">
+          {% comment %} <label class="shipping-option">
             <input type="radio" name="shipping-method" value="home-delivery" class="shipping-radio" checked>
             <span class="shipping-label">Home Delivery</span>
-          </label>
+          </label> {% endcomment %}
 
           <label class="shipping-option">
-            <input type="radio" name="shipping-method" value="store-pickup" class="shipping-radio">
+            <input type="radio" name="shipping-method" value="store-pickup" class="shipping-radio" checked>
             <span class="shipping-label">In Store Pickup (Free)</span>
           </label>
         </div>
 
         <!-- Home Delivery Form -->
-        <div class="home-delivery-form shipping-form" id="homeDeliveryForm">
+        {% comment %} <div class="home-delivery-form shipping-form" id="homeDeliveryForm">
           <div id="shipping--address">
           <div class="form-row">
             <div class="form-group half">
@@ -599,10 +599,10 @@ button.apply-btn {
           </label>
          
          
-        </div>
+        </div> {% endcomment %}
 
         <!-- Store Pickup Form -->
-        <div class="store-pickup-form shipping-form" id="storePickupForm" style="display: none;">
+        <div class="store-pickup-form shipping-form" id="storePickupForm">
          <h2 class="shipping-title">Select Store</h2> 
           <div class="store-list"></div>
         </div>
@@ -794,29 +794,30 @@ button.apply-btn {
 }
    
   document.addEventListener('DOMContentLoaded', function() {
-    const homeDeliveryForm = document.getElementById('homeDeliveryForm');
+    {% comment %} const homeDeliveryForm = document.getElementById('homeDeliveryForm'); {% endcomment %}
     const storePickupForm = document.getElementById('storePickupForm');
     const shippingRadios = document.querySelectorAll('input[name="shipping-method"]');
     const billingContainer = document.querySelector('#billing--address');
     const billingCheckBoxElement = document.querySelector('#billing--checkbox');
      
+
     
     shippingRadios.forEach(radio => {
       radio.addEventListener('change', function() {
-        if (this.value === 'home-delivery') {
+        {% comment %} if (this.value === 'home-delivery') {
            homeDeliveryForm.style.display = 'block';
            storePickupForm.style.display = 'none';
            billingCheckBoxElement.checked = true;
            billingContainer.style.display ='none';
            billingContainer.style.marginTop ='unset'; 
           
-        } else {
-            homeDeliveryForm.style.display = 'none';
+        } else { {% endcomment %}
+            {% comment %} homeDeliveryForm.style.display = 'none'; {% endcomment %}
             storePickupForm.style.display = 'block';
             billingCheckBoxElement.checked = false;
             billingContainer.style.display = 'block';
             billingContainer.style.marginTop ='20px'; 
-        }
+        {% comment %} } {% endcomment %}
       });
     });
   });
