@@ -1058,41 +1058,50 @@
       const isPriority = section.id === 'priority';
       const errorEl = section.querySelector('.ai-error');
 
+      // Helper to hide/show error
+      const showError = () => {
+        if (errorEl) {
+          errorEl.classList.remove('hidden');
+          setTimeout(() => errorEl.classList.add('hidden'), 1200);
+        }
+      };
+
       if (isPriority) {
-        const currentlySelected = Array.from(section.querySelectorAll('.ai-option.selected'));
+        // Use a timestamp to track selection order so we can deterministically remove the oldest selections.
+        const selectedEls = Array.from(section.querySelectorAll('.ai-option.selected'));
         const isOptionSelected = option.classList.contains('selected');
 
         if (isOptionSelected) {
-          // Attempting to unselect
-          if (currentlySelected.length === 1) {
-            // Prevent removing the last selected option — keep it selected
-            // Optionally, briefly flash the error to indicate it's required
-            if (errorEl) {
-              errorEl.classList.remove('hidden');
-              setTimeout(() => errorEl.classList.add('hidden'), 1200);
-            }
-            return;
-          }
-          // If more than one selected, allow unselect
+          // Unselecting: allow removing even the last selection (user may deselect everything)
           option.classList.remove('selected');
+          delete option.dataset.selectedAt;
         } else {
-          // Selecting a new option
+          // Selecting: mark selection time
           option.classList.add('selected');
-          // Enforce max 2 selections — remove earliest selected(s) if needed
+          option.dataset.selectedAt = Date.now().toString();
+
+          // If more than 2 selected, remove the oldest selected(s)
           const afterSelected = Array.from(section.querySelectorAll('.ai-option.selected'));
           if (afterSelected.length > 2) {
-            while (afterSelected.length > 2) {
-              const toRemove = afterSelected.shift();
-              toRemove.classList.remove('selected');
-            }
+            afterSelected
+              .sort((a, b) => (parseInt(a.dataset.selectedAt || '0', 10) - parseInt(b.dataset.selectedAt || '0', 10)))
+              .slice(0, afterSelected.length - 2)
+              .forEach((toRemove) => {
+                toRemove.classList.remove('selected');
+                delete toRemove.dataset.selectedAt;
+              });
           }
         }
 
         if (errorEl) errorEl.classList.add('hidden');
       } else {
         // Single-select behavior for other questions
-        section.querySelectorAll('.ai-option').forEach((opt) => opt.classList.remove('selected'));
+        section.querySelectorAll('.ai-option').forEach((opt) => {
+          opt.classList.remove('selected');
+          delete opt.dataset.selectedAt;
+        });
         option.classList.add('selected');
+        option.dataset.selectedAt = Date.now().toString();
         if (errorEl) errorEl.classList.add('hidden');
       }
     });
@@ -1154,6 +1163,14 @@
       } else {
         document.querySelector('.ai-api-error').classList.remove('hidden');
       }
+    }
+    else {
+      // If inputs are missing, scroll to the first visible error message and abort.
+      const firstError = document.querySelector('.ai-error:not(.hidden)');
+      if (firstError) {
+        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      return;
     }
   }
   function chooseRecommendedVariant(btn) {
