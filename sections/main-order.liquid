@@ -37,6 +37,7 @@
           <p>{{ 'customer.order.cancelled_html' | t: date: cancelled_at }}</p>
           <p>{{ 'customer.order.cancelled_reason' | t: reason: order.cancel_reason_label }}</p>
         {%- endif -%}
+        <!-- Desktop Version - Hidden on Mobile -->
         <div class="main_custom_table">
           <div class="custom-table_header">
             <p class="custom-table_header_element">Line Item</p>
