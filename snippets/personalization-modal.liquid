@@ -1,141 +1,92 @@
 <!-- Personalization Modal -->
 <div id="personalization-modal" class="modal-overlay">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title">Personalize Your Ring</h3>
-            <button class="modal-close" data-action="close-modal">
-                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36" fill="none">
-                <path d="M11.7 26.75L18 20.45L24.3 26.75L26.75 24.3L20.45 18L26.75 11.7L24.3 9.25L18 15.55L11.7 9.25L9.25 11.7L15.55 18L9.25 24.3L11.7 26.75ZM18 35.5C15.5792 35.5 13.3042 35.0406 11.175 34.1219C9.04583 33.2031 7.19375 31.9563 5.61875 30.3813C4.04375 28.8063 2.79688 26.9542 1.87813 24.825C0.959375 22.6958 0.5 20.4208 0.5 18C0.5 15.5792 0.959375 13.3042 1.87813 11.175C2.79688 9.04583 4.04375 7.19375 5.61875 5.61875C7.19375 4.04375 9.04583 2.79688 11.175 1.87813C13.3042 0.959375 15.5792 0.5 18 0.5C20.4208 0.5 22.6958 0.959375 24.825 1.87813C26.9542 2.79688 28.8063 4.04375 30.3813 5.61875C31.9563 7.19375 33.2031 9.04583 34.1219 11.175C35.0406 13.3042 35.5 15.5792 35.5 18C35.5 20.4208 35.0406 22.6958 34.1219 24.825C33.2031 26.9542 31.9563 28.8063 30.3813 30.3813C28.8063 31.9563 26.9542 33.2031 24.825 34.1219C22.6958 35.0406 20.4208 35.5 18 35.5Z" fill="#B5B5B5"/>
-                </svg>
-            </button>
-        </div>
-
-        <div class="modal-body">
-            {% render 'canvas-view-html' , enable_action_btn: true %}
-        </div>
-        <div class="personalization-loader-overlay" id="personalization-loader-overlay">
-        <div class="personalization-loader-container">
-            <div class="personalization-spinner" style="display: block;"></div>
-            <p class="personalization-loader-message">Personalizing your ring…</p>
-            <p class="personalization-loader-subtext">Please wait while we capture your design preview.</p>
-        </div>
-        </div>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 class="modal-title">Personalize Your Ring</h3>
+      <button class="modal-close" data-action="close-modal">
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36" fill="none">
+          <path d="M11.7 26.75L18 20.45L24.3 26.75L26.75 24.3L20.45 18L26.75 11.7L24.3 9.25L18 15.55L11.7 9.25L9.25 11.7L15.55 18L9.25 24.3L11.7 26.75ZM18 35.5C15.5792 35.5 13.3042 35.0406 11.175 34.1219C9.04583 33.2031 7.19375 31.9563 5.61875 30.3813C4.04375 28.8063 2.79688 26.9542 1.87813 24.825C0.959375 22.6958 0.5 20.4208 0.5 18C0.5 15.5792 0.959375 13.3042 1.87813 11.175C2.79688 9.04583 4.04375 7.19375 5.61875 5.61875C7.19375 4.04375 9.04583 2.79688 11.175 1.87813C13.3042 0.959375 15.5792 0.5 18 0.5C20.4208 0.5 22.6958 0.959375 24.825 1.87813C26.9542 2.79688 28.8063 4.04375 30.3813 5.61875C31.9563 7.19375 33.2031 9.04583 34.1219 11.175C35.0406 13.3042 35.5 15.5792 35.5 18C35.5 20.4208 35.0406 22.6958 34.1219 24.825C33.2031 26.9542 31.9563 28.8063 30.3813 30.3813C28.8063 31.9563 26.9542 33.2031 24.825 34.1219C22.6958 35.0406 20.4208 35.5 18 35.5Z" fill="#B5B5B5"/>
+        </svg>
+      </button>
     </div>
+
+    <div class="modal-body">
+      {% render 'canvas-view-html', enable_action_btn: true %}
+    </div>
+    <div class="personalization-loader-overlay" id="personalization-loader-overlay">
+      <div class="personalization-loader-container">
+        <div class="personalization-spinner" style="display: block;"></div>
+        <p class="personalization-loader-message">Personalizing your ring…</p>
+        <p class="personalization-loader-subtext">Please wait while we capture your design preview.</p>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     const modal = document.getElementById('personalization-modal');
     const closeButtons = document.querySelectorAll('[data-action="close-modal"]');
     const saveButton = document.querySelector('[data-action="save-personalization"]');
-    const optionButtons = document.querySelectorAll('.option-btn');
     // personalized radio buttons
-    const selectedNoPersonalization = document.querySelector("#no-personalization-radio");
-    const selectedPersonalization = document.querySelector("#personalization-radio");
-    
+    const selectedNoPersonalization = document.querySelector('#no-personalization-radio');
+    const selectedPersonalization = document.querySelector('#personalization-radio');
+
     // Handle modal close
-    closeButtons.forEach(button => {
-        button.addEventListener('click', x=>{
-            const personalizedSummaryContainer = document.getElementById('personalization-summary');
-            // personalized radio buttons
-            const selectedNoPersonalization = document.querySelector("#no-personalization-radio");
-            const selectedPersonalization = document.querySelector("#personalization-radio");
-    
-            if( personalizedSummaryContainer && personalizedSummaryContainer.classList.contains('hidden') ){
-                selectedPersonalization.checked = false;
-                console.log('HEY CLOSINg, remove selection');
-            }
-            closeModal();
-        });
-    });
-    
-    // Close modal when clicking overlay
-    modal.addEventListener('click', function(e) {
-        if (e.target === modal) {
-            closeModal();
+    closeButtons.forEach((button) => {
+      button.addEventListener('click', (x) => {
+        const personalizedSummaryContainer = document.getElementById('personalization-summary');
+        // personalized radio buttons
+        const selectedNoPersonalization = document.querySelector('#no-personalization-radio');
+        const selectedPersonalization = document.querySelector('#personalization-radio');
+
+        if (personalizedSummaryContainer && personalizedSummaryContainer.classList.contains('hidden')) {
+          selectedPersonalization.checked = false;
+          console.log('HEY CLOSINg, remove selection');
         }
-    });
-    
-    // Handle save button
-//    saveButton.addEventListener('click', function() {
-//        savePersonalization();
-//    });
-    
-    // Handle option button selections
-    optionButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const group = this.getAttribute('data-group');
-            const value = this.getAttribute('data-value');
-            
-            // Remove active class from all buttons in the same group
-            const groupButtons = document.querySelectorAll(`[data-group="${group}"]`);
-            groupButtons.forEach(btn => btn.classList.remove('active'));
-            
-            // Add active class to clicked button
-            this.classList.add('active');
-            
-            console.log(`Selected ${group}: ${value}`);
-        });
-    });
-    
-    // Keyboard support
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && modal.classList.contains('active')) {
-            closeModal();
-        }
-    });
-    
-    // Global functions for modal control
-    window.openPersonalizationModal = function() {
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden'; // Prevent background scrolling
-        if(window.innerWidth > 786) {
-            const container = document.querySelector('.canvas-3d-container');
-            const canvas = document.querySelector('#main-canvas');
-            const buttons = document.querySelector('.canvas-action-btns');
-            const mconfig = document.querySelector('#mconfigurator');
-            
-            // Get sizes using getBoundingClientRect()
-            const { height: totalHeight, width: totalWidth } = container.getBoundingClientRect();
-            const { width: canvasWidth } = canvas.getBoundingClientRect();
-            const { height: buttonHeight } = buttons.getBoundingClientRect();
-            
-            // Apply new sizes
-            mconfig.style.height = (totalHeight - buttonHeight) - 30 + 'px';
-            mconfig.style.width = (totalWidth - canvasWidth) - 20 + 'px';
-        }
-    };
-    
-    function closeModal() {
-        modal.classList.remove('active');
-        document.body.style.overflow = ''; // Restore scrolling
-    }
-    
-    function savePersonalization() {
-        console.log('savePersonalization');
-        const selections = {};
-        
-        // Collect all selected options
-        optionButtons.forEach(button => {
-            if (button.classList.contains('active')) {
-                const group = button.getAttribute('data-group');
-                const value = button.getAttribute('data-value');
-                selections[group] = value;
-            }
-        });
-        
-        console.log('Personalization saved:', selections);
-        
-        // Close modal after saving
         closeModal();
-        
-        // Show personalization summary
-        if (window.showPersonalizationSummary) {
-            window.showPersonalizationSummary(selections);
-        }
-        
-        // Add your logic here for processing the personalization data
-        // For example, you might want to update the product configuration
+      });
+    });
+
+    // Close modal when clicking overlay
+    modal.addEventListener('click', function (e) {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    // Keyboard support
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && modal.classList.contains('active')) {
+        closeModal();
+      }
+    });
+
+    // Global functions for modal control
+    window.openPersonalizationModal = function () {
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden'; // Prevent background scrolling
+      if (window.innerWidth > 786) {
+        const container = document.querySelector('.canvas-3d-container');
+        const canvas = document.querySelector('#main-canvas');
+        const buttons = document.querySelector('.canvas-action-btns');
+        const mconfig = document.querySelector('#mconfigurator');
+
+        // Get sizes using getBoundingClientRect()
+        const { height: totalHeight, width: totalWidth } = container.getBoundingClientRect();
+        const { width: canvasWidth } = canvas.getBoundingClientRect();
+        const { height: buttonHeight } = buttons.getBoundingClientRect();
+
+        // Apply new sizes
+        mconfig.style.height = totalHeight - buttonHeight - 30 + 'px';
+        mconfig.style.width = totalWidth - canvasWidth - 20 + 'px';
+      }
+    };
+
+    function closeModal() {
+      modal.classList.remove('active');
+      document.body.style.overflow = ''; // Restore scrolling
     }
-});
+  });
 </script>
