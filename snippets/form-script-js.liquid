@@ -1,6 +1,11 @@
 <script>
   const pdpSelectedFormOptions = {};
+  const canvasViewerBtn = document.querySelector('.trigger-cavas-preview');
+  const personalizationModal = document.querySelector('#personalization-options');
   const selectedPersonalization = document.querySelector('#personalization-radio');
+  canvasViewerBtn.addEventListener('click', (x) => {
+    personalizationModal.click();
+  });
   function enableNextForm(targettedFrom) {
     const nextForm = targettedFrom.nextElementSibling;
     if (!nextForm) {
@@ -95,7 +100,11 @@
     setText('final-hand', hand ? hand.textContent : noOptionSelectedText);
     setText('final-finger', finger ? finger.textContent : noOptionSelectedText);
     // Finger print ** passing input image data is missed here. Flagged to add it later **
+    const isFingerPrintSelected = document.getElementById('additional-print-yes');
     const isFpInputs = document.querySelectorAll('[name="additional-print"]');
+    // if (isFingerPrintSelected && !isFingerPrintSelected.checked) {
+    //    pdpSelectedFormOptions['fingerprint'] = "No";
+    // }
 
     // Metal tones / finishes (from personalization summary if available)
     const personalizeForm = document.querySelector('#personalize-form');
@@ -186,7 +195,6 @@
       fileInput.click();
       showLastPdpForms();
     });
-
     // Handle file upload
     fileInput.addEventListener('change', (e) => {
       const file = e.target.files[0];
@@ -216,12 +224,10 @@
       };
       reader.readAsDataURL(file);
     });
-
     // Edit button → reopen file picker
     editBtn.addEventListener('click', () => {
       fileInput.click();
     });
-
     // Click No → reset everything
     noBtn.addEventListener('click', (x) => {
       resetFingerprint();
@@ -230,7 +236,6 @@
       finalSummaryFpNoText.classList.remove('hidden');
       enableNextForm(fingerprintFormEl);
     });
-
     // Close button → close modal
     closeBtn?.addEventListener('click', () => {
       // Replace with your modal close logic if needed
@@ -238,7 +243,6 @@
       if (modal) modal.classList.remove('active');
       resetFingerprint();
     });
-
     function resetFingerprint() {
       previewContainer.classList.add('hidden');
       yesOption.classList.remove('hidden');
@@ -271,7 +275,9 @@
     const personalFitForm = document.getElementById('personal-fit-form');
     const selectionButtons = document.querySelectorAll('.selection-btn');
     // Additional print elements
+    const additionalPrintButtons = document.querySelectorAll('.print-btn');
     const additionalPrintForm = document.getElementById('additional-print-form');
+    const additionalPrintButtonsContainer = document.querySelector('.additional-print-buttons');
     const authDeliveryForm = document.getElementById('auth-delivery-form');
     const finalSummaryForm = document.getElementById('final-summary-form');
     const fingerprintUpload = document.getElementById('fingerprint-upload');
@@ -391,31 +397,40 @@
         savePersonalFitSelections();
       });
     });
-
+    
     function getDateAfterDays(requiredWorkingDays) {
-      const excludedDates = ['12-25-2025', '12-31-2025', '01-01-2026', '01-12-2026', '01-13-2026', '01-14-2026'];
+    
+    const excludedDates = [
+        "12-25-2025",
+        "12-31-2025",
+        "01-01-2026",
+        "01-12-2026",
+        "01-13-2026",
+        "01-14-2026"
+    ];
 
-      let futureDate = new Date();
-      let countedWorkingDays = 0;
+    let futureDate = new Date(); 
+    let countedWorkingDays = 0;
 
-      while (countedWorkingDays < requiredWorkingDays) {
+    while (countedWorkingDays < requiredWorkingDays) {
         futureDate.setDate(futureDate.getDate() + 1);
 
-        const m = String(futureDate.getMonth() + 1).padStart(2, '0');
-        const d = String(futureDate.getDate()).padStart(2, '0');
+        const m = String(futureDate.getMonth() + 1).padStart(2, "0");
+        const d = String(futureDate.getDate()).padStart(2, "0");
         const y = futureDate.getFullYear();
         const mmddyyyy = `${m}-${d}-${y}`;
 
         const isSunday = futureDate.getDay() === 0;
         const isHoliday = excludedDates.includes(mmddyyyy);
 
+        
         if (!isSunday && !isHoliday) {
-          countedWorkingDays++;
+            countedWorkingDays++;
         }
-      }
-
-      return new Date(futureDate);
     }
+
+    return new Date(futureDate);
+}
 
     function formatDeliveryDateDisplay(dateObj) {
       if (!(dateObj instanceof Date)) return '';
@@ -621,18 +636,34 @@
         selections['engraved-text'] = 'no';
       }
 
+      // Add additional print data
+      const additionalPrintYes = document.querySelector('.print-btn[data-value="yes"].active');
+      if (additionalPrintYes) {
+        selections['additional-print'] = 'yes';
+        // Add image data if file is selected
+        if (fingerprintFileInput && fingerprintFileInput.files && fingerprintFileInput.files[0]) {
+          const file = fingerprintFileInput.files[0];
+          selections['additional-print-image'] = {
+            name: file.name,
+            size: file.size,
+            type: file.type,
+            lastModified: file.lastModified,
+          };
+        }
+      } else {
+        selections['additional-print'] = 'no';
+      }
+
       console.log('Personal fit selections:', selections);
 
+      // Add your logic here for processing the personal fit data
+      // For example, you might want to update the product configuration
+      // Reveal Additional Print only when all required fields are chosen
       const hasAllPersonalFit = Boolean(selections.gender && selections.hand && selections.finger);
-
-      if (hasAllPersonalFit) {
-        if (document.querySelector('.additional-print-form.hide-fingerprint-section')) {
-          showLastPdpForms();
-          enableNextForm(document.querySelector('.additional-print-form'));
-        } else {
-          additionalPrintForm.classList.add('active');
-        }
-      }
+      // if (additionalPrintForm) {
+      //     additionalPrintForm.classList.toggle('hidden', !hasAllPersonalFit);
+      // }
+      if (hasAllPersonalFit) additionalPrintForm.classList.add('active');
     }
 
     // Listen for PDP variant change and refresh Metal Color
@@ -674,12 +705,12 @@
   //--------------- Input Change --------------------//
   // Combine all radio input NodeLists into one array
   const formRadioAllInputs = [...personalizeFormOptionsCard, ...engravingChoiceCards];
-
+  console.log('formRadioAllInputs', formRadioAllInputs);
   formRadioAllInputs.forEach((option) => {
     const optionParent = option.parentElement;
     const isFormContainer = option.closest('.pdp-form');
     if (!isFormContainer) return;
-
+    console.log('option', option);
     option.addEventListener('click', (x) => {
       const optionInputs = optionParent.querySelectorAll('input');
       let isSomeInputSelected = Array.from(optionInputs).find((input) => input.checked);

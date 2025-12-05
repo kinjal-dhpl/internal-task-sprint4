@@ -455,15 +455,20 @@ input[name="engraving_choice"]+label {
   margin-top: 30px;
 }
 
-.additional-print-form.hide-fingerprint-section {
-  display: none;
-}
-
 .additional-print-title {
   font-size: 18px;
   color: #666;
   margin: 0 0 10px 0;
   font-weight: normal;
+}
+
+.additional-print-buttons {
+  flex-direction: column;
+  gap: 10px;
+}
+
+.additional-print-buttons .selection-btn {
+  width: 100%;
 }
 
 .fingerprint-upload {
