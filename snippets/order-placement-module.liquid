@@ -343,6 +343,12 @@ h2.details-title {
   margin-top: 0.25rem;
   height: 40px;
 }
+
+.ring-expert-section input[type="text"][readonly] {
+  background-color: #f5f5f5;
+  color: #666;
+  cursor: not-allowed;
+}
 /* Ends Here */
 .payment_step_container {
   width: 100%;
@@ -736,8 +742,9 @@ button.apply-btn {
           type="text" 
           id="ring-expert-input" 
           name="ring-expert-input"
+          value="{{ customer.name }}"
           required 
-          placeholder="Enter ring expert name" 
+          readonly
         />
       </div>
       </div>
