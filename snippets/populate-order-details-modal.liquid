@@ -1,0 +1,213 @@
+<script>
+  /**
+   * Populate order details modal with API data
+   * @param {number} lineItemIndex - Index of the line item in the order
+   * @param {Object} orderDetailsData - Order details data from API (window.orderDetailsData)
+   */
+  function populateOrderDetailsModal(lineItemIndex, orderDetailsData) {
+    if (!orderDetailsData || !orderDetailsData.order_details) {
+      console.error('Order details not loaded yet. Please wait...');
+      alert('Order details are still loading. Please wait...');
+      return false;
+    }
+    
+    const orderDetails = orderDetailsData.order_details;
+    const lineItems = orderDetails.line_items || [];
+    
+    if (lineItemIndex < 0 || lineItemIndex >= lineItems.length) {
+      console.error('Invalid line item index:', lineItemIndex);
+      return false;
+    }
+    
+    const lineItem = lineItems[lineItemIndex];
+    
+    // Format pickup location for Studio Name
+    let studioName = 'N/A';
+    if (orderDetails.pickupLocation) {
+      const loc = orderDetails.pickupLocation;
+      const addressParts = [];
+      if (loc.address) {
+        if (loc.address.address1) addressParts.push(loc.address.address1);
+        if (loc.address.address2) addressParts.push(loc.address.address2);
+        if (loc.address.city) addressParts.push(loc.address.city);
+        if (loc.address.province) addressParts.push(loc.address.province);
+        if (loc.address.zip) addressParts.push(loc.address.zip);
+      }
+      const addressStr = addressParts.length > 0 ? ` (${addressParts.join(', ')})` : '';
+      studioName = loc.name ? `${loc.name}${addressStr}` : 'N/A';
+    }
+    
+    const modal = document.getElementById('productDetailsModal');
+    if (!modal) {
+      console.error('Modal not found');
+      return false;
+    }
+    
+    // Update order details table (first table)
+    const orderDetailsTable = modal.querySelector('.order-details-section:first-child .order-details-table tbody');
+    if (orderDetailsTable) {
+      orderDetailsTable.innerHTML = `
+        <tr>
+          <td class="order-studio-name">${studioName}</td>
+          <td class="order-ring-expert">${orderDetails.ring_expert || 'N/A'}</td>
+          <td class="order-placement-date">${orderDetails.order_placement_date || 'N/A'}</td>
+          <td class="order-placement-time">${orderDetails.order_placement_time || 'N/A'}</td>
+          <td class="order-product-type">${lineItem.product_type || 'N/A'}</td>
+          <td class="order-gender">${lineItem.gender_purchase_for || 'N/A'}</td>
+          <td class="order-ring-size">${lineItem.ring_size || 'N/A'}</td>
+          <td class="order-product-name">${lineItem.product_name || 'N/A'}</td>
+        </tr>
+      `;
+    }
+    
+    // Update Metal Details
+    if (lineItem.metal_details) {
+      const metalTable = modal.querySelector('.order-details-section:nth-child(2) .order-details-table tbody');
+      if (metalTable) {
+        const md = lineItem.metal_details;
+        metalTable.innerHTML = `
+          <tr>
+            <td class="metal-type">${md.metal_type || 'N/A'}</td>
+            <td class="metal-purity">${md.metal_purity || 'N/A'}</td>
+            <td class="metal-weight">${md.metal_weight || 'N/A'}</td>
+            <td class="metal-tone-count">${md.no_of_metal_tone || 'N/A'}</td>
+            <td class="metal-tone-1">${md.metal_tone_1_base || 'N/A'}</td>
+            <td class="metal-tone-2">${md.metal_tone_2_rhodium || 'N/A'}</td>
+            <td class="prong-rhodium">${md.prong_rhodium || 'N/A'}</td>
+            <td class="metal-finish-1">${md.metal_finish_1 || 'N/A'}</td>
+            <td class="metal-finish-2">${md.metal_finish_2 || 'N/A'}</td>
+          </tr>
+        `;
+        
+        // Update product images
+        const imagesContainer = modal.querySelector('.order-details-section:nth-child(2) .product-images-container');
+        if (imagesContainer && md.product_images && md.product_images.length > 0) {
+          imagesContainer.innerHTML = md.product_images.map(img => 
+            `<img src="${img}" alt="Product Image" class="product-thumbnail" onerror="this.style.display='none'">`
+          ).join('');
+        }
+      }
+    }
+    
+    // Update Diamond Details
+    if (lineItem.diamond_details) {
+      const diamondTable = modal.querySelector('.order-details-section:nth-child(3) .order-details-table tbody');
+      if (diamondTable) {
+        const dd = lineItem.diamond_details;
+        diamondTable.innerHTML = `
+          <tr>
+            <td class="diamond-type">${dd.diamond_type || 'N/A'}</td>
+            <td class="diamond-colour-clarity">${dd.studded_diamond_colour_clarity || 'N/A'}</td>
+            <td class="diamond-carat">${dd.studded_diamond_carat || 'N/A'}</td>
+            <td class="diamond-pieces">${dd.studded_diamond_pieces || 'N/A'}</td>
+          </tr>
+        `;
+      }
+    }
+    
+    // Update Solitaire Details
+    const solitaireTable = modal.querySelector('.order-details-section:nth-child(4) .order-details-table tbody');
+    if (solitaireTable) {
+      if (lineItem.solitaire_details && lineItem.solitaire_details.length > 0) {
+        const solitaire = lineItem.solitaire_details[0];
+        solitaireTable.innerHTML = `
+          <tr>
+            <td class="solitaire-type">${solitaire.solitaire_type || 'N/A'}</td>
+            <td class="solitaire-shape">${solitaire.solitaire_shape || 'N/A'}</td>
+            <td class="solitaire-colour">${solitaire.solitaire_colour_clarity_cut || 'N/A'}</td>
+            <td class="solitaire-carat">${solitaire.solitaire_carat || 'N/A'}</td>
+            <td class="solitaire-pieces">${solitaire.solitaire_pieces || 'N/A'}</td>
+            <td class="solitaire-cert-number">${solitaire.solitaire_certificate_number || 'N/A'}</td>
+          </tr>
+        `;
+      } else {
+        solitaireTable.innerHTML = '<tr><td colspan="6">N/A</td></tr>';
+      }
+    }
+    
+    // Update Engraving Details
+    if (lineItem.engraving_details) {
+      const engravingTable = modal.querySelector('.order-details-section:nth-child(5) .order-details-table tbody');
+      if (engravingTable) {
+        const ed = lineItem.engraving_details;
+        engravingTable.innerHTML = `
+          <tr>
+            <td class="engraving-status">${ed.engraving || 'N/A'}</td>
+            <td class="engraving-content">${ed.engraving_content || 'N/A'}</td>
+          </tr>
+        `;
+      }
+    }
+    
+    // Update Authenticity
+    if (lineItem.authenticity) {
+      const authTable = modal.querySelector('.order-details-section:nth-child(6) .order-details-table tbody');
+      if (authTable) {
+        const auth = lineItem.authenticity;
+        authTable.innerHTML = `
+          <tr>
+            <td class="diamond-certificate">${auth.studded_diamond_certificate || 'N/A'}</td>
+            <td class="solitaire-certificate">${auth.solitaire_certificate || 'N/A'}</td>
+          </tr>
+        `;
+      }
+    }
+    
+    // Update Estimates
+    if (lineItem.estimates) {
+      const estimatesTable = modal.querySelector('.order-details-section:nth-child(7) .order-details-table tbody');
+      if (estimatesTable) {
+        const est = lineItem.estimates;
+        estimatesTable.innerHTML = `
+          <tr>
+            <td class="estimated-delivery">${est.estimated_delivery_date || 'N/A'}</td>
+            <td class="estimated-cost">${est.estimated_cost || 'N/A'}</td>
+          </tr>
+        `;
+      }
+    }
+    
+    // Update Advance Payment and Rates
+    const advancePaymentTable = modal.querySelector('.two-column-section .column-left .order-details-table tbody');
+    if (advancePaymentTable && lineItem.advance_payment) {
+      advancePaymentTable.innerHTML = `
+        <tr>
+          <td class="advance-payment">${lineItem.advance_payment.amount || 'N/A'}</td>
+        </tr>
+      `;
+    }
+    
+    const ratesTable = modal.querySelector('.two-column-section .column-right .order-details-table tbody');
+    if (ratesTable && orderDetails.rates) {
+      const rates = orderDetails.rates;
+      const gold14kt = rates.goldRates?.['14KT'] ? `Rs. ${rates.goldRates['14KT'].toLocaleString('en-IN', { maximumFractionDigits: 2 })}` : 'N/A';
+      const gold18kt = rates.goldRates?.['18KT'] ? `Rs. ${rates.goldRates['18KT'].toLocaleString('en-IN', { maximumFractionDigits: 2 })}` : 'N/A';
+      const platinum = rates.platinumRates?.['Platinum 950'] ? `Rs. ${rates.platinumRates['Platinum 950'].toLocaleString('en-IN', { maximumFractionDigits: 2 })}` : 'N/A';
+      
+      ratesTable.innerHTML = `
+        <tr>
+          <td class="rate-14kt">${gold14kt}</td>
+          <td class="rate-18kt">${gold18kt}</td>
+          <td class="rate-platinum">${platinum}</td>
+        </tr>
+      `;
+    }
+
+    // Check if mobile view
+    const isMobile = window.innerWidth <= 768;
+    
+    if (isMobile && typeof createMobileView === 'function') {
+      createMobileView(modal);
+    }
+    
+    // Show modal
+    modal.classList.add('show');
+    document.body.style.overflow = 'hidden';
+    
+    return true;
+  }
+
+  // Make function globally available
+  window.populateOrderDetailsModal = populateOrderDetailsModal;
+</script>
+

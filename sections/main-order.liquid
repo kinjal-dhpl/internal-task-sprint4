@@ -152,7 +152,7 @@
                         
                         <p
                           class="view-all-product-details"
-                          onclick="openProductDetailsModal({{ line_item.properties | json | escape }})"
+                          onclick="openProductDetailsModal({{ forloop.index0 }})"
                         >
                           View All
                         </p>
@@ -484,7 +484,7 @@
                   
                   <p
                     class="view-all-product-details view-all-mobile"
-                    onclick="openProductDetailsModal({{ line_item.properties | json | escape }})"
+                    onclick="openProductDetailsModal({{ forloop.index0 }})"
                   >
                     View All
                   </p>
@@ -670,6 +670,39 @@
 </div>
 {% render 'view-all-modal' %}
 {% render 'account-tracking-modal' %}
+{% render 'order-details-api' %}
+{% render 'populate-order-details-modal' %}
+
+<script>
+  // Initialize order ID immediately when snippets are loaded
+  // Extract numeric order ID from GID format and make it globally accessible
+  {% assign order_gid = order.id %}
+  {% assign order_id_numeric = order_gid | split: '/' | last %}
+  window.orderId = '{{ order_id_numeric }}';
+  window.orderDetailsData = null;
+  
+  // Function to fetch order details immediately - will retry until API is available
+  function fetchOrderDetailsOnLoad() {
+    const currentOrderId = window.orderId;
+    
+    if (currentOrderId && currentOrderId !== 'null' && currentOrderId !== 'undefined' && currentOrderId !== '' && !isNaN(parseInt(currentOrderId)) && parseInt(currentOrderId) >= 1000000) {
+      if (typeof window.fetchOrderDetailsAPI === 'function') {
+        window.fetchOrderDetailsAPI(currentOrderId)
+          .then((data) => {
+            window.orderDetailsData = data;
+          })
+          .catch(err => {
+            // Silently fail - will retry later if needed
+          });
+      } else {
+        setTimeout(fetchOrderDetailsOnLoad, 100);
+      }
+    }
+  }
+  
+  // Start fetching immediately - will retry until API function is available
+  fetchOrderDetailsOnLoad();
+</script>
 
 <script>
   let currentTrackingLink = '';
@@ -759,45 +792,72 @@
       .replace(/^(.)/, (match, char) => char.toUpperCase());
   }
 
-  // Open product details modal with filtered attributes
-  function openProductDetailsModal(customAttributesJson) {
-    // Parse the JSON string if it's a string
-    let customAttributes;
-    if (typeof customAttributesJson === 'string') {
-      customAttributes = JSON.parse(customAttributesJson);
-    } else {
-      customAttributes = customAttributesJson;
-    }
-
-    console.log('====== LINE ITEM PROPERTIES DATA ======');
-    console.log('Raw Custom Attributes:', customAttributes);
+  // Open product details modal with line item index
+  window.openProductDetailsModal = async function(lineItemIndex) {
+    // Get order ID - try multiple sources
+    let currentOrderId = window.orderId;
     
-    // Convert array of arrays to object for easier viewing
-    const attributesMap = {};
-    if (Array.isArray(customAttributes)) {
-      customAttributes.forEach((attr) => {
-        if (Array.isArray(attr) && attr.length >= 2) {
-          attributesMap[attr[0]] = attr[1];
+    // If orderId is not set, try to extract from Liquid template
+    if (!currentOrderId || currentOrderId === 'undefined' || currentOrderId === 'null') {
+      {% assign order_gid = order.id %}
+      {% assign order_id_numeric = order_gid | split: '/' | last %}
+      currentOrderId = '{{ order_id_numeric }}';
+      window.orderId = currentOrderId;
+    }
+    
+    if (!window.orderDetailsData) {
+      // Try to fetch if not loaded yet
+      if (currentOrderId && currentOrderId !== 'null' && currentOrderId !== 'undefined' && currentOrderId !== '' && !isNaN(parseInt(currentOrderId)) && parseInt(currentOrderId) >= 1000000) {
+        try {
+          // Try using fetchOrderDetails if available, otherwise use fetchOrderDetailsAPI directly
+          if (typeof window.fetchOrderDetails === 'function') {
+            await window.fetchOrderDetails();
+          } else if (typeof window.fetchOrderDetailsAPI === 'function') {
+            window.orderDetailsData = await window.fetchOrderDetailsAPI(currentOrderId);
+          } else {
+            // Wait for API function to be available
+            await new Promise((resolve) => {
+              const checkAPI = () => {
+                if (typeof window.fetchOrderDetailsAPI === 'function') {
+                  window.fetchOrderDetailsAPI(currentOrderId)
+                    .then((data) => {
+                      window.orderDetailsData = data;
+                      resolve(data);
+                    })
+                    .catch((err) => {
+                      resolve(null);
+                    });
+                } else {
+                  setTimeout(checkAPI, 100);
+                }
+              };
+              checkAPI();
+            });
+          }
+          
+          if (window.orderDetailsData && typeof window.populateOrderDetailsModal === 'function') {
+            window.populateOrderDetailsModal(lineItemIndex, window.orderDetailsData);
+          } else if (!window.orderDetailsData) {
+            alert('Order details are still loading. Please try again in a moment.');
+          } else {
+            alert('Modal function not loaded. Please refresh the page.');
+          }
+        } catch (error) {
+          alert('Failed to load order details. Please refresh the page.');
         }
-      });
+      } else {
+        alert('Order details are still loading. Please try again in a moment.');
+      }
+      return;
     }
     
-    console.log('Attributes as Object:', attributesMap);
-    console.log('====================================');
-
-    const modal = document.getElementById('productDetailsModal');
-
-    // Check if mobile view
-    const isMobile = window.innerWidth <= 768;
-    
-    if (isMobile) {
-      createMobileView(modal);
+    if (typeof window.populateOrderDetailsModal !== 'function') {
+      alert('Modal function not loaded. Please refresh the page.');
+      return;
     }
     
-    // Show modal
-    modal.classList.add('show');
-    document.body.style.overflow = 'hidden';
-  }
+    window.populateOrderDetailsModal(lineItemIndex, window.orderDetailsData);
+  };
 
   // Create mobile card-based view
   function createMobileView(modal) {
@@ -917,6 +977,91 @@
 
 <script>
   console.log({{ order }}, 'order object')
+  // Order ID should already be set in previous script block
+  // Ensure it's set if somehow it wasn't
+  if (!window.orderId) {
+    {% assign order_gid = order.id %}
+    {% assign order_id_numeric = order_gid | split: '/' | last %}
+    window.orderId = '{{ order_id_numeric }}';
+  }
+  
+  // Ensure orderDetailsData is initialized
+  if (window.orderDetailsData === undefined) {
+    window.orderDetailsData = null;
+  }
+  
+  // Make fetchOrderDetails globally accessible
+  window.fetchOrderDetails = async function() {
+    const currentOrderId = window.orderId;
+    
+    // Wait for the API function to be available with retry
+    return new Promise((resolve, reject) => {
+      const checkAndFetch = () => {
+        if (typeof window.fetchOrderDetailsAPI !== 'function') {
+          setTimeout(checkAndFetch, 100);
+          return;
+        }
+        
+        // API function is available, proceed with fetch
+        window.fetchOrderDetailsAPI(currentOrderId)
+          .then((data) => {
+            window.orderDetailsData = data;
+            resolve(data);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      };
+      
+      checkAndFetch();
+    });
+  };
+  
+  // Fetch order details immediately when page loads
+  window.initializeOrderDetailsFetch = function() {
+    const currentOrderId = window.orderId;
+    
+    if (currentOrderId && currentOrderId !== 'null' && currentOrderId !== 'undefined' && currentOrderId !== '' && !isNaN(parseInt(currentOrderId)) && parseInt(currentOrderId) >= 1000000) {
+      if (typeof window.fetchOrderDetailsAPI === 'function') {
+        // API function is available, fetch immediately
+        window.fetchOrderDetailsAPI(currentOrderId)
+          .then((data) => {
+            window.orderDetailsData = data;
+          })
+          .catch(err => {
+            // Silently fail - will retry later if needed
+          });
+      } else {
+        // API function not available yet, retry after a short delay
+        setTimeout(window.initializeOrderDetailsFetch, 100);
+      }
+    }
+  };
+  
+  // Call the function immediately
+  window.initializeOrderDetailsFetch();
+  
+  // Also try on DOMContentLoaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!window.orderDetailsData) {
+        window.initializeOrderDetailsFetch();
+      }
+    });
+  } else {
+    // DOM is already loaded
+    if (!window.orderDetailsData) {
+      window.initializeOrderDetailsFetch();
+    }
+  }
+  
+  // Retry on window load if not loaded yet
+  window.addEventListener('load', function() {
+    const currentOrderId = window.orderId;
+    if (!window.orderDetailsData && currentOrderId && currentOrderId !== 'null' && currentOrderId !== 'undefined' && currentOrderId !== '' && !isNaN(parseInt(currentOrderId)) && parseInt(currentOrderId) >= 1000000) {
+      window.initializeOrderDetailsFetch();
+    }
+  });
 </script>
 
 <script>

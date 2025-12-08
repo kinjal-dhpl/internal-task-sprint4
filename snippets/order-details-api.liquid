@@ -1,0 +1,92 @@
+<script>
+  /**
+   * Fetch order details from API
+   * @param {string|number} orderId - Order ID (numeric or GID format)
+   * @returns {Promise<Object>} - Promise that resolves to order details data
+   */
+  async function fetchOrderDetailsAPI(orderId) {
+    if (!orderId) {
+      throw new Error('Order ID is required');
+    }
+
+    // Extract numeric order ID from GID format if needed
+    let numericOrderId = orderId;
+    if (typeof orderId === 'string' && orderId.includes('/')) {
+      const match = orderId.match(/\/(\d+)$/);
+      if (match) {
+        numericOrderId = match[1];
+      } else {
+        // Try splitting by '/Order/'
+        const parts = orderId.split('/Order/');
+        if (parts.length > 1) {
+          numericOrderId = parts[1];
+        }
+      }
+    }
+
+    // Validate order ID
+    const orderIdNum = parseInt(numericOrderId);
+    if (isNaN(orderIdNum) || orderIdNum < 1000000) {
+      throw new Error('Invalid order ID format');
+    }
+
+    try {
+      const baseUrl = window.EA_MODULE_BASE_URL;
+      const apiUrl = `${baseUrl}/orders/${numericOrderId}/view-details`;
+      
+      const response = await fetch(apiUrl, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const result = await response.json();
+      
+      if (result.status === 'success' && result.data) {
+        return result.data;
+      } else {
+        throw new Error('Invalid API response format');
+      }
+    } catch (error) {
+      console.error('Error fetching order details:', error);
+      throw error;
+    }
+  }
+
+  // Make function globally available
+  window.fetchOrderDetailsAPI = fetchOrderDetailsAPI;
+  
+  // Auto-fetch order details if orderId is already set (for Accounts page)
+  // This function will be called immediately and also retry if orderId isn't set yet
+  function autoFetchOrderDetails() {
+    if (window.orderId && !window.orderDetailsData) {
+      const currentOrderId = window.orderId;
+      if (currentOrderId && currentOrderId !== 'null' && currentOrderId !== 'undefined' && currentOrderId !== '' && !isNaN(parseInt(currentOrderId)) && parseInt(currentOrderId) >= 1000000) {
+        fetchOrderDetailsAPI(currentOrderId)
+          .then((data) => {
+            window.orderDetailsData = data;
+          })
+          .catch(err => {
+            // Silently fail - will retry later if needed
+          });
+        return true; // Successfully started fetch
+      }
+    }
+    return false; // orderId not available yet
+  }
+  
+  // Try immediately
+  if (!autoFetchOrderDetails()) {
+    setTimeout(function() {
+      if (!window.orderDetailsData) {
+        autoFetchOrderDetails();
+      }
+    }, 200);
+  }
+</script>
+
