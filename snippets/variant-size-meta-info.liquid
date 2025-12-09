@@ -2,17 +2,33 @@
 
 <div id="VariantSpecs-{{ section.id }}">
   <div style="border: 2px solid;border-image: linear-gradient(to right, #924c26 0%, #ce875e 49%, #924c26 100%);  border-image-slice: 1; padding: 15px; margin-bottom: 20px;">
-    <h3 style="color: #000; margin-bottom: 10px; background: #924c26;background: linear-gradient(to right, #924c26 0%, #ce875e 49%, #924c26 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;"><strong>Metal</strong></h3>
+    <h3
+      style="
+        color: #000; margin-bottom: 10px; background: #924c26;background: linear-gradient(to right, #924c26 0%, #ce875e 49%, #924c26 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      "
+    >
+      <strong>Metal</strong>
+    </h3>
     <ul id="variant-metal-info" style="list-style: none; padding: 0;"></ul>
   </div>
 
-  <div id="variant-diamond-block" class="hidden" style="border: 2px solid;border-image: linear-gradient(to right, #924c26 0%, #ce875e 49%, #924c26 100%);  border-image-slice: 1; padding: 15px; margin-bottom: 20px;overflow-x:auto;">
-    <h3 style="color: #000; margin-bottom: 10px;background: #924c26;
-    background: linear-gradient(to right, #924c26 0%, #ce875e 49%, #924c26 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;"><strong>Diamond</strong></h3>
+  <div
+    id="variant-diamond-block"
+    class="hidden"
+    style="border: 2px solid;border-image: linear-gradient(to right, #924c26 0%, #ce875e 49%, #924c26 100%);  border-image-slice: 1; padding: 15px; margin-bottom: 20px;overflow-x:auto;"
+  >
+    <h3
+      style="
+        color: #000; margin-bottom: 10px;background: #924c26;
+        background: linear-gradient(to right, #924c26 0%, #ce875e 49%, #924c26 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      "
+    >
+      <strong>Diamond</strong>
+    </h3>
     <table style="min-width:100%;border-collapse: collapse; border: none;">
       <thead>
         <tr style="background-color: #f9f9f9;">
@@ -26,11 +42,21 @@
     </table>
   </div>
 
-  <div id="variant-solitaire-block" class="hidden" style="border: 2px solid;border-image: linear-gradient(to right, #924c26 0%, #ce875e 49%, #924c26 100%);  border-image-slice: 1; padding: 15px; margin-bottom: 20px;overflow-x:auto;">
-    <h3 style="color: #000; margin-bottom: 10px;background: #924c26;
-    background: linear-gradient(to right, #924c26 0%, #ce875e 49%, #924c26 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;"><strong>Solitaire</strong></h3>
+  <div
+    id="variant-solitaire-block"
+    class="hidden"
+    style="border: 2px solid;border-image: linear-gradient(to right, #924c26 0%, #ce875e 49%, #924c26 100%);  border-image-slice: 1; padding: 15px; margin-bottom: 20px;overflow-x:auto;"
+  >
+    <h3
+      style="
+        color: #000; margin-bottom: 10px;background: #924c26;
+        background: linear-gradient(to right, #924c26 0%, #ce875e 49%, #924c26 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      "
+    >
+      <strong>Solitaire</strong>
+    </h3>
     <table style="min-width:100%;border-collapse: collapse; border: none;">
       <thead>
         <tr style="background-color: #f9f9f9;">
@@ -44,11 +70,21 @@
     </table>
   </div>
 
-  <div id="variant-gemstone-block" class="hidden" style="border: 2px solid;border-image: linear-gradient(to right, #924c26 0%, #ce875e 49%, #924c26 100%);  border-image-slice: 1; padding: 15px; margin-bottom: 20px;overflow-x:auto;">
-    <h3 style="color: #000; margin-bottom: 10px;background: #924c26;
-    background: linear-gradient(to right, #924c26 0%, #ce875e 49%, #924c26 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;"><strong>Gemstone</strong></h3>
+  <div
+    id="variant-gemstone-block"
+    class="hidden"
+    style="border: 2px solid;border-image: linear-gradient(to right, #924c26 0%, #ce875e 49%, #924c26 100%);  border-image-slice: 1; padding: 15px; margin-bottom: 20px;overflow-x:auto;"
+  >
+    <h3
+      style="
+        color: #000; margin-bottom: 10px;background: #924c26;
+        background: linear-gradient(to right, #924c26 0%, #ce875e 49%, #924c26 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      "
+    >
+      <strong>Gemstone</strong>
+    </h3>
     <table style="min-width:100%;border-collapse: collapse; border: none;">
       <thead>
         <tr style="background-color: #f9f9f9;">
@@ -66,32 +102,39 @@
   (function () {
     window.renderVariantMetaInfo = function (config) {
       try {
-        const metalBlock = document.querySelector("#variant-metal-info");
-        const diamondBlock = document.querySelector("#variant-diamond-block");
-        const diamondBody = document.querySelector("#diamond-table-body");
-        const solitaireBlock = document.querySelector("#variant-solitaire-block");
-        const solitaireBody = document.querySelector("#solitaire-table-body");
-        const gemstoneBlock = document.querySelector("#variant-gemstone-block");
-        const gemstoneBody = document.querySelector("#gemstone-table-body");
+        const metalBlock = document.querySelector('#variant-metal-info');
+        const diamondBlock = document.querySelector('#variant-diamond-block');
+        const diamondBody = document.querySelector('#diamond-table-body');
+        const solitaireBlock = document.querySelector('#variant-solitaire-block');
+        const solitaireBody = document.querySelector('#solitaire-table-body');
+        const gemstoneBlock = document.querySelector('#variant-gemstone-block');
+        const gemstoneBody = document.querySelector('#gemstone-table-body');
 
-        if (!metalBlock || !diamondBlock || !diamondBody || !solitaireBlock || !solitaireBody || !gemstoneBlock || !gemstoneBody) {
-          console.warn("Missing DOM elements for meta rendering.");
+        if (
+          !metalBlock ||
+          !diamondBlock ||
+          !diamondBody ||
+          !solitaireBlock ||
+          !solitaireBody ||
+          !gemstoneBlock ||
+          !gemstoneBody
+        ) {
+          console.warn('Missing DOM elements for meta rendering.');
           return;
         }
 
         // If config is null, clear and hide
         if (!config) {
           metalBlock.innerHTML = '';
-          metalBlock.parentElement.classList.add("hidden");
+          metalBlock.parentElement.classList.add('hidden');
           diamondBody.innerHTML = '';
-          diamondBlock.classList.add("hidden");
+          diamondBlock.classList.add('hidden');
           solitaireBody.innerHTML = '';
-          solitaireBlock.classList.add("hidden");
+          solitaireBlock.classList.add('hidden');
           gemstoneBody.innerHTML = '';
-          gemstoneBlock.classList.add("hidden");
+          gemstoneBlock.classList.add('hidden');
           return;
         }
-
 
         // Render Metal Info
         metalBlock.innerHTML = `
@@ -109,7 +152,7 @@
           diamondBody.innerHTML = '';
 
           if (hasRoundDiamonds) {
-            config.diamond.round.forEach(diamond => {
+            config.diamond.round.forEach((diamond) => {
               diamondBody.innerHTML += `
                 <tr>
                   <td>${config.diamond.type || 'Studded'}</td>
@@ -122,7 +165,7 @@
           }
 
           if (hasOtherDiamonds) {
-            config.diamond.others.forEach(diamond => {
+            config.diamond.others.forEach((diamond) => {
               diamondBody.innerHTML += `
                 <tr>
                   <td>${config.diamond.type || 'Studded'}</td>
@@ -134,16 +177,16 @@
             });
           }
 
-          diamondBlock.classList.remove("hidden");
+          diamondBlock.classList.remove('hidden');
         } else {
           diamondBody.innerHTML = '';
-          diamondBlock.classList.add("hidden");
+          diamondBlock.classList.add('hidden');
         }
 
         // Render Solitaire Info
-        if (Array.isArray(config.solitare?.details) && config.solitare.details.length > 0) {
+        if (Array.isArray(config.solitaire?.details) && config.solitaire.details.length > 0) {
           solitaireBody.innerHTML = '';
-          config.solitare.details.forEach(solitaire => {
+          config.solitaire.details.forEach((solitaire) => {
             solitaireBody.innerHTML += `
               <tr>
                 <td>${solitaire.carat || 'N/A'} CT</td>
@@ -153,16 +196,16 @@
               </tr>
             `;
           });
-          solitaireBlock.classList.remove("hidden");
+          solitaireBlock.classList.remove('hidden');
         } else {
           solitaireBody.innerHTML = '';
-          solitaireBlock.classList.add("hidden");
+          solitaireBlock.classList.add('hidden');
         }
 
         // Render Gemstone Info
         if (Array.isArray(config.gemstone) && config.gemstone.length > 0) {
           gemstoneBody.innerHTML = '';
-          config.gemstone.forEach(gem => {
+          config.gemstone.forEach((gem) => {
             gemstoneBody.innerHTML += `
               <tr>
                 <td>${gem.type || 'N/A'}</td>
@@ -171,16 +214,14 @@
               </tr>
             `;
           });
-          gemstoneBlock.classList.remove("hidden");
+          gemstoneBlock.classList.remove('hidden');
         } else {
           gemstoneBody.innerHTML = '';
-          gemstoneBlock.classList.add("hidden");
+          gemstoneBlock.classList.add('hidden');
         }
-
       } catch (e) {
-        console.error("renderVariantMetaInfo failed:", e);
+        console.error('renderVariantMetaInfo failed:', e);
       }
     };
   })();
 </script>
-

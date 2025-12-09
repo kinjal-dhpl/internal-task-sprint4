@@ -470,7 +470,7 @@
 
 <!-- Variant Tabs Content -->
 <div id="goldTab" data-metal="gold" class="tabcontent">
-<div class="gold-variants-container">
+  <div class="gold-variants-container">
     <!-- Left column: 14KT -->
     <div class="gold-column gold-14k">
       <div class="variant-card-container">
@@ -479,28 +479,28 @@
           {% assign diamond = variant.option2 | downcase %}
           {% if metal contains 'gold' and diamond contains 'natural' %}
             {% if variant.title contains '14KT' or variant.title contains '14K' %}
-            <div
-              class="variant-link"
-              data-variant-id="{{ variant.id }}"
-              data-option1="{{ variant.option1 }}"
-              data-option2="{{ variant.option2 }}"
-              onclick="selectVariant('{{ variant.id }}', this)"
-            >
-              <div class="variant-box" data-variant-id="{{ variant.id }}">
-                <div class="top-row">
-                  <h2 class="variant-name"></h2>
-                </div>
-                <p class="variant-pack-size">
-                  {{ variant.title | replace: 'Gold', '' | replace: 'Natural', '' | replace: '/', '' | strip }}
-                </p>
-                <div class="price-container" data-variant-id="{{ variant.id }}">
-                  <p class="variant-price"></p>
-                  <span class="plus-breakup-text">+ Break-up</span>
+              <div
+                class="variant-link"
+                data-variant-id="{{ variant.id }}"
+                data-option1="{{ variant.option1 }}"
+                data-option2="{{ variant.option2 }}"
+                onclick="selectVariant('{{ variant.id }}', this)"
+              >
+                <div class="variant-box" data-variant-id="{{ variant.id }}">
+                  <div class="top-row">
+                    <h2 class="variant-name"></h2>
+                  </div>
+                  <p class="variant-pack-size">
+                    {{ variant.title | replace: 'Gold', '' | replace: 'Natural', '' | replace: '/', '' | strip }}
+                  </p>
+                  <div class="price-container" data-variant-id="{{ variant.id }}">
+                    <p class="variant-price"></p>
+                    <span class="plus-breakup-text">+ Break-up</span>
+                  </div>
                 </div>
               </div>
-            </div>
-           {% endif %}
-        {% endif %}
+            {% endif %}
+          {% endif %}
         {% endfor %}
       </div>
     </div>
@@ -513,28 +513,28 @@
           {% assign diamond = variant.option2 | downcase %}
           {% if metal contains 'gold' and diamond contains 'natural' %}
             {% if variant.title contains '18KT' or variant.title contains '18K' %}
-            <div
-              class="variant-link"
-              data-variant-id="{{ variant.id }}"
-              data-option1="{{ variant.option1 }}"
-              data-option2="{{ variant.option2 }}"
-              onclick="selectVariant('{{ variant.id }}', this)"
-            >
-              <div class="variant-box" data-variant-id="{{ variant.id }}">
-                <div class="top-row">
-                  <h2 class="variant-name"></h2>
-                </div>
-                <p class="variant-pack-size">
-                  {{ variant.title | replace: 'Gold', '' | replace: 'Natural', '' | replace: '/', '' | strip }}
-                </p>
-                <div class="price-container" data-variant-id="{{ variant.id }}">
-                  <p class="variant-price"></p>
-                  <span class="plus-breakup-text">+ Break-up</span>
+              <div
+                class="variant-link"
+                data-variant-id="{{ variant.id }}"
+                data-option1="{{ variant.option1 }}"
+                data-option2="{{ variant.option2 }}"
+                onclick="selectVariant('{{ variant.id }}', this)"
+              >
+                <div class="variant-box" data-variant-id="{{ variant.id }}">
+                  <div class="top-row">
+                    <h2 class="variant-name"></h2>
+                  </div>
+                  <p class="variant-pack-size">
+                    {{ variant.title | replace: 'Gold', '' | replace: 'Natural', '' | replace: '/', '' | strip }}
+                  </p>
+                  <div class="price-container" data-variant-id="{{ variant.id }}">
+                    <p class="variant-price"></p>
+                    <span class="plus-breakup-text">+ Break-up</span>
+                  </div>
                 </div>
               </div>
-            </div>
+            {% endif %}
           {% endif %}
-        {% endif %}
         {% endfor %}
       </div>
     </div>
@@ -598,7 +598,7 @@
               <p class="variant-price"></p>
               <span class="plus-breakup-text">+ Break-up</span>
             </div>
-            </div>
+          </div>
         </div>
       {% endif %}
     {% endfor %}
@@ -943,7 +943,7 @@
         priceBreakupModal.querySelector('.pb-title-subtitle').textContent = priceBreakDownTopSubTitleText;
         // --- Solitaire Section ---
         // abhi - Need to create diamond like second popup for solitaire
-        const solitaireDetails = priceData.solitare?.details || [];
+        const solitaireDetails = priceData.solitaire?.details || [];
         if (solitaireDetails.length !== 0) {
           const totalPrice = solitaireDetails.reduce((sum, d) => sum + (d.price || 0), 0);
           const totalCarat = solitaireDetails.reduce((sum, d) => sum + (d.carat || 0), 0);
@@ -1025,15 +1025,15 @@
       const sizeKey = Object.keys(selectedVariant.price)[0];
       const data = selectedVariant.price[sizeKey];
       const diamond = data?.diamond || {};
-      const solitare = data?.solitare || {};
-      const diamondType = diamond.type || solitare.details?.[0]?.type || '—';
+      const solitaire = data?.solitaire || {};
+      const diamondType = diamond.type || solitaire.details?.[0]?.type || '—';
       const diamondCarat =
         diamond.round?.reduce((sum, d) => sum + (d.carat || 0), 0) ||
-        solitare.details?.reduce((sum, d) => sum + (d.carat || 0), 0) ||
+        solitaire.details?.reduce((sum, d) => sum + (d.carat || 0), 0) ||
         0;
-      const diamondColor = diamond.color || solitare.details?.[0]?.color || '—';
-      const diamondClarity = diamond.clarity || solitare.details?.[0]?.clarity || '—';
-      const diamondShape = (diamond.round?.length ? 'Round' : solitare.details?.[0]?.shape) || '';
+      const diamondColor = diamond.color || solitaire.details?.[0]?.color || '—';
+      const diamondClarity = diamond.clarity || solitaire.details?.[0]?.clarity || '—';
+      const diamondShape = (diamond.round?.length ? 'Round' : solitaire.details?.[0]?.shape) || '';
       const metalType = data.metal?.type || '—';
       const metalPurity = data.metal?.purity || '—';
       const metalWeight = data.metal?.weight || '—';
@@ -1091,7 +1091,7 @@
           const afterSelected = Array.from(section.querySelectorAll('.ai-option.selected'));
           if (afterSelected.length > 2) {
             afterSelected
-              .sort((a, b) => (parseInt(a.dataset.selectedAt || '0', 10) - parseInt(b.dataset.selectedAt || '0', 10)))
+              .sort((a, b) => parseInt(a.dataset.selectedAt || '0', 10) - parseInt(b.dataset.selectedAt || '0', 10))
               .slice(0, afterSelected.length - 2)
               .forEach((toRemove) => {
                 toRemove.classList.remove('selected');
@@ -1170,8 +1170,7 @@
       } else {
         document.querySelector('.ai-api-error').classList.remove('hidden');
       }
-    }
-    else {
+    } else {
       // If inputs are missing, scroll to the first visible error message and abort.
       const firstError = document.querySelector('.ai-error:not(.hidden)');
       if (firstError) {
