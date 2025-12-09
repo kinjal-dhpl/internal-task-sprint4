@@ -1,4 +1,14 @@
+{% render 'partial-price-api' %}
+
 <script>
+  // Format price helper function
+  function formatPrice(num) {
+    if (window.formatPrice) {
+      return window.formatPrice(num);
+    }
+    return Number(num || 0).toLocaleString('en-IN', { maximumFractionDigits: 2 });
+  }
+
   const pdpSelectedFormOptions = {};
   const canvasViewerBtn = document.querySelector('.trigger-cavas-preview');
   const personalizationModal = document.querySelector('#personalization-options');
@@ -43,6 +53,59 @@
     if (keyname) pdpSelectedFormOptions[keyname] = srcText;
   }
 
+  // Fetch partial price from API
+  async function fetchPartialPrice() {
+    try {
+      // Get selected variant ID
+      const selectedVariantId =
+        window.ProductState?.selectedVariantId || document.getElementById('SelectedVariantId')?.value;
+      
+      // Get selected size
+      const selectedSizeBtn = document.querySelector('#custom-size-selector');
+      const size = selectedSizeBtn ? parseInt(selectedSizeBtn.value) : null;
+
+      if (!selectedVariantId || !size) {
+        console.log('Missing variantId or size for price calculation');
+        return;
+      }
+
+      // Use the reusable API function
+      const priceDataArray = await window.fetchPartialPriceCalculation([
+        {
+          variantId: selectedVariantId,
+          quantity: 1,
+          size: size
+        }
+      ]);
+
+      if (priceDataArray && priceDataArray.length > 0) {
+        const priceData = priceDataArray[0];
+        
+        // Update price displays
+        const estimatedPrice = parseFloat(priceData.totalPrice?.total || 0);
+        const advancePayment = parseFloat(priceData.partialPrice?.total || 0);
+        const estimatedBalance = parseFloat(priceData.estimatedBalance || 0);
+
+        // Format and display prices
+        const estimatedPriceEl = document.getElementById('estimated-price');
+        const advancePaymentEl = document.getElementById('advance-payment');
+        const estimatedBalanceEl = document.getElementById('estimated-balance');
+
+        if (estimatedPriceEl) {
+          estimatedPriceEl.textContent = `Rs. ${formatPrice(estimatedPrice)}/-`;
+        }
+        if (advancePaymentEl) {
+          advancePaymentEl.textContent = `Rs. ${formatPrice(advancePayment)}/-`;
+        }
+        if (estimatedBalanceEl) {
+          estimatedBalanceEl.textContent = `Rs. ${formatPrice(estimatedBalance)}/-`;
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching partial price:', error);
+    }
+  }
+
   // Populate final summary from selections
   function updateFinalSummary() {
     // Size
@@ -72,16 +135,6 @@
       // ignore
       console.log('error', e);
     }
-    //PRICE UI Update
-    const selectedVariant = document.querySelector('.variant-box.selected');
-    const selectedVariantTextContainer = selectedVariant.querySelector('.variant-price').textContent;
-    const extractNumberFromString = selectedVariantTextContainer?.split('₹')[1]?.trim();
-    let selectedVariantPrice;
-    if (extractNumberFromString) {
-      selectedVariantPrice = parseFloat(extractNumberFromString.replaceAll(',', ''));
-    }
-    // final summary price slab
-    if (selectedVariantPrice) setText('final-price', formatPrice(selectedVariantPrice));
     // Engraving - check current state
     const engravingForm = document.querySelector('#engraving-form');
     let selectedEngravingOption = engravingForm.querySelector('input:checked')?.value;
@@ -477,6 +530,7 @@
           // move to final summary form
           enableNextForm(certificatesContainer);
           updateFinalSummary();
+          fetchPartialPrice();
         }
       });
     });
@@ -673,18 +727,31 @@
       }
     }
 
-    // Listen for PDP variant change and refresh Metal Color
+    // Listen for PDP variant change and refresh Metal Color + fetch price
     document.addEventListener('pdp:variant-changed', function () {
       updateFinalSummary();
+      fetchPartialPrice();
     });
 
     // Keep summary live when interactions change
+    const sizeSelector = document.querySelector('#custom-size-selector');
+    if (sizeSelector) {
+      sizeSelector.addEventListener('change', function () {
+        updateFinalSummary();
+        fetchPartialPrice();
+      });
+    }
+
+    // Keep summary live when interactions change (but don't fetch price)
     document.addEventListener('change', () => updateFinalSummary());
     document.addEventListener('click', (e) => {
       if (e.target.closest('.selection-btn') || e.target.closest('.size-option')) {
         updateFinalSummary();
       }
     });
+
+    // Fetch price on page load
+    fetchPartialPrice();
   });
 
   // Logic to handle fade out effect

@@ -300,13 +300,40 @@ h2.details-title {
     font-family: oregon-ldo-medium;
     margin-bottom: 5px;
 }
+
+/* ring expert inputs */
+.ring-expert-section {
+  display: none;
+  background-color: #fff;
+  padding:2rem;
+  width: 100%;
+  margin: 20px auto;
+  border-radius: 8px;
+}
+
+.ring-expert-section h2 {
+  margin: 0 0 1.5rem;
+  color: #1c1c1c;
+  font-family: oregon-ldo-medium;
+  letter-spacing: normal;
+  font-size: 20px;
+}
+
+.ring-expert-section label {
+    font-size: 16px;
+    color: #1c1c1c;
+    font-family: oregon-ldo-medium;
+    margin-bottom: 5px;
+}
+
 .shipping--major-wrapper {
     background: #fff;
     padding: 2rem;
     border-radius: 8px;
 }
 
-.pan-card-section input[type="text"] {
+.pan-card-section input[type="text"],
+.ring-expert-section input[type="text"] {
   font-size: 16px;
   color: #333;
   width: 100%;
@@ -315,6 +342,12 @@ h2.details-title {
   border-radius: 4px;
   margin-top: 0.25rem;
   height: 40px;
+}
+
+.ring-expert-section input[type="text"][readonly] {
+  background-color: #f5f5f5;
+  color: #666;
+  cursor: not-allowed;
 }
 /* Ends Here */
 .payment_step_container {
@@ -498,23 +531,51 @@ button.apply-btn {
 
   .advance-payment-info {
   margin-top: 20px;
-  padding: 16px;
-  background: #fff3cd;
-  border: 1px solid #ffc107;
-  border-radius: 6px;
+  padding: 20px;
+  background: #f5f5f7;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.advance-payment-info p {
-  margin: 0;
+.advance-payment-info .price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+}
+
+.advance-payment-info .price-label {
+  color: #6e6e73;
   font-size: 14px;
-  color: #856404;
-  line-height: 1.6;
+  font-weight: 500;
+  text-align: left;
+  flex: 1 1 auto;
+  min-width: 0;
   font-family: oregon-ldo-medium;
 }
 
-.advance-payment-info strong {
-  color: #000;
+.advance-payment-info .price-value {
+  color: #1d1d1f;
+  font-size: 14px;
   font-weight: 600;
+  text-align: right;
+  white-space: nowrap;
+  flex: 0 0 auto;
+  font-family: oregon-ldo-medium;
+}
+
+.advance-payment-info .price-note {
+  color: #6e6e73;
+  font-size: 12px;
+  font-style: italic;
+  line-height: 1.4;
+  margin-top: 4px;
+  font-family: oregon-ldo-medium;
 }
 </style>
 
@@ -674,6 +735,18 @@ button.apply-btn {
           placeholder="ABCDE1234F" 
         />
       </div>
+      <div class="ring-expert-section">
+        <h2>Ring Expert</h2>
+        <label for="ring-expert-input">Ring Expert<span class="lable-required">*</span></label>
+        <input 
+          type="text" 
+          id="ring-expert-input" 
+          name="ring-expert-input"
+          value="{{ customer.name }}"
+          required 
+          readonly
+        />
+      </div>
       </div>
      <div class="payment_step_container disabled">
   <h2>Select Payment Method</h2>
@@ -765,6 +838,7 @@ button.apply-btn {
     // Calculate remaining amount
     const advanceAmount = parseFloat(draftOrder.totalPrice.replace(/[^0-9.-]+/g, '')) || 0;
     const remainingAmount = cartTotalValueAmt - advanceAmount;
+    const estimatedPrice = advanceAmount + remainingAmount;
     
     // Format amounts
     const formattedAdvance = advanceAmount.toLocaleString('en-IN', {
@@ -777,16 +851,28 @@ button.apply-btn {
       maximumFractionDigits: 2
     });
     
+    const formattedEstimatedPrice = estimatedPrice.toLocaleString('en-IN', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+    
     // Create and append the message element
     const paymentInfoDiv = document.createElement('div');
     paymentInfoDiv.className = 'advance-payment-info';
     paymentInfoDiv.innerHTML = `
-      <p class="advance-payment-text">
-        This is your advance payment of <strong>₹${formattedAdvance}</strong>.
-      </p>
-      <p class="remaining-payment-text">
-        The remaining amount of <strong>₹${formattedRemaining}</strong> will be collected upon delivery.
-      </p>
+      <div class="price-row">
+        <span class="price-label">Estimated Price:</span>
+        <span class="price-value">Rs. ${formattedEstimatedPrice}/-</span>
+      </div>
+      <div class="price-row">
+        <span class="price-label">Advance Payment Amount:</span>
+        <span class="price-value">Rs. ${formattedAdvance}/-</span>
+      </div>
+      <div class="price-row">
+        <span class="price-label">Estimated Balance:</span>
+        <span class="price-value">Rs. ${formattedRemaining}/-</span>
+      </div>
+      <div class="price-note">(Please note, this amount may change at actual post product manufacturing)</div>
     `;
     
     orderDetailsContainer.appendChild(paymentInfoDiv);

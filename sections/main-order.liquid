@@ -15,6 +15,72 @@
   }
 {%- endstyle -%}
 
+<script>
+  // Initialize order ID immediately - needed for the function below
+  {% assign order_gid = order.id %}
+  {% assign order_id_numeric = order_gid | split: '/' | last %}
+  window.orderId = '{{ order_id_numeric }}';
+  window.currentOrderId = '{{ order_id_numeric }}';
+  window.orderDetailsData = null;
+
+  // Fetch order details for EA/Accounts - compatible function
+  async function fetchOrderDetailsForEA(orderId) {
+    return new Promise((resolve, reject) => {
+      const checkAndFetch = () => {
+        if (typeof window.fetchOrderDetailsAPI !== 'function') {
+          setTimeout(checkAndFetch, 100);
+          return;
+        }
+        window.fetchOrderDetailsAPI(orderId)
+          .then((data) => {
+            window.orderDetailsData = data;
+            resolve(data);
+          })
+          .catch((error) => {
+            window.orderDetailsData = null;
+            reject(error);
+          });
+      };
+      checkAndFetch();
+    });
+  }
+
+  window.fetchOrderDetailsForEA = fetchOrderDetailsForEA;
+
+  // Open product details modal
+  async function openProductDetailsModalEA(lineItemIndex) {
+    if (!window.orderDetailsData) {
+      const orderIdFromContext = window.currentOrderId || window.orderId;
+      if (orderIdFromContext) {
+        try {
+          await fetchOrderDetailsForEA(orderIdFromContext);
+          if (window.orderDetailsData && typeof window.populateOrderDetailsModal === 'function') {
+            window.populateOrderDetailsModal(lineItemIndex, window.orderDetailsData);
+          } else {
+            alert('Failed to load order details. Please try again.');
+          }
+        } catch (error) {
+          console.error('Error fetching order details:', error);
+          alert('Failed to load order details. Please refresh the page.');
+        }
+        return;
+      } else {
+        alert('Order details are still loading. Please wait...');
+        return;
+      }
+    }
+    
+    if (typeof window.populateOrderDetailsModal !== 'function') {
+      alert('Modal function not loaded. Please refresh the page.');
+      return;
+    }
+    
+    window.populateOrderDetailsModal(lineItemIndex, window.orderDetailsData);
+  }
+
+  window.openProductDetailsModalEA = openProductDetailsModalEA;
+</script>
+
 <div class="main-order-details">
   <div class="customer order section-{{ section.id }}-padding">
     <svg style="display:none">
@@ -37,6 +103,7 @@
           <p>{{ 'customer.order.cancelled_html' | t: date: cancelled_at }}</p>
           <p>{{ 'customer.order.cancelled_reason' | t: reason: order.cancel_reason_label }}</p>
         {%- endif -%}
+        <!-- Desktop Version - Hidden on Mobile -->
         <div class="main_custom_table">
           <div class="custom-table_header">
             <p class="custom-table_header_element">Line Item</p>
@@ -151,7 +218,7 @@
                         
                         <p
                           class="view-all-product-details"
-                          onclick="openProductDetailsModal({{ line_item.properties | json | escape }})"
+                          onclick="openProductDetailsModalEA({{ forloop.index0 }})"
                         >
                           View All
                         </p>
@@ -480,6 +547,13 @@
                       {% endif %}
                     {% endfor %}
                   </div>
+                  
+                  <p
+                    class="view-all-product-details view-all-mobile"
+                    onclick="openProductDetailsModalEA({{ forloop.index0 }})"
+                  >
+                    View All
+                  </p>
                 </div>
 
                 <!-- Row 4: Current Status, SKU, Quantity -->
@@ -662,6 +736,36 @@
 </div>
 {% render 'view-all-modal' %}
 {% render 'account-tracking-modal' %}
+{% render 'order-details-api' %}
+{% render 'populate-order-details-modal' %}
+
+<script>
+  {% assign order_gid = order.id %}
+  {% assign order_id_numeric = order_gid | split: '/' | last %}
+  window.orderId = '{{ order_id_numeric }}';
+  window.currentOrderId = '{{ order_id_numeric }}'; // Also set for EA function compatibility
+  window.orderDetailsData = null;
+  
+  function fetchOrderDetailsOnLoad() {
+    const currentOrderId = window.orderId;
+    
+    if (currentOrderId && currentOrderId !== 'null' && currentOrderId !== 'undefined' && currentOrderId !== '' && !isNaN(parseInt(currentOrderId)) && parseInt(currentOrderId) >= 1000000) {
+      if (typeof window.fetchOrderDetailsAPI === 'function') {
+        window.fetchOrderDetailsAPI(currentOrderId)
+          .then((data) => {
+            window.orderDetailsData = data;
+          })
+          .catch(err => {
+            // Silently fail - will retry later if needed
+          });
+      } else {
+        setTimeout(fetchOrderDetailsOnLoad, 100);
+      }
+    }
+  }
+  
+  fetchOrderDetailsOnLoad();
+</script>
 
 <script>
   let currentTrackingLink = '';
@@ -751,131 +855,24 @@
       .replace(/^(.)/, (match, char) => char.toUpperCase());
   }
 
-  // Open product details modal with filtered attributes
-  function openProductDetailsModal(customAttributesJson) {
-    // Parse the JSON string if it's a string
-    let customAttributes;
-    if (typeof customAttributesJson === 'string') {
-      customAttributes = JSON.parse(customAttributesJson);
-    } else {
-      customAttributes = customAttributesJson;
-    }
-
-    console.log('Custom Attributes:', customAttributes);
-
+  window.addEventListener('resize', function() {
     const modal = document.getElementById('productDetailsModal');
-    const attributesContainer = modal.querySelector('.product-attributes');
-    const imagesContainer = modal.querySelector('.product-images-grid');
-    const imagesSection = modal.querySelector('.product-images-section');
-
-    // Clear previous content
-    attributesContainer.innerHTML = '';
-    imagesContainer.innerHTML = '';
-
-    // Convert array of arrays to object for easy lookup
-    const attributesMap = {};
-    const images = [];
-    const personalizationImages = [];
-
-    customAttributes.forEach((attr) => {
-      // attr is an array [key, value]
-      const key = attr[0];
-      const value = attr[1];
-
-      if (key.startsWith('_product_image_')) {
-        images.push({ key, value });
-      } else if (key.toLowerCase().startsWith('personalization image')) {
-        // Store personalization images separately
-        personalizationImages.push({ key, value });
+    if (modal && modal.classList.contains('show')) {
+      const isMobile = window.innerWidth <= 768;
+      if (isMobile && typeof window.createMobileView === 'function') {
+        modal.querySelectorAll('.mobile-card-view').forEach(view => view.remove());
+        modal.querySelectorAll('.mobile-detail-row').forEach(row => row.remove());
+        // Recreate mobile views
+        window.createMobileView(modal);
       } else {
-        attributesMap[key.toLowerCase()] = value;
+        // Desktop view - show tables, hide mobile views
+        modal.querySelectorAll('.order-details-table').forEach(table => {
+          table.style.display = '';
+        });
+        modal.querySelectorAll('.mobile-card-view').forEach(view => view.remove());
       }
-    });
-
-    // Helper function to check if value is an image URL
-    function isImageUrl(value) {
-      if (!value || value === '-') return false;
-      const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg', '.bmp'];
-      const lowerValue = value.toLowerCase();
-      return imageExtensions.some(ext => lowerValue.includes(ext)) || lowerValue.includes('cdn.shopify.com');
     }
-
-    // Display all whitelisted properties (always show all fields)
-    const attributesHTML = `
-      <div class="attributes-grid">
-        ${ALLOWED_PROPERTIES
-          .filter(propertyKey => !propertyKey.toLowerCase().startsWith('personalization image'))
-          .map(propertyKey => {
-            const formattedKey = formatAttributeKey(propertyKey);
-            const value = attributesMap[propertyKey.toLowerCase()] || '-';
-            
-            // Check if value is an image URL (for fingerprint, etc.)
-            if (isImageUrl(value)) {
-              return `
-                <div class="attribute-row">
-                  <span class="attribute-key">${formattedKey}:</span>
-                  <span class="attribute-value">
-                    <img src="${value}" alt="${formattedKey}" style="max-width: 100px; max-height: 100px; border-radius: 8px; object-fit: contain;" onerror="this.parentElement.innerHTML='Invalid Image'">
-                  </span>
-                </div>
-              `;
-            } else {
-              return `
-                <div class="attribute-row">
-                  <span class="attribute-key">${formattedKey}:</span>
-                  <span class="attribute-value">${value}</span>
-                </div>
-              `;
-            }
-          }).join('')}
-      </div>
-      ${personalizationImages.length > 0 ? `
-        <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid #e0e0e0;">
-          <h3 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #1a1a1a;">Personalization Images</h3>
-          <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; max-width: 600px;">
-            ${personalizationImages
-              .filter(img => img.value && img.value !== '-')
-              .map(img => `
-                <div style="position: relative; aspect-ratio: 1; overflow: hidden; border-radius: 8px; background: #f5f5f5; border: 1px solid #e0e0e0;">
-                  <img src="${img.value}" alt="Personalization Image" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;color:#999;font-size:10px;\'>Invalid</div>'">
-                </div>
-              `).join('')}
-          </div>
-        </div>
-      ` : ''}
-    `;
-    attributesContainer.innerHTML = attributesHTML;
-
-    // Display images
-    if (images.length > 0) {
-      imagesSection.style.display = 'block';
-      let imagesHTML = '';
-
-      images.forEach((img, index) => {
-        if (img.value && img.value.trim() !== '') {
-          imagesHTML += `
-          <div class="product-image-item">
-            <img src="${img.value}" alt="Product Image ${
-            index + 1
-          }" loading="lazy" onerror="this.parentElement.style.display='none'">
-          </div>
-        `;
-        }
-      });
-
-      if (imagesHTML) {
-        imagesContainer.innerHTML = imagesHTML;
-      } else {
-        imagesSection.style.display = 'none';
-      }
-    } else {
-      imagesSection.style.display = 'none';
-    }
-
-    // Show modal
-    modal.classList.add('show');
-    document.body.style.overflow = 'hidden';
-  }
+  });
 
   // Close product details modal
   function closeProductDetailsModal() {
@@ -932,6 +929,85 @@
 
 <script>
   console.log({{ order }}, 'order object')
+  if (!window.orderId) {
+    {% assign order_gid = order.id %}
+    {% assign order_id_numeric = order_gid | split: '/' | last %}
+    window.orderId = '{{ order_id_numeric }}';
+  }
+  
+  // Ensure orderDetailsData is initialized
+  if (window.orderDetailsData === undefined) {
+    window.orderDetailsData = null;
+  }
+  
+  // Make fetchOrderDetails globally accessible
+  window.fetchOrderDetails = async function() {
+    const currentOrderId = window.orderId;
+    
+    return new Promise((resolve, reject) => {
+      const checkAndFetch = () => {
+        if (typeof window.fetchOrderDetailsAPI !== 'function') {
+          setTimeout(checkAndFetch, 100);
+          return;
+        }
+        
+        // API function is available, proceed with fetch
+        window.fetchOrderDetailsAPI(currentOrderId)
+          .then((data) => {
+            window.orderDetailsData = data;
+            resolve(data);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      };
+      
+      checkAndFetch();
+    });
+  };
+  
+  // Fetch order details immediately when page loads
+  window.initializeOrderDetailsFetch = function() {
+    const currentOrderId = window.orderId;
+    
+    if (currentOrderId && currentOrderId !== 'null' && currentOrderId !== 'undefined' && currentOrderId !== '' && !isNaN(parseInt(currentOrderId)) && parseInt(currentOrderId) >= 1000000) {
+      if (typeof window.fetchOrderDetailsAPI === 'function') {
+        // API function is available, fetch immediately
+        window.fetchOrderDetailsAPI(currentOrderId)
+          .then((data) => {
+            window.orderDetailsData = data;
+          })
+          .catch(err => {
+            // Silently fail - will retry later if needed
+          });
+      } else {
+        // API function not available yet, retry after a short delay
+        setTimeout(window.initializeOrderDetailsFetch, 100);
+      }
+    }
+  };
+  
+  // Call the function immediately
+  window.initializeOrderDetailsFetch();
+  
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!window.orderDetailsData) {
+        window.initializeOrderDetailsFetch();
+      }
+    });
+  } else {
+    if (!window.orderDetailsData) {
+      window.initializeOrderDetailsFetch();
+    }
+  }
+  
+  window.addEventListener('load', function() {
+    const currentOrderId = window.orderId;
+    if (!window.orderDetailsData && currentOrderId && currentOrderId !== 'null' && currentOrderId !== 'undefined' && currentOrderId !== '' && !isNaN(parseInt(currentOrderId)) && parseInt(currentOrderId) >= 1000000) {
+      window.initializeOrderDetailsFetch();
+    }
+  });
 </script>
 
 <script>

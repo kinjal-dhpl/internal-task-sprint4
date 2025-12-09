@@ -809,6 +809,57 @@ img#fingerprint-preview-img {
   letter-spacing: 0px;
 }
 
+/* Price Box Styles */
+.price-box {
+  background: #f5f5f7;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+}
+
+.price-label {
+  color: #6e6e73;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.price-value {
+  color: #1d1d1f;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: right;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+.price-divider {
+  height: 1px;
+  background: #d2d2d7;
+  margin: 8px 0;
+}
+
+.price-note {
+  color: #6e6e73;
+  font-size: 12px;
+  font-style: italic;
+  line-height: 1.4;
+}
+
 .pdp-form.active,
 .final-summary-form.active {
   scroll-margin-top: 70px;

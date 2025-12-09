@@ -55,6 +55,55 @@
         letter-spacing: normal;
         font-family: oregon-ldo-medium;
     }
+    /* Price Box Styles */
+    .advance-payment-info {
+      margin-top: 20px;
+      padding: 20px;
+      background: #f5f5f7;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .advance-payment-info .price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      min-width: 0;
+    }
+
+    .advance-payment-info .price-label {
+      color: #6e6e73;
+      font-size: 14px;
+      font-weight: 500;
+      text-align: left;
+      flex: 1 1 auto;
+      min-width: 0;
+      font-family: oregon-ldo-medium;
+    }
+
+    .advance-payment-info .price-value {
+      color: #1d1d1f;
+      font-size: 14px;
+      font-weight: 600;
+      text-align: right;
+      white-space: nowrap;
+      flex: 0 0 auto;
+      font-family: oregon-ldo-medium;
+    }
+
+    .advance-payment-info .price-note {
+      color: #6e6e73;
+      font-size: 12px;
+      font-style: italic;
+      line-height: 1.4;
+      margin-top: 4px;
+      font-family: oregon-ldo-medium;
+    }
     .input-groups input {
         height: 40px;
         font-size: 16px;
@@ -870,6 +919,9 @@
 {% render 'send-email' %}
 {% render 'view-all-modal' %}
 {% render 'error-modal' %}
+{% render 'partial-price-api' %}
+{% render 'order-details-api' %}
+{% render 'populate-order-details-modal' %}
 
 <script>
   function hideFormPopup() {
@@ -1430,6 +1482,30 @@ if (Array.isArray(customerAddress) && customerAddress.length > 0 && addressMainG
 
     function createOrderDetail(orderData , order_id){
       console.log('orderData:::',orderData);
+      
+      // Extract numeric order ID from GID
+      let numericOrderId = order_id;
+      if (typeof order_id === 'string' && order_id.includes('/')) {
+        const match = order_id.match(/\/(\d+)$/);
+        if (match) {
+          numericOrderId = match[1];
+        } else {
+          // Try splitting by '/Order/'
+          const parts = order_id.split('/Order/');
+          if (parts.length > 1) {
+            numericOrderId = parts[1];
+          }
+        }
+      }
+      
+      // Store order ID globally for later use
+      window.currentOrderId = numericOrderId;
+      
+      // Fetch order details
+      fetchOrderDetailsForEA(numericOrderId).catch(err => {
+        console.error('Failed to fetch order details for EA:', err);
+      });
+      
       const orderStatusSelector = document.querySelector('#status-selector');
       if (orderStatusSelector) {
         if(orderData.displayFulfillmentStatus === 'Received at store'){
@@ -1498,6 +1574,7 @@ if (Array.isArray(customerAddress) && customerAddress.length > 0 && addressMainG
           }
         }
       }
+      let lineItemIndex = 0; // Track index for View All button
       orderData.lineItems.edges.forEach(edge => {
         const item = edge.node;
         if(item.name.includes('_ConfigSize-')) return;
@@ -1650,7 +1727,7 @@ if (Array.isArray(customerAddress) && customerAddress.length > 0 && addressMainG
                   }
                   return '';
                 })()}
-                <p class="view-all-product-details" onclick='openProductDetailsModal(${JSON.stringify(item.customAttributes).replace(/'/g, "&apos;")})'>View All</p>
+                <p class="view-all-product-details" onclick='openProductDetailsModalEA(${lineItemIndex})'>View All</p>
               </div>
             </td>
             <td class="product--sku--num">${item?.sku || ''}</td>
@@ -1692,6 +1769,7 @@ if (Array.isArray(customerAddress) && customerAddress.length > 0 && addressMainG
               </div>
             </td>
           </tr>`;
+          lineItemIndex++; // Increment index after each item
           })
           setTimeout(() => {
             calculateAndDisplayPaymentTotals();
@@ -2188,6 +2266,7 @@ function getPreferredPhoneNumber(orderData) {
               document.querySelector('.order-details div.order-summary').innerHTML = cartPriceSummary;
 
               const pancardHTML = document.querySelector('.pan-card-section');
+              const ringExpertHTML = document.querySelector('.ring-expert-section');
               const cartTotalValueAmt = result.items.reduce((sum, item) => {
               const priceString = item.properties?.price || '0';
               // Remove "Rs.", commas, and any whitespace, then convert to number
@@ -2197,17 +2276,236 @@ function getPreferredPhoneNumber(orderData) {
             }, 0);
             window.cartTotalValueAmt = cartTotalValueAmt;
             console.log(cartTotalValueAmt, 'cartTotalValueAmt');
+            
+            // Fetch and display price box from API
+            fetchAndDisplayPriceBox(cartItems);
 
             if (cartTotalValueAmt > 200000) {
               pancardHTML.style.display = 'block';
             } else {
               pancardHTML.style.display = 'none';
             }
+            
+            if (ringExpertHTML) {
+              ringExpertHTML.style.display = 'block';
+            }
           }
         
 
           activeSlide('step', 3);
            offGlobalLoader();
+    }
+    function formatPrice(num) {
+      const numValue = Number(num || 0);
+      if (isNaN(numValue)) {
+        return '0.00';
+      }
+      return numValue.toLocaleString('en-IN', { 
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2 
+      });
+    }
+
+    // Fetch and display price box from API
+    async function fetchAndDisplayPriceBox(cartItems) {
+      if (!cartItems || cartItems.length === 0) {
+        console.log('No cart items to fetch prices for');
+        return;
+      }
+
+      const orderDetailsContainer = document.querySelector('.order-placement-container .order-details') || document.querySelector('.order-details');
+      if (!orderDetailsContainer) {
+        console.log('Order details container not found');
+        return;
+      }
+
+      const existingPriceBox = orderDetailsContainer.querySelector('.advance-payment-info');
+      if (existingPriceBox) {
+        existingPriceBox.remove();
+      }
+
+      try {
+        // Build request body from all cart items
+        const products = [];
+        
+        cartItems.forEach(item => {
+          const variantId = item.variant_id || item.id;
+          const size = item.properties?.size ? parseInt(item.properties.size.trim()) : null;
+          
+          if (variantId && size) {
+            // Extract numeric variant ID if it's in GID format
+            let numericVariantId = variantId;
+            if (typeof variantId === 'string' && variantId.includes('/')) {
+              const match = variantId.match(/\d+$/);
+              if (match) {
+                numericVariantId = match[0];
+              }
+            }
+            
+            products.push({
+              variantId: String(numericVariantId),
+              quantity: item.quantity || 1,
+              size: size
+            });
+          }
+        });
+
+        if (products.length === 0) {
+          console.log('No valid products with variantId and size found');
+          displayFallbackPriceBox(orderDetailsContainer);
+          return;
+        }
+
+        const apiResponse = await window.fetchPartialPriceCalculation(products);
+        console.log('API Response:', apiResponse);
+
+        if (apiResponse && apiResponse.length > 0) {
+          // Sum up prices from all products in the response
+          let estimatedPrice = 0;
+          let advancePayment = 0;
+          let estimatedBalance = 0;
+          
+          apiResponse.forEach((priceData, index) => {
+            console.log(`Processing priceData[${index}]:`, JSON.stringify(priceData, null, 2));
+            
+            const totalPriceRaw = priceData.totalPrice?.total ?? priceData.totalPrice ?? null;
+            const partialPriceRaw = priceData.partialPrice?.total ?? priceData.partialPrice ?? null;
+            const estimatedBalanceRaw = priceData.estimatedBalance ?? null;
+            
+            console.log('Raw values from API:', {
+              totalPriceRaw: totalPriceRaw,
+              partialPriceRaw: partialPriceRaw,
+              estimatedBalanceRaw: estimatedBalanceRaw,
+              totalPriceType: typeof totalPriceRaw,
+              partialPriceType: typeof partialPriceRaw,
+              estimatedBalanceType: typeof estimatedBalanceRaw,
+              fullPriceData: priceData
+            });
+            
+            // Parse values
+            const totalPriceValue = totalPriceRaw != null ? parseFloat(String(totalPriceRaw)) : 0;
+            const partialPriceValue = partialPriceRaw != null ? parseFloat(String(partialPriceRaw)) : 0;
+            const estimatedBalanceValue = estimatedBalanceRaw != null ? parseFloat(String(estimatedBalanceRaw)) : 0;
+            
+            console.log('Parsed values:', {
+              totalPrice: totalPriceValue,
+              partialPrice: partialPriceValue,
+              estimatedBalance: estimatedBalanceValue,
+              isNaN_totalPrice: isNaN(totalPriceValue),
+              isNaN_partialPrice: isNaN(partialPriceValue),
+              isNaN_estimatedBalance: isNaN(estimatedBalanceValue)
+            });
+            
+            if (isNaN(totalPriceValue) || isNaN(partialPriceValue) || isNaN(estimatedBalanceValue)) {
+              console.error('NaN detected in price parsing!', {
+                totalPriceValue,
+                partialPriceValue,
+                estimatedBalanceValue
+              });
+            }
+            
+            estimatedPrice += isNaN(totalPriceValue) ? 0 : totalPriceValue;
+            advancePayment += isNaN(partialPriceValue) ? 0 : partialPriceValue;
+            estimatedBalance += isNaN(estimatedBalanceValue) ? 0 : estimatedBalanceValue;
+          });
+          
+          console.log('Final calculated prices:', {
+            estimatedPrice,
+            advancePayment,
+            estimatedBalance
+          });
+
+          // Validate that we have valid prices
+          if (estimatedPrice > 0 && advancePayment >= 0 && estimatedBalance >= 0) {
+            // Create and display price box
+            const paymentInfoDiv = document.createElement('div');
+            paymentInfoDiv.className = 'advance-payment-info';
+            paymentInfoDiv.innerHTML = `
+              <div class="price-row">
+                <span class="price-label">Estimated Price:</span>
+                <span class="price-value">Rs. ${formatPrice(estimatedPrice)}/-</span>
+              </div>
+              <div class="price-row">
+                <span class="price-label">Advance Payment Amount:</span>
+                <span class="price-value">Rs. ${formatPrice(advancePayment)}/-</span>
+              </div>
+              <div class="price-row">
+                <span class="price-label">Estimated Balance:</span>
+                <span class="price-value">Rs. ${formatPrice(estimatedBalance)}/-</span>
+              </div>
+              <div class="price-note">(Please note, this amount may change at actual post product manufacturing)</div>
+            `;
+            
+            orderDetailsContainer.appendChild(paymentInfoDiv);
+            console.log('Price box displayed from API with values:', {
+              estimatedPrice: formatPrice(estimatedPrice),
+              advancePayment: formatPrice(advancePayment),
+              estimatedBalance: formatPrice(estimatedBalance)
+            });
+          } else {
+            console.warn('Invalid price values, showing fallback:', {
+              estimatedPrice,
+              advancePayment,
+              estimatedBalance
+            });
+            displayFallbackPriceBox(orderDetailsContainer);
+          }
+        } else {
+          console.log('API response invalid, showing fallback');
+          displayFallbackPriceBox(orderDetailsContainer);
+        }
+      } catch (error) {
+        console.error('Error fetching price from API:', error);
+        displayFallbackPriceBox(orderDetailsContainer);
+      }
+    }
+
+    // Display fallback price box with calculated values
+    function displayFallbackPriceBox(container) {
+      if (!window.cartTotalValueAmt) {
+        console.log('cartTotalValueAmt not available for fallback');
+        return;
+      }
+
+      const advanceAmount = 0; // Will be updated when draft order is created
+      const estimatedPrice = window.cartTotalValueAmt;
+      const remainingAmount = estimatedPrice - advanceAmount;
+
+      const formattedAdvance = advanceAmount.toLocaleString('en-IN', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+      
+      const formattedRemaining = remainingAmount.toLocaleString('en-IN', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+      
+      const formattedEstimatedPrice = estimatedPrice.toLocaleString('en-IN', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+
+      const paymentInfoDiv = document.createElement('div');
+      paymentInfoDiv.className = 'advance-payment-info';
+      paymentInfoDiv.innerHTML = `
+        <div class="price-row">
+          <span class="price-label">Estimated Price:</span>
+          <span class="price-value">Rs. ${formattedEstimatedPrice}/-</span>
+        </div>
+        <div class="price-row">
+          <span class="price-label">Advance Payment Amount:</span>
+          <span class="price-value">Rs. ${formattedAdvance}/-</span>
+        </div>
+        <div class="price-row">
+          <span class="price-label">Estimated Balance:</span>
+          <span class="price-value">Rs. ${formattedRemaining}/-</span>
+        </div>
+        <div class="price-note">(Please note, this amount may change at actual post product manufacturing)</div>
+      `;
+      
+      container.appendChild(paymentInfoDiv);
+      console.log('Fallback price box displayed');
     }
 
   getShopLocation();
@@ -2378,6 +2676,11 @@ function validateFormAndCreatePayload() {
     const panCardInput = document.getElementById('pan-card-number');
     const panCardRequired = getComputedStyle(panCardSection).display !== 'none';
     const panCardValue = panCardInput.value.trim();
+    
+    const ringExpertSection = document.querySelector('.ring-expert-section');
+    const ringExpertInput = document.getElementById('ring-expert-input');
+    const ringExpertRequired = getComputedStyle(ringExpertSection).display !== 'none';
+    const ringExpertValue = ringExpertInput ? ringExpertInput.value.trim() : '';
 
     let payload = {
         items: cartObject,
@@ -2392,6 +2695,15 @@ function validateFormAndCreatePayload() {
     payload.billingAddress = billingCheckbox.checked ? { ...payload.shippingAddress } : validateFields('billing') ? getAddress('billing') : null;
 
     if (!payload.billingAddress) return;
+
+    if (ringExpertRequired) {
+      if (!ringExpertValue) {
+        offGlobalLoader();
+        showToast("Please enter ring expert name.");
+        return;
+      }
+      payload.ringExpert = ringExpertValue;
+    }
 
     if (panCardRequired) {
       if (!panCardValue) {
@@ -2414,7 +2726,15 @@ function validateFormAndCreatePayload() {
     payload.shippingAddress = null;
     payload.billingAddress = getAddress('billing');
     payload.pickupLocationId = storeId;
-    {% comment %} payload.example = storeId; {% endcomment %}
+    
+    if (ringExpertRequired) {
+      if (!ringExpertValue) {
+        offGlobalLoader();
+        showToast("Please enter ring expert name.");
+        return;
+      }
+      payload.ringExpert = ringExpertValue;
+    }
     
     if (panCardRequired) {
       if (!panCardValue) {
@@ -2576,6 +2896,32 @@ function validateFormAndCreatePayload() {
       
     }
 
+    // Calculate price breakdown
+    const advanceAmount = parseFloat(draftOrder.totalPrice.replace(/[^0-9.-]+/g, '')) || 0;
+    let estimatedPrice = 0;
+    if (window.cartTotalValueAmt) {
+      estimatedPrice = window.cartTotalValueAmt;
+    } else {
+      estimatedPrice = parseFloat(cartTotal.replace(/[^0-9.-]+/g, '')) || 0;
+    }
+    const remainingAmount = estimatedPrice - advanceAmount;
+    
+    // Format amounts
+    const formattedAdvance = advanceAmount.toLocaleString('en-IN', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+    
+    const formattedRemaining = remainingAmount.toLocaleString('en-IN', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+    
+    const formattedEstimatedPrice = estimatedPrice.toLocaleString('en-IN', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+
     const cartPriceSummary = `
       <div class="summary-row"><span>Subtotal</span><span class="letter-spacing-two">₹ ${cartTotal || cartSubtotal}</span></div>
       <div class="summary-row"><span>Shipping</span><span class="letter-spacing-two">₹ 0.00</span></div>
@@ -2584,7 +2930,21 @@ function validateFormAndCreatePayload() {
         <span class="letter-spacing-two">${(Number(draftOrder.totalDiscountsSet.shopMoney.amount) > 0) ? '₹ ' + discountPriceValue : ''}</span>
       </div>
       <div class="summary-row total"><span>Total</span><span class="letter-spacing-two">₹ ${cartTotal}</span></div>
-      <p class="partialpaymentInfo">This is an advance. Remaining will be charged on delivery.</p>
+      <div class="advance-payment-info">
+        <div class="price-row">
+          <span class="price-label">Estimated Price:</span>
+          <span class="price-value">Rs. ${formattedEstimatedPrice}/-</span>
+        </div>
+        <div class="price-row">
+          <span class="price-label">Advance Payment Amount:</span>
+          <span class="price-value">Rs. ${formattedAdvance}/-</span>
+        </div>
+        <div class="price-row">
+          <span class="price-label">Estimated Balance:</span>
+          <span class="price-value">Rs. ${formattedRemaining}/-</span>
+        </div>
+        <div class="price-note">(Please note, this amount may change at actual post product manufacturing)</div>
+      </div>
     `;
 
     const productSummary = document.querySelector('div.product--summary--detail');
@@ -2709,128 +3069,73 @@ function validateFormAndCreatePayload() {
       .replace(/^(.)/, (match, char) => char.toUpperCase());
   }
 
-  // Open product details modal with filtered attributes
-  function openProductDetailsModal(customAttributes) {
-    console.log('Custom Attributes:', customAttributes);
-
-    const modal = document.getElementById('productDetailsModal');
-    const attributesContainer = modal.querySelector('.product-attributes');
-    const imagesContainer = modal.querySelector('.product-images-grid');
-    const imagesSection = modal.querySelector('.product-images-section');
-
-    // Clear previous content
-    attributesContainer.innerHTML = '';
-    imagesContainer.innerHTML = '';
-
-    const attributesMap = {};
-    const images = [];
-    const personalizationImages = [];
-
-    customAttributes.forEach((attr) => {
-      const key = attr.key.toLowerCase();
-      const value = attr.value;
-
-      if (attr.key.startsWith('_product_image_')) {
-        images.push(attr);
-      } else if (key.startsWith('personalization image')) {
-        // Store personalization images separately
-        personalizationImages.push(attr);
-      } else {
-        attributesMap[key] = value;
-      }
-    });
-
-    // Helper function to check if value is an image URL
-    function isImageUrl(value) {
-      if (!value || value === '-') return false;
-      const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg', '.bmp'];
-      const lowerValue = value.toLowerCase();
-      return imageExtensions.some((ext) => lowerValue.includes(ext)) || lowerValue.includes('cdn.shopify.com');
-    }
-
-    // Display all whitelisted properties (always show all fields)
-    const attributesHTML = `
-    <div class="attributes-grid">
-      ${ALLOWED_PROPERTIES.filter((propertyKey) => !propertyKey.toLowerCase().startsWith('personalization image'))
-        .map((propertyKey) => {
-          const formattedKey = formatAttributeKey(propertyKey);
-          const value = attributesMap[propertyKey.toLowerCase()] || '-';
-
-          // Check if value is an image URL (for fingerprint, etc.)
-          if (isImageUrl(value)) {
-            return `
-              <div class="attribute-row">
-                <span class="attribute-key">${formattedKey}:</span>
-                <span class="attribute-value">
-                  <img src="${value}" alt="${formattedKey}" style="max-width: 100px; max-height: 100px; border-radius: 8px; object-fit: contain;" onerror="this.parentElement.innerHTML='Invalid Image'">
-                </span>
-              </div>
-            `;
-          } else {
-            return `
-              <div class="attribute-row">
-                <span class="attribute-key">${formattedKey}:</span>
-                <span class="attribute-value">${value}</span>
-              </div>
-            `;
-          }
-        })
-        .join('')}
-    </div>
-    ${
-      personalizationImages.length > 0
-        ? `
-      <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid #e0e0e0;">
-        <h3 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #1a1a1a;">Personalization Images</h3>
-        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; max-width: 600px;">
-          ${personalizationImages
-            .filter((img) => img.value && img.value !== '-')
-            .map(
-              (img) => `
-              <div style="position: relative; aspect-ratio: 1; overflow: hidden; border-radius: 8px; background: #f5f5f5; border: 1px solid #e0e0e0;">
-                <img src="${img.value}" alt="Personalization Image" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;color:#999;font-size:10px;\'>Invalid</div>'">
-              </div>
-            `
-            )
-            .join('')}
-        </div>
-      </div>
-    `
-        : ''
-    }
-  `;
-    attributesContainer.innerHTML = attributesHTML;
-
-    // Display images
-    if (images.length > 0) {
-      imagesSection.style.display = 'block';
-      let imagesHTML = '';
-
-      images.forEach((img, index) => {
-        if (img.value && img.value.trim() !== '') {
-          imagesHTML += `
-          <div class="product-image-item">
-            <img src="${img.value}" alt="Product Image ${
-            index + 1
-          }" loading="lazy" onerror="this.parentElement.style.display='none'">
-          </div>
-        `;
+  // Fetch order details for EA page
+  async function fetchOrderDetailsForEA(orderId) {
+    return new Promise((resolve, reject) => {
+      const checkAndFetch = () => {
+        if (typeof window.fetchOrderDetailsAPI !== 'function') {
+          console.warn('fetchOrderDetailsAPI not available yet, retrying...');
+          setTimeout(checkAndFetch, 100);
+          return;
         }
-      });
-
-      if (imagesHTML) {
-        imagesContainer.innerHTML = imagesHTML;
-      } else {
-        imagesSection.style.display = 'none';
-      }
-    } else {
-      imagesSection.style.display = 'none';
-    }
-
-    // Show modal
-    modal.classList.add('show');
-    document.body.style.overflow = 'hidden';
+        
+        // API function is available, proceed with fetch
+        window.fetchOrderDetailsAPI(orderId)
+          .then((data) => {
+            window.orderDetailsData = data;
+            console.log('Order details fetched successfully for EA:', window.orderDetailsData);
+            resolve(data);
+          })
+          .catch((error) => {
+            console.error('Error fetching order details:', error);
+            window.orderDetailsData = null;
+            reject(error);
+          });
+      };
+      
+      checkAndFetch();
+    });
   }
+
+  // Make fetchOrderDetailsForEA globally available
+  window.fetchOrderDetailsForEA = fetchOrderDetailsForEA;
+
+  // Open product details modal for EA page - uses API data
+  async function openProductDetailsModalEA(lineItemIndex) {
+    if (!window.orderDetailsData) {
+      const orderIdFromContext = window.currentOrderId || window.orderId;
+      
+      if (orderIdFromContext) {
+        try {
+          await fetchOrderDetailsForEA(orderIdFromContext);
+          
+          if (window.orderDetailsData && typeof window.populateOrderDetailsModal === 'function') {
+            window.populateOrderDetailsModal(lineItemIndex, window.orderDetailsData);
+          } else {
+            alert('Failed to load order details. Please try again.');
+          }
+        } catch (error) {
+          console.error('Error fetching order details:', error);
+          alert('Failed to load order details. Please refresh the page.');
+        }
+        return;
+      } else {
+        alert('Order details are still loading. Please wait...');
+        return;
+      }
+    }
+    
+    if (typeof window.populateOrderDetailsModal !== 'function') {
+      console.error('populateOrderDetailsModal function not available');
+      alert('Modal function not loaded. Please refresh the page.');
+      return;
+    }
+    
+    window.populateOrderDetailsModal(lineItemIndex, window.orderDetailsData);
+  }
+
+  // Make openProductDetailsModalEA globally available
+  window.openProductDetailsModalEA = openProductDetailsModalEA;
 
   // Close product details modal
   function closeProductDetailsModal() {

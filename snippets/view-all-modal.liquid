@@ -3,17 +3,226 @@
     <button class="product-close-btn" onclick="closeProductDetailsModal()">&times;</button>
     
     <div class="product-modal-header">
-      <h2>Product Details</h2>
+      <h2>Order Details</h2>
     </div>
 
     <div class="product-modal-body">
-      <!-- Product attributes will be dynamically inserted here -->
-      <div class="product-attributes"></div>
-      
-      <!-- Product images will be dynamically inserted here -->
-      <div class="product-images-section">
-        <h3>Product Images</h3>
-        <div class="product-images-grid"></div>
+      <!-- Order Details Section -->
+      <div class="order-details-section">
+        <table class="order-details-table">
+          <thead>
+            <tr>
+              <th>Studio Name</th>
+              <th>Ring Expert</th>
+              <th>Order Placement Date</th>
+              <th>Order Placement Time</th>
+              <th>Product Type</th>
+              <th>Gender (Purchase For)</th>
+              <th>Ring Size</th>
+              <th>Product Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="order-studio-name">Borivali Mumbai (MH-MUM-01) RINGS & I</td>
+              <td class="order-ring-expert">Ali Raza</td>
+              <td class="order-placement-date">29/11/2025</td>
+              <td class="order-placement-time">02:53 PM</td>
+              <td class="order-product-type">Ring</td>
+              <td class="order-gender">Male</td>
+              <td class="order-ring-size">24</td>
+              <td class="order-product-name">Sophia ring</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Metal Details Section -->
+      <div class="order-details-section">
+        <h3>Metal Details</h3>
+        <table class="order-details-table">
+          <thead>
+            <tr>
+              <th>Metal Type</th>
+              <th>Metal Purity</th>
+              <th>Metal Weight</th>
+              <th>No. of Metal Tone</th>
+              <th>Metal Tone 1 (Base)</th>
+              <th>Metal Tone 2 (Rhodium)</th>
+              <th>Prong Rhodium</th>
+              <th>Metal Finish 1</th>
+              <th>Metal Finish 2</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="metal-type">Gold</td>
+              <td class="metal-purity">18 KT</td>
+              <td class="metal-weight">6.23</td>
+              <td class="metal-tone-count">Dual Tone</td>
+              <td class="metal-tone-1">Yellow</td>
+              <td class="metal-tone-2">White</td>
+              <td class="prong-rhodium">Yellow</td>
+              <td class="metal-finish-1">Polished</td>
+              <td class="metal-finish-2">Polished</td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <!-- Product Images -->
+        <div class="product-images-container">
+          <img src="image_url_1" alt="Product Image 1" class="product-thumbnail" onerror="this.style.display='none'">
+          <img src="image_url_2" alt="Product Image 2" class="product-thumbnail" onerror="this.style.display='none'">
+          <img src="image_url_3" alt="Product Image 3" class="product-thumbnail" onerror="this.style.display='none'">
+          <img src="image_url_4" alt="Product Image 4" class="product-thumbnail" onerror="this.style.display='none'">
+          <img src="image_url_5" alt="Product Image 5" class="product-thumbnail" onerror="this.style.display='none'">
+        </div>
+      </div>
+
+      <!-- Diamond Details Section -->
+      <div class="order-details-section">
+        <h3>Diamond Details</h3>
+        <table class="order-details-table">
+          <thead>
+            <tr>
+              <th>Diamond Type</th>
+              <th>Studded Diamond Colour/Clarity</th>
+              <th>Studded Diamond Carat</th>
+              <th>Studded Diamond Pieces</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="diamond-type">Lab Grown</td>
+              <td class="diamond-colour-clarity">EF-VVS</td>
+              <td class="diamond-carat">0.23</td>
+              <td class="diamond-pieces">1</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Solitaire Details Section -->
+      <div class="order-details-section">
+        <h3>Solitaire Details</h3>
+        <table class="order-details-table">
+          <thead>
+            <tr>
+              <th>Solitaire Type</th>
+              <th>Solitaire Shape</th>
+              <th>Solitaire Colour/Clarity/Cut</th>
+              <th>Solitaire Carat</th>
+              <th>Solitaire Pieces</th>
+              <th>Solitaire Certificate Number</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="solitaire-type">Lab Grown</td>
+              <td class="solitaire-shape">EF-VVS</td>
+              <td class="solitaire-colour">NA</td>
+              <td class="solitaire-carat">1</td>
+              <td class="solitaire-pieces">3</td>
+              <td class="solitaire-cert-number">1</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Engraving Details Section -->
+      <div class="order-details-section">
+        <h3>Engraving Details</h3>
+        <table class="order-details-table">
+          <thead>
+            <tr>
+              <th>Engraving</th>
+              <th>Engraving Content</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="engraving-status">Yes</td>
+              <td class="engraving-content">Engrave</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Authenticity Section -->
+      <div class="order-details-section">
+        <h3>Authenticity</h3>
+        <table class="order-details-table">
+          <thead>
+            <tr>
+              <th>Studded Diamond Certificate</th>
+              <th>Solitaire Certificate</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="diamond-certificate">IGI</td>
+              <td class="solitaire-certificate">GIA</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Estimates Section -->
+      <div class="order-details-section">
+        <h3>Estimates</h3>
+        <table class="order-details-table">
+          <thead>
+            <tr>
+              <th>Estimated Delivery Date</th>
+              <th>Estimated Cost</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="estimated-delivery">25/12/2025</td>
+              <td class="estimated-cost">Rs. 82,385</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Advance Payment and Rates Section (Side by Side) -->
+      <div class="order-details-section two-column-section">
+        <div class="column-left">
+          <h3>Advance Payment</h3>
+          <table class="order-details-table">
+            <thead>
+              <tr>
+                <th>Advance Payment</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="advance-payment">Rs. 25,000</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="column-right">
+          <h3>Rates</h3>
+          <table class="order-details-table">
+            <thead>
+              <tr>
+                <th>14KT Gold Rate</th>
+                <th>18KT Gold Rate</th>
+                <th>Platinum Rate</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="rate-14kt">N/A</td>
+                <td class="rate-18kt">N/A</td>
+                <td class="rate-platinum">N/A</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
@@ -48,7 +257,7 @@
   background: #fff;
   border-radius: 12px;
   width: 100%;
-  max-width: 800px;
+  max-width: 1400px;
   max-height: 90vh;
   overflow-y: auto;
   position: relative;
@@ -58,27 +267,28 @@
 
 /* Modal Header */
 .product-modal-header {
-  padding: 24px 28px;
-  border-bottom: 1px solid #e0e0e0;
+  padding: 20px 28px;
+  /* border-bottom: 1px solid #e0e0e0; */
   position: sticky;
   top: 0;
   background: #fff;
-  z-index: 10;
+  z-index: 100;
   border-radius: 12px 12px 0 0;
 }
 
 .product-modal-header h2 {
   margin: 0;
-  font-size: 22px;
-  font-weight: 600;
+  font-size: 20px;
+  font-weight: normal;
   color: #1a1a1a;
 }
 
 /* Close Button */
 .product-close-btn {
-  position: absolute;
-  top: 20px;
-  right: 20px;
+  position: sticky;
+  top: 16px;
+  float: right;
+  margin-right: -8px;
   background: none;
   border: none;
   font-size: 28px;
@@ -91,7 +301,7 @@
   justify-content: center;
   border-radius: 6px;
   transition: all 0.2s ease;
-  z-index: 11;
+  z-index: 101;
 }
 
 .product-close-btn:hover {
@@ -101,83 +311,192 @@
 
 /* Modal Body */
 .product-modal-body {
-  padding: 28px;
+  padding: 0px 24px 24px 24px;
 }
 
-/* Attributes Grid */
-.attributes-grid {
-  display: grid;
-  gap: 16px;
+/* Order Details Section */
+.order-details-section {
+  margin-bottom: 24px;
+  overflow-x: auto;
 }
 
-.attribute-row {
-  display: grid;
-  grid-template-columns: 200px 1fr;
-  gap: 16px;
-  padding: 12px;
-  background: #f8f9fa;
-  border-radius: 8px;
-  align-items: center;
-}
-
-.attribute-key {
-  font-weight: 600;
-  color: #333;
-  font-size: 14px;
-}
-
-.attribute-value {
-  color: #666;
-  font-size: 14px;
-  word-break: break-word;
-}
-
-/* Images Section */
-.product-images-section {
-  margin-top: 32px;
-  padding-top: 24px;
-  border-top: 1px solid #e0e0e0;
-}
-
-.product-images-section h3 {
-  margin: 0 0 20px 0;
-  font-size: 18px;
-  font-weight: 600;
+.order-details-section h3 {
+  margin: 0 0 12px 0;
+  font-size: 20px;
+  font-weight: normal;
   color: #1a1a1a;
 }
 
-.product-images-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 16px;
-}
-
-.product-image-item {
-  position: relative;
-  aspect-ratio: 1;
-  overflow: hidden;
-  border-radius: 8px;
-  background: #f5f5f5;
-  border: 1px solid #e0e0e0;
-}
-
-.product-image-item img {
+/* Order Details Table */
+.order-details-table {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin-bottom: 8px;
+  table-layout: fixed;
 }
 
-.product-image-item:hover img {
+/* First Order Details Section - allow horizontal scroll */
+.order-details-section:first-child .order-details-table {
+  table-layout: auto;
+  min-width: 1000px;
+}
+
+/* Metal Details Section - allow horizontal scroll */
+.order-details-section:nth-child(2) .order-details-table {
+  table-layout: auto;
+  min-width: 1200px;
+}
+
+/* Solitaire Details Section - allow horizontal scroll */
+.order-details-section:nth-child(4) .order-details-table {
+  table-layout: auto;
+  min-width: 1000px;
+}
+
+.order-details-table thead tr {
+  background: #f0f0f0;
+}
+
+.order-details-table th {
+  font-size: 14px;
+  padding: 12px 16px;
+  text-align: center;
+  font-weight: normal;
+  color: #333;
+  border-top: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e0e0;
+  border-left: none;
+  border-right: none;
+  white-space: nowrap;
+}
+
+.order-details-table th:first-child {
+  border-left: 1px solid #e0e0e0;
+}
+
+.order-details-table th:last-child {
+  border-right: 1px solid #e0e0e0;
+}
+
+.order-details-table td {
+  font-size: 14px;
+  padding: 12px 16px;
+  text-align: center;
+  font-weight: normal;
+  color: #484848;
+  border-top: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e0e0;
+  border-left: none;
+  border-right: none;
+  background: #fff;
+}
+
+.order-details-table td:first-child {
+  border-left: 1px solid #e0e0e0;
+}
+
+.order-details-table td:last-child {
+  border-right: 1px solid #e0e0e0;
+}
+
+/* Product Images Container */
+.product-images-container {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.product-thumbnail {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #d0d0d0;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.product-thumbnail:hover {
   transform: scale(1.05);
 }
 
-/* No Data Message */
-.no-data {
-  text-align: center;
-  color: #999;
-  padding: 40px 20px;
-  font-size: 15px;
+/* Two Column Layout for Advance Payment and Rates */
+.two-column-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.column-left,
+.column-right {
+  overflow-x: auto;
+}
+
+/* Equal Width Distribution for Specific Sections */
+
+/* Order Details Section - 8 columns with min-width */
+.order-details-section:first-child .order-details-table th,
+.order-details-section:first-child .order-details-table td {
+  min-width: 120px;
+  white-space: nowrap;
+}
+
+/* Allow text wrapping for Studio Name (first column) and Product Name (last column) */
+.order-details-section:first-child .order-details-table th:first-child,
+.order-details-section:first-child .order-details-table td:first-child,
+.order-details-section:first-child .order-details-table th:last-child,
+.order-details-section:first-child .order-details-table td:last-child {
+  white-space: normal;
+  word-wrap: break-word;
+}
+
+/* Metal Details Section - 9 columns with min-width*/
+.order-details-section:nth-child(2) .order-details-table th,
+.order-details-section:nth-child(2) .order-details-table td {
+  min-width: 130px;
+  white-space: nowrap;
+}
+
+/* Diamond Details Section - 4 columns equal width */
+.order-details-section:nth-child(3) .order-details-table th,
+.order-details-section:nth-child(3) .order-details-table td {
+  width: 25%; /* 100% / 4 columns */
+}
+
+/* Solitaire Details Section - 6 columns with min-width */
+.order-details-section:nth-child(4) .order-details-table th,
+.order-details-section:nth-child(4) .order-details-table td {
+  min-width: 150px;
+  white-space: nowrap;
+}
+
+/* Engraving Details - 50/50 split */
+.order-details-section .order-details-table th:has(+ th):only-child,
+.order-details-section .order-details-table td:has(+ td):only-child {
+  width: 50%;
+}
+
+/* Specific width control for Engraving Details table */
+.order-details-table th:nth-child(1):nth-last-child(2),
+.order-details-table th:nth-child(2):nth-last-child(1),
+.order-details-table td:nth-child(1):nth-last-child(2),
+.order-details-table td:nth-child(2):nth-last-child(1) {
+  width: 50%;
+}
+
+/* Estimates Section - 50/50 split for Delivery Date and Cost */
+.estimated-delivery,
+.estimated-cost {
+  width: 50%;
+}
+
+/* Ensure Estimates table columns are equal */
+.order-details-table thead tr th:first-child:nth-last-child(2),
+.order-details-table thead tr th:last-child:nth-child(2) {
+  width: 50%;
 }
 
 /* View All Button */
@@ -212,31 +531,174 @@
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
   .product-modal-content {
     max-width: 95%;
-    margin: auto;
   }
   
-  .attribute-row {
+  .two-column-section {
     grid-template-columns: 1fr;
-    gap: 8px;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .product-details-modal {
+    padding: 0;
+    align-items: flex-start;
+  }
+
+  .product-modal-content {
+    max-width: 100%;
+    width: 100%;
+    max-height: 100vh;
+    border-radius: 0;
+    margin: 0;
   }
   
-  .product-images-grid {
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 12px;
+  .product-modal-header {
+    padding: 16px;
+    border-radius: 0;
   }
-  
-  .product-modal-header,
+
+  .product-modal-header h2 {
+    font-size: 20px;
+    font-weight: normal;
+  }
+
+  .product-close-btn {
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+    font-size: 24px;
+  }
+
   .product-modal-body {
-    padding: 20px;
+    padding: 12px;
+  }
+
+  .order-details-section {
+    margin-bottom: 16px;
+  }
+
+  .order-details-section h3 {
+    font-size: 20px;
+    font-weight: normal;
+    margin-bottom: 10px;
+    color: #000;
+  }
+
+  /* Mobile Card View */
+  .mobile-card-view {
+    display: block;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+  }
+
+  .mobile-detail-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .mobile-detail-label {
+    font-weight: normal;
+    color: #333;
+    font-size: 14px;
+    padding: 8px 10px;
+    text-align: left;
+    background: #f0f0f0;
+  }
+
+  .mobile-detail-value {
+    font-weight: normal;
+    color: #333;
+    text-align: left;
+    font-size: 14px;
+    padding: 8px 10px;
+    word-break: break-word;
+    background: #fff;
+  }
+
+  /* Product Images Mobile */
+  .product-images-container {
+    gap: 6px;
+  }
+
+  .product-thumbnail {
+    width: 60px;
+    height: 60px;
+  }
+
+  .two-column-section {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  /* Mobile specific table styling if they must show */
+  .order-details-section.show-table-mobile .order-details-table {
+    display: block;
+    overflow-x: auto;
+    font-size: 10px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .order-details-section.show-table-mobile .order-details-table th,
+  .order-details-section.show-table-mobile .order-details-table td {
+    padding: 8px 6px;
+    font-size: 10px;
+    white-space: nowrap;
+  }
+
+  /* Reorder Metal Details: table first, then images on mobile */
+  .order-details-section:nth-child(2) {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .order-details-section:nth-child(2) h3 {
+    order: 0;
+  }
+
+  .order-details-section:nth-child(2) .order-details-table {
+    order: 1;
+  }
+
+  .order-details-section:nth-child(2) .product-images-container {
+    order: 2;
   }
 }
 
 @media (max-width: 480px) {
-  .product-images-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .product-modal-header {
+    padding: 14px;
+  }
+
+  .product-modal-header h2 {
+    font-size: 20px;
+    font-weight: normal;
+  }
+
+  .product-modal-body {
+    padding: 10px;
+  }
+
+  .order-details-section h3 {
+    font-size: 20px;
+    font-weight: normal;
+  }
+
+  .mobile-detail-label,
+  .mobile-detail-value {
+    font-size: 14px;
+    font-weight: normal;
+  }
+
+  .product-thumbnail {
+    width: 50px;
+    height: 50px;
   }
 }
 </style>
