@@ -233,6 +233,8 @@
   {%- assign size_variant = card_product.variants | where: "option1", "18" | first -%}
 {%- endif -%}
 
+{% assign size_variant =  card_product.variants | where: "option1", "Gold 14KT" | where: "option2", "Natural IJ-SI" | first  %}
+
 <div class="card-information">
   {%- if size_variant -%}
     <div class="price" style="margin-bottom: 5px;"> <!-- Added inline style for bottom margin -->
