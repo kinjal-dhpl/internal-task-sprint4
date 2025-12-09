@@ -3104,11 +3104,15 @@ function validateFormAndCreatePayload() {
     });
   }
 
+  // Make fetchOrderDetailsForEA globally available
+  window.fetchOrderDetailsForEA = fetchOrderDetailsForEA;
+
   // Open product details modal for EA page - uses API data
   async function openProductDetailsModalEA(lineItemIndex) {
     // If data not loaded, try to fetch it
     if (!window.orderDetailsData) {
-      const orderIdFromContext = window.currentOrderId;
+      // Check both currentOrderId (EA) and orderId (Accounts) for compatibility
+      const orderIdFromContext = window.currentOrderId || window.orderId;
       
       if (orderIdFromContext) {
         try {
@@ -3139,6 +3143,9 @@ function validateFormAndCreatePayload() {
     
     window.populateOrderDetailsModal(lineItemIndex, window.orderDetailsData);
   }
+
+  // Make openProductDetailsModalEA globally available
+  window.openProductDetailsModalEA = openProductDetailsModalEA;
 
   // Close product details modal
   function closeProductDetailsModal() {

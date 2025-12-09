@@ -15,6 +15,72 @@
   }
 {%- endstyle -%}
 
+<script>
+  // Initialize order ID immediately - needed for the function below
+  {% assign order_gid = order.id %}
+  {% assign order_id_numeric = order_gid | split: '/' | last %}
+  window.orderId = '{{ order_id_numeric }}';
+  window.currentOrderId = '{{ order_id_numeric }}';
+  window.orderDetailsData = null;
+
+  // Fetch order details for EA/Accounts - compatible function
+  async function fetchOrderDetailsForEA(orderId) {
+    return new Promise((resolve, reject) => {
+      const checkAndFetch = () => {
+        if (typeof window.fetchOrderDetailsAPI !== 'function') {
+          setTimeout(checkAndFetch, 100);
+          return;
+        }
+        window.fetchOrderDetailsAPI(orderId)
+          .then((data) => {
+            window.orderDetailsData = data;
+            resolve(data);
+          })
+          .catch((error) => {
+            window.orderDetailsData = null;
+            reject(error);
+          });
+      };
+      checkAndFetch();
+    });
+  }
+
+  window.fetchOrderDetailsForEA = fetchOrderDetailsForEA;
+
+  // Open product details modal - define early so it's available when HTML renders
+  async function openProductDetailsModalEA(lineItemIndex) {
+    if (!window.orderDetailsData) {
+      const orderIdFromContext = window.currentOrderId || window.orderId;
+      if (orderIdFromContext) {
+        try {
+          await fetchOrderDetailsForEA(orderIdFromContext);
+          if (window.orderDetailsData && typeof window.populateOrderDetailsModal === 'function') {
+            window.populateOrderDetailsModal(lineItemIndex, window.orderDetailsData);
+          } else {
+            alert('Failed to load order details. Please try again.');
+          }
+        } catch (error) {
+          console.error('Error fetching order details:', error);
+          alert('Failed to load order details. Please refresh the page.');
+        }
+        return;
+      } else {
+        alert('Order details are still loading. Please wait...');
+        return;
+      }
+    }
+    
+    if (typeof window.populateOrderDetailsModal !== 'function') {
+      alert('Modal function not loaded. Please refresh the page.');
+      return;
+    }
+    
+    window.populateOrderDetailsModal(lineItemIndex, window.orderDetailsData);
+  }
+
+  window.openProductDetailsModalEA = openProductDetailsModalEA;
+</script>
+
 <div class="main-order-details">
   <div class="customer order section-{{ section.id }}-padding">
     <svg style="display:none">
@@ -152,7 +218,7 @@
                         
                         <p
                           class="view-all-product-details"
-                          onclick="openProductDetailsModal({{ forloop.index0 }})"
+                          onclick="openProductDetailsModalEA({{ forloop.index0 }})"
                         >
                           View All
                         </p>
@@ -484,7 +550,7 @@
                   
                   <p
                     class="view-all-product-details view-all-mobile"
-                    onclick="openProductDetailsModal({{ forloop.index0 }})"
+                    onclick="openProductDetailsModalEA({{ forloop.index0 }})"
                   >
                     View All
                   </p>
@@ -679,6 +745,7 @@
   {% assign order_gid = order.id %}
   {% assign order_id_numeric = order_gid | split: '/' | last %}
   window.orderId = '{{ order_id_numeric }}';
+  window.currentOrderId = '{{ order_id_numeric }}'; // Also set for EA function compatibility
   window.orderDetailsData = null;
   
   // Function to fetch order details immediately - will retry until API is available
@@ -792,133 +859,24 @@
       .replace(/^(.)/, (match, char) => char.toUpperCase());
   }
 
-  // Open product details modal with line item index
-  window.openProductDetailsModal = async function(lineItemIndex) {
-    // Get order ID - try multiple sources
-    let currentOrderId = window.orderId;
-    
-    // If orderId is not set, try to extract from Liquid template
-    if (!currentOrderId || currentOrderId === 'undefined' || currentOrderId === 'null') {
-      {% assign order_gid = order.id %}
-      {% assign order_id_numeric = order_gid | split: '/' | last %}
-      currentOrderId = '{{ order_id_numeric }}';
-      window.orderId = currentOrderId;
-    }
-    
-    if (!window.orderDetailsData) {
-      // Try to fetch if not loaded yet
-      if (currentOrderId && currentOrderId !== 'null' && currentOrderId !== 'undefined' && currentOrderId !== '' && !isNaN(parseInt(currentOrderId)) && parseInt(currentOrderId) >= 1000000) {
-        try {
-          // Try using fetchOrderDetails if available, otherwise use fetchOrderDetailsAPI directly
-          if (typeof window.fetchOrderDetails === 'function') {
-            await window.fetchOrderDetails();
-          } else if (typeof window.fetchOrderDetailsAPI === 'function') {
-            window.orderDetailsData = await window.fetchOrderDetailsAPI(currentOrderId);
-          } else {
-            // Wait for API function to be available
-            await new Promise((resolve) => {
-              const checkAPI = () => {
-                if (typeof window.fetchOrderDetailsAPI === 'function') {
-                  window.fetchOrderDetailsAPI(currentOrderId)
-                    .then((data) => {
-                      window.orderDetailsData = data;
-                      resolve(data);
-                    })
-                    .catch((err) => {
-                      resolve(null);
-                    });
-                } else {
-                  setTimeout(checkAPI, 100);
-                }
-              };
-              checkAPI();
-            });
-          }
-          
-          if (window.orderDetailsData && typeof window.populateOrderDetailsModal === 'function') {
-            window.populateOrderDetailsModal(lineItemIndex, window.orderDetailsData);
-          } else if (!window.orderDetailsData) {
-            alert('Order details are still loading. Please try again in a moment.');
-          } else {
-            alert('Modal function not loaded. Please refresh the page.');
-          }
-        } catch (error) {
-          alert('Failed to load order details. Please refresh the page.');
-        }
-      } else {
-        alert('Order details are still loading. Please try again in a moment.');
-      }
-      return;
-    }
-    
-    if (typeof window.populateOrderDetailsModal !== 'function') {
-      alert('Modal function not loaded. Please refresh the page.');
-      return;
-    }
-    
-    window.populateOrderDetailsModal(lineItemIndex, window.orderDetailsData);
-  };
-
-  // Create mobile card-based view
-  function createMobileView(modal) {
-    const sections = modal.querySelectorAll('.order-details-section');
-    
-    sections.forEach((section, index) => {
-      const table = section.querySelector('.order-details-table');
-      if (!table) return;
-      
-      // Check if mobile view already exists
-      let mobileView = section.querySelector('.mobile-card-view');
-      if (mobileView) return; // Already created
-      
-      // Create mobile card container
-      mobileView = document.createElement('div');
-      mobileView.className = 'mobile-card-view';
-      
-      // Get all rows
-      const headers = Array.from(table.querySelectorAll('thead th')).map(th => th.textContent.trim());
-      const values = Array.from(table.querySelectorAll('tbody td')).map(td => td.textContent.trim());
-      
-      // Create mobile rows
-      headers.forEach((header, i) => {
-        if (values[i]) {
-          const row = document.createElement('div');
-          row.className = 'mobile-detail-row';
-          row.innerHTML = `
-            <div class="mobile-detail-label">${header}</div>
-            <div class="mobile-detail-value">${values[i]}</div>
-          `;
-          mobileView.appendChild(row);
-        }
-      });
-      
-      // Insert mobile view after table
-      table.style.display = 'none';
-      section.appendChild(mobileView);
-    });
-  }
-
-  // Handle window resize
+  // Handle window resize - use global createMobileView function
   window.addEventListener('resize', function() {
     const modal = document.getElementById('productDetailsModal');
     if (modal && modal.classList.contains('show')) {
       const isMobile = window.innerWidth <= 768;
-      const sections = modal.querySelectorAll('.order-details-section');
-      
-      sections.forEach(section => {
-        const table = section.querySelector('.order-details-table');
-        const mobileView = section.querySelector('.mobile-card-view');
-        
-        if (table && mobileView) {
-          if (isMobile) {
-            table.style.display = 'none';
-            mobileView.style.display = 'block';
-          } else {
-            table.style.display = 'table';
-            mobileView.style.display = 'none';
-          }
-        }
-      });
+      if (isMobile && typeof window.createMobileView === 'function') {
+        // Remove all existing mobile views first to prevent duplicates
+        modal.querySelectorAll('.mobile-card-view').forEach(view => view.remove());
+        modal.querySelectorAll('.mobile-detail-row').forEach(row => row.remove());
+        // Recreate mobile views
+        window.createMobileView(modal);
+      } else {
+        // Desktop view - show tables, hide mobile views
+        modal.querySelectorAll('.order-details-table').forEach(table => {
+          table.style.display = '';
+        });
+        modal.querySelectorAll('.mobile-card-view').forEach(view => view.remove());
+      }
     }
   });
 

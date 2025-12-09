@@ -336,6 +336,24 @@
   table-layout: fixed;
 }
 
+/* First Order Details Section - allow horizontal scroll */
+.order-details-section:first-child .order-details-table {
+  table-layout: auto;
+  min-width: 1000px;
+}
+
+/* Metal Details Section - allow horizontal scroll */
+.order-details-section:nth-child(2) .order-details-table {
+  table-layout: auto;
+  min-width: 1200px;
+}
+
+/* Solitaire Details Section - allow horizontal scroll */
+.order-details-section:nth-child(4) .order-details-table {
+  table-layout: auto;
+  min-width: 1000px;
+}
+
 .order-details-table thead tr {
   background: #f0f0f0;
 }
@@ -419,16 +437,27 @@
 
 /* Equal Width Distribution for Specific Sections */
 
-/* Order Details Section - 8 columns equal width */
+/* Order Details Section - 8 columns with min-width */
 .order-details-section:first-child .order-details-table th,
 .order-details-section:first-child .order-details-table td {
-  width: 12.5%; /* 100% / 8 columns */
+  min-width: 120px;
+  white-space: nowrap;
 }
 
-/* Metal Details Section - 9 columns equal width */
+/* Allow text wrapping for Studio Name (first column) and Product Name (last column) */
+.order-details-section:first-child .order-details-table th:first-child,
+.order-details-section:first-child .order-details-table td:first-child,
+.order-details-section:first-child .order-details-table th:last-child,
+.order-details-section:first-child .order-details-table td:last-child {
+  white-space: normal;
+  word-wrap: break-word;
+}
+
+/* Metal Details Section - 9 columns with min-width*/
 .order-details-section:nth-child(2) .order-details-table th,
 .order-details-section:nth-child(2) .order-details-table td {
-  width: 11.11%; /* 100% / 9 columns */
+  min-width: 130px;
+  white-space: nowrap;
 }
 
 /* Diamond Details Section - 4 columns equal width */
@@ -437,10 +466,11 @@
   width: 25%; /* 100% / 4 columns */
 }
 
-/* Solitaire Details Section - 6 columns equal width */
+/* Solitaire Details Section - 6 columns with min-width */
 .order-details-section:nth-child(4) .order-details-table th,
 .order-details-section:nth-child(4) .order-details-table td {
-  width: 16.67%; /* 100% / 6 columns */
+  min-width: 150px;
+  white-space: nowrap;
 }
 
 /* Engraving Details - 50/50 split */
@@ -620,6 +650,24 @@
     padding: 8px 6px;
     font-size: 10px;
     white-space: nowrap;
+  }
+
+  /* Reorder Metal Details: table first, then images on mobile */
+  .order-details-section:nth-child(2) {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .order-details-section:nth-child(2) h3 {
+    order: 0;
+  }
+
+  .order-details-section:nth-child(2) .order-details-table {
+    order: 1;
+  }
+
+  .order-details-section:nth-child(2) .product-images-container {
+    order: 2;
   }
 }
 

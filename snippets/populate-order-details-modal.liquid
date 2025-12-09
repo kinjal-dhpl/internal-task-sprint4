@@ -1,5 +1,61 @@
 <script>
   /**
+   * Create mobile card-based view for order details sections
+   * @param {HTMLElement} modal - The modal element
+   */
+  function createMobileView(modal) {
+    const sections = modal.querySelectorAll('.order-details-section');
+    
+    sections.forEach((section, index) => {
+      // Skip two-column-section (Advance Payment & Rates) - handled by CSS
+      if (section.classList.contains('two-column-section')) {
+        return;
+      }
+      
+      const table = section.querySelector('.order-details-table');
+      if (!table) return;
+      
+      // Remove existing mobile view if it exists to prevent duplicates
+      const existingMobileView = section.querySelector('.mobile-card-view');
+      if (existingMobileView) {
+        existingMobileView.remove();
+      }
+      
+      // Also remove any existing mobile-detail-row elements that might be orphaned
+      const orphanedRows = section.querySelectorAll('.mobile-detail-row');
+      orphanedRows.forEach(row => row.remove());
+      
+      // Create mobile card container
+      const mobileView = document.createElement('div');
+      mobileView.className = 'mobile-card-view';
+      
+      // Get all rows
+      const headers = Array.from(table.querySelectorAll('thead th')).map(th => th.textContent.trim());
+      const values = Array.from(table.querySelectorAll('tbody td')).map(td => td.textContent.trim());
+      
+      // Create mobile rows
+      headers.forEach((header, i) => {
+        if (values[i]) {
+          const row = document.createElement('div');
+          row.className = 'mobile-detail-row';
+          row.innerHTML = `
+            <div class="mobile-detail-label">${header}</div>
+            <div class="mobile-detail-value">${values[i]}</div>
+          `;
+          mobileView.appendChild(row);
+        }
+      });
+      
+      // Insert mobile view after table
+      table.style.display = 'none';
+      section.appendChild(mobileView);
+    });
+  }
+
+  // Make createMobileView globally available
+  window.createMobileView = createMobileView;
+
+  /**
    * Populate order details modal with API data
    * @param {number} lineItemIndex - Index of the line item in the order
    * @param {Object} orderDetailsData - Order details data from API (window.orderDetailsData)
@@ -196,8 +252,8 @@
     // Check if mobile view
     const isMobile = window.innerWidth <= 768;
     
-    if (isMobile && typeof createMobileView === 'function') {
-      createMobileView(modal);
+    if (isMobile && typeof window.createMobileView === 'function') {
+      window.createMobileView(modal);
     }
     
     // Show modal
