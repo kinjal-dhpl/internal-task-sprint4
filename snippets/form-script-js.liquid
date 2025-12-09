@@ -663,7 +663,14 @@
       // if (additionalPrintForm) {
       //     additionalPrintForm.classList.toggle('hidden', !hasAllPersonalFit);
       // }
-      if (hasAllPersonalFit) additionalPrintForm.classList.add('active');
+      if (hasAllPersonalFit) {
+        if (document.querySelector('.additional-print-form.hide-fingerprint-section')) {
+          showLastPdpForms();
+          enableNextForm(document.querySelector('.additional-print-form'));
+        } else {
+          additionalPrintForm.classList.add('active');
+        }
+      }
     }
 
     // Listen for PDP variant change and refresh Metal Color

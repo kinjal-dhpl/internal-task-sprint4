@@ -476,6 +476,10 @@ input[name="engraving_choice"]+label {
   /* so it sits flush as a list row */
 }
 
+.additional-print-form.hide-fingerprint-section {
+  display: none;
+}
+
 .upload-label {
   display: flex;
   justify-content: space-between;
