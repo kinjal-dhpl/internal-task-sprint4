@@ -7,7 +7,6 @@
     const sections = modal.querySelectorAll('.order-details-section');
     
     sections.forEach((section, index) => {
-      // Skip two-column-section (Advance Payment & Rates) - handled by CSS
       if (section.classList.contains('two-column-section')) {
         return;
       }
@@ -21,7 +20,6 @@
         existingMobileView.remove();
       }
       
-      // Also remove any existing mobile-detail-row elements that might be orphaned
       const orphanedRows = section.querySelectorAll('.mobile-detail-row');
       orphanedRows.forEach(row => row.remove());
       

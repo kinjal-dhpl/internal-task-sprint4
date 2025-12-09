@@ -1501,8 +1501,7 @@ if (Array.isArray(customerAddress) && customerAddress.length > 0 && addressMainG
       // Store order ID globally for later use
       window.currentOrderId = numericOrderId;
       
-      // Fetch order details immediately when order is opened
-      // Don't await here, let it fetch in background
+      // Fetch order details
       fetchOrderDetailsForEA(numericOrderId).catch(err => {
         console.error('Failed to fetch order details for EA:', err);
       });
@@ -2297,7 +2296,6 @@ function getPreferredPhoneNumber(orderData) {
            offGlobalLoader();
     }
     function formatPrice(num) {
-      // Directly format the number without recursion
       const numValue = Number(num || 0);
       if (isNaN(numValue)) {
         return '0.00';
@@ -2321,7 +2319,6 @@ function getPreferredPhoneNumber(orderData) {
         return;
       }
 
-      // Remove existing price box if it exists
       const existingPriceBox = orderDetailsContainer.querySelector('.advance-payment-info');
       if (existingPriceBox) {
         existingPriceBox.remove();
@@ -2371,7 +2368,6 @@ function getPreferredPhoneNumber(orderData) {
           apiResponse.forEach((priceData, index) => {
             console.log(`Processing priceData[${index}]:`, JSON.stringify(priceData, null, 2));
             
-            // Access nested properties correctly - try multiple possible paths
             const totalPriceRaw = priceData.totalPrice?.total ?? priceData.totalPrice ?? null;
             const partialPriceRaw = priceData.partialPrice?.total ?? priceData.partialPrice ?? null;
             const estimatedBalanceRaw = priceData.estimatedBalance ?? null;
@@ -2386,7 +2382,7 @@ function getPreferredPhoneNumber(orderData) {
               fullPriceData: priceData
             });
             
-            // Parse values - handle both string and number types, convert to string first if needed
+            // Parse values
             const totalPriceValue = totalPriceRaw != null ? parseFloat(String(totalPriceRaw)) : 0;
             const partialPriceValue = partialPriceRaw != null ? parseFloat(String(partialPriceRaw)) : 0;
             const estimatedBalanceValue = estimatedBalanceRaw != null ? parseFloat(String(estimatedBalanceRaw)) : 0;
@@ -2471,7 +2467,6 @@ function getPreferredPhoneNumber(orderData) {
         return;
       }
 
-      // Use a default advance amount (could be 0 or calculate from order summary)
       const advanceAmount = 0; // Will be updated when draft order is created
       const estimatedPrice = window.cartTotalValueAmt;
       const remainingAmount = estimatedPrice - advanceAmount;
@@ -2903,7 +2898,6 @@ function validateFormAndCreatePayload() {
 
     // Calculate price breakdown
     const advanceAmount = parseFloat(draftOrder.totalPrice.replace(/[^0-9.-]+/g, '')) || 0;
-    // Get estimated price from cartTotalValueAmt if available, otherwise calculate from cartTotal
     let estimatedPrice = 0;
     if (window.cartTotalValueAmt) {
       estimatedPrice = window.cartTotalValueAmt;
@@ -3077,7 +3071,6 @@ function validateFormAndCreatePayload() {
 
   // Fetch order details for EA page
   async function fetchOrderDetailsForEA(orderId) {
-    // Wait for the API function to be available with retry
     return new Promise((resolve, reject) => {
       const checkAndFetch = () => {
         if (typeof window.fetchOrderDetailsAPI !== 'function') {
@@ -3109,14 +3102,11 @@ function validateFormAndCreatePayload() {
 
   // Open product details modal for EA page - uses API data
   async function openProductDetailsModalEA(lineItemIndex) {
-    // If data not loaded, try to fetch it
     if (!window.orderDetailsData) {
-      // Check both currentOrderId (EA) and orderId (Accounts) for compatibility
       const orderIdFromContext = window.currentOrderId || window.orderId;
       
       if (orderIdFromContext) {
         try {
-          // Show loading state (you can add a loading spinner here if needed)
           await fetchOrderDetailsForEA(orderIdFromContext);
           
           if (window.orderDetailsData && typeof window.populateOrderDetailsModal === 'function') {

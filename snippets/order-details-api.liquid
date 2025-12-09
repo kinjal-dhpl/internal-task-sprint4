@@ -61,8 +61,6 @@
   // Make function globally available
   window.fetchOrderDetailsAPI = fetchOrderDetailsAPI;
   
-  // Auto-fetch order details if orderId is already set (for Accounts page)
-  // This function will be called immediately and also retry if orderId isn't set yet
   function autoFetchOrderDetails() {
     if (window.orderId && !window.orderDetailsData) {
       const currentOrderId = window.orderId;

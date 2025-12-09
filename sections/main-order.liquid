@@ -47,7 +47,7 @@
 
   window.fetchOrderDetailsForEA = fetchOrderDetailsForEA;
 
-  // Open product details modal - define early so it's available when HTML renders
+  // Open product details modal
   async function openProductDetailsModalEA(lineItemIndex) {
     if (!window.orderDetailsData) {
       const orderIdFromContext = window.currentOrderId || window.orderId;
@@ -740,15 +740,12 @@
 {% render 'populate-order-details-modal' %}
 
 <script>
-  // Initialize order ID immediately when snippets are loaded
-  // Extract numeric order ID from GID format and make it globally accessible
   {% assign order_gid = order.id %}
   {% assign order_id_numeric = order_gid | split: '/' | last %}
   window.orderId = '{{ order_id_numeric }}';
   window.currentOrderId = '{{ order_id_numeric }}'; // Also set for EA function compatibility
   window.orderDetailsData = null;
   
-  // Function to fetch order details immediately - will retry until API is available
   function fetchOrderDetailsOnLoad() {
     const currentOrderId = window.orderId;
     
@@ -767,7 +764,6 @@
     }
   }
   
-  // Start fetching immediately - will retry until API function is available
   fetchOrderDetailsOnLoad();
 </script>
 
@@ -859,13 +855,11 @@
       .replace(/^(.)/, (match, char) => char.toUpperCase());
   }
 
-  // Handle window resize - use global createMobileView function
   window.addEventListener('resize', function() {
     const modal = document.getElementById('productDetailsModal');
     if (modal && modal.classList.contains('show')) {
       const isMobile = window.innerWidth <= 768;
       if (isMobile && typeof window.createMobileView === 'function') {
-        // Remove all existing mobile views first to prevent duplicates
         modal.querySelectorAll('.mobile-card-view').forEach(view => view.remove());
         modal.querySelectorAll('.mobile-detail-row').forEach(row => row.remove());
         // Recreate mobile views
@@ -935,8 +929,6 @@
 
 <script>
   console.log({{ order }}, 'order object')
-  // Order ID should already be set in previous script block
-  // Ensure it's set if somehow it wasn't
   if (!window.orderId) {
     {% assign order_gid = order.id %}
     {% assign order_id_numeric = order_gid | split: '/' | last %}
@@ -952,7 +944,6 @@
   window.fetchOrderDetails = async function() {
     const currentOrderId = window.orderId;
     
-    // Wait for the API function to be available with retry
     return new Promise((resolve, reject) => {
       const checkAndFetch = () => {
         if (typeof window.fetchOrderDetailsAPI !== 'function') {
@@ -999,7 +990,6 @@
   // Call the function immediately
   window.initializeOrderDetailsFetch();
   
-  // Also try on DOMContentLoaded
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function() {
       if (!window.orderDetailsData) {
@@ -1007,13 +997,11 @@
       }
     });
   } else {
-    // DOM is already loaded
     if (!window.orderDetailsData) {
       window.initializeOrderDetailsFetch();
     }
   }
   
-  // Retry on window load if not loaded yet
   window.addEventListener('load', function() {
     const currentOrderId = window.orderId;
     if (!window.orderDetailsData && currentOrderId && currentOrderId !== 'null' && currentOrderId !== 'undefined' && currentOrderId !== '' && !isNaN(parseInt(currentOrderId)) && parseInt(currentOrderId) >= 1000000) {
