@@ -172,18 +172,21 @@
         "col_KdMLxg": {
           "type": "col",
           "settings": {
+            "image": "shopify://shop_images/occassion-circle.png",
             "text": "Occasion"
           }
         },
         "col_bRbBbT": {
           "type": "col",
           "settings": {
+            "image": "shopify://shop_images/personality-circle.png",
             "text": "Personality"
           }
         },
         "col_nYj9LB": {
           "type": "col",
           "settings": {
+            "image": "shopify://shop_images/lifestyle-circle.png",
             "text": "Lifestyle"
           }
         }
