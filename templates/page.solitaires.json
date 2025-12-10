@@ -22,10 +22,21 @@
       "settings": {
         "include_margins": true
       }
+    },
+    "custom_liquid_JWKghD": {
+      "type": "custom-liquid",
+      "name": "t:sections.custom-liquid.presets.name",
+      "settings": {
+        "custom_liquid": "<div id='diamondinstantinventory' data-apikey='a6f55402-2e62-4a1e-97dd-17785e81c1fa' height='1200px'style='height:1200px; width='100%'> </div>  <script src='https://instantinventory-widgets-cl59s.s3.amazonaws.com/diamonds/1.0.0/widget.js'></script>",
+        "color_scheme": "",
+        "padding_top": 40,
+        "padding_bottom": 24
+      }
     }
   },
   "order": [
     "main",
-    "170410171985c91777"
+    "170410171985c91777",
+    "custom_liquid_JWKghD"
   ]
 }
