@@ -2225,9 +2225,10 @@ function getPreferredPhoneNumber(orderData) {
                   if (item.properties && Object.keys(item.properties).length > 0) {
                     propertiesHTML = '<div class="product-properties">';
                     for (const [key, value] of Object.entries(item.properties)) {
-                       if (key.trim().toLowerCase() === "price") continue;
+                      const trimmedKey = key.trim();
+                      if (trimmedKey.toLowerCase() === "price" || trimmedKey.startsWith('_')) continue;
                       if (value && value.trim() !== '') {
-                        const normalizedKey = key.trim().toLowerCase();
+                        const normalizedKey = trimmedKey.toLowerCase();
                         // Check if it's a personalization image or fingerprint
                         const isPersonalizationImage = normalizedKey.startsWith('personalization image');
                         const isFingerprint = normalizedKey === 'fingerprint';
@@ -2237,14 +2238,14 @@ function getPreferredPhoneNumber(orderData) {
                           const isUrl = value.trim().includes('http://') || value.trim().includes('https://') || value.trim().includes('/uploads/');
                           if (isUrl) {
                             // Make the key itself a clickable link
-                            propertiesHTML += `<p class="item-props-elem" style="margin: 0;"><a href="${value.trim()}" target="_blank" style="color: #0056b3; text-decoration: none;">${key.trim()}</a></p>`;
+                            propertiesHTML += `<p class="item-props-elem" style="margin: 0;"><a href="${value.trim()}" target="_blank" style="color: #0056b3; text-decoration: none;">${trimmedKey}</a></p>`;
                           } else {
                             // Render normally if not a URL
-                            propertiesHTML += `<p class="item-props-elem">${key.trim()}: ${value.trim()}</p>`;
+                            propertiesHTML += `<p class="item-props-elem">${trimmedKey}: ${value.trim()}</p>`;
                           }
                         } else {
                           // Render normally
-                          propertiesHTML += `<p class="item-props-elem">${key.trim()}: ${value.trim()}</p>`;
+                          propertiesHTML += `<p class="item-props-elem">${trimmedKey}: ${value.trim()}</p>`;
                         }
                       }
                     }
