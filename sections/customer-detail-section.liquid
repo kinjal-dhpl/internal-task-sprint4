@@ -905,7 +905,7 @@
       <button class="continue-button" onclick="validateFormAndCreatePayload()">PROCEED TO PAYMENT</button>
     </div>
     <div class="order-navigation-buttons" id="payment-backButton">
-      <button class="back-button" onclick="paymentPageHandler('shipping')">BREAK SYNC</button>
+      <button class="back-button" onclick="paymentPageHandler('shipping')">CANCEL ORDER</button>
       <button class="continue-button" onclick="completeOrder()">PLACE ORDER</button>
     </div>
   </div>
@@ -1711,21 +1711,27 @@ if (Array.isArray(customerAddress) && customerAddress.length > 0 && addressMainG
                 <p>Metal finish: <span>${item?.customAttributes?.find(a => a?.key === 'gem 01')?.value || ''}</span></p>
                 ${(() => {
                   // Get personalization images
-                  const personalizationImages = [];
+                  let linksHTML = '';
                   for (let i = 1; i <= 5; i++) {
                     const imgAttr = item?.customAttributes?.find(a => a?.key === 'personalization image ' + i);
                     if (imgAttr?.value) {
-                      personalizationImages.push(imgAttr.value);
+                      const isUrl = imgAttr.value.includes('http://') || imgAttr.value.includes('https://') || imgAttr.value.includes('/uploads/');
+                      if (isUrl) {
+                        linksHTML += '<p style="margin: 0.6rem 0 0;"><a href="' + imgAttr.value + '" target="_blank" style="color: #0056b3; text-decoration: none;">personalization image ' + i + '</a></p>';
+                      }
                     }
                   }
                   
-                  // Display images if any exist
-                  if (personalizationImages.length > 0) {
-                    return '<div style="display: flex; gap: 4px; margin-top: 8px;">' + personalizationImages.map(img => 
-                      '<img src="' + img + '" alt="Personalization" style="width: 28px; height: 28px; object-fit: cover; border-radius: 3px; border: 1px solid #e0e0e0;" onerror="this.style.display=\'none\'">'
-                    ).join('') + '</div>';
+                  // Check for fingerprint
+                  const fingerprintAttr = item?.customAttributes?.find(a => a?.key === 'fingerprint');
+                  if (fingerprintAttr?.value) {
+                    const isUrl = fingerprintAttr.value.includes('http://') || fingerprintAttr.value.includes('https://') || fingerprintAttr.value.includes('/uploads/');
+                    if (isUrl) {
+                      linksHTML += '<p style="margin: 0.6rem 0 0;"><a href="' + fingerprintAttr.value + '" target="_blank" style="color: #0056b3; text-decoration: none;">Fingerprint</a></p>';
+                    }
                   }
-                  return '';
+                  
+                  return linksHTML;
                 })()}
                 <p class="view-all-product-details" onclick='openProductDetailsModalEA(${lineItemIndex})'>View All</p>
               </div>
@@ -2227,11 +2233,15 @@ function getPreferredPhoneNumber(orderData) {
                         const isFingerprint = normalizedKey === 'fingerprint';
                         
                         if (isPersonalizationImage || isFingerprint) {
-                          // Trim the URL to 30 characters max
-                          const trimmedValue = value.trim().length > 30 
-                            ? value.trim().substring(0, 30) + '...' 
-                            : value.trim();
-                          propertiesHTML += `<p class="item-props-elem" style="margin: 0;">${key.trim()}: <a href="${value.trim()}" target="_blank" style="color: #007bff; text-decoration: underline; cursor: pointer;">${trimmedValue}</a></p>`;
+                          // Check if value is a URL
+                          const isUrl = value.trim().includes('http://') || value.trim().includes('https://') || value.trim().includes('/uploads/');
+                          if (isUrl) {
+                            // Make the key itself a clickable link
+                            propertiesHTML += `<p class="item-props-elem" style="margin: 0;"><a href="${value.trim()}" target="_blank" style="color: #0056b3; text-decoration: none;">${key.trim()}</a></p>`;
+                          } else {
+                            // Render normally if not a URL
+                            propertiesHTML += `<p class="item-props-elem">${key.trim()}: ${value.trim()}</p>`;
+                          }
                         } else {
                           // Render normally
                           propertiesHTML += `<p class="item-props-elem">${key.trim()}: ${value.trim()}</p>`;

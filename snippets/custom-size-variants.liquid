@@ -139,7 +139,7 @@ let currentVariants = []; // this will always hold latest 12 variants data
       const urlVariant = url.searchParams.get('variant');
       const urlSize = url.searchParams.get('size');
       this.selectedVariantId = urlVariant || "{{ product.selected_or_first_available_variant.id }}";
-      this.selectedSize = urlSize ? urlSize : (isMale === 'true' ? '20' : '12');
+      this.selectedSize = urlSize ? urlSize : (isMale === 'true' ? '20' : '13');
       // Initialize variant configs from metafields
       this.initializeVariantConfigs();
       // NEW: Initialize Shopify variant prices
