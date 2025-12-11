@@ -161,10 +161,7 @@
                             <div id="partial-price-loader" class="partial-price-loader" aria-hidden="true">Calculating...</div>
                           </div>
                         </div>
-                          <h2 class="totals__total">{{ 'sections.cart.estimated_total' | t }}</h2>
-                          <p class="totals__total-value">
-                            <span class="ymq_cart_total_price" id="custom-subtotal-rerender">{{ price_total | money_with_currency }}</span>
-                          </p>
+                  
                         </div>
 
                 <small class="tax-note caption-large rte">
@@ -284,7 +281,17 @@
     }
   }
 
-  
+  // Lightweight debounce helper
+  function debounce(fn, wait) {
+    let t = null;
+    return function (...args) {
+      if (t) clearTimeout(t);
+      t = setTimeout(() => {
+        t = null;
+        fn.apply(this, args);
+      }, wait);
+    };
+  }
 
   // Fetch partial prices and update the UI (with loader + error handling)
   async function fetchAndUpdatePartialPrices() {
@@ -321,25 +328,26 @@
     }
   }
 
-  // Initial load
-  fetchAndUpdatePartialPrices();
+  // Initial load (debounced)
+  const debouncedUpdate = debounce(fetchAndUpdatePartialPrices, 500);
+  debouncedUpdate();
 
   // Observe the cart area and re-fetch whenever the DOM or input values change
   const cartContainer = document.querySelector('#cart') || document.querySelector('.cart__items') || document.querySelector('.cart');
   if (cartContainer) {
     try {
-      const observer = new MutationObserver(fetchAndUpdatePartialPrices);
+      const observer = new MutationObserver(debouncedUpdate);
       observer.observe(cartContainer, { childList: true, subtree: true, attributes: true });
     } catch (e) {
       // ignore observer errors
     }
-    cartContainer.addEventListener('change', fetchAndUpdatePartialPrices);
-    cartContainer.addEventListener('input', fetchAndUpdatePartialPrices);
+    cartContainer.addEventListener('change', debouncedUpdate);
+    cartContainer.addEventListener('input', debouncedUpdate);
     cartContainer.addEventListener('click', (e) => {
       const btn = e.target.closest('button');
       if (!btn) return;
       if (btn.matches('[data-action="increase"], [data-action="decrease"], .quantity__button, .cart__quantity-adjust') || /increment|decrement|plus|\+|−|-/i.test(btn.textContent)) {
-        fetchAndUpdatePartialPrices();
+        debouncedUpdate();
       }
     });
   }
@@ -366,17 +374,7 @@
   });
 
   function fetchShopifyCart() {
-    return fetch('/cart.js')
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Failed to fetch cart data');
-        }
-        return response.json();
-      })
-      .catch((error) => {
-        console.error('Error fetching cart:', error);
-        throw error;
-      });
+    return fetchCartData();
   }
   async function redirectToDraftCheckout(button) {
     const realCheckoutButton = button.closest('.custom--checkout-button').querySelector('button#checkout');
