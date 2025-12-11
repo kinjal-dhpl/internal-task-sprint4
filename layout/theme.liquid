@@ -922,18 +922,23 @@ document.addEventListener('DOMContentLoaded', function () {
         /* Modal - Fixed size for all devices */
         #chatbot-modal {
             position: fixed;
+            /* Remove top property and use bottom and right for positioning */
             bottom: 100px;
             right: 30px;
             width: 380px;
             height: 580px;
             background: white;
             border-radius: 12px;
-            box-shadow: 0 10px 24px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
             z-index: 10000;
             flex-direction: column;
             overflow: hidden;
             border: 1px solid var(--border);
             display: none;
+            /* Add these properties to ensure proper positioning */
+            max-height: calc(100vh - 120px); /* Ensure it doesn't exceed viewport height */
+            margin-top: auto; /* Push it to the bottom */
+
         }
 
         /* Header */
