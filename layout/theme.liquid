@@ -920,9 +920,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         
         /* Modal - Fixed size for all devices */
-        #chatbot-modal {
+       #chatbot-modal {
             position: fixed;
-            top: 5px;
+            /* Remove top property and use bottom and right for positioning */
             bottom: 100px;
             right: 30px;
             width: 380px;
@@ -935,6 +935,10 @@ document.addEventListener('DOMContentLoaded', function () {
             overflow: hidden;
             border: 1px solid var(--border);
             display: none;
+            /* Add these properties to ensure proper positioning */
+            max-height: calc(100vh - 120px); /* Ensure it doesn't exceed viewport height */
+            margin-top: auto; /* Push it to the bottom */
+
         }
 
         /* Header */
@@ -1443,39 +1447,47 @@ document.addEventListener('DOMContentLoaded', function () {
     </style>
 </head>
 <body>
-    <div id="ringexpert-chatbot" style="display:none;">
+    <div id="ringexpert-chatbot">
         <div id="chat-welcome-bubble">How Can I Help You?</div>
-        <div id="chatbot-icon">💬</div>
-        
+        <button id="chatbot-icon">💬</button>
+
         <div id="chatbot-modal">
             <div class="chatbot-header">
                 <div class="header-left">
-                    <img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/ringsandilogo.jpg?v=1753787193" alt="RINGS & I Logo">
+                    <img src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/ringsandilogo.jpg?v=1753787193" alt="RINGS & I Logo" width="40" height="40">
                     <span>AI. RingExpert</span>
                 </div>
                 <div class="header-close">✕</div>
             </div>
-            
-            <div class="chatbot-body">
-                <div class="content-area">
-                   <div class="prompt-box">
-    <div class="welcome-message">
-        <p class="title">Want to know more about RINGS & I?</p>
-        <p class="subtitle">Tap a Button or Start Typing</p>
-    </div>
 
-    <div class="buttons-container">
-        <div class="button-grid initial-options">
-            <button class="chat-option">What Is RINGS & I?</button>
-            <button class="chat-option">Where's Your Studio Location?</button>
-            <button class="chat-option">Difference Between Natural and Lab-Grown Diamonds?</button>
-            <button class="chat-option">What's the Price Range for Diamond Rings?</button>
-            <button class="chat-option">Which Metals Do You Use?</button>
-            <button class="chat-option see-more">see more...</button>
-        </div>
-    </div>
-</div>
-                    
+            <div class="chatbot-body">
+                <div id="chat-loader">
+                    <div class="loader-overlay">
+                        <div class="loader-dots">
+                            <span></span><span></span><span></span>
+                        </div>
+                        <div class="loader-text">Loading your previous chat...</div>
+                    </div>
+                </div>
+                <div class="content-area">
+                    <div class="prompt-box">
+                        <div class="welcome-message">
+                            <p class="title">Want to know more about RINGS & I?</p>
+                            <p class="subtitle">Tap a Button or Start Typing</p>
+                        </div>
+
+                        <div class="buttons-container">
+                            <div class="button-grid initial-options">
+                                <button class="chat-option">What Is RINGS & I?</button>
+                                <button class="chat-option">Where's Your Studio Location?</button>
+                                <button class="chat-option">Difference Between Natural and Lab-Grown Diamonds?</button>
+                                <button class="chat-option">What's Price Range for Diamond Rings?</button>
+                                <button class="chat-option">Which Metals Do You Use?</button>
+                                <button class="chat-option see-more">See More...</button>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="expanded-options" style="display:none;">
                         <button class="chat-option">What Is RINGS & I?</button>
                         <button class="chat-option">Where Is Your Studio?</button>
@@ -1484,24 +1496,53 @@ document.addEventListener('DOMContentLoaded', function () {
                         <button class="chat-option">Which Metals Do You Use?</button>
                         <button class="chat-option">Which Metal Purities Do You Offer?</button>
                         <button class="chat-option">What is the Delivery Time?</button>
-                        <button class="chat-option">Can I Customize My Ring?</button>
+                        <button class="chat-option">Can I Personalize My Ring?</button>
                         <button class="chat-option">Do You Have Engagement Rings?</button>
                         <button class="chat-option">How Can I Book an Appointment?</button>
-                        <button class="chat-option see-less">see less...</button>
+                        <button class="chat-option see-less">See less...</button>
                     </div>
-                    
+
                     <div class="message-container"></div>
                 </div>
-                
+
                 <div class="input-container">
                     <div class="input-wrapper">
                         <input type="text" placeholder="Type Anything..." class="chat-input" id="chat-input">
+                      
+                        <button class="voice-button" id="voice-button" title="Voice Input" >
+                            <!-- Default microphone icon -->
+                            <svg class="mic-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 15C13.6569 15 15 13.6569 15 12V5C15 3.34315 13.6569 2 12 2C10.3431 2 9 3.34315 9 5V12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M19 11V12C19 15.866 15.866 19 12 19C8.13401 19 5 15.866 5 12V11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 19V22" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M8 22H16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <!-- Recording icon - red circle with white square -->
+                            <div class="recording-icon"></div>
+                        </button>
                         <button class="send-button" id="send-button">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M22 2L11 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-                                <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M22 2L11 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                                <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" stroke-width="1.8"
+                                    stroke-linejoin="round" />
                             </svg>
                         </button>
+                       
+                        <div class="voice-indicator" id="voice-indicator" style="display: none;">
+                            listening...
+                            <div class="voice-waves">
+                                <div class="voice-wave"></div>
+                                <div class="voice-wave"></div>
+                                <div class="voice-wave"></div>
+                                <div class="voice-icon"></div>
+                                <div class="voice-wave"></div>
+                            </div>
+                        </div>
+                      
+                        <div class="voice-success" id="voice-success">
+                            
+                        </div>
                     </div>
                 </div>
             </div>
