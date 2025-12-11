@@ -1,0 +1,271 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "6a31473e-cd5a-457d-9aa1-2c2436c6dd4f": {
+      "type": "custom-liquid",
+      "disabled": true,
+      "settings": {
+        "custom_liquid": "{% comment %} Add this code to your Shopify liquid file where you want the video and product details to appear {% endcomment %}\n\n<div class=\"video-product-container\">\n  <div class=\"video-container\">\n    <video autoplay loop muted playsinline>\n      <source src=\"{{ product.metafields.custom.video_autoplay }}\" type=\"video/mp4\">\n      Your browser does not support the video tag.\n    </video>\n  </div>\n\n  <!-- Product Title and Description -->\n  <div class=\"product-details\">\n    <h2>{{ product.title }}</h2>\n    <p>{{ product.description }}</p>\n    <!-- Image below description, initially hidden -->\n    <img src=\"https://cdn.shopify.com/s/files/1/0843/6917/8903/files/WEBSITE_IMAGE_1.png?v=1708587305\" class=\"product-extra-image\" alt=\"Extra Product Image\">\n  </div>\n</div>\n\n<style>\n  .video-product-container {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    width: 100%;\n  }\n\n  .video-container {\n    width: 90%;\n    max-width: 800px;\n    margin: auto;\n  }\n\n  .video-container video {\n    width: 100%;\n    height: auto;\n  }\n\n  .product-details {\n    text-align: left;\n    padding: 0 10px;\n  }\n\n  .product-details h2 {\n    font-size: 20px; /* Default smaller font size for mobile */\n    margin-top: 20px;\n    padding: 0 10px;\n    font-weight: 900; /* Extra bold */\n    color: #BE868C; /* Rose gold color */\n  }\n\n  .product-details p {\n    font-size: 16px;\n    padding: 0 10px;\n  }\n\n  /* Initially hide the extra image on mobile */\n  .product-extra-image {\n    display: none;\n    width: 100%; /* Adjust width as needed */\n    max-width: 600px; /* Adjust max width as needed */\n    height: auto; /* Maintain aspect ratio */\n  }\n\n  @media only screen and (min-width: 768px) {\n    .video-product-container {\n      flex-direction: row;\n      align-items: flex-start;\n      padding: 0 10%;\n    }\n\n    .video-container {\n      width: 40%;\n      display: flex;\n      justify-content: center;\n    }\n\n    .video-container video {\n      max-width: 100%;\n    }\n\n    .product-details {\n      width: 50%; /* Adjusted width for more spacing */\n      text-align: left;\n      margin-left: 20px; /* Adjusted margin-left for spacing */\n    }\n\n    .product-details h2, .product-details p {\n      padding: 0; /* Remove padding for desktop */\n    }\n\n    .product-details h2 {\n      font-size: 28px; /* Increased font size for desktop */\n    }\n\n    .product-details p {\n      font-size: 18px; /* Adjusted font size for desktop */\n    }\n\n    /* Make the extra image visible only on laptop/desktop views */\n    .product-extra-image {\n      display: block;\n      margin-top: 20px; /* Add some space above the image */\n      margin-left: -20px; /* Increase left margin to move the image further to the right */\n    }\n  }\n</style>",
+        "color_scheme": "",
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title_x7JAg8": {
+          "type": "title",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "disabled": true,
+          "settings": {}
+        },
+        "5a9d82df-5f8a-4c52-b13d-fcd4c17f2078": {
+          "type": "complementary",
+          "settings": {
+            "block_heading": "Choose a variant",
+            "make_collapsible_row": false,
+            "icon": "price_tag",
+            "product_list_limit": 10,
+            "products_per_page": 4,
+            "pagination_style": "counter",
+            "image_ratio": "portrait",
+            "enable_quick_add": true
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "dropdown",
+            "swatch_shape": "circle"
+          }
+        },
+        "custom_size_RyyzDz": {
+          "type": "custom_size",
+          "settings": {}
+        },
+        "custom_buy_button_wRrVEz": {
+          "type": "custom_buy_button",
+          "disabled": true,
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true
+          }
+        },
+        "custom_price_breakdown_dXFdUQ": {
+          "type": "custom_price_breakdown",
+          "disabled": true,
+          "settings": {}
+        },
+        "variant_size_meta_info_Y7FAtw": {
+          "type": "variant-size-meta-info",
+          "disabled": true,
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "title_x7JAg8",
+        "price",
+        "5a9d82df-5f8a-4c52-b13d-fcd4c17f2078",
+        "variant_picker",
+        "custom_size_RyyzDz",
+        "custom_buy_button_wRrVEz",
+        "buy_buttons",
+        "custom_price_breakdown_dXFdUQ",
+        "variant_size_meta_info_Y7FAtw"
+      ],
+      "custom_css": [
+        ".price {margin-bottom: 0px; font-size: 18px; font-weight: bold;}",
+        ".product__title h2 {font-size: 14px !important; color: #be868c !important;}"
+      ],
+      "settings": {
+        "enable_price_breakdown_modal": true,
+        "enable_sticky_info": true,
+        "color_scheme": "background-1",
+        "media_size": "small",
+        "constrain_to_viewport": false,
+        "media_fit": "contain",
+        "gallery_layout": "thumbnail",
+        "media_position": "left",
+        "image_zoom": "none",
+        "mobile_thumbnails": "show",
+        "hide_variants": true,
+        "enable_video_looping": false,
+        "padding_top": 0,
+        "padding_bottom": 12
+      }
+    },
+    "fingerprint_file_upload_efFLTb": {
+      "type": "fingerprint-file-upload",
+      "disabled": true,
+      "settings": {
+        "title": "Fingerprint Customization",
+        "fee_notice": "Additional ₹2000 will be charged for fingerprint customization",
+        "upload_label": "Upload Fingerprint Image",
+        "notice_color": "#dd3333",
+        "max_file_size": 4,
+        "api_token": "",
+        "fingerprint_product": ""
+      }
+    },
+    "ring_sizer_ceLYTb": {
+      "type": "ring-sizer",
+      "disabled": true,
+      "settings": {
+        "heading_text": "Find Your Ring Size:",
+        "circle_color": "#d2ac47"
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "disabled": true,
+      "settings": {
+        "heading": "You may also like",
+        "heading_size": "h2",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "color_scheme": "background-1",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": true,
+        "show_rating": false,
+        "columns_mobile": "2",
+        "padding_top": 36,
+        "padding_bottom": 28
+      }
+    },
+    "custom_liquid_YdP4Y9": {
+      "type": "custom-liquid",
+      "disabled": true,
+      "settings": {
+        "custom_liquid": "<style>\n  .file-upload-container {\n    display: flex;\n    align-items: center;\n    margin-bottom: 6px;\n  }\n  .file-name {\n    margin-left: 10px;\n    font-style: italic;\n  }\n  .success-message {\n    color: green;\n    font-size: 14px;\n    margin-top: 4px;\n    display: none;\n    margin-left: 8px;\n  }\n  .note-text {\n    margin-bottom: 6px;\n    font-size: 14px;\n    color: #444;\n    margin-left: 8px;\n  }\n  .form__label {\n    margin-left: 8px;\n  }\n  .image-preview {\n    margin-top: 10px;\n    margin-left: 8px;\n    display: none;\n  }\n  .image-preview img {\n    max-width: 150px;\n    max-height: 150px;\n    border: 1px solid #ccc;\n    border-radius: 6px;\n  }\n</style>\n\n<div class=\"product-form__input\">\n  <label class=\"form__label\">Upload fingerprint image</label>\n  \n  <p class=\"note-text\">Additional ₹2000 will be charged for customization.</p>\n\n  <div class=\"file-upload-container\">\n    <input\n      id=\"file-your-label\"\n      name=\"properties[Your label]\"\n      style=\"display: none;\"\n      type=\"file\"\n      accept=\".jpg,.jpeg,.png,.pdf\" />\n    \n    <button id=\"button-your-label\" class=\"button\" type=\"button\">Upload File</button>\n    <p id=\"fileName-your-label\" class=\"file-name\">No file chosen</p>\n  </div>\n\n  <p id=\"successMessage\" class=\"success-message\">Image added successfully ✅</p>\n  <p id=\"errorMessage\" class=\"error-message\" style=\"display: none; margin-top: 0; color: red;\">Please upload your file(s).</p>\n\n  <!-- Image Preview Area -->\n  <div id=\"imagePreview\" class=\"image-preview\">\n    <img id=\"previewImg\" src=\"#\" alt=\"Preview\" />\n  </div>\n</div>\n\n<script>\n  document.addEventListener('DOMContentLoaded', function () {\n    const fileInput = document.getElementById('file-your-label');\n    const fileNameDisplay = document.getElementById('fileName-your-label');\n    const uploadButton = document.getElementById('button-your-label');\n    const successMessage = document.getElementById('successMessage');\n    const errorMessage = document.getElementById('errorMessage');\n    const previewDiv = document.getElementById('imagePreview');\n    const previewImg = document.getElementById('previewImg');\n\n    uploadButton.addEventListener('click', function () {\n      fileInput.click();\n    });\n\n    fileInput.addEventListener('change', function (event) {\n      const file = event.target.files[0];\n      if (!file) {\n        fileNameDisplay.textContent = 'No file chosen';\n        successMessage.style.display = 'none';\n        previewDiv.style.display = 'none';\n        return;\n      }\n\n      if (file.size > 20 * 1024 * 1024) {\n        errorMessage.textContent = 'File too large. Max size is 20MB.';\n        errorMessage.style.display = 'block';\n        successMessage.style.display = 'none';\n        previewDiv.style.display = 'none';\n        event.target.value = '';\n        fileNameDisplay.textContent = 'No file chosen';\n        return;\n      }\n\n      fileNameDisplay.textContent = file.name;\n      successMessage.style.display = 'block';\n      errorMessage.style.display = 'none';\n\n      // Show image preview if image type\n      if (file.type.startsWith('image/')) {\n        const reader = new FileReader();\n        reader.onload = function (e) {\n          previewImg.src = e.target.result;\n          previewDiv.style.display = 'block';\n        };\n        reader.readAsDataURL(file);\n      } else {\n        previewDiv.style.display = 'none'; // hide for non-image files\n      }\n    });\n  });\n</script>",
+        "color_scheme": "",
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "product_info_VaGAPD": {
+      "type": "product-info",
+      "name": "product_section",
+      "settings": {
+        "top_head": "Ring Dimensions and care instructions",
+        "care_instructions": "<ul><li>Clean with mild soap and warm water </li><li>Store separately to avoid scratches</li><li>Professional cleaning recommended annually</li><li>Avoid harsh chemicals and ultrasonic cleaners</li></ul>",
+        "important_info": "<ul><li>All Policies apply from date of purchase.</li><li>Original receipt required for all services.</li><li>Custom engraving may effect return eligibility.</li><li>All services avaiable for original purchaser.</li></ul>",
+        "policy_heading": "Simple, trasnparent policies designed to give you confidence in your products",
+        "policy_text_heading1": "15- Day Returns",
+        "policy_text_heading2": "Lifetime Exchange",
+        "policy_text_heading3": "Buyback Gurantee",
+        "policy_text_subheading1": "Full refund if not completely satisfied.",
+        "policy_text_subheading2": "Exchange for different style or size anytime.",
+        "policy_text_subheading3": "We buy back your ring at fair market price.",
+        "policy_text_desc1": "No questions asked, return policy within 15 days.",
+        "policy_text_desc2": "Free exchange service for the life of the product.",
+        "policy_text_desc3": "Transparent buyback process with certified appraisal."
+      }
+    },
+    "complete_your_set_pQULma": {
+      "type": "complete-your-set",
+      "name": "Complete your set",
+      "settings": {
+        "heading": "Complete your set",
+        "subtext": "Perfect pairing options to complement your solitaire ring",
+        "link_label": "View all stacking options",
+        "link_url": "shopify://collections",
+        "heading_size": "h2",
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 28
+      }
+    },
+    "product_manufacture_pKKXCy": {
+      "type": "Product-manufacture",
+      "blocks": {
+        "progress_step_YUmKUK": {
+          "type": "progress_step",
+          "settings": {
+            "step_title": "<p>Date 1: <strong>Design Confirmation</strong></p>",
+            "step_description": "Your ring design is finalized and approved for production",
+            "step_status": "Completed"
+          }
+        },
+        "progress_step_ewazyJ": {
+          "type": "progress_step",
+          "settings": {
+            "step_title": "<p>Date 2-3:<strong> Metal Preparation</strong></p>",
+            "step_description": "Pure gold/platinum is refined and prepared for casting",
+            "step_status": "Completed"
+          }
+        },
+        "progress_step_3FXHG3": {
+          "type": "progress_step",
+          "settings": {
+            "step_title": "<p>Date 4-5:<strong> Ring Casting</strong></p>",
+            "step_description": "Your ring band is cast using traditional lost-wax technique",
+            "step_status": "In Progress"
+          }
+        },
+        "progress_step_f6Hh9X": {
+          "type": "progress_step",
+          "settings": {
+            "step_title": "<p>Date 6-7: <strong>Stone Setting</strong></p>",
+            "step_description": "Certified diamond is carefully set by expert craftsmen",
+            "step_status": "Pending"
+          }
+        },
+        "progress_step_PwzWHg": {
+          "type": "progress_step",
+          "settings": {
+            "step_title": "<p>Date 8-9: <strong>Design Confirmation</strong></p>",
+            "step_description": "Your ring design is finalized and approved for production",
+            "step_status": "Pending"
+          }
+        },
+        "progress_step_xXMJq4": {
+          "type": "progress_step",
+          "settings": {
+            "step_title": "<p>Date 10-11:<strong> Ring Casting</strong></p>",
+            "step_description": "Your ring band is cast using traditional lost-wax technique",
+            "step_status": "Pending"
+          }
+        }
+      },
+      "block_order": [
+        "progress_step_YUmKUK",
+        "progress_step_ewazyJ",
+        "progress_step_3FXHG3",
+        "progress_step_f6Hh9X",
+        "progress_step_PwzWHg",
+        "progress_step_xXMJq4"
+      ],
+      "name": "Progress_Tracker",
+      "settings": {}
+    }
+  },
+  "order": [
+    "6a31473e-cd5a-457d-9aa1-2c2436c6dd4f",
+    "main",
+    "fingerprint_file_upload_efFLTb",
+    "ring_sizer_ceLYTb",
+    "related-products",
+    "custom_liquid_YdP4Y9",
+    "product_info_VaGAPD",
+    "complete_your_set_pQULma",
+    "product_manufacture_pKKXCy"
+  ]
+}
