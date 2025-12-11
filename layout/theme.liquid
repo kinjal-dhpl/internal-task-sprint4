@@ -922,7 +922,7 @@ document.addEventListener('DOMContentLoaded', function () {
         /* Modal - Fixed size for all devices */
         #chatbot-modal {
             position: fixed;
-            /* Remove top property and use bottom and right for positioning */
+            top: 5px;
             bottom: 100px;
             right: 30px;
             width: 380px;
@@ -935,9 +935,6 @@ document.addEventListener('DOMContentLoaded', function () {
             overflow: hidden;
             border: 1px solid var(--border);
             display: none;
-            /* Add these properties to ensure proper positioning */
-            max-height: calc(100vh - 120px); /* Ensure it doesn't exceed viewport height */
-            margin-top: auto; /* Push it to the bottom */
         }
 
         /* Header */
