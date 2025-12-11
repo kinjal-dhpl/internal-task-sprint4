@@ -1,0 +1,1421 @@
+@font-face {
+    font-family: 'Oregon LDO Medium';
+    src: url('https://cdn.shopify.com/s/files/1/0843/6917/8903/files/oregon_ldo_medium.ttf?v=1716311295') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Oregon LDO Bold';
+    src: url('https://cdn.shopify.com/s/files/1/0843/6917/8903/files/Oregon_LDO_Bold.woff?v=1763181110') format('woff');
+    font-weight: 700;
+    font-style: normal;
+}
+
+/* FONT FIX: Force Oregon LDO on all dynamically generated content */
+#ringexpert-chatbot *,
+.response-content,
+.response-content *,
+.point-text,
+.point-text *,
+.message.bot,
+.message.bot *,
+.response-container,
+.response-container *,
+.follow-up-btn,
+.follow-up-title,
+.typing-indicator,
+.font-fix,
+.font-fix * {
+    font-family: 'Oregon LDO Bold', 'san-serif' !important;
+    font-weight: 300 !important;
+}
+
+/* NUCLEAR FONT FIX - Override any inline styles or backend formatting */
+.response-container [style],
+.response-content [style],
+.point-text [style],
+.message.bot [style] {
+    font-family: 'Oregon LDO Bold', serif !important;
+    font-weight: 300 !important;
+}
+
+/* Force font on text nodes after DOM insertion */
+.response-container::after,
+.response-content::after {
+    font-family: 'Oregon LDO Medium', serif !important;
+}
+
+/* Links with Oregon LDO */
+.response-link,
+.highlight-link,
+.response-content a {
+    font-family: 'Oregon LDO Medium', serif !important;
+    font-weight: 400 !important;
+}
+
+/* Bold text with Oregon LDO */
+.response-content strong,
+.point-text strong {
+    font-family: 'Oregon LDO Medium', serif !important;
+    font-weight: 700 !important;
+}
+
+/* Base Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Oregon LDO Medium', serif;
+}
+
+#ringexpert-chatbot {
+    font-family: 'Oregon LDO Medium', serif;
+    --primary: #000000;
+    --secondary: #c9a45d;
+    --border: #e0e0e0;
+    --button-bg: #ecebe7;
+}
+
+/* Chat Icon */
+#chatbot-icon {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background: var(--primary);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10001;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    font-size: 28px;
+    transition: all 0.3s ease;
+    border: none !important;
+    outline: none !important;
+}
+
+/* Chatbot background with transparency */
+#chatbot-modal {
+    background-color: rgba(255, 255, 255, 0.7);
+    position: relative;
+    z-index: 1;
+}
+
+/* Background image with watermark effect */
+#chatbot-modal::before {
+    content: "";
+    background-image: url('https://cdn.shopify.com/s/files/1/0843/6917/8903/files/logo_in_black.png?v=1750913006');
+    background-size: 300px;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.08;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Smaller image size and reduced opacity on mobile */
+@media only screen and (max-width: 450px) {
+    #chatbot-modal::before {
+        background-size: 220px;
+        opacity: 0.05;
+    }
+}
+
+/* Add this before any mobile media queries */
+@keyframes zoomPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
+
+#chatbot-icon {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background: var(--primary);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10001;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    font-size: 28px;
+    /* Animation properties */
+    animation: zoomPulse 1.8s ease-in-out infinite;
+    -webkit-animation: zoomPulse 1.8s ease-in-out infinite;
+    will-change: transform;
+    transform-origin: center center;
+}
+
+/* Mobile-specific adjustments */
+@media only screen and (max-width: 450px) {
+    #chatbot-icon {
+        bottom: 20px;
+        right: 20px;
+        /* Ensure animation continues on mobile */
+        animation: zoomPulse 1.8s ease-in-out infinite !important;
+        -webkit-animation: zoomPulse 1.8s ease-in-out infinite !important;
+    }
+    
+    #chatbot-icon.hidden {
+        opacity: 0;
+        pointer-events: none;
+        /* Keep animation running when hidden */
+        animation: zoomPulse 1.8s ease-in-out infinite !important;
+        -webkit-animation: zoomPulse 1.8s ease-in-out infinite !important;
+    }
+}
+
+/* Welcome bubble */
+#chat-welcome-bubble {
+    position: fixed;
+    bottom: 100px;
+    right: 30px;
+    background: var(--primary);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 16px;
+    font-size: 11px;
+    z-index: 10000;
+    max-width: 160px;
+    line-height: 1.3;
+    opacity: 1;
+    display: block;
+}
+
+/* Mobile-specific styles */
+@media only screen and (max-width: 450px) {
+    #chatbot-modal {
+        width: 100% !important;
+        height: 100% !important;
+        max-height: 100% !important;
+        bottom: 0 !important;
+        right: 0 !important;
+        border-radius: 0 !important;
+        border: none !important;
+    }
+    
+    .chatbot-body {
+        height: calc(100% - 60px) !important;
+    }
+    
+    .content-area {
+        padding: 20px 20px 5px;
+        min-width: 0;
+        overflow-x: hidden;
+    }
+    
+    #chatbot-icon {
+        bottom: 20px;
+        right: 20px;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .message-container .message:last-child {
+    margin-bottom: 60px !important;
+    }
+
+    
+    #chatbot-icon.hidden {
+        opacity: 0;
+        pointer-events: none;
+        /* Ensure animation continues even when hidden */
+        animation: zoomPulse 1.8s ease-in-out infinite !important;
+        -webkit-animation: zoomPulse 1.8s ease-in-out infinite !important;
+    }
+    
+    /* Header adjustments for mobile */
+    .chatbot-header {
+        padding: 3px 15px;
+    }
+    
+    /* Logo sizing */
+    .header-left img {
+        width: 50px;
+        height: 50px;
+        margin-right: 10px;
+    }
+    
+    /* Welcome message adjustments */
+    .welcome-message .title {
+        font-size: 14px;
+    }
+    
+    .welcome-message .subtitle {
+        font-size: 12px;
+    }
+    
+    /* Button grid adjustments */
+    .button-grid, .expanded-options {
+        gap: 10px;
+    }
+    
+    .chat-option {
+        font-size: 10px;
+        min-height: 48px;
+    }
+}
+
+/* Modal - Fixed size for all devices */
+#chatbot-modal {
+            position: fixed;
+            /* Remove top property and use bottom and right for positioning */
+            bottom: 100px;
+            right: 30px;
+            width: 380px;
+            height: 580px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            z-index: 10000;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            display: none;
+            /* Add these properties to ensure proper positioning */
+            max-height: calc(100vh - 120px); /* Ensure it doesn't exceed viewport height */
+            margin-top: auto; /* Push it to the bottom */
+
+        }
+
+/* Remove top: 5px on mobile and make it full-height */
+@media only screen and (max-width: 450px) {
+    #chatbot-modal {
+        top: 0 !important;
+        bottom: 0 !important;
+        right: 0 !important;
+        left: 0 !important;
+        height: 100% !important;
+        width: 100% !important;
+        border-radius: 0 !important;
+        border: none !important;
+    }
+}
+
+/* Header */
+.chatbot-header {
+    background: var(--primary);
+    color: white;
+    padding: 3px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 1px;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.header-close {
+    font-size: 20px;
+    cursor: pointer;
+    line-height: 1;
+    transition: opacity 0.2s;
+}
+
+.header-close:hover {
+    opacity: 0.7;
+}
+
+/* Body */
+.chatbot-body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+.content-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 10px 10px;
+}
+
+.welcome-message {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.welcome-message .title {
+    font-family: 'Oregon LDO Medium', serif !important;
+    font-size: 14px;
+    font-weight: 300;
+    margin-bottom: 4px;
+    margin-top:10px;
+    color: var(--primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    text-align: center;
+    padding: 0 10px;
+}
+
+.welcome-message .subtitle {
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 16px;
+}
+
+/* Button grid - Always 2 columns */
+.button-grid,
+.expanded-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+    padding: 0 10px;
+}
+
+/* Prompt Button Style */
+.chat-option {
+    background:rgb(244, 244, 244);
+    color: #000000;
+    border: 1px solid #222;
+    border-radius: 15px;
+    padding: 12px px;
+    font-size: 11px;
+    font-family: 'Oregon LDO Medium', serif !important;
+    box-shadow: none;
+    cursor: pointer;
+    min-height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transition: all 0.2s ease-in-out;
+    width: 100%;
+}
+
+.chat-option:hover {
+    background-color:rgb(163,168,168);
+    border-color:rgb(10, 10, 10); /* Change border color to gold */
+    transform: translateY(-3px); /* Slightly more lift */
+    box-shadow: 0 6px 12px rgba(3, 3, 3, 0.15);
+}
+
+/* REMOVE MOBILE TAP HIGHLIGHT (iOS + Android)   */
+.chat-option,
+.chat-option * {
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
+    user-select: none !important;
+}
+
+/* FIX BLUE FLASH ON CLICK (iPhone Safari)       */
+.chat-option:active {
+    background-color: rgb(230, 222, 213) !important; /* Same as your hover color */
+    border-color: rgb(10, 10, 10) !important;
+    box-shadow: 0 6px 12px rgba(3, 3, 3, 0.15) !important;
+    outline: none !important;
+}
+
+/* REMOVE DOUBLE-TAP ZOOM when touching buttons  */
+.chat-option {
+    touch-action: manipulation !important;
+}
+
+/* See More / See Less Buttons */
+.chat-option.see-more,
+.chat-option.see-less {
+    background: transparent;
+    color: #555;
+    border: none;
+    text-transform: lowercase;
+    box-shadow: none;
+    padding: px;
+    min-height: auto;
+    height: auto;
+    text-align: center;
+    justify-content: center;
+}
+
+/* Messages container */
+.message-container {
+    padding: 0 0 15px;
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.message {
+    margin-bottom: 12px;
+    padding: 10px 14px;
+    border-radius: 18px;
+    max-width: 75%;
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+.bot {
+    background: #ffffff;
+    color: #000000;
+    margin-right: auto;
+    margin-left: 0;
+    border-radius: 18px;
+    border-bottom-left-radius: 4px;
+    padding: 10px 14px;
+    font-size: 11px;
+    line-height: 1.4;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    float: left;
+    clear: both;
+    text-align: left;
+}
+
+.user {
+    background: #f5f5f5;
+    color: #000000;
+    margin-left: auto;
+    margin-right: 0;
+    border-radius: 18px;
+    border-bottom-right-radius: 4px;
+    padding: 10px 14px;
+    font-size: 11px;
+    line-height: 1.4;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    float: right;
+    clear: both;
+    text-align: left;
+}
+
+/* Response container with improved visibility and proper alignment */
+.response-container {
+    margin-bottom: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 18px;
+    border-bottom-left-radius: 3px; /* 🔥 mirror of user bubble */
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    position: relative;
+    z-index: 2;
+    float: left;
+    clear: both;
+    max-width: 75%;
+    text-align: left;
+    margin-right: auto;
+    margin-left: 0;
+    word-wrap: break-word;
+}
+
+/* Input container */
+.input-container {
+    padding: 8px 20px;
+    border-top: 1px solid var(--border);
+    background: white;
+    position: sticky;
+    margin-top: 20px;
+}
+
+.response-link {
+    text-decoration: underline;
+    color: #0066cc;
+}
+
+.highlight-link {
+    color: #c9a45d; /* gold tone */
+    font-weight: 500;
+}
+
+.response-link:hover {
+    color: var(--primary); /* Black color */
+    text-decoration: none;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.chat-input {
+    width: 100%;
+    padding: 12px 70px 12px 15px; /* Adjusted padding to accommodate both buttons */
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+    background-color: #ffffff;
+    /* Remove transition to prevent focus/hover animations */
+    transition: none;
+}
+
+/* Remove focus styling completely */
+.chat-input:focus {
+    border-color: #e0e0e0; /* Keep the same border color as default */
+    box-shadow: none; /* Remove any box shadow */
+}
+
+/* Remove any hover effects */
+.chat-input:hover {
+    border-color: #e0e0e0; /* Keep the same border color */
+    background-color: #ffffff; /* Keep the same background */
+}
+
+/* Update listening and processing states with gold border color */
+.chat-input.listening {
+    border-color: var(--secondary) !important; /* Gold color from presentation */
+    background-color: #ffffff; /* Keep the same background */
+}
+
+.chat-input.processing {
+    border-color: var(--secondary) !important; /* Gold color from presentation */
+    background-color: #ffffff; /* Keep the same background */
+}
+
+/* Make input readonly during voice states */
+.chat-input.listening,
+.chat-input.processing {
+    cursor: not-allowed;
+    color: #999;
+}
+
+/* Send button */
+.send-button {
+    position: absolute;
+    right: 8px;
+    background: transparent;
+    border: none;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--primary);
+    padding: 0;
+    margin: 0;
+    transition: all 0.2s ease;
+}
+
+.send-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.send-button svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* Voice input button - */
+.voice-button {
+    position: absolute;
+    right: 40px; /* Position to the left of send button */
+    background: transparent;
+    border: none;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--primary);
+    padding: 0;
+    margin: 0;
+    transition: all 0.2s ease;
+    /* Ensure button stays in place during animation */
+    transform-origin: center;
+}
+
+/* Default microphone icon */
+.mic-icon {
+    width: 18px;
+    height: 18px;
+    display: block;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
+}
+
+/* Recording icon - red circle with white square */
+.recording-icon {
+    width: 20px;
+    height: 20px;
+    background-color: #ff0000;
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(244, 2, 2, 0.934);
+}
+
+.recording-icon::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    background-color: white;
+    display: block;
+    box-shadow: 0 0 2px rgba(255, 0, 0, 0.3), 0 0 4px rgba(235, 4, 4, 0.2);
+}
+
+/* Show recording icon when recording */
+.voice-button.recording .mic-icon {
+    display: none;
+}
+
+.voice-button.recording .recording-icon {
+    display: flex;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Recording animation with sound waves */
+.voice-button.recording::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(255, 0, 0, 0.1);
+    animation: soundWave 1.5s infinite;
+    z-index: -1;
+}
+
+.voice-button.recording::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: rgba(255, 0, 0, 0.2);
+    animation: soundWave 1.5s infinite 0.5s;
+    z-index: -1;
+}
+
+@keyframes soundWave {
+    0% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0.8;
+    }
+    70% {
+        transform: translate(-50%, -50%) scale(1.4);
+        opacity: 0;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0;
+    }
+}
+
+/* Voice recording indicator - */
+.voice-indicator {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    display: none;
+    white-space: nowrap;
+}
+
+.voice-indicator.show {
+    display: block;
+}
+
+/* Voice recording waves -*/
+.voice-waves {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 20px;
+    margin-left: 5px;
+}
+
+.voice-wave {
+    width: 3px;
+    height: 10px;
+    background-color: var(--secondary); /* Use chatbot secondary color */
+    margin: 0 2px;
+    border-radius: 3px;
+    animation: wave 1.2s infinite ease-in-out;
+}
+
+.voice-wave:nth-child(2) {
+    animation-delay: -1.1s;
+}
+
+.voice-wave:nth-child(3) {
+    animation-delay: -1.0s;
+}
+
+.voice-wave:nth-child(4) {
+    animation-delay: -0.9s;
+}
+
+.voice-wave:nth-child(5) {
+    animation-delay: -0.8s;
+}
+
+@keyframes wave {
+    0%, 40%, 100% {
+        transform: scaleY(0.4);
+    }
+    20% {
+        transform: scaleY(1);
+    }
+}
+
+/* Voice success notification - MODIFIED */
+.voice-success {
+    position: absolute;
+    top: -50px; /* Moved higher up from -30px to -50px */
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(201, 163, 93, 0.82); /* Use chatbot secondary color */
+    color: white;
+    padding: 8px 12px; /* Increased padding for better visibility */
+    border-radius: 15px;
+    font-size: 12px;
+    display: none;
+    white-space: nowrap;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Added shadow for better visibility */
+}
+
+.voice-success.show {
+    display: block;
+    animation: fadeInOut 0.3s ease-in-out;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+.prompt-box {
+    border: 1px solid #222;
+    border-radius: 16px;
+    padding: 10px 16px;
+    margin: 0 10px 20px;
+    background: rgba(255, 255, 255, 0.7) !important;
+    box-shadow: none;
+    min-width: 0;
+    max-width: 100%;
+}
+
+.prompt-box.no-border {
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+}
+
+/* Typing indicator */
+.typing-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 16px;
+    background: #ffffff;
+    border-radius: 18px;
+    border: 1px solid #e0e0e0;
+    width: fit-content;
+    max-width: 75%;
+    margin-right: auto;
+    margin-left: 0;
+    min-width: 60px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    float: left;
+    clear: both;
+}
+
+.typing-dots {
+    display: flex;
+    align-items: center;
+    height: 20px;
+    gap: 4px;
+}
+
+.typing-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #000;
+    border-radius: 50%;
+    animation: typingAnimation 1.4s infinite ease-in-out;
+}
+
+.typing-dot:nth-child(1) {
+    animation-delay: 0s;
+}
+.typing-dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+.typing-dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typingAnimation {
+    0%, 60%, 100% { 
+        transform: translateY(0);
+        opacity: 0.4;
+    }
+    30% { 
+        transform: translateY(-4px);
+        opacity: 1;
+    }
+}
+
+/* Mobile adjustments */
+@media only screen and (max-width: 450px) {
+    .typing-indicator {
+        padding: 10px 14px;
+        min-width: 50px;
+    }
+    .typing-dot {
+        width: 6px;
+        height: 6px;
+    }
+}
+
+/* Response container styling 
+.response-container {
+    margin-bottom: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.8);
+}*/
+.response-container a {
+    white-space: nowrap;
+    word-break: keep-all;
+    overflow-wrap: normal;
+    display: inline-block;
+}
+
+/* Response content styling */
+.response-content {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* Point formatting */
+.response-point {
+    display: flex;
+    margin-bottom: 20px;
+    align-items: flex-start;
+}
+
+.point-icon {
+    color: var(--secondary);
+    margin-right: 10px;
+    flex-shrink: 0;
+    margin-top: 3px;
+}
+
+.point-text {
+    flex: 1;
+}
+
+/* Links styling */
+.response-link {
+    color: var(--secondary);
+    text-decoration: underline;
+    word-break: break-all;
+}
+
+.response-link:hover {
+    color: var(--primary);
+}
+
+/* Follow-up questions styling */
+.follow-up-container {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px dashed #e0e0e0;
+}
+
+.follow-up-title {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 12px;
+    font-weight: 500;
+}
+
+.follow-up-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+/* Ensure the typing indicator is visible */
+.message.bot {
+    background: white;
+    border: 1px solid #e0e0e0;
+    padding: 10px 14px;
+    margin: 8px 0;
+}
+
+/* Typing indicator */
+.typing-indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: #666;
+    background: #ffffff;
+    border-radius: 18px;
+    border: 1px solid #e0e0e0;
+    width: fit-content;
+    max-width: 75%;
+    margin-right: auto;
+}
+
+.typing-text {
+    margin-right: 6px;
+    font-family: 'Oregon LDO Medium', serif !important;
+    font-size: 13px;
+}
+
+.typing-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #666;
+    border-radius: 50%;
+    animation: typingAnimation 1.4s infinite ease-in-out;
+}
+
+.typing-dot:nth-child(1) {
+    animation-delay: 0s;
+}
+.typing-dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+.typing-dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typingAnimation {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-5px); }
+}
+
+/* Mobile-specific typing indicator */
+@media only screen and (max-width: 450px) {
+    .typing-indicator {
+        padding: 10px 14px;
+        font-size: 12px;
+    }
+    .typing-text {
+        font-size: 12px;
+    }
+    .typing-dot {
+        width: 7px;
+        height: 7px;
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    /* Ensure typing indicator is visible on mobile */
+    .message.bot.typing {
+        margin-left: 10px;
+        margin-right: auto;
+    }
+    
+    .typing-indicator {
+        gap: 6px;
+        padding: 6px 0;
+    }
+    
+    .content-area {
+        -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    }
+}
+
+/* Add this to your existing CSS */
+.response-content strong,
+.point-text strong {
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.follow-up-btn {
+    background: transparent;
+    color: var(--primary);
+    border: 1px solid var(--primary);
+    border-radius: 16px;
+    padding: 10px 14px;
+    font-size: 11px;
+    font-family: 'Oregon LDO Medium', serif !important;
+    font-weight: 300 !important; /* Match the light weight */
+    letter-spacing: 0.5px; /* Optional: Improve readability */
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s ease;
+    width: 100%;
+}
+
+.follow-up-btn:hover {
+    background: rgb(163,168,168).; 
+    border-color: rgba(12, 4, 4, 0.93); /* Change border color to gold */
+    transform: translateY(-2px); /* Lift up on hover */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+#message-container {
+    overflow-y: auto;
+    height: 100%;
+    padding: 20px 10px 80px 10px; /* <-- Add enough bottom padding */
+    box-sizing: border-box;
+}
+
+/* Desktop Header - Enlarge Logo & Text */
+@media (min-width: 451px) {
+    .header-left {
+        gap: 5px !important; /* Increase spacing between logo and text */
+    }
+    
+    .header-left span {
+        font-size: 24px !important; /* Title text size (from 18px) */
+        font-weight: 400 !important; /* Optional: makes text bolder */
+    }
+    
+    .header-left img {
+        width: 70px !important;  /* Increased from default */
+        height: 70px !important; /* Maintain aspect ratio */
+        margin-right: 12px !important; /* Add more spacing */
+    }
+}
+
+@media (min-width: 451px) {
+    .chatbot-header {
+        padding: 3px 15px !important; /* Same as mobile */
+    }
+    
+    .header-left {
+        font-size: 14px !important; /* Same as mobile */
+    }
+    
+    .header-left img {
+        width: 50px !important; /* Same as mobile */
+        height: 50px !important;
+    }
+}
+
+/* Reduce desktop background image size only */
+@media (min-width: 451px) {
+    #chatbot-modal::before {
+        background-size: 220px; /* Matches mobile size */
+        /* opacity remains 0.3 (unchanged) */
+    }
+}
+
+/* Reduce desktop top spacing */
+@media (min-width: 451px) {
+    .prompt-box {
+        padding-top: 10px !important; /* Reduced from 20px */
+        margin-top: 0 !important; /* Remove default margin */
+    }
+    
+    .welcome-message {
+        margin-bottom: 12px !important; /* Reduced from 24px */
+    }
+    
+    .welcome-message .title {
+        margin-bottom: 2px !important; /* Reduced from 4px */
+    }
+}
+
+/* Remove button shadows from all buttons on all devices */
+.chat-option {
+    box-shadow: none !important;
+}
+
+/* 1. GLOBAL FONT FORCE */
+/* 1. NUCLEAR OPTION - Force Oregon LDO everywhere */
+#ringexpert-chatbot *:not(input):not(button):not(textarea):not(select),
+#ringexpert-chatbot ::before,
+#ringexpert-chatbot ::after {
+    font-family: 'Oregon LDO Medium', serif !important;
+    font-weight: 300 !important;
+}
+
+/* 2. Handle dynamic content specifically */
+.response-container *,
+.message.bot * {
+    font-family: inherit !important;
+}
+
+/* 3. Bullet points */
+.response-point::before {
+    content: "•";
+    font-family: 'Oregon LDO Medium', serif !important;
+}
+
+/* 4. Links */
+.response-link,
+.highlight-link,
+.response-content a {
+    font-family: 'Oregon LDO Medium', serif !important;
+    font-weight: 400 !important; /* Slightly bolder for links */
+}
+
+/* Add to your existing CSS */
+.follow-up-container {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px dashed #e0e0e0;
+}
+
+.follow-up-title {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.follow-up-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+}
+
+.follow-up-btn {
+    background: transparent;
+    color: var(--primary);
+    border: 1px solid var(--primary);
+    border-radius: 16px;
+    padding: 8px 12px;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+}
+
+.follow-up-btn:hover {
+    background: rgb(163,168,168);
+}
+
+.follow-up-btn.clicked {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Add these to your existing styles */
+@keyframes zoomPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.15);
+    }
+}
+
+#chatbot-icon {
+    animation: zoomPulse 1.8s ease-in-out infinite !important;
+    will-change: transform;
+    transform-origin: center center;
+}
+
+/* --- Loader overlay --- */
+/* --- 🔸 Chat Loader (Updated for desktop + mobile overlay) --- */
+#chat-loader {
+    display: none;
+    /* Hidden by default */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.85);
+    /* Light overlay */
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    backdrop-filter: blur(2px);
+}
+
+/* 🔸 Centered loader container */
+.loader-overlay {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 🔸 Animated dots */
+.loader-dots {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+    gap: 6px;
+}
+
+.loader-dots span {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background-color: #444;
+    border-radius: 50%;
+    animation: bounce 1.4s infinite ease-in-out both;
+}
+
+.loader-dots span:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.loader-dots span:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+@keyframes bounce {
+    0%, 80%, 100% {
+        transform: scale(0);
+    }
+    40% {
+        transform: scale(1);
+    }
+}
+
+/* 🔸 Loader text */
+.loader-text {
+    font-size: 14px;
+    color: #333;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+}
+
+/* 🔸 Smooth fade animations */
+#chat-loader.fade-in {
+    animation: fadeIn 0.3s ease forwards;
+}
+
+#chat-loader.fade-out {
+    animation: fadeOut 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+/* --- 🔸 Mobile loader fix: center overlay across full screen --- */
+@media only screen and (max-width: 450px) {
+    #chat-loader {
+        position: fixed !important;
+        /* Cover the entire viewport */
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100dvh !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background: rgba(255, 255, 255, 0.9) !important;
+        /* Same soft white overlay */
+        z-index: 99999 !important;
+        backdrop-filter: blur(2px);
+    }
+
+    .loader-overlay {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .loader-dots span {
+        width: 8px;
+        height: 8px;
+    }
+
+    .loader-text {
+        font-size: 13px;
+        color: #222;
+    }
+}
+
+/* Notification styles */
+.notification {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 15px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    z-index: 10001;
+    max-width: 90%;
+    text-align: center;
+    line-height: 1.4;
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateX(-50%) translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+    }
+}
+.welcome-msg {
+    margin-bottom: 60px !important;
+}
