@@ -1283,6 +1283,7 @@
           method: "GET",
           redirect: "follow"
         };
+        // API call: GET customer by ID -> `${window.EA_MODULE_BASE_URL}/customers/${customerID}`
         fetch(`${window.EA_MODULE_BASE_URL}/customers/${customerID}`, requestOptions)
           .then((response) => {
             if (!response.ok) {
@@ -1457,6 +1458,7 @@ if (Array.isArray(customerAddress) && customerAddress.length > 0 && addressMainG
               method: "GET",
               redirect: "follow"
             };
+            // API call: GET order details -> `${window.EA_MODULE_BASE_URL}/orders/${orderID}`
             fetch(`${window.EA_MODULE_BASE_URL}/orders/${orderID}`, requestOptions)
               .then((response) => {
                 if (!response.ok) {
@@ -2017,6 +2019,7 @@ function getPreferredPhoneNumber(orderData) {
             lineItemId: lineId
           };
 
+          // API call: POST status update -> `${window.EA_MODULE_BASE_URL}/gati/status-update`
           const response = await fetch(`${window.EA_MODULE_BASE_URL}/gati/status-update`, {
             method: 'POST',
             headers: { 
@@ -2174,6 +2177,7 @@ function getPreferredPhoneNumber(orderData) {
       async function createNewOrder() {
          onGlobalLoader();
         
+            // Local API call: GET cart -> `/cart.js`
             const response = await fetch('/cart.js');
             const result = await response.json();
             const cartItems = result.items;
@@ -2531,6 +2535,7 @@ function getPreferredPhoneNumber(orderData) {
         redirect: "follow"
       };
 
+    // API call: GET store locations -> `${window.EA_MODULE_BASE_URL}/orders/locations`
     fetch(`${window.EA_MODULE_BASE_URL}/orders/locations`, requestOptions)
       .then((response) => {
             if (!response.ok) {
@@ -2590,6 +2595,7 @@ function getPreferredPhoneNumber(orderData) {
 
         const orderId = select.getAttribute('order-Id');
        
+        // API call: PUT QC status -> `${window.EA_MODULE_BASE_URL}/orders/${orderId}/qc-status`
         fetch(`${window.EA_MODULE_BASE_URL}/orders/${orderId}/qc-status`, requestOptions)
           .then((response) => {
             if (!response.ok) {
@@ -2736,8 +2742,12 @@ function validateFormAndCreatePayload() {
 
     payload.shippingAddress = null;
     payload.billingAddress = getAddress('billing');
-    payload.pickupLocationId = storeId;
     
+    let cleanStoreId = storeId;
+    cleanStoreId = cleanStoreId.split('?')[0].trim();
+    payload.pickupLocationId = cleanStoreId;
+
+
     if (ringExpertRequired) {
       if (!ringExpertValue) {
         offGlobalLoader();
@@ -2774,6 +2784,7 @@ function validateFormAndCreatePayload() {
           redirect: "follow"
         };
 
+      // API call: POST draft order (Endless Aisle) -> `${window.EA_MODULE_BASE_URL}/draft-orders/endless-aisle`
       fetch(`${window.EA_MODULE_BASE_URL}/draft-orders/endless-aisle`, requestOptions)
       .then((response) => {
             if (!response.ok) {
@@ -2843,6 +2854,7 @@ function validateFormAndCreatePayload() {
               }
             };
 
+            // API call: GET draft order status -> `${window.EA_MODULE_BASE_URL}/draft-orders/${draftOrderId}/status`
             fetch(`${window.EA_MODULE_BASE_URL}/draft-orders/${draftOrderId}/status`, requestOptions)
               .then(response => {
                 if (!response.ok) {
@@ -3236,6 +3248,7 @@ function validateFormAndCreatePayload() {
       if (currentApiType === 'statusChange') {
         onGlobalLoader();
 
+        // API call: POST status update (retry) -> `${window.EA_MODULE_BASE_URL}/gati/status-update`
         response = await fetch(`${window.EA_MODULE_BASE_URL}/gati/status-update`, {
           method: 'POST',
           headers: {
@@ -3304,6 +3317,7 @@ function validateFormAndCreatePayload() {
           return;
         }
 
+        // API call: PATCH tracking info -> `${window.EA_MODULE_BASE_URL}/orders/tracking-info`
         response = await fetch(`${window.EA_MODULE_BASE_URL}/orders/tracking-info`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
@@ -3428,6 +3442,7 @@ function validateFormAndCreatePayload() {
 
     try {
       onGlobalLoader(); // show loader
+      // API call: POST manual payment -> `${window.EA_MODULE_BASE_URL}/orders/manual-payment`
       const response = await fetch(`${window.EA_MODULE_BASE_URL}/orders/manual-payment`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -3557,6 +3572,7 @@ function validateFormAndCreatePayload() {
     button.innerHTML = '<span class="loading"></span>';
 
     try {
+      // API call: POST generate OTP -> `${window.EA_MODULE_BASE_URL}/otp/generate`
       const response = await fetch(`${window.EA_MODULE_BASE_URL}/otp/generate`, {
         method: 'POST',
         headers: {
@@ -3602,6 +3618,7 @@ function validateFormAndCreatePayload() {
     button.innerHTML = '<span class="loading"></span>';
 
     try {
+      // API call: POST verify OTP -> `${window.EA_MODULE_BASE_URL}/otp/verify`
       const response = await fetch(`${window.EA_MODULE_BASE_URL}/otp/verify`, {
         method: 'POST',
         headers: {
@@ -3656,6 +3673,7 @@ function validateFormAndCreatePayload() {
     resendButton.disabled = true;
 
     try {
+      // API call: POST resend OTP -> `${window.EA_MODULE_BASE_URL}/otp/resend`
       const response = await fetch(`${window.EA_MODULE_BASE_URL}/otp/resend`, {
         method: 'POST',
         headers: {
@@ -3810,6 +3828,7 @@ function validateFormAndCreatePayload() {
     buttonText.textContent = 'Sending...';
 
     try {
+      // API call: POST send invoice -> `${window.EA_MODULE_BASE_URL}/orders/${currentInvoiceOrderId}/send-invoice`
       const response = await fetch(`${window.EA_MODULE_BASE_URL}/orders/${currentInvoiceOrderId}/send-invoice`, {
         method: 'POST',
         headers: {

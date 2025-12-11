@@ -667,8 +667,9 @@ button.apply-btn {
          <h2 class="shipping-title">Select Store</h2> 
           <div class="store-list"></div>
         </div>
-         <div id="billing--address">
-             <h2 class="shipping-title">Billing</h2>
+
+        <div id="billing--address">
+            <h2 class="shipping-title">Billing</h2>
             <div class="form-row">
             <div class="form-group half">
               <label for="firstName">First Name<span class="lable-required">*</span></label>
@@ -719,6 +720,14 @@ button.apply-btn {
               <input id="phone" name="billing-phone" type="tel" class="form-input" required maxlength="10">
             </div>
           </div>
+          {% if customer %}
+          <div class="form-group" id="save-billing-address-container" style="display:none; margin-top:0.5rem;">
+            <label>
+              <input type="checkbox" id="save-billing-address" name="save-billing-address" value="1">
+              Save this billing address
+            </label>
+          </div>
+          {% endif %}
         </div>
      </div>
       <div class="pan-card-section">
@@ -919,6 +928,227 @@ button.apply-btn {
     }
   }
 
+  function fillBillingFromDataset(data) {
+  function setByName(name, value) {
+    const el = document.querySelector('input[name="' + name + '"]') ||
+              document.querySelector('#' + name);
+    if (el) el.value = value || '';
+  }
+  setByName('billing-firstName', data.firstName || '');
+  setByName('billing-lastName', data.lastName || '');
+  setByName('billing-address1', data.address1 || '');
+  setByName('billing-address2', data.address2 || '');
+  setByName('billing-country', data.country || '');
+  setByName('billing-province', data.province || '');
+  setByName('billing-city', data.city || '');
+  setByName('billing-pincode', data.pincode || '');
+  setByName('billing-phone', data.phone || '');
+}
+
+function clearBillingFields() {
+  const names = [
+    'billing-firstName','billing-lastName','billing-address1','billing-address2',
+    'billing-country','billing-province','billing-city','billing-pincode','billing-phone'
+  ];
+  names.forEach(n => {
+    const el = document.querySelector('input[name="' + n + '"]') ||
+              document.querySelector('#' + n);
+    if (el) el.value = '';
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  const savedRadios = document.querySelectorAll('input[name="saved-address"]');
+  const saveContainer = document.getElementById('save-billing-address-container');
+  const saveCheckbox = document.getElementById('save-billing-address');
+
+  function handleSavedRadioChange(radio) {
+    if (!radio) return;
+
+    if (radio.value === 'new') {
+      clearBillingFields();
+      if (saveContainer) saveContainer.style.display = '';
+    } else {
+      fillBillingFromDataset(radio.dataset);
+      if (saveContainer) {
+        saveContainer.style.display = 'none';
+        if (saveCheckbox) saveCheckbox.checked = false;
+      }
+    }
+  }
+
+  savedRadios.forEach(radio => {
+    radio.addEventListener('change', function() {
+      handleSavedRadioChange(this);
+    });
+  });
+
+  const initiallyChecked = document.querySelector('input[name="saved-address"]:checked');
+  if (initiallyChecked) handleSavedRadioChange(initiallyChecked);
+});
+
+// Apply a selected customer
+function applyEndlessAisleCustomer(customer) {
+  if (!customer) return;
+
+  const firstName = customer.firstName || customer.first_name || '';
+  const lastName = customer.lastName || customer.last_name || '';
+
+  let addr = null;
+  if (customer.addresses && customer.addresses.length > 0) addr = customer.addresses[0];
+  else if (customer.defaultAddress) addr = customer.defaultAddress;
+
+  const data = {
+    firstName,
+    lastName,
+    address1: addr ? (addr.address1 || addr.address || '') : '',
+    address2: addr ? (addr.address2 || '') : '',
+    country: addr ? (addr.country || '') : (customer.country || ''),
+    province: addr ? (addr.province || addr.region || '') : '',
+    city: addr ? (addr.city || '') : '',
+    pincode: addr ? (addr.zip || addr.postalCode || '') : '',
+    phone: (customer.defaultPhoneNumber && customer.defaultPhoneNumber.phoneNumber) ||
+           customer.phone ||
+           (addr && addr.phone) ||
+           ''
+  };
+
+  fillBillingFromDataset(data);
+
+  const saveContainer = document.getElementById('save-billing-address-container');
+  const saveCheckbox = document.getElementById('save-billing-address');
+  if (saveContainer) saveContainer.style.display = 'none';
+  if (saveCheckbox) saveCheckbox.checked = false;
+
+  const ringInput = document.getElementById('ring-expert-input');
+  if (ringInput) ringInput.value = (firstName + ' ' + lastName).trim();
+
+  renderClientSavedAddresses(customer);
+}
+
+window.addEventListener('endlessAisleCustomerSelected', function(e) {
+  const customer = e?.detail || null;
+  applyEndlessAisleCustomer(customer);
+});
+
+function renderClientSavedAddresses(customer) {
+  if (!customer) return;
+
+  let savedContainer = document.querySelector('.saved-addresses');
+  if (!savedContainer) {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'saved-addresses';
+    wrapper.innerHTML = `
+      <h2 class="shipping-title">Saved Addresses</h2>
+      <div class="store-list client-store-list"></div>
+    `;
+    const billing = document.getElementById('billing--address');
+    if (billing && billing.parentNode) billing.parentNode.insertBefore(wrapper, billing);
+    savedContainer = wrapper;
+  }
+
+  const listEl = savedContainer.querySelector('.client-store-list') ||
+                 savedContainer.querySelector('.store-list');
+  if (!listEl) return;
+
+  let addrs = [];
+  if (Array.isArray(customer.addresses) && customer.addresses.length) addrs = customer.addresses;
+  else if (customer.addressesV2?.nodes) addrs = customer.addressesV2.nodes;
+  else if (customer.defaultAddress) addrs = [customer.defaultAddress];
+
+  let html = '';
+
+  addrs.forEach((addr, idx) => {
+    const id = addr.id || ('ea-' + idx);
+    const first = addr.firstName || addr.first_name || '';
+    const last = addr.lastName || addr.last_name || '';
+    const a1 = addr.address1 || addr.address || '';
+    const a2 = addr.address2 || '';
+    const city = addr.city || '';
+    const prov = addr.province || addr.region || '';
+    const zip = addr.zip || addr.postalCode || addr.zipCode || '';
+    const country = addr.country || '';
+    const phone = addr.phone || '';
+
+    html += `
+      <label class="store-option saved-address-option client-address-option">
+        <input type="radio" name="saved-address" value="${id}"
+          class="saved-address-radio client-saved-address-radio"
+          data-first-name="${escapeHtml(first)}"
+          data-last-name="${escapeHtml(last)}"
+          data-address1="${escapeHtml(a1)}"
+          data-address2="${escapeHtml(a2)}"
+          data-country="${escapeHtml(country)}"
+          data-province="${escapeHtml(prov)}"
+          data-city="${escapeHtml(city)}"
+          data-pincode="${escapeHtml(zip)}"
+          data-phone="${escapeHtml(phone)}">
+        <div class="store-details">
+          <h4>${escapeHtml(first)} ${escapeHtml(last)}</h4>
+          <p>${escapeHtml(a1)}${a2 ? ', ' + escapeHtml(a2) : ''}</p>
+          <p>${escapeHtml(city)}${(city && prov) ? ', ' : ''}${escapeHtml(prov)} ${escapeHtml(zip)}</p>
+          <p>${escapeHtml(country)}</p>
+          <p>${escapeHtml(phone)}</p>
+        </div>
+      </label>`;
+  });
+
+  html += `
+    <label class="store-option saved-address-option client-address-option">
+      <input type="radio" name="saved-address" value="new" class="saved-address-radio client-saved-address-radio" checked>
+      <div class="store-details"><h4>Use a new billing address</h4></div>
+    </label>`;
+
+  listEl.innerHTML = html;
+
+  const clientRadios = listEl.querySelectorAll('.client-saved-address-radio');
+  clientRadios.forEach(r =>
+    r.addEventListener('change', function() {
+      if (this.value === 'new') clearBillingFields();
+      else fillBillingFromDataset(this.dataset);
+    })
+  );
+
+  savedContainer.style.display = '';
+}
+
+function escapeHtml(s) {
+  if (!s) return '';
+  return String(s).replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"
+  })[c]);
+}
+
+// Restore customer on load
+document.addEventListener('DOMContentLoaded', function() {
+  const raw = sessionStorage.getItem('EndlessAisleSelectedCustomer');
+  if (raw) {
+    const parsed = JSON.parse(raw);
+    applyEndlessAisleCustomer(parsed);
+    renderClientSavedAddresses(parsed);
+    return;
+  }
+
+  // Keep try/catch removed, only catch fetch errors
+  const eaId = sessionStorage.getItem('EndlessAisleCustomerID');
+  if (eaId) {
+    const base = (window.EA_MODULE_BASE_URL && window.EA_MODULE_BASE_URL.trim())
+      ? window.EA_MODULE_BASE_URL.replace(/\/$/, '')
+      : 'https://ringsandi.com/apps/ea_module';
+
+    // API call: GET EA customer -> `${base}/customers/${eaId}`
+    fetch(`${base}/customers/${eaId}`)
+      .then(r => r.ok ? r.json() : Promise.reject(r))
+      .then(json => {
+        const cust = json?.data?.customer || json?.data || json;
+        applyEndlessAisleCustomer(cust);
+        renderClientSavedAddresses(cust);
+      })
+      .catch(err => console.error('Failed to fetch EA customer', err));
+  }
+});
+
+
   function switchPaymentTab(selected) {
     const manualTab = document.getElementById("payment_step_tab-manual");
     const linkTab = document.getElementById("payment_step_tab-link");
@@ -959,6 +1189,8 @@ button.apply-btn {
     button.disabled = true;
     button.textContent = "Sending...";
 
+    // API call: POST send invoice -> `
+    // ${window.EA_MODULE_BASE_URL}/draft-orders/{draftId}/send-invoice`
     fetch(apiUrl, {
       method: "POST",
       headers: {
@@ -1070,6 +1302,7 @@ button.apply-btn {
   applyBtn.disabled = true;
   btnSpinner.style.display = 'inline-block';
 
+  // API call: POST apply discount -> `${window.EA_MODULE_BASE_URL}/orders/${draftOrderId}/apply-discount`
   fetch(apiUrl, {
     method: 'POST',
     headers: {
