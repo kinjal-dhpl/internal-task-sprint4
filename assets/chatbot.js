@@ -167,18 +167,19 @@ document.addEventListener('DOMContentLoaded', function() {
         const res = await fetch(`${DB_API}/get_message?session_id=${sessionID}`);
         const messages = await res.json();
 
-        showChatLoader();
-
-        // Smooth UX delay
-        await new Promise(r => setTimeout(r, 300));
-
         // Check if previous messages exist
-        const hasMessages = messages && messages.length > 0;
+        const hasMessages = Array.isArray(messages) && messages.length > 0;
 
-        // ---------------------------------------
-        // 1️⃣ LOAD OLD MESSAGES (if any)
-        // ---------------------------------------
+        // Show loader ONLY when there are past messages to load
         if (hasMessages) {
+            showChatLoader();
+
+            // Smooth UX delay while loader is visible
+            await new Promise(r => setTimeout(r, 300));
+
+            // ---------------------------------------
+            // 1️⃣ LOAD OLD MESSAGES (if any)
+            // ---------------------------------------
             messages.forEach(msg => {
                 const formatted = formatResponse(msg.message);
 
@@ -211,12 +212,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const welcomeDiv = document.createElement('div');
         welcomeDiv.className = 'response-container welcome-msg';
 
-
         // Your welcome text
-        welcomeDiv.innerHTML = formatResponse(
-            "Welcome to RINGS & I!💍"
-        );
-
+        welcomeDiv.innerHTML = formatResponse("Welcome to RINGS & I!💍");
 
         // Append welcome message at bottom
         messageContainer.appendChild(welcomeDiv);
@@ -229,9 +226,10 @@ document.addEventListener('DOMContentLoaded', function() {
     } catch (err) {
         console.error("Failed to load past messages:", err);
     } finally {
+        // hideChatLoader() is safe to call even if loader wasn't shown
         hideChatLoader();
     }
-   }
+}
 
     // Backend API call
     async function callBackend(question) {
