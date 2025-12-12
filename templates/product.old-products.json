@@ -89,6 +89,7 @@
         "custom_price_breakdown_dXFdUQ",
         "variant_size_meta_info_Y7FAtw"
       ],
+      "disabled": true,
       "custom_css": [
         ".price {margin-bottom: 0px; font-size: 18px; font-weight: bold;}",
         ".product__title h2 {font-size: 14px !important; color: #be868c !important;}"
@@ -162,6 +163,7 @@
     },
     "product_info_VaGAPD": {
       "type": "product-info",
+      "disabled": true,
       "name": "product_section",
       "settings": {
         "top_head": "Ring Dimensions and care instructions",
@@ -253,8 +255,19 @@
         "progress_step_PwzWHg",
         "progress_step_xXMJq4"
       ],
+      "disabled": true,
       "name": "Progress_Tracker",
       "settings": {}
+    },
+    "custom_liquid_PHgecb": {
+      "type": "custom-liquid",
+      "name": "t:sections.custom-liquid.presets.name",
+      "settings": {
+        "custom_liquid": "{% comment %} Add this code to your Shopify liquid file where you want the video and product details to appear {% endcomment %}\n\n<div class=\"video-product-container\">\n  <div class=\"video-container\">\n    <video autoplay loop muted playsinline>\n      <source src=\"{{ product.metafields.custom.video_autoplay }}\" type=\"video/mp4\">\n      Your browser does not support the video tag.\n    </video>\n  </div>\n\n  <!-- Product Title and Description -->\n  <div class=\"product-details\">\n    <h2>{{ product.title }}</h2>\n    <p class=\"product-description\">{{ product.description }}</p> <!-- Targeting for CSS -->\n  </div>\n</div>\n\n<style>\n  .video-product-container {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    width: 100%;\n  }\n\n  .video-container {\n    order: 2; /* Makes the video appear second */\n    width: 90%;\n    max-width: 800px;\n    margin: auto;\n  }\n\n  .video-container video {\n    width: 100%;\n    height: auto;\n  }\n\n  .product-details {\n    order: 1; /* Makes the title and description appear first */\n    text-align: center;\n    padding: 0 10px;\n    width: 100%;\n  }\n\n  .product-details h2 {\n    font-size: 20px; /* Default smaller font size for mobile */\n    margin-top: 20px;\n    padding: 0 10px;\n    font-weight: normal; /* Not bold */\n    color: black; /* Black color */\n  }\n\n  /* Hide the product description for mobile views, with increased specificity and !important */\n  .video-product-container .product-details .product-description {\n    display: none !important; /* Force hide on mobile */\n    font-size: 16px; /* Mobile font size */\n    padding: 0 10px; /* Padding for mobile */\n  }\n\n  @media only screen and (min-width: 768px) {\n    .video-product-container {\n      flex-direction: row;\n      align-items: flex-start;\n      padding: 0 10%;\n    }\n\n    .video-container, .product-details {\n      order: 0; /* Reset order for desktop view */\n    }\n\n    .video-container {\n      width: 40%;\n      display: flex;\n      justify-content: center;\n    }\n\n    .video-container video {\n      max-width: 100%;\n    }\n\n    .product-details {\n      width: 60%;\n      text-align: left;\n      margin-left: 40px; /* Increased margin-left for more spacing to the right */\n    }\n\n    .product-details h2 {\n      font-size: 28px; /* Increased font size for desktop */\n      padding: 0; /* No padding needed for desktop */\n    }\n\n    /* Show the product description on desktop, with !important to ensure visibility */\n    .video-product-container .product-details .product-description {\n      display: block !important; /* Force show on desktop */\n      font-size: 18px; /* Adjusted font size for desktop */\n      padding: 0; /* Remove padding for desktop */\n    }\n  }\n</style>",
+        "color_scheme": "",
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
     }
   },
   "order": [
@@ -266,6 +279,7 @@
     "custom_liquid_YdP4Y9",
     "product_info_VaGAPD",
     "complete_your_set_pQULma",
-    "product_manufacture_pKKXCy"
+    "product_manufacture_pKKXCy",
+    "custom_liquid_PHgecb"
   ]
 }
