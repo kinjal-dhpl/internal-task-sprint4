@@ -91,7 +91,8 @@
       ],
       "custom_css": [
         ".price {margin-bottom: 0px; font-size: 18px; font-weight: bold;}",
-        ".product__title h2 {font-size: 14px !important; color: #be868c !important;}"
+        ".product__title h2 {font-size: 14px !important; color: #be868c !important;}",
+        ".action-buttons-section{}"
       ],
       "settings": {
         "enable_price_breakdown_modal": true,
