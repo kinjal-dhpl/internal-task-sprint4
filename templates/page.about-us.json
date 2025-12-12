@@ -1,1 +1,298 @@
-{"sections":{"main":{"type":"main-page","disabled":true,"settings":{"padding_top":28,"padding_bottom":28}},"170410171985c91777":{"type":"apps","settings":{"include_margins":true}},"image_with_text_LHYDFT":{"type":"image-with-text","blocks":{"heading_ENr73W":{"type":"heading","settings":{"heading":"India's First Ever Designer Diamond Ring Studio","heading_size":"h2"}},"text_nP67PD":{"type":"text","settings":{"text":"<p>We take pride in being India's first diamond ring studio, offering a curated collection of 1200+ unique designs. Our studiooperateson an exclusive appointment-based model, whereweutilizecutting-edgetechnology to map your personality and suggest the perfect ring options tailored to your style and preferences from our 16 distinctive ring styles. Step into our world of brilliance and let us create a personalized masterpiece that captures your most cherished moments.<\/p>","text_style":"body"}}},"block_order":["heading_ENr73W","text_nP67PD"],"settings":{"image":"shopify:\/\/shop_images\/for-about-us-Medium.jpg","height":"adapt","desktop_image_width":"medium","layout":"image_first","desktop_content_position":"top","desktop_content_alignment":"left","content_layout":"no-overlap","section_color_scheme":"scheme-e3263781-8803-4c22-ade9-7613af5646eb","color_scheme":"scheme-e3263781-8803-4c22-ade9-7613af5646eb","image_behavior":"none","mobile_content_alignment":"left","padding_top":36,"padding_bottom":36}},"video_Ur9BPx":{"type":"video","settings":{"heading":"","heading_size":"h1","enable_video_looping":false,"video_url":"https:\/\/www.youtube.com\/watch?v=JH5AY-iDQe8","cover_image":"shopify:\/\/shop_images\/Add_a_heading_ebba1786-9ea6-49dc-9fdc-6339903c6b39.png","description":"","full_width":true,"color_scheme":"scheme-e3263781-8803-4c22-ade9-7613af5646eb","padding_top":0,"padding_bottom":0}},"rich_text_QJqVLE":{"type":"rich-text","blocks":{"caption_8zXdkB":{"type":"caption","settings":{"caption":"WHAT MAKES US DIFFERENT","text_style":"caption-with-letter-spacing","text_size":"large"}},"heading_4jqXfE":{"type":"heading","settings":{"heading":"Our Dazzling Array of Offerings","heading_size":"h1"}}},"block_order":["caption_8zXdkB","heading_4jqXfE"],"settings":{"desktop_content_position":"center","content_alignment":"center","color_scheme":"","full_width":true,"padding_top":40,"padding_bottom":52}},"image_with_text_nF4qhM":{"type":"image-with-text","custom_css":["[yesterday2: 40 PM] Amol Kadam .slider-button {display: none;}"," {display: block;}","@media only screen and (min-width: 768px) {{display: none; }}"],"settings":{"image":"shopify:\/\/shop_images\/AI_2_1.png","height":"adapt","desktop_image_width":"medium","layout":"image_first","desktop_content_position":"top","desktop_content_alignment":"left","content_layout":"overlap","section_color_scheme":"","color_scheme":"","image_behavior":"none","mobile_content_alignment":"left","padding_top":36,"padding_bottom":36}},"image_with_text_jYDEK8":{"type":"image-with-text","custom_css":["[yesterday2: 40 PM] Amol Kadam .slider-button {display: none;}"," {display: block;}","@media only screen and (min-width: 768px) {{display: none; }}"],"settings":{"image":"shopify:\/\/shop_images\/3.png","height":"adapt","desktop_image_width":"medium","layout":"image_first","desktop_content_position":"top","desktop_content_alignment":"left","content_layout":"overlap","section_color_scheme":"","color_scheme":"","image_behavior":"none","mobile_content_alignment":"left","padding_top":36,"padding_bottom":36}},"image_with_text_4ztCVX":{"type":"image-with-text","custom_css":["[yesterday2: 40 PM] Amol Kadam .slider-button {display: none;}"," {display: block;}","@media only screen and (min-width: 768px) {{display: none; }}"],"settings":{"image":"shopify:\/\/shop_images\/4.png","height":"adapt","desktop_image_width":"medium","layout":"image_first","desktop_content_position":"top","desktop_content_alignment":"left","content_layout":"no-overlap","section_color_scheme":"","color_scheme":"","image_behavior":"none","mobile_content_alignment":"left","padding_top":36,"padding_bottom":36}},"image_with_text_U3cTNz":{"type":"image-with-text","custom_css":["[yesterday2: 40 PM] Amol Kadam .slider-button {display: none;}"," {display: block;}","@media only screen and (min-width: 768px) {{display: none; }}"],"settings":{"image":"shopify:\/\/shop_images\/5.png","height":"adapt","desktop_image_width":"medium","layout":"image_first","desktop_content_position":"top","desktop_content_alignment":"left","content_layout":"no-overlap","section_color_scheme":"","color_scheme":"","image_behavior":"none","mobile_content_alignment":"left","padding_top":36,"padding_bottom":36}},"multicolumn_9LMNVy":{"type":"multicolumn","blocks":{"column_JdYCi7":{"type":"column","settings":{"image":"shopify:\/\/shop_images\/AI_2_1.png","title":"","text":"","link_label":"","link":""}},"column_py9bxH":{"type":"column","settings":{"image":"shopify:\/\/shop_images\/3.png","title":"","text":"","link_label":"","link":""}},"column_CQ3de8":{"type":"column","settings":{"image":"shopify:\/\/shop_images\/4.png","title":"","text":"","link_label":"","link":""}},"column_VHWi6A":{"type":"column","settings":{"image":"shopify:\/\/shop_images\/5.png","title":"","text":"","link_label":"","link":""}}},"block_order":["column_JdYCi7","column_py9bxH","column_CQ3de8","column_VHWi6A"],"custom_css":["{display: block;}","@media only screen and (max-width: 767px) {{display: none; }}",".slider-button {display: none;}"],"settings":{"title":"","heading_size":"h1","image_width":"full","image_ratio":"adapt","columns_desktop":2,"column_alignment":"left","background_style":"primary","button_label":"","button_link":"","color_scheme":"background-1","columns_mobile":"1","swipe_on_mobile":false,"padding_top":36,"padding_bottom":36}},"custom_liquid_xcpVEg":{"type":"custom-liquid","settings":{"custom_liquid":"<div class=\"appointment-button\">\n<a href=\"\/pages\/appoinment\" class=\"btn-book-appointment\">Book an Appointment<\/a>\n<\/div>\n \n<style>\n  .appointment-button {\n    position: fixed;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    z-index: 9999;\n    background-color:#EDEDED;\n    display: flex; \n    justify-content: center; \n    align-items: center;\n    padding: 10px 0;\n  }\n \n  .btn-book-appointment {\n    padding: 10px 20px;\n    background-color: #000;\n    color: #fff;\n    text-decoration: none;\n    font-weight: bold;\n    font-size: 18px;\n    border: none;\n    outline: none;\n    text-align: center;\n    box-sizing: border-box;\n  }\n<\/style>","color_scheme":"","padding_top":40,"padding_bottom":52}}},"order":["main","170410171985c91777","image_with_text_LHYDFT","video_Ur9BPx","rich_text_QJqVLE","image_with_text_nF4qhM","image_with_text_jYDEK8","image_with_text_4ztCVX","image_with_text_U3cTNz","multicolumn_9LMNVy","custom_liquid_xcpVEg"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "170410171985c91777": {
+      "type": "apps",
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "image_with_text_LHYDFT": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_ENr73W": {
+          "type": "heading",
+          "settings": {
+            "heading": "India's First Ever Designer Diamond Ring Studio",
+            "heading_size": "h2"
+          }
+        },
+        "text_nP67PD": {
+          "type": "text",
+          "settings": {
+            "text": "<p><br/>We take pride in being India’s first diamond ring studio, offering a curated collection of 1200+ unique designs. Our studio operates on an exclusive appointment-based model, where we utilize cutting-edge technology to map your personality and suggest the perfect ring options tailored to your style and preferences from our 16 distinctive ring styles. Step into our world of brilliance and let us create a personalized masterpiece that captures your most cherished moments.<br/><br/></p>",
+            "text_style": "body"
+          }
+        }
+      },
+      "block_order": [
+        "heading_ENr73W",
+        "text_nP67PD"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/for-about-us-Medium.jpg",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "content_layout": "no-overlap",
+        "section_color_scheme": "scheme-e3263781-8803-4c22-ade9-7613af5646eb",
+        "color_scheme": "scheme-e3263781-8803-4c22-ade9-7613af5646eb",
+        "image_behavior": "none",
+        "mobile_content_alignment": "left",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "video_Ur9BPx": {
+      "type": "video",
+      "settings": {
+        "heading": "",
+        "heading_size": "h1",
+        "enable_video_looping": false,
+        "video_url": "https://www.youtube.com/watch?v=JH5AY-iDQe8",
+        "cover_image": "shopify://shop_images/Add_a_heading_ebba1786-9ea6-49dc-9fdc-6339903c6b39.png",
+        "description": "",
+        "full_width": true,
+        "color_scheme": "scheme-e3263781-8803-4c22-ade9-7613af5646eb",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "rich_text_QJqVLE": {
+      "type": "rich-text",
+      "blocks": {
+        "caption_8zXdkB": {
+          "type": "caption",
+          "settings": {
+            "caption": "WHAT MAKES US DIFFERENT",
+            "text_style": "caption-with-letter-spacing",
+            "text_size": "large"
+          }
+        },
+        "heading_4jqXfE": {
+          "type": "heading",
+          "settings": {
+            "heading": "Our Dazzling Array of Offerings",
+            "heading_size": "h1"
+          }
+        }
+      },
+      "block_order": [
+        "caption_8zXdkB",
+        "heading_4jqXfE"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "image_with_text_nF4qhM": {
+      "type": "image-with-text",
+      "custom_css": [
+        "[yesterday2: 40 PM] Amol Kadam .slider-button {display: none;}",
+        " {display: block;}",
+        "@media only screen and (min-width: 768px) {{display: none; }}"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/AI_2_1.png",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "content_layout": "overlap",
+        "section_color_scheme": "",
+        "color_scheme": "",
+        "image_behavior": "none",
+        "mobile_content_alignment": "left",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "image_with_text_jYDEK8": {
+      "type": "image-with-text",
+      "custom_css": [
+        "[yesterday2: 40 PM] Amol Kadam .slider-button {display: none;}",
+        " {display: block;}",
+        "@media only screen and (min-width: 768px) {{display: none; }}"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/3.png",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "content_layout": "overlap",
+        "section_color_scheme": "",
+        "color_scheme": "",
+        "image_behavior": "none",
+        "mobile_content_alignment": "left",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "image_with_text_4ztCVX": {
+      "type": "image-with-text",
+      "custom_css": [
+        "[yesterday2: 40 PM] Amol Kadam .slider-button {display: none;}",
+        " {display: block;}",
+        "@media only screen and (min-width: 768px) {{display: none; }}"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/4.png",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "content_layout": "no-overlap",
+        "section_color_scheme": "",
+        "color_scheme": "",
+        "image_behavior": "none",
+        "mobile_content_alignment": "left",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "image_with_text_U3cTNz": {
+      "type": "image-with-text",
+      "custom_css": [
+        "[yesterday2: 40 PM] Amol Kadam .slider-button {display: none;}",
+        " {display: block;}",
+        "@media only screen and (min-width: 768px) {{display: none; }}"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/5.png",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "content_layout": "no-overlap",
+        "section_color_scheme": "",
+        "color_scheme": "",
+        "image_behavior": "none",
+        "mobile_content_alignment": "left",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "multicolumn_9LMNVy": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_JdYCi7": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/AI_2_1.png",
+            "title": "",
+            "text": "",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_py9bxH": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/3.png",
+            "title": "",
+            "text": "",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_CQ3de8": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/4.png",
+            "title": "",
+            "text": "",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_VHWi6A": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/5.png",
+            "title": "",
+            "text": "",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_JdYCi7",
+        "column_py9bxH",
+        "column_CQ3de8",
+        "column_VHWi6A"
+      ],
+      "custom_css": [
+        "{display: block;}",
+        "@media only screen and (max-width: 767px) {{display: none; }}",
+        ".slider-button {display: none;}"
+      ],
+      "settings": {
+        "title": "",
+        "heading_size": "h1",
+        "image_width": "full",
+        "image_ratio": "adapt",
+        "columns_desktop": 2,
+        "column_alignment": "left",
+        "background_style": "primary",
+        "button_label": "",
+        "button_link": "",
+        "color_scheme": "background-1",
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "custom_liquid_xcpVEg": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "<div class=\"appointment-button\">\n<a href=\"/pages/appoinment\" class=\"btn-book-appointment\">Book an Appointment</a>\n</div>\n \n<style>\n  .appointment-button {\n    position: fixed;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    z-index: 9999;\n    background-color:#EDEDED;\n    display: flex; \n    justify-content: center; \n    align-items: center;\n    padding: 10px 0;\n  }\n \n  .btn-book-appointment {\n    padding: 10px 20px;\n    background-color: #000;\n    color: #fff;\n    text-decoration: none;\n    font-weight: bold;\n    font-size: 18px;\n    border: none;\n    outline: none;\n    text-align: center;\n    box-sizing: border-box;\n  }\n</style>",
+        "color_scheme": "",
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    }
+  },
+  "order": [
+    "main",
+    "170410171985c91777",
+    "image_with_text_LHYDFT",
+    "video_Ur9BPx",
+    "rich_text_QJqVLE",
+    "image_with_text_nF4qhM",
+    "image_with_text_jYDEK8",
+    "image_with_text_4ztCVX",
+    "image_with_text_U3cTNz",
+    "multicolumn_9LMNVy",
+    "custom_liquid_xcpVEg"
+  ]
+}
