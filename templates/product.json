@@ -255,23 +255,6 @@
       ],
       "name": "Progress_Tracker",
       "settings": {}
-    },
-    "17655347562c2833f2": {
-      "type": "apps",
-      "blocks": {
-        "king_product_options_variant_option_NmMmmq": {
-          "type": "shopify://apps/king-product-options-variant/blocks/option/ce104259-52b1-4720-9ecf-76b34cae0401",
-          "settings": {
-            "product": "{{product}}"
-          }
-        }
-      },
-      "block_order": [
-        "king_product_options_variant_option_NmMmmq"
-      ],
-      "settings": {
-        "include_margins": true
-      }
     }
   },
   "order": [
@@ -283,7 +266,6 @@
     "custom_liquid_YdP4Y9",
     "product_info_VaGAPD",
     "complete_your_set_pQULma",
-    "product_manufacture_pKKXCy",
-    "17655347562c2833f2"
+    "product_manufacture_pKKXCy"
   ]
 }
