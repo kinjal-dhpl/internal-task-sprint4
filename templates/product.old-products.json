@@ -295,6 +295,16 @@
         "padding_top": 0,
         "padding_bottom": 24
       }
+    },
+    "custom_liquid_Anm97q": {
+      "type": "custom-liquid",
+      "name": "t:sections.custom-liquid.presets.name",
+      "settings": {
+        "custom_liquid": "<style>\n#goldButton,\n#platinumButton {\n  background-color: black;\n  color: white;\n  border: 2px solid transparent; /* Assuming you wanted a border, specify style */\n  cursor: pointer;\n  width: 150px;\n  height: 50px;\n  border-radius: 10px;\n  margin-top: 5px;\n  margin-right: 5px; /* Keeps original right margin for mobile */\n  margin-left: 22px; /* Keeps original left margin for mobile */\n  font-size: 16px;\n}\n\n#goldButton:hover,\n#platinumButton:hover {\n  opacity: 0.8;\n}\n\nh2 { \n  margin-left: 20px;\n  margin-top: 5px;\n  font-size: 20px;\n}\n\n/* Media query for desktop devices */\n@media screen and (min-width: 1024px) {\n  #goldButton,\n  #platinumButton {\n    width: 200px; /* Larger for desktop */\n    height: 60px; /* Larger for desktop */\n    font-size: 18px; /* Larger font for desktop */\n    /* Resets margins for desktop to manage spacing and alignment */\n    margin: 10px 20px; /* Adjusted margin for desktop to increase spacing */\n  }\n\n  /* Centers the buttons container and adjusts layout for desktop */\n  .buttons-container {\n    text-align: center; /* Ensures content is centered */\n  }\n\n  h2 {\n    text-align: center; /* Centers the heading on desktop */\n    margin-left: 0;\n    font-size:25px;  /* Removes left margin for desktop */\n  }\n\n  .buttons-container button {\n     display: center;\n    justify-content: space-between; /* Maximizes space between the buttons */\n    align-items: center; /* Aligns buttons vertically */\n    width: 100%; /* Ensures the container takes full width to utilize space-between */\n    padding: 0 20px;\n  }\n}\n</style>\n\n<h2>Choose Variant</h2>\n<div class=\"buttons-container\">\n  <button id=\"goldButton\" data-section-id=\"shopify-section-template--22148983652631__631e4a3b-b1af-434a-9f5c-7c6b09b863f9\">Gold</button>\n  <button id=\"platinumButton\" data-section-id=\"shopify-section-template--22148983652631__631e4a3b-b1af-434a-9f5c-7c6b09b863f9\">Platinum</button>\n</div>\n\n<script>\ndocument.addEventListener('DOMContentLoaded', function() {\n    var goldButton = document.getElementById('goldButton');\n    var platinumButton = document.getElementById('platinumButton');\n\n    goldButton.addEventListener('click', function() {\n      scrollToSection(goldButton.dataset.sectionId);\n    });\n\n    platinumButton.addEventListener('click', function() {\n      scrollToSection(platinumButton.dataset.sectionId);\n    });\n\n    function scrollToSection(sectionId) {\n      var section = document.getElementById(sectionId);\n      if (section) {\n        section.scrollIntoView({ behavior: 'smooth' });\n      }\n    }\n});\n</script>",
+        "color_scheme": "",
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
     }
   },
   "order": [
@@ -308,6 +318,7 @@
     "complete_your_set_pQULma",
     "product_manufacture_pKKXCy",
     "custom_liquid_PHgecb",
-    "rich_text_B7mgAj"
+    "rich_text_B7mgAj",
+    "custom_liquid_Anm97q"
   ]
 }
