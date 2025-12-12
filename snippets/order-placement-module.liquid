@@ -720,14 +720,7 @@ button.apply-btn {
               <input id="phone" name="billing-phone" type="tel" class="form-input" required maxlength="10">
             </div>
           </div>
-          {% if customer %}
-          <div class="form-group" id="save-billing-address-container" style="display:none; margin-top:0.5rem;">
-            <label>
-              <input type="checkbox" id="save-billing-address" name="save-billing-address" value="1">
-              Save this billing address
-            </label>
-          </div>
-          {% endif %}
+          {% comment %} Removed save-billing-address checkbox {% endcomment %}
         </div>
      </div>
       <div class="pan-card-section">
@@ -959,21 +952,14 @@ function clearBillingFields() {
 
 document.addEventListener('DOMContentLoaded', function() {
   const savedRadios = document.querySelectorAll('input[name="saved-address"]');
-  const saveContainer = document.getElementById('save-billing-address-container');
-  const saveCheckbox = document.getElementById('save-billing-address');
 
   function handleSavedRadioChange(radio) {
     if (!radio) return;
 
     if (radio.value === 'new') {
       clearBillingFields();
-      if (saveContainer) saveContainer.style.display = '';
     } else {
       fillBillingFromDataset(radio.dataset);
-      if (saveContainer) {
-        saveContainer.style.display = 'none';
-        if (saveCheckbox) saveCheckbox.checked = false;
-      }
     }
   }
 
@@ -988,7 +974,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Apply a selected customer
-function applyEndlessAisleCustomer(customer) {
+function applyEndlessAisleCustomer(customer, options = {}) {
   if (!customer) return;
 
   const firstName = customer.firstName || customer.first_name || '';
@@ -1013,15 +999,12 @@ function applyEndlessAisleCustomer(customer) {
            ''
   };
 
-  fillBillingFromDataset(data);
-
-  const saveContainer = document.getElementById('save-billing-address-container');
-  const saveCheckbox = document.getElementById('save-billing-address');
-  if (saveContainer) saveContainer.style.display = 'none';
-  if (saveCheckbox) saveCheckbox.checked = false;
+  const skipFill = options && options.skipFillBilling === true;
+  if (!skipFill) fillBillingFromDataset(data);
 
   const ringInput = document.getElementById('ring-expert-input');
-  if (ringInput) ringInput.value = (firstName + ' ' + lastName).trim();
+  // Leave server-rendered ring expert value intact by default.
+  // if (ringInput) ringInput.value = (firstName + ' ' + lastName).trim();
 
   renderClientSavedAddresses(customer);
 }
@@ -1040,7 +1023,7 @@ function renderClientSavedAddresses(customer) {
     wrapper.className = 'saved-addresses';
     wrapper.innerHTML = `
       <h2 class="shipping-title">Saved Addresses</h2>
-      <div class="store-list client-store-list"></div>
+      <div class="client-store-list"></div>
     `;
     const billing = document.getElementById('billing--address');
     if (billing && billing.parentNode) billing.parentNode.insertBefore(wrapper, billing);
@@ -1124,8 +1107,11 @@ document.addEventListener('DOMContentLoaded', function() {
   const raw = sessionStorage.getItem('EndlessAisleSelectedCustomer');
   if (raw) {
     const parsed = JSON.parse(raw);
-    applyEndlessAisleCustomer(parsed);
+    // Render saved addresses first so we can inspect which option is selected.
     renderClientSavedAddresses(parsed);
+    const initiallyChecked = document.querySelector('input[name="saved-address"]:checked');
+    const skipFill = initiallyChecked && initiallyChecked.value === 'new';
+    applyEndlessAisleCustomer(parsed, { skipFillBilling: !!skipFill });
     return;
   }
 
@@ -1141,8 +1127,11 @@ document.addEventListener('DOMContentLoaded', function() {
       .then(r => r.ok ? r.json() : Promise.reject(r))
       .then(json => {
         const cust = json?.data?.customer || json?.data || json;
-        applyEndlessAisleCustomer(cust);
+        // Render addresses first so we can determine if the user wants a new billing address.
         renderClientSavedAddresses(cust);
+        const initiallyChecked = document.querySelector('input[name="saved-address"]:checked');
+        const skipFill = initiallyChecked && initiallyChecked.value === 'new';
+        applyEndlessAisleCustomer(cust, { skipFillBilling: !!skipFill });
       })
       .catch(err => console.error('Failed to fetch EA customer', err));
   }

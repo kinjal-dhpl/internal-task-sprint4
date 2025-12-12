@@ -2525,6 +2525,8 @@ function getPreferredPhoneNumber(orderData) {
 
   getShopLocation();
 
+
+
   function getShopLocation() {
       const myHeaders = new Headers();
       myHeaders.append("accept", "application/json");
@@ -2564,9 +2566,11 @@ function getPreferredPhoneNumber(orderData) {
                   </label>`;
       });
 
-                document.querySelector('div.store-list').innerHTML = locationList;
+                 const pickupStoreList = document.querySelector('.shipping-section div.store-list') || document.querySelector('div.store-list');
+                 if (pickupStoreList) pickupStoreList.innerHTML = locationList;
             } else {
-               document.querySelector('div.store-list').innerHTML = `<p class="store_error_message">There are no stores</p>`;
+                const pickupStoreList = document.querySelector('.shipping-section div.store-list') || document.querySelector('div.store-list');
+                if (pickupStoreList) pickupStoreList.innerHTML = `<p class="store_error_message">There are no stores</p>`;
             }
            })
           .catch((error) => {
@@ -2631,35 +2635,47 @@ function getPreferredPhoneNumber(orderData) {
 
 
   function getSelectedStoreId() {
-    const selectedStore = document.querySelector('.store-list input[type="radio"]:checked');
+    const selectedStore = document.querySelector('.shipping-section .store-list input[type="radio"]:checked') ||
+                          document.querySelector('.store-list input[type="radio"]:checked');
+    
     return selectedStore ? selectedStore.value : null;
   }
 
 
    function validateFields(prefix) {
-  const firstName = document.querySelector(`input[name="${prefix}-firstName"]`).value.trim();
-  const lastName = document.querySelector(`input[name="${prefix}-lastName"]`).value.trim();
-  const address1 = document.querySelector(`input[name="${prefix}-address1"]`).value.trim();
-  const address2 = document.querySelector(`input[name="${prefix}-address2"]`).value.trim();
-  const city = document.querySelector(`input[name="${prefix}-city"]`).value.trim();
-  const province = document.querySelector(`input[name="${prefix}-province"]`).value.trim();
-  const country = document.querySelector(`input[name="${prefix}-country"]`).value.trim();
-  const pincode = document.querySelector(`input[name="${prefix}-pincode"]`).value.trim();
-  const phone = document.querySelector(`input[name="${prefix}-phone"]`).value.trim();
+    const elFirst = document.querySelector(`input[name="${prefix}-firstName"]`);
+    const elLast = document.querySelector(`input[name="${prefix}-lastName"]`);
+    const elAddress1 = document.querySelector(`input[name="${prefix}-address1"]`);
+    const elAddress2 = document.querySelector(`input[name="${prefix}-address2"]`);
+    const elCity = document.querySelector(`input[name="${prefix}-city"]`);
+    const elProvince = document.querySelector(`input[name="${prefix}-province"]`);
+    const elCountry = document.querySelector(`input[name="${prefix}-country"]`);
+    const elPincode = document.querySelector(`input[name="${prefix}-pincode"]`);
+    const elPhone = document.querySelector(`input[name="${prefix}-phone"]`);
 
-  if (!firstName || !lastName || !address1 || !address2 || !city || !province || !country || !pincode || !phone) {
-    offGlobalLoader();
-    showToast("Please fill in all required fields.");
-    return false;
-  }
+    const firstName = elFirst?.value?.trim() || '';
+    const lastName = elLast?.value?.trim() || '';
+    const address1 = elAddress1?.value?.trim() || '';
+    const address2 = elAddress2?.value?.trim() || '';
+    const city = elCity?.value?.trim() || '';
+    const province = elProvince?.value?.trim() || '';
+    const country = elCountry?.value?.trim() || '';
+    const pincode = elPincode?.value?.trim() || '';
+    const phone = elPhone?.value?.trim() || '';
 
-  if (phone.length !== 10) {
-    offGlobalLoader();
-    showToast("Phone number must be exactly 10 digits.");
-    return false;
-  }
+    if (!firstName || !lastName || !address1 || !address2 || !city || !province || !country || !pincode || !phone) {
+      offGlobalLoader();
+      showToast("Please fill in all required fields.");
+      return false;
+    }
 
-  return true;
+    if (phone.length !== 10) {
+      offGlobalLoader();
+      showToast("Phone number must be exactly 10 digits.");
+      return false;
+    }
+
+    return true;
 }
 
 
@@ -2681,29 +2697,41 @@ function getPreferredPhoneNumber(orderData) {
 }
 
 
+
 function validateFormAndCreatePayload() {
-    onGlobalLoader();
-    const customer_ID =  document.querySelector('#customerRelatedData').getAttribute('customer-id');
-    const customerId = `gid://shopify/Customer/${customer_ID}`; 
-    const email = document.querySelector('#customerRelatedData').getAttribute('customer-email'); 
-    const cartObject = JSON.parse(window.cartItemJson);
-    const shippingMethod = document.querySelector('input[name="shipping-method"]:checked').value;
+  onGlobalLoader();
+  const customer_ID =  document.querySelector('#customerRelatedData').getAttribute('customer-id');
+  const customerId = `gid://shopify/Customer/${customer_ID}`; 
+  const email = document.querySelector('#customerRelatedData').getAttribute('customer-email'); 
+  const cartObject = JSON.parse(window.cartItemJson || '[]');
+  
+  const shippingCheckedEl = document.querySelector('input[name="shipping-method"]:checked');
+  const shippingMethod = shippingCheckedEl?.value || null;
     const billingCheckbox = document.getElementById('billing--checkbox');
     const panCardSection = document.querySelector('.pan-card-section');
     const panCardInput = document.getElementById('pan-card-number');
-    const panCardRequired = getComputedStyle(panCardSection).display !== 'none';
-    const panCardValue = panCardInput.value.trim();
+    const panCardRequired = panCardSection ? getComputedStyle(panCardSection).display !== 'none' : false;
+    const panCardValue = panCardInput ? (panCardInput.value || '').trim() : '';
     
     const ringExpertSection = document.querySelector('.ring-expert-section');
     const ringExpertInput = document.getElementById('ring-expert-input');
-    const ringExpertRequired = getComputedStyle(ringExpertSection).display !== 'none';
-    const ringExpertValue = ringExpertInput ? ringExpertInput.value.trim() : '';
+    const ringExpertRequired = Boolean(ringExpertSection && getComputedStyle(ringExpertSection).display !== 'none');
+    const ringExpertValue = (ringExpertInput?.value || '').trim();
+    
 
     let payload = {
         items: cartObject,
         "customerId" : customerId ,
 
     };
+
+    {% comment %} function showToast(message) {
+    const toast = document.createElement("div");
+    toast.className = "toast-message";
+    toast.innerText = message;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+  } {% endcomment %}
 
   if (shippingMethod === 'home-delivery') {
     if (!validateFields('shipping')) return;
@@ -2742,12 +2770,8 @@ function validateFormAndCreatePayload() {
 
     payload.shippingAddress = null;
     payload.billingAddress = getAddress('billing');
+    payload.pickupLocationId = storeId;
     
-    let cleanStoreId = storeId;
-    cleanStoreId = cleanStoreId.split('?')[0].trim();
-    payload.pickupLocationId = cleanStoreId;
-
-
     if (ringExpertRequired) {
       if (!ringExpertValue) {
         offGlobalLoader();
@@ -2767,8 +2791,10 @@ function validateFormAndCreatePayload() {
     }
 
   }
+  
   createDraftOrder (payload)
 }
+
 
   function createDraftOrder (data){
        const myHeaders = new Headers();
@@ -2785,7 +2811,9 @@ function validateFormAndCreatePayload() {
         };
 
       // API call: POST draft order (Endless Aisle) -> `${window.EA_MODULE_BASE_URL}/draft-orders/endless-aisle`
-      fetch(`${window.EA_MODULE_BASE_URL}/draft-orders/endless-aisle`, requestOptions)
+      const eaDraftApiUrl = `${window.EA_MODULE_BASE_URL}/draft-orders/endless-aisle`;
+      
+      fetch(eaDraftApiUrl, requestOptions)
       .then((response) => {
             if (!response.ok) {
               offGlobalLoader();
