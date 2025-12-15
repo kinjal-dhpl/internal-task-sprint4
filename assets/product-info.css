@@ -86,7 +86,7 @@ h2.info-tabs {
 }
 
 .product-info-grid .info-list ul li {
-    font-family: 'Inter';
+    font-family: var(--oregon-font);
     font-weight: 400;
     font-size: 16px;
     line-height: 24px;
@@ -95,6 +95,7 @@ h2.info-tabs {
 
 /* ===== INFO BOX ===== */
 .info-box {
+    font-family: var(--oregon-font);
     border: 1px solid #86868b;
     border-radius: 8px;
     padding: 10px;
@@ -108,7 +109,7 @@ h2.info-tabs {
 }
 
 .info-box h4 {
-    font-family: Inter-Variable;
+    font-family: var(--oregon-font);
     font-weight: 600;
     font-size: 16px;
     display: flex;
@@ -118,7 +119,7 @@ h2.info-tabs {
 }
 
 .info-box p {
-    font-family: 'Lato';
+    font-family: var(--oregon-font);
     font-weight: 400;
     font-size: 16px;
     line-height: 24px;
@@ -126,7 +127,7 @@ h2.info-tabs {
 }
 
 .info-box small {
-    font-family: Inter-Variable;
+    font-family: var(--oregon-font);
     font-weight: 400;
     font-size: 14px;
     color: #86868b;
@@ -153,14 +154,14 @@ h2.info-tabs {
 }
 
 .manual-add span {
-    font-family: Inter-Variable;
+    font-family: var(--oregon-font);
     font-weight: 600;
     color: black;
     font-size: 20px;
 }
 
 .para-id {
-    font-family: 'Inter';
+    font-family: var(--oregon-font);
     color: #1D1D1F;
     font-weight: 400;
     font-size: 16px;
@@ -187,7 +188,7 @@ h2.info-tabs {
 }
 
 .section-header h1 {
-    font-family: Lato;
+    font-family: var(--oregon-font);
     font-weight: 600;
     font-size: 28px;
     line-height: 100%;
@@ -195,7 +196,7 @@ h2.info-tabs {
 }
 
 .section-header p {
-    font-family: 'Inter';
+    font-family: var(--oregon-font);
     font-weight: 400;
     font-size: 16px;
     line-height: 24px;
@@ -245,7 +246,7 @@ h2.info-tabs {
 }
 
 .policy-card .id-unique {
-    font-family: 'Inter';
+    font-family: var(--oregon-font);
     font-weight: 400;
     font-size: 16px;
     line-height: 24px;
@@ -255,7 +256,7 @@ h2.info-tabs {
     text-align: left;
 }
 .policy-info-desc {
-    font-family: 'Inter';
+    font-family: var(--oregon-font);
     font-weight: 400;
     font-size: 14px;
     line-height: 21px;
@@ -273,7 +274,7 @@ h2.info-tabs {
 }
 
 .important-info h2 {
-    font-family: 'Inter';
+    font-family: var(--oregon-font);
     font-weight: 600;
     font-size: 20px;
     color: #1D1D1F;
@@ -293,7 +294,7 @@ h2.info-tabs {
 
 .important-info li {
     padding: 0px 0 0px 10px;
-    font-family: 'Inter';
+    font-family: var(--oregon-font);
     font-weight: 400;
     font-size: 16px;
     line-height: 24px;
@@ -360,7 +361,7 @@ h2.info-tabs {
 
 
 .top-text h2 {
-    font-family: 'Inter';
+    font-family: var(--oregon-font);
     font-weight: 600;
     font-size: 20px;
     line-height: 30px;
@@ -477,7 +478,7 @@ h2.info-tabs {
     font-size: 16px;
     color: #1d1d1f;
     font-weight: 600;
-    font-family: 'Inter';
+    font-family: var(--oregon-font);
 }
 .single-info-value {
     font-size: 16px;
@@ -488,7 +489,7 @@ h2.info-tabs {
     font-size: 14px !important;
     color: #86868b;
     font-weight: 400 !important;
-    font-family: 'Inter';
+    font-family: var(--oregon-font);
 }
 
 .policies-holder {
@@ -499,7 +500,7 @@ h2.info-tabs {
 }
 
 .policy-card-heading {
-    font-family: 'Inter';
+    font-family: var(--oregon-font);
     font-size: 16px;
     font-weight: 600;
     color: #1d1d1f;
@@ -538,7 +539,7 @@ h2.info-tabs {
 
     .tab-btn-mobile h2 {
         display: block;
-        font-family: Lato;
+        font-family: var(--oregon-font);
         font-weight: 600;
         font-style: SemiBold;
         font-size: 22px;
@@ -567,7 +568,7 @@ h2.info-tabs {
     }
 
     .product-info-grid .info-list ul li {
-        font-family: 'Inter';
+        font-family: var(--oregon-font);
         font-weight: 400;
         font-size: 14px;
         line-height: 21px;
@@ -577,7 +578,7 @@ h2.info-tabs {
 
 
     .info-box h4 {
-        font-family: Inter;
+        font-family: var(--oregon-font);
         font-weight: 600;
         font-size: 14px;
         line-height: 21px;
@@ -589,7 +590,7 @@ h2.info-tabs {
     }
 
     .info-box p {
-        font-family: 'Inter';
+        font-family: var(--oregon-font);
         font-weight: 400;
         font-size: 14px;
         line-height: 21px;
@@ -606,7 +607,7 @@ h2.info-tabs {
     }
 
     .para-id {
-        font-family: 'Inter';
+        font-family: var(--oregon-font);
         font-weight: 400;
         font-size: 14px;
         line-height: 24px;
@@ -704,7 +705,7 @@ h2.info-tabs {
 
     .important-info li {
         padding: 0 0 8px 25px;
-        font-family: 'Inter';
+        font-family: var(--oregon-font);
         font-weight: 400;
         font-size: 16px;
         line-height: 24px;
@@ -717,7 +718,7 @@ h2.info-tabs {
 
     .policy-card .id-unique {
         padding: 0px 10px;
-        font-family: 'Inter';
+        font-family: var(--oregon-font);
         font-weight: 400;
         font-size: 16px;
         line-height: 24px;
