@@ -43,6 +43,81 @@ document.addEventListener('DOMContentLoaded', function() {
     const messageContainer = document.querySelector('.message-container');
     const contentArea = document.querySelector('.content-area');
 
+
+document.addEventListener('DOMContentLoaded', function () {
+    const chatInput = document.querySelector('.chat-input');
+    const chatbotModal = document.querySelector('#chatbot-modal');
+    const chatbotBody = document.querySelector('.chatbot-body');
+
+    if (!chatInput || !chatbotModal || !chatbotBody) return;
+
+    const originalModalHeight = chatbotModal.style.height || '100%';
+
+    // 🔹 Force scroll to bottom safely
+    function scrollToBottom(force = false) {
+        requestAnimationFrame(() => {
+            setTimeout(() => {
+                chatbotBody.scrollTop = chatbotBody.scrollHeight;
+            }, force ? 350 : 150);
+        });
+    }
+
+    // 🔹 Handle keyboard open
+    function handleKeyboardOpen() {
+        if (window.innerWidth > 450) return;
+
+        requestAnimationFrame(() => {
+            setTimeout(() => {
+                const viewportHeight = window.visualViewport
+                    ? window.visualViewport.height
+                    : window.innerHeight;
+
+                chatbotModal.style.height = viewportHeight + 'px';
+                chatbotModal.style.maxHeight = viewportHeight + 'px';
+
+                scrollToBottom(true); // FORCE scroll
+            }, 300);
+        });
+    }
+
+    // 🔹 Handle keyboard close
+    function handleKeyboardClose() {
+        if (window.innerWidth > 450) return;
+
+        chatbotModal.style.height = originalModalHeight;
+        chatbotModal.style.maxHeight = originalModalHeight;
+
+        scrollToBottom();
+    }
+
+    // 🔹 Input focus / blur
+    chatInput.addEventListener('focus', handleKeyboardOpen);
+    chatInput.addEventListener('blur', handleKeyboardClose);
+
+    // 🔹 VisualViewport resize (MOST IMPORTANT FIX)
+    if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', () => {
+            if (document.activeElement === chatInput) {
+                handleKeyboardOpen();
+            }
+        });
+    }
+
+    // 🔹 WHEN CHATBOT OPENS (🔥 THIS FIXES FIRST TIME ISSUE)
+    const observer = new MutationObserver(() => {
+        if (chatbotModal.offsetParent !== null) {
+            scrollToBottom(true);
+        }
+    });
+
+    observer.observe(chatbotModal, { attributes: true, attributeFilter: ['style', 'class'] });
+});
+
+
+    
+
+
+
     // Track if the current input is from voice
     let pendingAudioFlag = false;
     
@@ -161,8 +236,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (loader) loader.remove();
     }
 
-    //load past messages using session id
-        async function loadPastMessages(sessionID) {
+   async function loadPastMessages(sessionID) {
     try {
         const res = await fetch(`${DB_API}/get_message?session_id=${sessionID}`);
         const messages = await res.json();
@@ -231,6 +305,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 }
 
+
     // Backend API call
     async function callBackend(question) {
         const controller = new AbortController();
@@ -280,7 +355,7 @@ document.addEventListener('DOMContentLoaded', function() {
             "Do You Take Online Appointments?"
         ],
         "Diiference between Natural or Lab-Grown Diamonds?": [
-            "What's the Price Difference?",
+            "Price Difference in Natural or Lab-Grown Diamonds",
             "Can I Choose My Diamond Type?",
             "Can I View Certification Info"
         ],
@@ -1077,3 +1152,4 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize
     initChat();
 });
+

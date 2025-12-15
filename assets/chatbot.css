@@ -802,20 +802,24 @@ body {
 }
 
 /* Voice success notification - MODIFIED */
+/* Voice success notification - MODIFIED */
 .voice-success {
     position: absolute;
-    top: -50px; /* Moved higher up from -30px to -50px */
+    bottom: 120%; /* Increased from 100% to move it higher */
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(201, 163, 93, 0.82); /* Use chatbot secondary color */
+    background: rgba(201, 163, 93, 0.95);
     color: white;
-    padding: 8px 12px; /* Increased padding for better visibility */
+    padding: 8px 12px;
     border-radius: 15px;
     font-size: 12px;
     display: none;
     white-space: nowrap;
     z-index: 10;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Added shadow for better visibility */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    max-width: 80%;
+    text-align: center;
+    margin-bottom: 10px; /* Added extra margin for more spacing */
 }
 
 .voice-success.show {
@@ -824,9 +828,29 @@ body {
 }
 
 @keyframes fadeInOut {
-    0% { opacity: 0; }
-    50% { opacity: 1; }
-    100% { opacity: 0; }
+    0% { opacity: 0; transform: translateX(-50%) translateY(5px); }
+    50% { opacity: 1; transform: translateX(-50%) translateY(0); }
+    100% { opacity: 0; transform: translateX(-50%) translateY(-5px); }
+}
+
+/* Make sure the input-container has proper positioning */
+.input-container {
+    padding: 8px 20px;
+    border-top: 1px solid var(--border);
+    background: white;
+    position: relative;
+    margin-top: 20px;
+}
+
+/* Mobile-specific adjustments */
+@media only screen and (max-width: 450px) {
+    .voice-success {
+        font-size: 11px;
+        padding: 6px 10px;
+        max-width: 90%;
+        bottom: 130%; /* Increased even more for mobile */
+        margin-bottom: 8px;
+    }
 }
 
 .prompt-box {
@@ -1390,7 +1414,7 @@ body {
 /* Notification styles */
 .notification {
     position: fixed;
-    bottom: 80px;
+    top:20px;
     left: 50%;
     transform: translateX(-50%);
     background: rgba(0, 0, 0, 0.8);
@@ -1418,3 +1442,5 @@ body {
 .welcome-msg {
     margin-bottom: 60px !important;
 }
+
+
