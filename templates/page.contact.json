@@ -33,13 +33,13 @@
     "multirow_qptcbW": {
       "type": "multirow",
       "blocks": {
-        "row_AFRhC6": {
+        "row_JWFifU": {
           "type": "row",
           "settings": {
-            "image": "shopify://shop_images/Pune_-_studio.jpg",
+            "image": "shopify://shop_images/IMG_2242.jpg",
             "caption": "",
             "heading": "",
-            "text": "<p><strong>Address</strong></p><p>Block No. 301, 2163/29A, Silver Mist, Near Nilayam Theatre, Sadashiv Peth, Pune, Maharashtra, India - 411030</p><p><strong>We're Open</strong></p><p>We’re open for shopping and exchanges from<br/>Tue-Sun 12pm to 9pm </p><p><strong>Contact Number</strong></p><p><a href=\"tel:+919545860404\" title=\"tel:+919545860404\">+919545870404</a></p>",
+            "text": "<p><strong>Address</strong></p><p>Royal Classic, New Link Rd, next to Citi Mall, Phase D, Shastri Nagar, Andheri West, Mumbai, Maharashtra 400053</p><p><strong>We're Open</strong></p><p>We’re open for shopping and exchanges every day, 11:30 AM to 8:30 PM.</p><p><strong>Contact Number</strong></p><p><a href=\"tel:+919028922321\" title=\"tel:+919545870404\">+919545870404</a></p>",
             "button_label": "",
             "button_link": ""
           }
@@ -55,22 +55,22 @@
             "button_link": ""
           }
         },
-        "row_JWFifU": {
+        "row_AFRhC6": {
           "type": "row",
           "settings": {
-            "image": "shopify://shop_images/IMG_2242.jpg",
+            "image": "shopify://shop_images/Pune_-_studio.jpg",
             "caption": "",
             "heading": "",
-            "text": "<p><strong>Address</strong></p><p>Royal Classic, New Link Rd, next to Citi Mall, Phase D, Shastri Nagar, Andheri West, Mumbai, Maharashtra 400053</p><p><strong>We're Open</strong></p><p>We’re open for shopping and exchanges every day, 11:30 AM to 8:30 PM.</p><p><strong>Contact Number</strong></p><p><a href=\"tel:+919028922321\" title=\"tel:+919545870404\">+919545870404</a></p>",
+            "text": "<p><strong>Address</strong></p><p>Block No. 301, 2163/29A, Silver Mist, Near Nilayam Theatre, Sadashiv Peth, Pune, Maharashtra, India - 411030</p><p><strong>We're Open</strong></p><p>We’re open for shopping and exchanges from<br/>Tue-Sun 12pm to 9pm </p><p><strong>Contact Number</strong></p><p><a href=\"tel:+919545860404\" title=\"tel:+919545860404\">+919545870404</a></p>",
             "button_label": "",
             "button_link": ""
           }
         }
       },
       "block_order": [
-        "row_AFRhC6",
+        "row_JWFifU",
         "row_DQp9wm",
-        "row_JWFifU"
+        "row_AFRhC6"
       ],
       "settings": {
         "image_height": "medium",
