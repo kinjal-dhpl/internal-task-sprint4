@@ -63,7 +63,12 @@ h2.shipping-title {
 .discount-type-options input[type="radio"] {
   accent-color: #1c1c1c;
 }
-
+.client-store-list{
+  max-height: 300px;
+  overflow: scroll;
+  overflow-x: hidden;
+  margin-bottom: 20px;
+}
 .shipping-options  label.shipping-option{
 height: 40px;
 padding: 0 0.5rem;
@@ -928,8 +933,7 @@ button.apply-btn {
 
   function fillBillingFromDataset(data) {
   function setByName(name, value) {
-    const el = document.querySelector('input[name="' + name + '"]') ||
-              document.querySelector('#' + name);
+    const el = document.querySelector('input[name="' + name + '"]');
     if (el) el.value = value || '';
   }
   setByName('billing-firstName', data.firstName || '');
@@ -949,8 +953,7 @@ function clearBillingFields() {
     'billing-country','billing-province','billing-city','billing-pincode','billing-phone'
   ];
   names.forEach(n => {
-    const el = document.querySelector('input[name="' + n + '"]') ||
-              document.querySelector('#' + n);
+    const el = document.querySelector('input[name="' + n + '"]');
     if (el) el.value = '';
   });
 }
@@ -982,8 +985,8 @@ document.addEventListener('DOMContentLoaded', function() {
 function applyEndlessAisleCustomer(customer, options = {}) {
   if (!customer) return;
 
-  const firstName = customer.firstName || customer.first_name || '';
-  const lastName = customer.lastName || customer.last_name || '';
+  const firstName = customer.firstName || '';
+  const lastName = customer.lastName || '';
 
   let addr = null;
   if (customer.addresses && customer.addresses.length > 0) addr = customer.addresses[0];
@@ -992,32 +995,24 @@ function applyEndlessAisleCustomer(customer, options = {}) {
   const data = {
     firstName,
     lastName,
-    address1: addr ? (addr.address1 || addr.address || '') : '',
-    address2: addr ? (addr.address2 || '') : '',
+    address1: addr.address1 || '',
+    address2: addr.address2 || '',
     country: addr ? (addr.country || '') : (customer.country || ''),
-    province: addr ? (addr.province || addr.region || '') : '',
-    city: addr ? (addr.city || '') : '',
-    pincode: addr ? (addr.zip || addr.postalCode || '') : '',
-    phone: (customer.defaultPhoneNumber && customer.defaultPhoneNumber.phoneNumber) ||
-           customer.phone ||
-           (addr && addr.phone) ||
-           ''
+    province: addr.province || '',
+    city: addr.city || '',
+    pincode: addr.zip || '',
+    phone: addr.phone || ''
   };
 
   const skipFill = options && options.skipFillBilling === true;
   if (!skipFill) fillBillingFromDataset(data);
 
   const ringInput = document.getElementById('ring-expert-input');
-  // Leave server-rendered ring expert value intact by default.
-  // if (ringInput) ringInput.value = (firstName + ' ' + lastName).trim();
 
   renderClientSavedAddresses(customer);
 }
 
-window.addEventListener('endlessAisleCustomerSelected', function(e) {
-  const customer = e?.detail || null;
-  applyEndlessAisleCustomer(customer);
-});
+
 
 function renderClientSavedAddresses(customer) {
   if (!customer) return;
@@ -1035,8 +1030,7 @@ function renderClientSavedAddresses(customer) {
     savedContainer = wrapper;
   }
 
-  const listEl = savedContainer.querySelector('.client-store-list') ||
-                 savedContainer.querySelector('.store-list');
+  const listEl = savedContainer.querySelector('.client-store-list');
   if (!listEl) return;
 
   let addrs = [];
@@ -1047,14 +1041,14 @@ function renderClientSavedAddresses(customer) {
   let html = '';
 
   addrs.forEach((addr, idx) => {
-    const id = addr.id || ('ea-' + idx);
-    const first = addr.firstName || addr.first_name || '';
-    const last = addr.lastName || addr.last_name || '';
-    const a1 = addr.address1 || addr.address || '';
+    const id = addr.id;
+    const first = addr.firstName || '';
+    const last = addr.lastName || '';
+    const a1 = addr.address1 || '';
     const a2 = addr.address2 || '';
     const city = addr.city || '';
-    const prov = addr.province || addr.region || '';
-    const zip = addr.zip || addr.postalCode || addr.zipCode || '';
+    const prov = addr.province || '';
+    const zip = addr.zip || '';
     const country = addr.country || '';
     const phone = addr.phone || '';
 
@@ -1112,7 +1106,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const raw = sessionStorage.getItem('EndlessAisleSelectedCustomer');
   if (raw) {
     const parsed = JSON.parse(raw);
-    // Render saved addresses first so we can inspect which option is selected.
     renderClientSavedAddresses(parsed);
     const initiallyChecked = document.querySelector('input[name="saved-address"]:checked');
     const skipFill = initiallyChecked && initiallyChecked.value === 'new';
@@ -1120,14 +1113,12 @@ document.addEventListener('DOMContentLoaded', function() {
     return;
   }
 
-  // Keep try/catch removed, only catch fetch errors
   const eaId = sessionStorage.getItem('EndlessAisleCustomerID');
   if (eaId) {
-    const base = (window.EA_MODULE_BASE_URL && window.EA_MODULE_BASE_URL.trim())
-      ? window.EA_MODULE_BASE_URL.replace(/\/$/, '')
-      : 'https://ringsandi.com/apps/ea_module';
+    
+    const base = window.EA_MODULE_BASE_URL;
 
-    // API call: GET EA customer -> `${base}/customers/${eaId}`
+
     fetch(`${base}/customers/${eaId}`)
       .then(r => r.ok ? r.json() : Promise.reject(r))
       .then(json => {
@@ -1183,8 +1174,6 @@ document.addEventListener('DOMContentLoaded', function() {
     button.disabled = true;
     button.textContent = "Sending...";
 
-    // API call: POST send invoice -> `
-    // ${window.EA_MODULE_BASE_URL}/draft-orders/{draftId}/send-invoice`
     fetch(apiUrl, {
       method: "POST",
       headers: {
@@ -1296,7 +1285,6 @@ document.addEventListener('DOMContentLoaded', function() {
   applyBtn.disabled = true;
   btnSpinner.style.display = 'inline-block';
 
-  // API call: POST apply discount -> `${window.EA_MODULE_BASE_URL}/orders/${draftOrderId}/apply-discount`
   fetch(apiUrl, {
     method: 'POST',
     headers: {
