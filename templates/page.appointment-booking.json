@@ -220,6 +220,7 @@
       "block_order": [
         "row_wtBztU"
       ],
+      "disabled": true,
       "custom_css": [
         "{display: block;}",
         "@media only screen and (max-width: 767px) {{display: none; }}",
