@@ -54,11 +54,23 @@
             "button_label": "",
             "button_link": ""
           }
+        },
+        "row_JWFifU": {
+          "type": "row",
+          "settings": {
+            "image": "shopify://shop_images/IMG_2242.jpg",
+            "caption": "",
+            "heading": "",
+            "text": "<p><strong>Address</strong></p><p>Royal Classic, New Link Rd, next to Citi Mall, Phase D, Shastri Nagar, Andheri West, Mumbai, Maharashtra 400053</p><p><strong>We're Open</strong></p><p>We’re open for shopping and exchanges every day, 11:30 AM to 8:30 PM.</p><p><strong>Contact Number</strong></p><p><a href=\"tel:+919028922321\" title=\"tel:+919545870404\">+919545870404</a></p>",
+            "button_label": "",
+            "button_link": ""
+          }
         }
       },
       "block_order": [
         "row_AFRhC6",
-        "row_DQp9wm"
+        "row_DQp9wm",
+        "row_JWFifU"
       ],
       "settings": {
         "image_height": "medium",
