@@ -102,15 +102,15 @@
     "multirow_3gzxYr": {
       "type": "multirow",
       "blocks": {
-        "row_EHnykx": {
+        "row_4fjcjq": {
           "type": "row",
           "settings": {
-            "image": "shopify://shop_images/Untitled_design_68.png",
+            "image": "shopify://shop_images/IMG_2242.jpg",
             "caption": "",
-            "heading": "Pune Studio",
-            "text": "<p>301, 3rd Floor Silver Mist, Near Nilayam Theatre, Sadashiv Peth, Pune, Maharashtra, India 411030</p>",
+            "heading": "Andheri Mumbai Studio",
+            "text": "<p>Royal Classic, New Link Rd, next to Citi Mall, Phase D, Shastri Nagar, Andheri West, Mumbai, Maharashtra 400053</p>",
             "button_label": "Book an Appointment",
-            "button_link": "https://ringsandi-book-your-visit.zohobookings.in/#/72654000002534260"
+            "button_link": "https://ringsandi-book-your-visit.zohobookings.in/#/72654000002686128"
           }
         },
         "row_W97jnn": {
@@ -124,22 +124,22 @@
             "button_link": "shopify://pages/appointment-booking-borivali"
           }
         },
-        "row_4fjcjq": {
+        "row_EHnykx": {
           "type": "row",
           "settings": {
-            "image": "shopify://shop_images/IMG_2242.jpg",
+            "image": "shopify://shop_images/Untitled_design_68.png",
             "caption": "",
-            "heading": "Andheri Mumbai Studio",
-            "text": "<p>Royal Classic, New Link Rd, next to Citi Mall, Phase D, Shastri Nagar, Andheri West, Mumbai, Maharashtra 400053</p>",
+            "heading": "Pune Studio",
+            "text": "<p>301, 3rd Floor Silver Mist, Near Nilayam Theatre, Sadashiv Peth, Pune, Maharashtra, India 411030</p>",
             "button_label": "Book an Appointment",
-            "button_link": "https://ringsandi-book-your-visit.zohobookings.in/#/72654000002686128"
+            "button_link": "https://ringsandi-book-your-visit.zohobookings.in/#/72654000002534260"
           }
         }
       },
       "block_order": [
-        "row_EHnykx",
+        "row_4fjcjq",
         "row_W97jnn",
-        "row_4fjcjq"
+        "row_EHnykx"
       ],
       "custom_css": [
         "{display: block;}",
