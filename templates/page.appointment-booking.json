@@ -118,16 +118,28 @@
           "settings": {
             "image": "shopify://shop_images/Untitled_design_69.png",
             "caption": "",
-            "heading": "Mumbai Studio",
+            "heading": "Borivali Mumbai Studio",
             "text": "<p>Megh CHS, Factory Ln, next to Manubhai Jewellers, Mini Zaveri Bazaar, Mhatre Wadi, Borivali West, Mumbai, Maharashtra 400092</p>",
             "button_label": "Book an Appointment",
             "button_link": "shopify://pages/appointment-booking-borivali"
+          }
+        },
+        "row_4fjcjq": {
+          "type": "row",
+          "settings": {
+            "image": "shopify://shop_images/IMG_2242.jpg",
+            "caption": "",
+            "heading": "Andheri Mumbai Studio",
+            "text": "<p>Royal Classic, New Link Rd, next to Citi Mall, Phase D, Shastri Nagar, Andheri West, Mumbai, Maharashtra 400053</p>",
+            "button_label": "Book an Appointment",
+            "button_link": "https://ringsandi-book-your-visit.zohobookings.in/#/72654000002686128"
           }
         }
       },
       "block_order": [
         "row_EHnykx",
-        "row_W97jnn"
+        "row_W97jnn",
+        "row_4fjcjq"
       ],
       "custom_css": [
         "{display: block;}",
