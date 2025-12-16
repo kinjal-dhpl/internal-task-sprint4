@@ -411,13 +411,30 @@ document.addEventListener(
             delete pdpSelectedFormOptions.personalize; // delete previous entry if any
             // Define the 5 viewpoints (Y-up world)
             const views = [
-              { name: "top", u: { x: 0, y: 1, z: 0 } }, // +Y
-              { name: "bottom", u: { x: 0, y: -1, z: 0 } }, // -Y
-              { name: "left", u: { x: -1, y: 0, z: 0 } }, // -X
-              { name: "right", u: { x: 1, y: 0, z: 0 } }, // +X
-              // front-top-right: diagonal (+X, +Y, +Z).
-              // If your "front" is -Z, flip z: {z: -1}
-              { name: "ftr", u: { x: 1, y: 1, z: 1 } },
+              // 1. 3/4 Top Front (Hero)
+              {
+                name: "hero_3q_front",
+                u: { x: -0.4, y: 0.82, z: 0.4 },
+              },
+
+              // 2. Top
+              { name: "top", u: { x: 0, y: 1, z: 0 } },
+              // // 3. Side Profile
+              {
+                name: "side",
+                u: { x: 1, y: 0, z: 0 },
+              },
+              // // 4. 3/4 Rear
+              {
+                name: "hero_3q_rear",
+                u: { x: 0.55, y: 0, z: 0.4 },
+              },
+
+              // 5. Straight Front
+              {
+                name: "front",
+                u: { x: 0, y: 0, z: 1 },
+              },
             ];
 
             const files = [];
@@ -670,11 +687,11 @@ async function injectCapturedFiles(files) {
 async function uploadBlobs(url, files, additionalData = {}) {
   const formData = new FormData();
 
-  formData.append("files", files[0].blob, "ring-top.jpg");
-  formData.append("files", files[1].blob, "ring-left.jpg");
-  formData.append("files", files[2].blob, "ring-bottom.jpg");
-  formData.append("files", files[3].blob, "ring-right.jpg");
-  formData.append("files", files[4].blob, "ring-ftr.jpg");
+  formData.append("files", files[0].blob, "hero_3q_front.jpg");
+  formData.append("files", files[1].blob, "top.jpg");
+  formData.append("files", files[2].blob, "side.jpg");
+  formData.append("files", files[3].blob, "hero_3q_rear.jpg");
+  formData.append("files", files[4].blob, "front.jpg");
 
   try {
     const response = await fetch(url, {
