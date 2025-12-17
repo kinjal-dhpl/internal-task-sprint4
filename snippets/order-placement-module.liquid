@@ -68,6 +68,8 @@ h2.shipping-title {
   overflow: scroll;
   overflow-x: hidden;
   margin-bottom: 20px;
+  border: 1px solid #1c1c1c;
+  border-radius: 3px;
 }
 .shipping-options  label.shipping-option{
 height: 40px;
@@ -1051,7 +1053,8 @@ function renderClientSavedAddresses(customer) {
     const zip = addr.zip || '';
     const country = addr.country || '';
     const phone = addr.phone || '';
-
+    
+    if (!a1 || !city) return;
     html += `
       <label class="store-option saved-address-option client-address-option">
         <input type="radio" name="saved-address" value="${id}"
@@ -1122,7 +1125,7 @@ document.addEventListener('DOMContentLoaded', function() {
     fetch(`${base}/customers/${eaId}`)
       .then(r => r.ok ? r.json() : Promise.reject(r))
       .then(json => {
-        const cust = json?.data?.customer || json?.data || json;
+        const cust = json.data.customer;
         // Render addresses first so we can determine if the user wants a new billing address.
         renderClientSavedAddresses(cust);
         const initiallyChecked = document.querySelector('input[name="saved-address"]:checked');

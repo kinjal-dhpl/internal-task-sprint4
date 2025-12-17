@@ -1316,8 +1316,7 @@
             document.querySelector('.customerPrimaryWrapper').style.display = 'flex';
         }
      const addressMainGrid = document.querySelector('div.addressBlockaccordian .addressBlock');
-const customerAddress = customer?.addressesV2?.nodes;
-
+     const customerAddress = customer?.addressesV2?.nodes;
 
 
 if (Array.isArray(customerAddress) && customerAddress.length > 0 && addressMainGrid) {
@@ -1336,7 +1335,6 @@ if (Array.isArray(customerAddress) && customerAddress.length > 0 && addressMainG
       zip,
       phone
     } = address || {};
-
     // Collect available address parts
     const lines = [];
     if (address1) lines.push(address1);
@@ -2536,22 +2534,22 @@ function getPreferredPhoneNumber(orderData) {
     
     fetch(`${window.EA_MODULE_BASE_URL}/orders/locations`, requestOptions)
       .then((response) => {
-            if (!response.ok) {
-              throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json(); 
-          })
-          .then((result) => {
-            const locations = result.data.locations; 
-            if(locations.length > 0){
-              let locationList = '';
-               locations.forEach(location => {
-          let address = 
-            (location.address.address1 ? location.address.address1 + ' ' : '') + 
-            (location.address.city ? location.address.city + ' ': '') + 
-            (location.address.province ? location.address.province + ' ' : '') + 
-            (location.address.country ? location.address.country + ' ' : '');
-
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json(); 
+        })
+        .then((result) => {
+          const locations = result.data.locations; 
+          const pickupStoreList = document.querySelector('.shipping-section div.store-list');
+          if(locations.length > 0){
+            let locationList = '';
+              locations.forEach(location => {
+              let address = 
+                (location.address.address1 ? location.address.address1 + ' ' : '') + 
+                (location.address.city ? location.address.city + ' ': '') + 
+                (location.address.province ? location.address.province + ' ' : '') + 
+                (location.address.country ? location.address.country + ' ' : '');
                 locationList += `
                   <label class="store-option">
                     <input type="radio" name="store-location" class="store-radio" value="${location.id}">
@@ -2560,60 +2558,58 @@ function getPreferredPhoneNumber(orderData) {
                       <p>${address}</p>
                     </div>
                   </label>`;
-      });
-
-                 const pickupStoreList = document.querySelector('.shipping-section div.store-list');
-                 if (pickupStoreList) pickupStoreList.innerHTML = locationList;
-            } else {
-                if (pickupStoreList) pickupStoreList.innerHTML = `<p class="store_error_message">There are no stores</p>`;
-            }
-           })
-          .catch((error) => {
-            console.error("Fetch error -->", error); 
-           
-          });
+                });
+                pickupStoreList.innerHTML = locationList;
+                } 
+                else {
+                  pickupStoreList.innerHTML = `<p class="store_error_message">There are no stores</p>`;
+                }
+              })
+              .catch((error) => {
+                console.error("Fetch error -->", error); 
+              });
   }
 
-    function updateOrderStatus(select){
-       if(select.value == '') return;
-        onGlobalLoader();
-        const myHeaders = new Headers();
-        myHeaders.append("accept", "application/json");
-        myHeaders.append("Content-Type", "application/json");
+  function updateOrderStatus(select){
+      if(select.value == '') return;
+      onGlobalLoader();
+      const myHeaders = new Headers();
+      myHeaders.append("accept", "application/json");
+      myHeaders.append("Content-Type", "application/json");
 
-        const raw = JSON.stringify({
-          "qcStatus": `${select.value}`
-        });
+      const raw = JSON.stringify({
+        "qcStatus": `${select.value}`
+      });
 
-        const requestOptions = {
-          method: "PUT",
-          headers: myHeaders,
-          body: raw,
-          redirect: "follow"
-        };
+      const requestOptions = {
+        method: "PUT",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow"
+      };
 
-        const orderId = select.getAttribute('order-Id');
-       
-        fetch(`${window.EA_MODULE_BASE_URL}/orders/${orderId}/qc-status`, requestOptions)
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error(`HTTP error! Status: ${response.status}`);
-              offGlobalLoader();
-            }
-            return response.json(); 
-          })
-          .then((result) => {
-               offGlobalLoader();
-               alert('Status Updated');
-               location.reload();
-
-          })
-          .catch((error) => {
-            console.error("Fetch error -->", error);
+      const orderId = select.getAttribute('order-Id');
+      
+      fetch(`${window.EA_MODULE_BASE_URL}/orders/${orderId}/qc-status`, requestOptions)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
             offGlobalLoader();
-             alert('Error in updating status');
-          });
-    }
+          }
+          return response.json(); 
+        })
+        .then((result) => {
+              offGlobalLoader();
+              alert('Status Updated');
+              location.reload();
+
+        })
+        .catch((error) => {
+          console.error("Fetch error -->", error);
+          offGlobalLoader();
+            alert('Error in updating status');
+        });
+  }
       
 
 
@@ -3112,7 +3108,7 @@ function validateFormAndCreatePayload() {
           setTimeout(checkAndFetch, 100);
           return;
         }
-        
+
         // API function is available, proceed with fetch
         window.fetchOrderDetailsAPI(orderId)
           .then((data) => {
@@ -3126,7 +3122,7 @@ function validateFormAndCreatePayload() {
             reject(error);
           });
       };
-      
+
       checkAndFetch();
     });
   }
@@ -3138,11 +3134,11 @@ function validateFormAndCreatePayload() {
   async function openProductDetailsModalEA(lineItemIndex) {
     if (!window.orderDetailsData) {
       const orderIdFromContext = window.currentOrderId || window.orderId;
-      
+
       if (orderIdFromContext) {
         try {
           await fetchOrderDetailsForEA(orderIdFromContext);
-          
+
           if (window.orderDetailsData && typeof window.populateOrderDetailsModal === 'function') {
             window.populateOrderDetailsModal(lineItemIndex, window.orderDetailsData);
           } else {
@@ -3158,13 +3154,13 @@ function validateFormAndCreatePayload() {
         return;
       }
     }
-    
+
     if (typeof window.populateOrderDetailsModal !== 'function') {
       console.error('populateOrderDetailsModal function not available');
       alert('Modal function not loaded. Please refresh the page.');
       return;
     }
-    
+
     window.populateOrderDetailsModal(lineItemIndex, window.orderDetailsData);
   }
 
@@ -3259,7 +3255,6 @@ function validateFormAndCreatePayload() {
       if (currentApiType === 'statusChange') {
         onGlobalLoader();
 
-        
         response = await fetch(`${window.EA_MODULE_BASE_URL}/gati/status-update`, {
           method: 'POST',
           headers: {
