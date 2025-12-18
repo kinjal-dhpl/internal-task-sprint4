@@ -14,9 +14,8 @@
   --oregon-font: 'oregon-ldo-medium';
 }
 
-.font-oregon{
-  font-family: var(--oregon-font);
-  text-transform: capitalize;
+.capitalize{
+  text-transform: capitalize !important;
 }
 
 .product-card-wrapper .card,
@@ -799,6 +798,7 @@ summary::-webkit-details-marker {
 
 .title-wrapper-with-link .title {
   margin: 0;
+  text-transform: capitalize;
 }
 
 .title .link {
@@ -873,6 +873,7 @@ summary::-webkit-details-marker {
 .title-wrapper-with-link a {
   margin-top: 0;
   flex-shrink: 0;
+  text-transform: capitalize;
 }
 
 .title-wrapper--no-top-margin {

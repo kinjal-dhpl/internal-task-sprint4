@@ -113,6 +113,10 @@ cart-items .title-wrapper-with-link {
   font-size: 1.4rem;
   word-break: break-word;
   line-height: calc(1 + 0.5 / var(--font-body-scale));
+  text-transform: capitalize;
+}
+.product-option dd{
+  text-transform: none;
 }
 
 .cart-item cart-remove-button {
