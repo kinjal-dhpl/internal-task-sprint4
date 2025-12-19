@@ -489,16 +489,6 @@
       d.src = 'https://cdn.camweara.com/integrations/camweara_api.js';
       document.head.appendChild(d);
     };
-    document.querySelectorAll('.price__current').forEach(el => {
-      // Remove currency symbols & commas
-      const raw = el.textContent;
-      console.log(raw.replace(/Rs\.?\s*/gi, ''));
-      if (!raw) return;
-
-      const number = Number(raw);
-      // Apply Indian numbering format
-      el.textContent = number;
-    });
   </script>
 {% endif %}
 <!--
