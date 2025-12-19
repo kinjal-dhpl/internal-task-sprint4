@@ -15,7 +15,13 @@
 }
 
 .capitalize{
+  font-family: var(--oregon-font);
   text-transform: capitalize !important;
+}
+.capitalize-btn{
+  font-family: var(--oregon-font);
+  text-transform: capitalize !important;
+  letter-spacing: 1px
 }
 
 .product-card-wrapper .card,
@@ -517,6 +523,7 @@ h6:empty {
   background-color: transparent;
   font-size: 1.4rem;
   font-family: inherit;
+  text-transform: capitalize;
 }
 
 .link--text {

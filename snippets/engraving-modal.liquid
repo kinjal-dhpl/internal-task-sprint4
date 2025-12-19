@@ -50,8 +50,8 @@
 
       <!-- Action Buttons -->
       <div class="action-buttons-section">
-        <button class="btn-save" data-action="save-engraving" disabled>Save</button>
-        <button class="btn-cancel" data-action="close-engraving-modal">Cancel</button>
+        <button class="btn-save capitalize-btn" data-action="save-engraving" disabled>Save</button>
+        <button class="btn-cancel capitalize-btn" data-action="close-engraving-modal">Cancel</button>
       </div>
     </div>
   </div>
@@ -230,7 +230,7 @@
       gap: 10px;
     }
     #engraving-modal .btn-save {
-      background: #333;
+      background: #000000;
       color: white;
       border: none;
       padding: 12px 20px;
@@ -246,14 +246,15 @@
     }
     #engraving-modal .btn-cancel {
       background: none;
-      color: #666;
-      border: none;
+      color: #000;
       padding: 8px 20px;
       font-size: 16px;
+      font-weight: bold;
       cursor: pointer;
       transition: color 0.3s ease;
-      text-decoration: underline;
       width: 100%;
+      border: 1px solid #000;
+      border-radius: 6px
     }
     #engraving-modal .btn-cancel:hover {
       color: #333;

@@ -38,7 +38,7 @@
   z-index: 9999;
   justify-content: center; 
   align-items: center;
-  font-family: Arial, sans-serif;
+  font-family: var(--font-oregon), sans-serif;
 }
 
 /* Ensure loader appears above manual payment modal */
@@ -96,6 +96,8 @@
   padding:8px 16px;
   cursor:pointer;
   transition: background 0.2s ease;
+  text-transform: capitalize;
+  font-family: var(--oregon-font);
 }
 #manualPaymentModal .btn-save:hover { background:#0056b3; }
 #manualPaymentModal .btn-cancel {

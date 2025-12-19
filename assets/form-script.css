@@ -1146,6 +1146,7 @@ img#fingerprint-preview-img {
 button.save-canvas-options {
   background: #000;
   color: #fff;
+  letter-spacing: 1px;
 }
 
 .canvas-options-cancel-btn {
