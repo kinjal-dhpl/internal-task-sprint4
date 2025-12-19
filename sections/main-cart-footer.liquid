@@ -25,7 +25,12 @@
       bottom: 0;
       color: #fff;
       background-color: #181818;
+      text-transform: capitalize;
 
+  }
+  .cart__blocks .js-contents .totals{
+    display: flex;
+    flex-direction: column;
   }
   .cart__footer #cart-errors{
     display:none;
@@ -37,6 +42,47 @@
         padding-bottom: {{ section.settings.padding_bottom }}px;
       }
     }
+    .partial-price-loader{
+      display: none;
+      font-size: 14px;
+      color: #6b6b6b;
+      margin-left: 8px;
+    }
+    .partial-price-loader.show{ display: inline-block; }
+    /* Price box styling to match design */
+    .price-box{
+      background: #f6f6f7;
+      border-radius: 14px;
+      padding: 20px 20px 18px;
+      position: relative;
+      box-shadow: none;
+      max-width: 100%;
+    }
+    .price-row{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+    }
+    .price-label{
+      color: #6b6b6b;
+      font-size: 14px;
+      line-height: 1.2;
+      max-width: 65%;
+      white-space: normal;
+    }
+    .price-value{
+      color: #111;
+      font-weight: 700;
+      text-align: right;
+      font-size: 14px;
+      min-width: 110px;
+    }
+    .price-divider{ margin: 10px 0; border-top: 0; }
+    .price-note{ color:#8f8f8f; font-style: italic; font-size: 12px; margin-top:6px }
+    /* position loader inside the price box top-right */
+    .partial-price-loader{ position: absolute; top: 8px; right: 12px; display:none }
+    .partial-price-loader.show{ display:inline-block }
 {%- endstyle -%}
 
 <div
@@ -97,11 +143,27 @@
                           {% endif %} 
                           {% endfor %}
                           {% endfor %}
-                  <h2 class="totals__total">{{ 'sections.cart.estimated_total' | t }}</h2>
-                  <p class="totals__total-value">
-                    <span class="ymq_cart_total_price" id="custom-subtotal-rerender">{{ price_total | money_with_currency }}</span>
-                  </p>
-                </div>
+                          <div class="price-details">
+                          <div class="price-box">
+                            <div class="price-row">
+                              <span class="price-label">Estimated Price:</span>
+                              <span class="price-value" id="estimated-price">Rs. --,---/-</span>
+                            </div>
+                            <div class="price-row">
+                              <span class="price-label">Advance Payment Amount:</span>
+                              <span class="price-value" id="advance-payment">Rs. --,---/-</span>
+                            </div>
+                            <div class="price-row">
+                              <span class="price-label">Estimated Balance:</span>
+                              <span class="price-value" id="estimated-balance">Rs. --,---/-</span>
+                            </div>
+                            <div class="price-divider"></div>
+                            <div class="price-note">(Please note, this amount may change at actual post product manufacturing)</div>
+                            <div id="partial-price-loader" class="partial-price-loader" aria-hidden="true">Calculating...</div>
+                          </div>
+                        </div>
+                  
+                        </div>
 
                 <small class="tax-note caption-large rte">
                   {%- if cart.taxes_included and shop.shipping_policy.body != blank -%}
@@ -155,7 +217,128 @@
     </div>
   </div>
 </div>
+{% render 'partial-price-api' %}
+<script>
+  async function fetchCartData() {
+    const response = await fetch('/cart.js');
+    return await response.json();
+  }
+  async function sendCartToApi() {
+    const cart = await fetchCartData();
 
+    // Convert cart items → API format (array of products)
+    const products = cart.items.map(item => ({
+      variantId: String(item.id),
+      quantity: item.quantity,
+      size: item.properties?.size
+    }));
+
+    // Fallback: legacy endpoint
+    try {
+      const response = await fetch(`${window.EA_MODULE_BASE_URL}/price/partial-price-calculation`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ products })
+      });
+      const data = await response.json();
+      return data;
+    } catch (err) {
+      console.error('Legacy partial-price API call failed:', err);
+      throw err;
+    }
+  }
+
+  // Local price formatter (fallback if global `formatPrice` isn't available)
+  function formatPrice(num) {
+    if (typeof num === 'undefined' || num === null || isNaN(Number(num))) return '0.00';
+    return Number(num).toLocaleString('en-IN', { maximumFractionDigits: 2 });
+  }
+
+  // Helpers: show/hide the inline loader
+  function showPartialLoader() {
+    const l = document.getElementById('partial-price-loader');
+    if (l) {
+      l.classList.add('show');
+      l.setAttribute('aria-hidden', 'false');
+    }
+  }
+  function hidePartialLoader() {
+    const l = document.getElementById('partial-price-loader');
+    if (l) {
+      l.classList.remove('show');
+      l.setAttribute('aria-hidden', 'true');
+    }
+  }
+
+  // Lightweight debounce helper
+  function debounce(fn, wait) {
+    let t = null;
+    return function (...args) {
+      if (t) clearTimeout(t);
+      t = setTimeout(() => {
+        t = null;
+        fn.apply(this, args);
+      }, wait);
+    };
+  }
+
+  // Fetch partial prices and update the UI (with loader + error handling)
+  async function fetchAndUpdatePartialPrices() {
+    showPartialLoader();
+    try {
+      const data = await sendCartToApi();
+      if (!data || !data.data) {
+        console.error('Partial-price API returned no data:', data);
+        return;
+      }
+      const dataArray = data.data;
+
+      let totalOfTotalPrice = 0;
+      let totalOfPartialPrice = 0;
+      let totalEstimatedBalance = 0;
+      dataArray.forEach(item => {
+        let qty = parseFloat(item.quantity);
+        totalOfTotalPrice += parseFloat(item.totalPrice?.total || 0) * qty;
+        totalOfPartialPrice += parseFloat(item.partialPrice?.total || 0) * qty;
+        totalEstimatedBalance += parseFloat(item.estimatedBalance || 0) * qty;
+      });
+
+      const estimatedPriceEl = document.getElementById('estimated-price');
+      const advancePaymentEl = document.getElementById('advance-payment');
+      const estimatedBalanceEl = document.getElementById('estimated-balance');
+
+      if (estimatedPriceEl) estimatedPriceEl.textContent = `Rs. ${formatPrice(totalOfTotalPrice)}/-`;
+      if (advancePaymentEl) advancePaymentEl.textContent = `Rs. ${formatPrice(totalOfPartialPrice)}/-`;
+      if (estimatedBalanceEl) estimatedBalanceEl.textContent = `Rs. ${formatPrice(totalEstimatedBalance)}/-`;
+    } catch (err) {
+      console.error('Error updating partial prices:', err);
+    } finally {
+      hidePartialLoader();
+    }
+  }
+
+  // Initial load (debounced)
+  const debouncedUpdate = debounce(fetchAndUpdatePartialPrices, 500);
+  debouncedUpdate();
+
+  // Observe the cart area and re-fetch whenever the DOM or input values change
+  const cartContainer = document.querySelector('#cart') || 
+  document.querySelector('.cart__items') || 
+  document.querySelector('.cart');
+  if (cartContainer) {
+    try {
+    const observer = new MutationObserver(() => {
+      debouncedUpdate();
+    });
+
+    observer.observe(cartContainer, {
+      childList: true,
+      subtree: true
+    });
+  } catch (e) {}
+  }
+
+</script>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     function isIE() {
@@ -176,25 +359,13 @@
     });
   });
 
-  function fetchShopifyCart() {
-    return fetch('/cart.js')
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Failed to fetch cart data');
-        }
-        return response.json();
-      })
-      .catch((error) => {
-        console.error('Error fetching cart:', error);
-        throw error;
-      });
-  }
+  
   async function redirectToDraftCheckout(button) {
     const realCheckoutButton = button.closest('.custom--checkout-button').querySelector('button#checkout');
     try {
       onGlobalLoader();
 
-      const cartData = await fetchShopifyCart();
+      const cartData = await fetchCartData();
       const cartItems = cartData.items;
       console.log(cartItems, 'cartItems');
 

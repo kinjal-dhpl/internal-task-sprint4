@@ -2,10 +2,6 @@
     font-family: 'oregon-ldo-medium';
     src: url('https://cdn.shopify.com/s/files/1/0843/6917/8903/files/oregon_ldo_medium.ttf?v=1716311295') format('truetype');
 }
-@font-face {
-    font-family: 'Inter';
-    src: url('https://cdn.shopify.com/s/files/1/0843/6917/8903/files/Inter-Regular.otf?v=1763468555') format('truetype');
-}
 /* h1, h2, h3, h4, h5, h6{
   font-family: 'oregon-ldo-medium';
 } */
@@ -15,6 +11,17 @@
   --alpha-button-border: 1;
   --alpha-link: 0.85;
   --alpha-badge-border: 0.1;
+  --oregon-font: 'oregon-ldo-medium';
+}
+
+.capitalize{
+  font-family: var(--oregon-font);
+  text-transform: capitalize !important;
+}
+.capitalize-btn{
+  font-family: var(--oregon-font);
+  text-transform: capitalize !important;
+  letter-spacing: 1px
 }
 
 .product-card-wrapper .card,
@@ -287,7 +294,7 @@ h5,
 .h3,
 .h4,
 .h5 {
-  font-family: var(--font-heading-family);
+  font-family: var(--oregon-font);
   font-style: var(--font-heading-style);
   font-weight: var(--font-heading-weight);
   letter-spacing: calc(var(--font-heading-scale) * 0.06rem);
@@ -516,6 +523,7 @@ h6:empty {
   background-color: transparent;
   font-size: 1.4rem;
   font-family: inherit;
+  text-transform: capitalize;
 }
 
 .link--text {
@@ -797,6 +805,7 @@ summary::-webkit-details-marker {
 
 .title-wrapper-with-link .title {
   margin: 0;
+  text-transform: capitalize;
 }
 
 .title .link {
@@ -871,6 +880,7 @@ summary::-webkit-details-marker {
 .title-wrapper-with-link a {
   margin-top: 0;
   flex-shrink: 0;
+  text-transform: capitalize;
 }
 
 .title-wrapper--no-top-margin {
@@ -1823,7 +1833,7 @@ details[open] > .share-button__fallback {
 /* Text area */
 
 .text-area {
-  font-family: var(--font-body-family);
+  font-family: var(--oregon-font);
   font-style: var(--font-body-style);
   font-weight: var(--font-body-weight);
   min-height: 10rem;

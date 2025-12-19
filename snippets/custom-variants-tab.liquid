@@ -237,6 +237,7 @@
     margin: 4px 0 10px 0;
   }
   .try-btn {
+    font-family: var(--oregon-font);
     background: linear-gradient(90deg, #4c79ff 0%, #a84bff 100%);
     color: white;
     border: none;
@@ -260,7 +261,7 @@
     background: #fff;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    font-family: Arial, sans-serif;
+    font-family: var(--oregon-font);
     font-size: 14px;
     line-height: 1.5;
     position: absolute;
@@ -292,7 +293,7 @@
   .price-options-desc {
     margin: 6px 0 16px 0;
     color: #86868b;
-    font-family: Lato;
+    font-family: var(--oregon-font);
     font-weight: 500;
     font-size: 16px;
     line-height: 24px;
@@ -491,7 +492,7 @@
                     <h2 class="variant-name"></h2>
                   </div>
                   <p class="variant-pack-size">
-                    {{ variant.title | replace: 'Gold', '' | replace: 'Natural', '' | replace: '/', '' | strip }}
+                    {{ variant.title | replace: '/', '' | strip }}
                   </p>
                   <div class="price-container" data-variant-id="{{ variant.id }}">
                     <p class="variant-price"></p>
@@ -525,7 +526,7 @@
                     <h2 class="variant-name"></h2>
                   </div>
                   <p class="variant-pack-size">
-                    {{ variant.title | replace: 'Gold', '' | replace: 'Natural', '' | replace: '/', '' | strip }}
+                    {{ variant.title | replace: '/', '' | strip }}
                   </p>
                   <div class="price-container" data-variant-id="{{ variant.id }}">
                     <p class="variant-price"></p>

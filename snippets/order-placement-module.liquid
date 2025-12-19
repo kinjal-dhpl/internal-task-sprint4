@@ -13,7 +13,7 @@ h2.shipping-title {
     margin: 0 0 1.5rem;
     font-size: 20px;
     color: #1c1c1c;
-    font-family: oregon-ldo-medium;
+    font-family: "oregon-ldo-medium";
     letter-spacing: normal;
     font-size: 20px;
 }
@@ -24,13 +24,13 @@ h2.shipping-title {
 .discount-type-options label{
   font-size: 16px;
   color: #000;
-  font-family: oregon-ldo-medium;
+  font-family: "oregon-ldo-medium";
   letter-spacing: normal;
 }
 .shipping--major-wrapper , .shipping-options .shipping-option , .shipping-options .shipping-option span , .shipping--major-wrapper , .home-delivery-form p.form-subtitle {
     font-size: 16px;
     color: #1c1c1c;
-    font-family: oregon-ldo-medium;
+    font-family: "oregon-ldo-medium";
 }
  .shipping-section p.form-subtitle{
   margin: 0;
@@ -40,13 +40,13 @@ h2.shipping-title {
     padding: 0 0.5rem;
      font-size: 16px;
     color: #1c1c1c;
-    font-family: oregon-ldo-medium;
+    font-family: "oregon-ldo-medium";
 }
 .shipping-section select{
   font-size: 16px;
   color: #1c1c1c;
   margin-bottom: 1rem;
-  font-family: oregon-ldo-medium;
+  font-family: "oregon-ldo-medium";
 } 
 
 .shipping-options {
@@ -55,10 +55,24 @@ h2.shipping-title {
   margin-bottom: 2rem;
   flex-wrap:wrap;
 }
-.shipping-options input[type="radio"] , .store-list input[type="radio"] , .discount-type-options input[type="radio"]{
-      accent-color: #1c1c1c;
+.shipping-options input[type="radio"],
+.store-list input[type="radio"],
+.client-store-list input[type="radio"],
+.saved-address-option input[type="radio"],
+.client-saved-address-radio,
+.discount-type-options input[type="radio"] {
+  accent-color: #1c1c1c;
 }
-
+.client-store-list{
+  max-height: 300px;
+  overflow: scroll;
+  overflow-x: hidden;
+  margin-bottom: 20px;
+  border: 1px solid #1c1c1c;
+  border-radius: 3px;
+  padding-top: 10px;
+  padding-left: 10px;
+}
 .shipping-options  label.shipping-option{
 height: 40px;
 padding: 0 0.5rem;
@@ -81,6 +95,8 @@ label.store-option {
     display: flex;
     column-gap: 1rem;
     align-items: baseline;
+    text-transform: capitalize;
+    margin-bottom: 10px;
 }
 .store-option input{
   margin: 0;
@@ -92,19 +108,19 @@ h2.details-title {
     margin: 0 0 1.5rem;
     font-size: 20px;
     color: #1c1c1c;
-    font-family: oregon-ldo-medium;
+    font-family: "oregon-ldo-medium";
 }
 .store-details h4{
   font-size: 16px;
   color: #1c1c1c;
-  font-family: oregon-ldo-medium;
+  font-family: "oregon-ldo-medium";
    letter-spacing: normal;
 }
 .store-details p{
   font-size: 14px;
   color: #1c1c1c;
    letter-spacing: normal;
-  font-family: oregon-ldo-medium;
+  font-family: "oregon-ldo-medium";
 }
 .form-row {
   display: flex;
@@ -145,7 +161,7 @@ h2.details-title {
   border-radius: 4px;
   cursor: pointer;
   font-size: 16px;
-  font-family: oregon-ldo-medium;
+  font-family: "oregon-ldo-medium";
 }
 .store-list {
   display: flex;
@@ -186,7 +202,7 @@ h2.details-title {
   margin-bottom: 1rem;
 }
 .discount-success , .discount-error-msg {
-  margin: 6px 0 ;font-size: 14px;font-family: oregon-ldo-medium;
+  margin: 6px 0 ;font-size: 14px;font-family: "oregon-ldo-medium";
 }
 .discount-success{font-size: 14px;color: green;}
 .discount-input {
@@ -198,7 +214,7 @@ h2.details-title {
   color: #000;
   height: 40px;
   width: 68%;
-  font-family: oregon-ldo-medium;
+  font-family: "oregon-ldo-medium";
 }
 .discount-success {
   color: green;
@@ -324,6 +340,11 @@ h2.details-title {
     color: #1c1c1c;
     font-family: oregon-ldo-medium;
     margin-bottom: 5px;
+}
+
+#ring-expert-input {
+  font-family: 'Oregon LDO Medium', Arial, sans-serif;
+  font-size: 16px;
 }
 
 .shipping--major-wrapper {
@@ -667,8 +688,9 @@ button.apply-btn {
          <h2 class="shipping-title">Select Store</h2> 
           <div class="store-list"></div>
         </div>
-         <div id="billing--address">
-             <h2 class="shipping-title">Billing</h2>
+
+        <div id="billing--address">
+            <h2 class="shipping-title">Billing</h2>
             <div class="form-row">
             <div class="form-group half">
               <label for="firstName">First Name<span class="lable-required">*</span></label>
@@ -719,6 +741,7 @@ button.apply-btn {
               <input id="phone" name="billing-phone" type="tel" class="form-input" required maxlength="10">
             </div>
           </div>
+          {% comment %} Removed save-billing-address checkbox {% endcomment %}
         </div>
      </div>
       <div class="pan-card-section">
@@ -918,6 +941,210 @@ button.apply-btn {
        billingContainer.style.marginTop ='10px';
     }
   }
+
+  function fillBillingFromDataset(data) {
+  function setByName(name, value) {
+    const el = document.querySelector('input[name="' + name + '"]');
+    if (el) el.value = value || '';
+  }
+  setByName('billing-firstName', data.firstName || '');
+  setByName('billing-lastName', data.lastName || '');
+  setByName('billing-address1', data.address1 || '');
+  setByName('billing-address2', data.address2 || '');
+  setByName('billing-country', data.country || '');
+  setByName('billing-province', data.province || '');
+  setByName('billing-city', data.city || '');
+  setByName('billing-pincode', data.pincode || '');
+  setByName('billing-phone', data.phone || '');
+}
+
+function clearBillingFields() {
+  const names = [
+    'billing-firstName','billing-lastName','billing-address1','billing-address2',
+    'billing-country','billing-province','billing-city','billing-pincode','billing-phone'
+  ];
+  names.forEach(n => {
+    const el = document.querySelector('input[name="' + n + '"]');
+    if (el) el.value = '';
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  const savedRadios = document.querySelectorAll('input[name="saved-address"]');
+
+  function handleSavedRadioChange(radio) {
+    if (!radio) return;
+
+    if (radio.value === 'new') {
+      clearBillingFields();
+    } else {
+      fillBillingFromDataset(radio.dataset);
+    }
+  }
+
+  savedRadios.forEach(radio => {
+    radio.addEventListener('change', function() {
+      handleSavedRadioChange(this);
+    });
+  });
+
+  const initiallyChecked = document.querySelector('input[name="saved-address"]:checked');
+  if (initiallyChecked) handleSavedRadioChange(initiallyChecked);
+});
+
+// Apply a selected customer
+function applyEndlessAisleCustomer(customer, options = {}) {
+  if (!customer) return;
+
+  const firstName = customer.firstName || '';
+  const lastName = customer.lastName || '';
+
+  let addr = null;
+  if (customer.addresses && customer.addresses.length > 0) addr = customer.addresses[0];
+  else if (customer.defaultAddress) addr = customer.defaultAddress;
+
+  const data = {
+    firstName,
+    lastName,
+    address1: addr.address1 || '',
+    address2: addr.address2 || '',
+    country: addr ? (addr.country || '') : (customer.country || ''),
+    province: addr.province || '',
+    city: addr.city || '',
+    pincode: addr.zip || '',
+    phone: addr.phone || ''
+  };
+
+  const skipFill = options && options.skipFillBilling === true;
+  if (!skipFill) fillBillingFromDataset(data);
+
+  const ringInput = document.getElementById('ring-expert-input');
+
+  renderClientSavedAddresses(customer);
+}
+
+
+
+function renderClientSavedAddresses(customer) {
+  if (!customer) return;
+
+  let savedContainer = document.querySelector('.saved-addresses');
+  if (!savedContainer) {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'saved-addresses';
+    wrapper.innerHTML = `
+      <h2 class="shipping-title">Saved Addresses</h2>
+      <div class="client-store-list"></div>
+    `;
+    const billing = document.getElementById('billing--address');
+    if (billing && billing.parentNode) billing.parentNode.insertBefore(wrapper, billing);
+    savedContainer = wrapper;
+  }
+
+  const listEl = savedContainer.querySelector('.client-store-list');
+  if (!listEl) return;
+
+  let addrs = [];
+  if (Array.isArray(customer.addresses) && customer.addresses.length) addrs = customer.addresses;
+  else if (customer.addressesV2?.nodes) addrs = customer.addressesV2.nodes;
+  else if (customer.defaultAddress) addrs = [customer.defaultAddress];
+
+  let html = '';
+
+  addrs.forEach((addr, idx) => {
+    const id = addr.id;
+    const first = addr.firstName || '';
+    const last = addr.lastName || '';
+    const a1 = addr.address1 || '';
+    const a2 = addr.address2 || '';
+    const city = addr.city || '';
+    const prov = addr.province || '';
+    const zip = addr.zip || '';
+    const country = addr.country || '';
+    const phone = addr.phone || '';
+    
+    if (!a1 || !city) return;
+    html += `
+      <label class="store-option saved-address-option client-address-option">
+        <input type="radio" name="saved-address" value="${id}"
+          class="saved-address-radio client-saved-address-radio"
+          data-first-name="${escapeHtml(first)}"
+          data-last-name="${escapeHtml(last)}"
+          data-address1="${escapeHtml(a1)}"
+          data-address2="${escapeHtml(a2)}"
+          data-country="${escapeHtml(country)}"
+          data-province="${escapeHtml(prov)}"
+          data-city="${escapeHtml(city)}"
+          data-pincode="${escapeHtml(zip)}"
+          data-phone="${escapeHtml(phone)}">
+        <div class="store-details">
+          <h4>${escapeHtml(first)} ${escapeHtml(last)}</h4>
+          <p>${escapeHtml(a1)}${a2 ? ', ' + escapeHtml(a2) : ''}</p>
+          <p>${escapeHtml(city)}${(city && prov) ? ', ' : ''}${escapeHtml(prov)} ${escapeHtml(zip)}</p>
+          <p>${escapeHtml(country)}</p>
+          <p>${escapeHtml(phone)}</p>
+        </div>
+      </label>`;
+  });
+
+  html += `
+    <label class="store-option saved-address-option client-address-option">
+      <input type="radio" name="saved-address" value="new" class="saved-address-radio client-saved-address-radio" checked>
+      <div class="store-details"><h4>Use a new billing address</h4></div>
+    </label>`;
+
+  listEl.innerHTML = html;
+
+  const clientRadios = listEl.querySelectorAll('.client-saved-address-radio');
+  clientRadios.forEach(r =>
+    r.addEventListener('change', function() {
+      if (this.value === 'new') clearBillingFields();
+      else fillBillingFromDataset(this.dataset);
+    })
+  );
+
+  savedContainer.style.display = '';
+}
+
+function escapeHtml(s) {
+  if (!s) return '';
+  return String(s).replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"
+  })[c]);
+}
+
+// Restore customer on load
+document.addEventListener('DOMContentLoaded', function() {
+  const raw = sessionStorage.getItem('EndlessAisleSelectedCustomer');
+  if (raw) {
+    const parsed = JSON.parse(raw);
+    renderClientSavedAddresses(parsed);
+    const initiallyChecked = document.querySelector('input[name="saved-address"]:checked');
+    const skipFill = initiallyChecked && initiallyChecked.value === 'new';
+    applyEndlessAisleCustomer(parsed, { skipFillBilling: !!skipFill });
+    return;
+  }
+
+  const eaId = sessionStorage.getItem('EndlessAisleCustomerID');
+  if (eaId) {
+    
+    const base = window.EA_MODULE_BASE_URL;
+
+
+    fetch(`${base}/customers/${eaId}`)
+      .then(r => r.ok ? r.json() : Promise.reject(r))
+      .then(json => {
+        const cust = json.data.customer;
+        // Render addresses first so we can determine if the user wants a new billing address.
+        renderClientSavedAddresses(cust);
+        const initiallyChecked = document.querySelector('input[name="saved-address"]:checked');
+        const skipFill = initiallyChecked && initiallyChecked.value === 'new';
+        applyEndlessAisleCustomer(cust, { skipFillBilling: !!skipFill });
+      })
+      .catch(err => console.error('Failed to fetch EA customer', err));
+  }
+});
+
 
   function switchPaymentTab(selected) {
     const manualTab = document.getElementById("payment_step_tab-manual");

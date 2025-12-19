@@ -187,7 +187,7 @@ cart-items {
 }
 
 .tax-note {
-  margin: 2.2rem 0 1.6rem auto;
+  margin: 1.2rem 0 1.6rem auto;
   text-align: center;
   display: block;
 }
@@ -210,10 +210,10 @@ cart-items {
     margin-right: 0.8rem;
   }
 
-  .tax-note {
-    margin-bottom: 2.2rem;
-    text-align: right;
-  }
+  /* .tax-note {
+    margin-bottom: 1.2rem;
+    text-align: center;
+  } */
 
   [data-shopify-buttoncontainer] {
     justify-content: flex-end;

@@ -52,7 +52,7 @@
 ul#Slider-template--22583966269719__collection_list_cm6KYT a span:first-child::after {
   content: ">";
   font-size: 23px;
-  font-family: cursive;
+  font-family: var(--oregon-font);
   right: 100px;
   position: absolute;
   top: -5px;
@@ -581,14 +581,14 @@ ul.pro__grid li a .price {
 
 /* COLLECTION SLIDER  */
 .landing-collection-slider > h3 {
-    font-family: oregon-ldo-medium;
+    font-family: 'oregon-ldo-medium';
     font-size: 56px;
     text-align: center;
     margin-bottom: 0;
     text-transform: capitalize;
 }
 .landing-collection-slider > p {
-    font-family: oregon-ldo-medium;
+    font-family: 'oregon-ldo-medium';
     color: #a5a5a5;
     font-size: 16px;
     text-align: center;
@@ -616,7 +616,7 @@ ul.pro__grid li a .price {
 }
 div#cs a {
     text-decoration: none;
-    font-family: oregon-ldo-medium;
+    font-family: 'oregon-ldo-medium';
     font-size: 16px;
     color: #000;
 }
@@ -625,7 +625,7 @@ div#cs a {
     align-items: center;
     justify-content: center;
     color: #BE877B;
-    font-family: oregon-ldo-medium;
+    font-family: 'oregon-ldo-medium';
 }
 .gr span img {
     display: block !important;
@@ -698,7 +698,7 @@ p.mobile-faq-menu {
     border-bottom: solid #eeeeee 1px;
     font-weight: 500;
     letter-spacing: normal;
-    font-family: oregon-ldo-medium;
+    font-family: "oregon-ldo-medium";
     font-size: 24px;
     color: #000;
     position: relative;
@@ -826,13 +826,13 @@ div.mobile-faq-panel.show {
 p.faq-accordion {
     font-size: 16px;
     color: #1c1c1c;
-    font-family: oregon-ldo-medium;
+    font-family: 'oregon-ldo-medium';
     font-weight: 100;
 }
 p.faq-panel, .faq-panel p {
     font-size: 14px;
     color: #777;
-    font-family: oregon-ldo-medium;
+    font-family: 'oregon-ldo-medium';
     margin-top: 0 !important;
 }
 /* STEP 5  */
@@ -916,7 +916,7 @@ p.faq-panel, .faq-panel p {
     border-radius: 8px;
     margin-top: 10px;
     font-size: 16px;
-    font-family: oregon-ldo-medium;
+    font-family: 'oregon-ldo-medium';
     outline: none;
     box-shadow: none;
 }
@@ -981,7 +981,7 @@ p.faq-panel, .faq-panel p {
     grid-gap: 150px;
     border-bottom: 1px solid #F8E3D5;
     padding-bottom: 30px;
-    font-family: oregon-ldo-medium;
+    font-family: 'oregon-ldo-medium';
     /* max-width: 1080px; */
     /* margin: 0 auto; */
 }
@@ -1014,7 +1014,7 @@ p.faq-panel, .faq-panel p {
 }
 .footer-top h3 {
     margin-top: 0;
-    font-family: oregon-ldo-medium;
+    font-family: 'oregon-ldo-medium';
     font-size: 16px;
     margin-bottom: 24px;
 }
@@ -1038,7 +1038,7 @@ p.faq-panel, .faq-panel p {
     text-decoration: none;
     color: #BE877B;
     font-size: 16px;
-    font-family: oregon-ldo-medium;
+    font-family: 'oregon-ldo-medium';
 }
 .footer-bottom__left ul li:first-child {
     padding-left: 0;
@@ -1056,7 +1056,7 @@ p.faq-panel, .faq-panel p {
 .footer-bottom__left p {
     margin-bottom: 0;
     font-size: 16px;
-    font-family: oregon-ldo-medium;
+    font-family: 'oregon-ldo-medium';
 }
 .mobile-banner,
 .mob-video{

@@ -8,7 +8,7 @@
     #payment-backButton {display: none;justify-content: center;gap: 10px;}
     th.first--th-child{padding-left:1.5rem!important;}
     th.last--th-child ,td.product--total{text-align: end!important;padding-right: 1.5rem!important;}
-    .table--heading{font-size: 16px;color: #1c1c1c;font-family: oregon-ldo-medium;margin:0;}
+    .table--heading{font-size: 16px;color: #1c1c1c;font-family: var(--oregon-font);margin:0;}
     .hide--content{
        display: none;
     }
@@ -17,7 +17,7 @@
       display: flex;justify-content: space-between;align-items: center;
     }
     .CustomerAddressBlock , .CustomerprofileBlock , .CustomerorderBlock , .CustomerOrderHistoryBlock {background-color: #fff;padding: 2rem;margin-bottom: 2.5rem;display: none;}
-    p.Heading--label{margin: 0;font-size: 20px;color: #1c1c1c; font-family:oregon-ldo-medium;letter-spacing: normal;}
+    p.Heading--label{margin: 0;font-size: 20px;color: #1c1c1c; font-family:var(--oregon-font);letter-spacing: normal;}
     .custom-footer{margin-top: 0!important;}
     .content-for-layout{background-color:#F6F3EF;}
     div.customerAddressHeader , div.customerprofileHeader , div.customerorderHeader ,div.customerOrderHistoryHeader{
@@ -53,7 +53,7 @@
         color: #be877b;
         font-size: 16px;
         letter-spacing: normal;
-        font-family: oregon-ldo-medium;
+        font-family: var(--oregon-font);
     }
     /* Price Box Styles */
     .advance-payment-info {
@@ -83,7 +83,7 @@
       text-align: left;
       flex: 1 1 auto;
       min-width: 0;
-      font-family: oregon-ldo-medium;
+      font-family: var(--oregon-font);
     }
 
     .advance-payment-info .price-value {
@@ -93,7 +93,7 @@
       text-align: right;
       white-space: nowrap;
       flex: 0 0 auto;
-      font-family: oregon-ldo-medium;
+      font-family: var(--oregon-font);
     }
 
     .advance-payment-info .price-note {
@@ -102,17 +102,17 @@
       font-style: italic;
       line-height: 1.4;
       margin-top: 4px;
-      font-family: oregon-ldo-medium;
+      font-family: var(--oregon-font);
     }
     .input-groups input {
         height: 40px;
         font-size: 16px;
         border: 1px solid #EDEDED;padding-left: 10px;
-            letter-spacing: normal;font-family: oregon-ldo-medium;
+            letter-spacing: normal;font-family: var(--oregon-font);
     }
     .input-groups label{
         font-size: 16px;color: #1c1c1c;
-        font-family: oregon-ldo-medium;
+        font-family: var(--oregon-font);
     }
     .profileBlockaccordian .input-groups{
       margin-bottom: 10px;
@@ -120,7 +120,7 @@
     .addressContainer p , .status-selector-label {
       margin: 4px;
       font-size: 16px;
-      font-family: oregon-ldo-medium;
+      font-family: var(--oregon-font);
       letter-spacing: normal;
       line-height: 1;
       color: #000;
@@ -130,7 +130,7 @@
         padding: 0.5rem;
         font-size: 16px;
         cursor: pointer;
-        font-family: oregon-ldo-medium;
+        font-family: var(--oregon-font);
         letter-spacing: normal;
         line-height: 1;
         border:1px solid #EDEDED;
@@ -160,6 +160,7 @@
     .addressContainer {
         background-color: #F4F4F4;
         padding: 1rem;
+        text-transform: capitalize;
     }
     .addressBlock {
         display: grid;
@@ -172,13 +173,13 @@
         border: 1px solid #1c1c1c;cursor: pointer;font-size: 16px;
         letter-spacing: normal;
                 line-height: 28px;
-                font-family: oregon-ldo-medium;
+                font-family: var(--oregon-font);
     }
     div.customerNAME {
         font-size: 24px;
         color: #1c1c1c;
         letter-spacing: 1.5px;
-        font-family: oregon-ldo-medium;
+        font-family: var(--oregon-font);
         font-weight: 600;
     }
     div.customerNAME span{
@@ -187,12 +188,12 @@
     label.status--label{
       font-size: 18px;
       color: #1c1c1c;
-     font-family: oregon-ldo-medium;
+     font-family: var(--oregon-font);
     }
     .payment-summary span {
         font-size: 16px;
         color: #1c1c1c;
-        font-family: oregon-ldo-medium;
+        font-family: var(--oregon-font);
     }
     .product--status{
       cursor:pointer;
@@ -229,7 +230,7 @@
     .order-table th, .order-table td {
       padding: 12px 16px;
       text-align: left;
-      font-family: oregon-ldo-medium;
+      font-family: var(--oregon-font);
     }
     .order--detail--page--body {
       border-bottom: 1px solid #eee;
@@ -335,7 +336,7 @@
         font-size: 16px;
         letter-spacing: normal;
                 line-height: 28px;
-                font-family: oregon-ldo-medium;
+                font-family: var(--oregon-font);
       }
       .back-button {
         padding: 0.75rem 2rem;
@@ -377,7 +378,7 @@
 
         .order--detail-head{
           font-size: 20px;color: #1c1c1c;margin:0;
-              letter-spacing: normal;font-family: oregon-ldo-medium;
+              letter-spacing: normal;font-family: var(--oregon-font);
         }
         td.product-info div {
           display: flex;
@@ -386,11 +387,11 @@
          span.product-order-title {
             font-size: 16px;
             color: #1c1c1c;
-          font-family: oregon-ldo-medium;
+          font-family: var(--oregon-font);
         }
         .order-status-badge {
           background: #fdf4e2;
-          font-family: oregon-ldo-medium;
+          font-family: var(--oregon-font);
           color: #b26a00;
           padding: 0.3rem 0.6rem;
           border-radius: 4px;
@@ -399,7 +400,7 @@
         .order-date-text {
           font-size: 14px;
           color: rgba(0, 0, 0, 0.6);
-         font-family: oregon-ldo-medium;
+         font-family: var(--oregon-font);
         }
         .order-table {
           width: 100%;
@@ -421,7 +422,8 @@
           gap: 1rem;
         }
         .product-properties .item-props-elem{
-        margin:0;
+          margin:0;
+          text-transform: capitalize;
         }
         .order-summary-totals{
         display: flex;
@@ -430,7 +432,7 @@
     }
         .order-details .order-summary span {
             font-size: 18px;
-            font-family: oregon-ldo-medium;
+            font-family: var(--oregon-font);
             letter-spacing: normal;
         }
 
@@ -440,7 +442,7 @@
         .order-summary-totals span {
         font-size: 16px;
         color: #1c1c1c;
-         letter-spacing:0.75px;font-family: oregon-ldo-medium;
+         letter-spacing:0.75px;font-family: var(--oregon-font);
     }
         .product-info img {
           width: 80px;
@@ -449,7 +451,7 @@
         }
         .product-color-label {
         font-size: 12px;
-        font-family: oregon-ldo-medium;
+        font-family: var(--oregon-font);
         color: rgba(72, 72, 72, 1);
     }
     td.product--sku--num , td.product--price ,td.product--quantity,td.product--total {
@@ -465,7 +467,7 @@
         .address-section-wrapper {
           display: flex;
           margin-top: 2.5rem;
-          font-family: oregon-ldo-medium;
+          font-family: var(--oregon-font);
         }
         .address-box {
           background: white;
@@ -490,7 +492,7 @@
           margin-bottom: 1rem;
           font-size: 14px;
           display: inline-block;
-          font-family: oregon-ldo-medium;
+          font-family: var(--oregon-font);
         }
      .payment-status-badge.paid{
         background-color: #d0f0d3!important;
@@ -512,7 +514,7 @@
       .order-placement-container .product-info .title , .order-placement-container .product-info .quantext ,.order-placement-container .product-info .product-price {
         margin: 0;
         font-size: 18px;
-        font-family: oregon-ldo-medium;
+        font-family: var(--oregon-font);
 
       }
       .order-placement-container .product-info .title , .order-placement-container .product-info .quantext{
@@ -528,7 +530,7 @@
           margin-bottom: 0.5rem;
         }
         select.payment-dropdown{
-        font-family: oregon-ldo-medium;
+        font-family: var(--oregon-font);
         font-size: 16px;
         color: #1c1c1c;
         }
@@ -550,7 +552,7 @@
                 width: 100%;
                 font-size: 16px;
                 line-height: 28px;
-                font-family: oregon-ldo-medium;
+                font-family: var(--oregon-font);
                 padding: 0.75rem;
                 cursor: pointer;
          }
@@ -569,7 +571,7 @@
                 width:max-content;
                 font-size: 16px;
                 line-height: 28px;
-                font-family: oregon-ldo-medium;
+                font-family: var(--oregon-font);
                 padding: 0.75rem 2.5rem;
                 cursor: pointer;
          }
@@ -653,7 +655,7 @@
     cursor: not-allowed;
   }
   .order--detail--page--body tr td, .order--detail--page--body tr td p, .order--detail--page--body tr td span {
-    font-family: oregon-ldo-medium;
+    font-family: var(--oregon-font);
     text-transform: capitalize;
   }
   .product-details div p, .order--detail--page--body tr td {
@@ -905,7 +907,7 @@
       <button class="continue-button" onclick="validateFormAndCreatePayload()">PROCEED TO PAYMENT</button>
     </div>
     <div class="order-navigation-buttons" id="payment-backButton">
-      <button class="back-button" onclick="paymentPageHandler('shipping')">BREAK SYNC</button>
+      <button class="back-button" onclick="paymentPageHandler('shipping')">CANCEL ORDER</button>
       <button class="continue-button" onclick="completeOrder()">PLACE ORDER</button>
     </div>
   </div>
@@ -1316,8 +1318,7 @@
             document.querySelector('.customerPrimaryWrapper').style.display = 'flex';
         }
      const addressMainGrid = document.querySelector('div.addressBlockaccordian .addressBlock');
-const customerAddress = customer?.addressesV2?.nodes;
-
+     const customerAddress = customer?.addressesV2?.nodes;
 
 
 if (Array.isArray(customerAddress) && customerAddress.length > 0 && addressMainGrid) {
@@ -1336,7 +1337,6 @@ if (Array.isArray(customerAddress) && customerAddress.length > 0 && addressMainG
       zip,
       phone
     } = address || {};
-
     // Collect available address parts
     const lines = [];
     if (address1) lines.push(address1);
@@ -1711,21 +1711,27 @@ if (Array.isArray(customerAddress) && customerAddress.length > 0 && addressMainG
                 <p>Metal finish: <span>${item?.customAttributes?.find(a => a?.key === 'gem 01')?.value || ''}</span></p>
                 ${(() => {
                   // Get personalization images
-                  const personalizationImages = [];
+                  let linksHTML = '';
                   for (let i = 1; i <= 5; i++) {
                     const imgAttr = item?.customAttributes?.find(a => a?.key === 'personalization image ' + i);
                     if (imgAttr?.value) {
-                      personalizationImages.push(imgAttr.value);
+                      const isUrl = imgAttr.value.includes('http://') || imgAttr.value.includes('https://') || imgAttr.value.includes('/uploads/');
+                      if (isUrl) {
+                        linksHTML += '<p style="margin: 0.6rem 0 0;"><a href="' + imgAttr.value + '" target="_blank" style="color: #0056b3; text-decoration: none;">personalization image ' + i + '</a></p>';
+                      }
                     }
                   }
                   
-                  // Display images if any exist
-                  if (personalizationImages.length > 0) {
-                    return '<div style="display: flex; gap: 4px; margin-top: 8px;">' + personalizationImages.map(img => 
-                      '<img src="' + img + '" alt="Personalization" style="width: 28px; height: 28px; object-fit: cover; border-radius: 3px; border: 1px solid #e0e0e0;" onerror="this.style.display=\'none\'">'
-                    ).join('') + '</div>';
+                  // Check for fingerprint
+                  const fingerprintAttr = item?.customAttributes?.find(a => a?.key === 'fingerprint');
+                  if (fingerprintAttr?.value) {
+                    const isUrl = fingerprintAttr.value.includes('http://') || fingerprintAttr.value.includes('https://') || fingerprintAttr.value.includes('/uploads/');
+                    if (isUrl) {
+                      linksHTML += '<p style="margin: 0.6rem 0 0;"><a href="' + fingerprintAttr.value + '" target="_blank" style="color: #0056b3; text-decoration: none;">Fingerprint</a></p>';
+                    }
                   }
-                  return '';
+                  
+                  return linksHTML;
                 })()}
                 <p class="view-all-product-details" onclick='openProductDetailsModalEA(${lineItemIndex})'>View All</p>
               </div>
@@ -2219,22 +2225,27 @@ function getPreferredPhoneNumber(orderData) {
                   if (item.properties && Object.keys(item.properties).length > 0) {
                     propertiesHTML = '<div class="product-properties">';
                     for (const [key, value] of Object.entries(item.properties)) {
-                       if (key.trim().toLowerCase() === "price") continue;
+                      const trimmedKey = key.trim();
+                      if (trimmedKey.toLowerCase() === "price" || trimmedKey.startsWith('_')) continue;
                       if (value && value.trim() !== '') {
-                        const normalizedKey = key.trim().toLowerCase();
+                        const normalizedKey = trimmedKey.toLowerCase();
                         // Check if it's a personalization image or fingerprint
                         const isPersonalizationImage = normalizedKey.startsWith('personalization image');
                         const isFingerprint = normalizedKey === 'fingerprint';
                         
                         if (isPersonalizationImage || isFingerprint) {
-                          // Trim the URL to 30 characters max
-                          const trimmedValue = value.trim().length > 30 
-                            ? value.trim().substring(0, 30) + '...' 
-                            : value.trim();
-                          propertiesHTML += `<p class="item-props-elem" style="margin: 0;">${key.trim()}: <a href="${value.trim()}" target="_blank" style="color: #007bff; text-decoration: underline; cursor: pointer;">${trimmedValue}</a></p>`;
+                          // Check if value is a URL
+                          const isUrl = value.trim().includes('http://') || value.trim().includes('https://') || value.trim().includes('/uploads/');
+                          if (isUrl) {
+                            // Make the key itself a clickable link
+                            propertiesHTML += `<p class="item-props-elem" style="margin: 0;"><a href="${value.trim()}" target="_blank" style="color: #0056b3; text-decoration: none;">${trimmedKey}</a></p>`;
+                          } else {
+                            // Render normally if not a URL
+                            propertiesHTML += `<p class="item-props-elem">${trimmedKey}: ${value.trim()}</p>`;
+                          }
                         } else {
                           // Render normally
-                          propertiesHTML += `<p class="item-props-elem">${key.trim()}: ${value.trim()}</p>`;
+                          propertiesHTML += `<p class="item-props-elem">${trimmedKey}: ${value.trim()}</p>`;
                         }
                       }
                     }
@@ -2510,6 +2521,8 @@ function getPreferredPhoneNumber(orderData) {
 
   getShopLocation();
 
+
+
   function getShopLocation() {
       const myHeaders = new Headers();
       myHeaders.append("accept", "application/json");
@@ -2520,24 +2533,25 @@ function getPreferredPhoneNumber(orderData) {
         redirect: "follow"
       };
 
+    
     fetch(`${window.EA_MODULE_BASE_URL}/orders/locations`, requestOptions)
       .then((response) => {
-            if (!response.ok) {
-              throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json(); 
-          })
-          .then((result) => {
-            const locations = result.data.locations; 
-            if(locations.length > 0){
-              let locationList = '';
-               locations.forEach(location => {
-          let address = 
-            (location.address.address1 ? location.address.address1 + ' ' : '') + 
-            (location.address.city ? location.address.city + ' ': '') + 
-            (location.address.province ? location.address.province + ' ' : '') + 
-            (location.address.country ? location.address.country + ' ' : '');
-
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json(); 
+        })
+        .then((result) => {
+          const locations = result.data.locations; 
+          const pickupStoreList = document.querySelector('.shipping-section div.store-list');
+          if(locations.length > 0){
+            let locationList = '';
+              locations.forEach(location => {
+              let address = 
+                (location.address.address1 ? location.address.address1 + ' ' : '') + 
+                (location.address.city ? location.address.city + ' ': '') + 
+                (location.address.province ? location.address.province + ' ' : '') + 
+                (location.address.country ? location.address.country + ' ' : '');
                 locationList += `
                   <label class="store-option">
                     <input type="radio" name="store-location" class="store-radio" value="${location.id}">
@@ -2546,59 +2560,58 @@ function getPreferredPhoneNumber(orderData) {
                       <p>${address}</p>
                     </div>
                   </label>`;
-      });
-
-                document.querySelector('div.store-list').innerHTML = locationList;
-            } else {
-               document.querySelector('div.store-list').innerHTML = `<p class="store_error_message">There are no stores</p>`;
-            }
-           })
-          .catch((error) => {
-            console.error("Fetch error -->", error); 
-           
-          });
+                });
+                pickupStoreList.innerHTML = locationList;
+                } 
+                else {
+                  pickupStoreList.innerHTML = `<p class="store_error_message">There are no stores</p>`;
+                }
+              })
+              .catch((error) => {
+                console.error("Fetch error -->", error); 
+              });
   }
 
-    function updateOrderStatus(select){
-       if(select.value == '') return;
-        onGlobalLoader();
-        const myHeaders = new Headers();
-        myHeaders.append("accept", "application/json");
-        myHeaders.append("Content-Type", "application/json");
+  function updateOrderStatus(select){
+      if(select.value == '') return;
+      onGlobalLoader();
+      const myHeaders = new Headers();
+      myHeaders.append("accept", "application/json");
+      myHeaders.append("Content-Type", "application/json");
 
-        const raw = JSON.stringify({
-          "qcStatus": `${select.value}`
-        });
+      const raw = JSON.stringify({
+        "qcStatus": `${select.value}`
+      });
 
-        const requestOptions = {
-          method: "PUT",
-          headers: myHeaders,
-          body: raw,
-          redirect: "follow"
-        };
+      const requestOptions = {
+        method: "PUT",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow"
+      };
 
-        const orderId = select.getAttribute('order-Id');
-       
-        fetch(`${window.EA_MODULE_BASE_URL}/orders/${orderId}/qc-status`, requestOptions)
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error(`HTTP error! Status: ${response.status}`);
-              offGlobalLoader();
-            }
-            return response.json(); 
-          })
-          .then((result) => {
-               offGlobalLoader();
-               alert('Status Updated');
-               location.reload();
-
-          })
-          .catch((error) => {
-            console.error("Fetch error -->", error);
+      const orderId = select.getAttribute('order-Id');
+      
+      fetch(`${window.EA_MODULE_BASE_URL}/orders/${orderId}/qc-status`, requestOptions)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
             offGlobalLoader();
-             alert('Error in updating status');
-          });
-    }
+          }
+          return response.json(); 
+        })
+        .then((result) => {
+              offGlobalLoader();
+              alert('Status Updated');
+              location.reload();
+
+        })
+        .catch((error) => {
+          console.error("Fetch error -->", error);
+          offGlobalLoader();
+            alert('Error in updating status');
+        });
+  }
       
 
 
@@ -2614,35 +2627,46 @@ function getPreferredPhoneNumber(orderData) {
 
 
   function getSelectedStoreId() {
-    const selectedStore = document.querySelector('.store-list input[type="radio"]:checked');
+    const selectedStore = document.querySelector('.shipping-section .store-list input[type="radio"]:checked');
+    
     return selectedStore ? selectedStore.value : null;
   }
 
 
    function validateFields(prefix) {
-  const firstName = document.querySelector(`input[name="${prefix}-firstName"]`).value.trim();
-  const lastName = document.querySelector(`input[name="${prefix}-lastName"]`).value.trim();
-  const address1 = document.querySelector(`input[name="${prefix}-address1"]`).value.trim();
-  const address2 = document.querySelector(`input[name="${prefix}-address2"]`).value.trim();
-  const city = document.querySelector(`input[name="${prefix}-city"]`).value.trim();
-  const province = document.querySelector(`input[name="${prefix}-province"]`).value.trim();
-  const country = document.querySelector(`input[name="${prefix}-country"]`).value.trim();
-  const pincode = document.querySelector(`input[name="${prefix}-pincode"]`).value.trim();
-  const phone = document.querySelector(`input[name="${prefix}-phone"]`).value.trim();
+    const elFirst = document.querySelector(`input[name="${prefix}-firstName"]`);
+    const elLast = document.querySelector(`input[name="${prefix}-lastName"]`);
+    const elAddress1 = document.querySelector(`input[name="${prefix}-address1"]`);
+    const elAddress2 = document.querySelector(`input[name="${prefix}-address2"]`);
+    const elCity = document.querySelector(`input[name="${prefix}-city"]`);
+    const elProvince = document.querySelector(`input[name="${prefix}-province"]`);
+    const elCountry = document.querySelector(`input[name="${prefix}-country"]`);
+    const elPincode = document.querySelector(`input[name="${prefix}-pincode"]`);
+    const elPhone = document.querySelector(`input[name="${prefix}-phone"]`);
 
-  if (!firstName || !lastName || !address1 || !address2 || !city || !province || !country || !pincode || !phone) {
-    offGlobalLoader();
-    showToast("Please fill in all required fields.");
-    return false;
-  }
+    const firstName = elFirst?.value?.trim() || '';
+    const lastName = elLast?.value?.trim() || '';
+    const address1 = elAddress1?.value?.trim() || '';
+    const address2 = elAddress2?.value?.trim() || '';
+    const city = elCity?.value?.trim() || '';
+    const province = elProvince?.value?.trim() || '';
+    const country = elCountry?.value?.trim() || '';
+    const pincode = elPincode?.value?.trim() || '';
+    const phone = elPhone?.value?.trim() || '';
 
-  if (phone.length !== 10) {
-    offGlobalLoader();
-    showToast("Phone number must be exactly 10 digits.");
-    return false;
-  }
+    if (!firstName || !lastName || !address1 || !address2 || !city || !province || !country || !pincode || !phone) {
+      offGlobalLoader();
+      showToast("Please fill in all required fields.");
+      return false;
+    }
 
-  return true;
+    if (phone.length !== 10) {
+      offGlobalLoader();
+      showToast("Phone number must be exactly 10 digits.");
+      return false;
+    }
+
+    return true;
 }
 
 
@@ -2664,23 +2688,27 @@ function getPreferredPhoneNumber(orderData) {
 }
 
 
+
 function validateFormAndCreatePayload() {
-    onGlobalLoader();
-    const customer_ID =  document.querySelector('#customerRelatedData').getAttribute('customer-id');
-    const customerId = `gid://shopify/Customer/${customer_ID}`; 
-    const email = document.querySelector('#customerRelatedData').getAttribute('customer-email'); 
-    const cartObject = JSON.parse(window.cartItemJson);
-    const shippingMethod = document.querySelector('input[name="shipping-method"]:checked').value;
+  onGlobalLoader();
+  const customer_ID =  document.querySelector('#customerRelatedData').getAttribute('customer-id');
+  const customerId = `gid://shopify/Customer/${customer_ID}`; 
+  const email = document.querySelector('#customerRelatedData').getAttribute('customer-email'); 
+  const cartObject = JSON.parse(window.cartItemJson || '[]');
+  
+  const shippingCheckedEl = document.querySelector('input[name="shipping-method"]:checked');
+  const shippingMethod = shippingCheckedEl?.value || null;
     const billingCheckbox = document.getElementById('billing--checkbox');
     const panCardSection = document.querySelector('.pan-card-section');
     const panCardInput = document.getElementById('pan-card-number');
-    const panCardRequired = getComputedStyle(panCardSection).display !== 'none';
-    const panCardValue = panCardInput.value.trim();
+    const panCardRequired = panCardSection ? getComputedStyle(panCardSection).display !== 'none' : false;
+    const panCardValue = panCardInput ? (panCardInput.value || '').trim() : '';
     
     const ringExpertSection = document.querySelector('.ring-expert-section');
     const ringExpertInput = document.getElementById('ring-expert-input');
-    const ringExpertRequired = getComputedStyle(ringExpertSection).display !== 'none';
-    const ringExpertValue = ringExpertInput ? ringExpertInput.value.trim() : '';
+    const ringExpertRequired = Boolean(ringExpertSection && getComputedStyle(ringExpertSection).display !== 'none');
+    const ringExpertValue = (ringExpertInput?.value || '').trim();
+    
 
     let payload = {
         items: cartObject,
@@ -2746,8 +2774,10 @@ function validateFormAndCreatePayload() {
     }
 
   }
+  
   createDraftOrder (payload)
 }
+
 
   function createDraftOrder (data){
        const myHeaders = new Headers();
@@ -2763,7 +2793,9 @@ function validateFormAndCreatePayload() {
           redirect: "follow"
         };
 
-      fetch(`${window.EA_MODULE_BASE_URL}/draft-orders/endless-aisle`, requestOptions)
+      const eaDraftApiUrl = `${window.EA_MODULE_BASE_URL}/draft-orders/endless-aisle`;
+      
+      fetch(eaDraftApiUrl, requestOptions)
       .then((response) => {
             if (!response.ok) {
               offGlobalLoader();
@@ -3078,7 +3110,7 @@ function validateFormAndCreatePayload() {
           setTimeout(checkAndFetch, 100);
           return;
         }
-        
+
         // API function is available, proceed with fetch
         window.fetchOrderDetailsAPI(orderId)
           .then((data) => {
@@ -3092,7 +3124,7 @@ function validateFormAndCreatePayload() {
             reject(error);
           });
       };
-      
+
       checkAndFetch();
     });
   }
@@ -3104,11 +3136,11 @@ function validateFormAndCreatePayload() {
   async function openProductDetailsModalEA(lineItemIndex) {
     if (!window.orderDetailsData) {
       const orderIdFromContext = window.currentOrderId || window.orderId;
-      
+
       if (orderIdFromContext) {
         try {
           await fetchOrderDetailsForEA(orderIdFromContext);
-          
+
           if (window.orderDetailsData && typeof window.populateOrderDetailsModal === 'function') {
             window.populateOrderDetailsModal(lineItemIndex, window.orderDetailsData);
           } else {
@@ -3124,13 +3156,13 @@ function validateFormAndCreatePayload() {
         return;
       }
     }
-    
+
     if (typeof window.populateOrderDetailsModal !== 'function') {
       console.error('populateOrderDetailsModal function not available');
       alert('Modal function not loaded. Please refresh the page.');
       return;
     }
-    
+
     window.populateOrderDetailsModal(lineItemIndex, window.orderDetailsData);
   }
 

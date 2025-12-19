@@ -19,7 +19,7 @@
         }))
       };
 
-      // Fetch from API
+      // API call: POST partial price calculation -> `${window.EA_MODULE_BASE_URL}/price/partial-price-calculation`
       const apiUrl = `${window.EA_MODULE_BASE_URL}/price/partial-price-calculation`;
       const response = await fetch(apiUrl, {
         method: 'POST',
