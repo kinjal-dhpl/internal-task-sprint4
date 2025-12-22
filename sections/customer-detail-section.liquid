@@ -2709,6 +2709,7 @@ function validateFormAndCreatePayload() {
     const ringExpertRequired = Boolean(ringExpertSection && getComputedStyle(ringExpertSection).display !== 'none');
     const ringExpertValue = (ringExpertInput?.value || '').trim();
     
+    const ringExpertEmail = document.querySelector('.ring-expert-email').textContent.trim();
 
     let payload = {
         items: cartObject,
@@ -2731,6 +2732,7 @@ function validateFormAndCreatePayload() {
         return;
       }
       payload.ringExpert = ringExpertValue;
+      payload.ringExpertEmail = ringExpertEmail;
     }
 
     if (panCardRequired) {
@@ -2762,6 +2764,7 @@ function validateFormAndCreatePayload() {
         return;
       }
       payload.ringExpert = ringExpertValue;
+      payload.ringExpertEmail = ringExpertEmail;
     }
     
     if (panCardRequired) {
