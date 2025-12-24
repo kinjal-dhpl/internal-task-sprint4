@@ -776,10 +776,12 @@
       },
       selectVariantById(variantId, triggerPriceUpdate = true) {
         // Update visual selection
+        const earlierSelected = document.querySelector(".variant-box.selected");
         document.querySelectorAll('.variant-box').forEach((box) => {
           box.classList.remove('selected');
         });
         const selectedBox = document.querySelector(`.variant-box[data-variant-id="${variantId}"]`);
+
         if (selectedBox) {
           selectedBox.classList.add('selected');
         }
@@ -805,6 +807,15 @@
             window.ProductState.updateURL();
           }
         }
+        // Check for Platinum specific personalisation
+        if(earlierSelected) {
+          const isEarlierPlatinum = earlierSelected.parentElement.getAttribute("data-option1")?.toLowerCase().includes("platinum");
+          const isNewPlatinum = selectedBox.parentElement.getAttribute("data-option1")?.toLowerCase().includes("platinum");
+          if(isEarlierPlatinum !== isNewPlatinum){
+            console.log("Other metal type variant selected");
+          }
+        }
+
         // Notify other components that variant changed
         try {
           document.dispatchEvent(new CustomEvent('pdp:variant-changed', { detail: { variantId } }));

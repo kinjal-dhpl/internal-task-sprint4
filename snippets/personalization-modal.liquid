@@ -28,7 +28,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const modal = document.getElementById('personalization-modal');
     const closeButtons = document.querySelectorAll('[data-action="close-modal"]');
     const saveButton = document.querySelector('[data-action="save-personalization"]');
-    const optionButtons = document.querySelectorAll('.option-btn');
     // personalized radio buttons
     const selectedNoPersonalization = document.querySelector("#no-personalization-radio");
     const selectedPersonalization = document.querySelector("#personalization-radio");
@@ -54,28 +53,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.target === modal) {
             closeModal();
         }
-    });
-    
-    // Handle save button
-//    saveButton.addEventListener('click', function() {
-//        savePersonalization();
-//    });
-    
-    // Handle option button selections
-    optionButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const group = this.getAttribute('data-group');
-            const value = this.getAttribute('data-value');
-            
-            // Remove active class from all buttons in the same group
-            const groupButtons = document.querySelectorAll(`[data-group="${group}"]`);
-            groupButtons.forEach(btn => btn.classList.remove('active'));
-            
-            // Add active class to clicked button
-            this.classList.add('active');
-            
-            console.log(`Selected ${group}: ${value}`);
-        });
     });
     
     // Keyboard support
@@ -149,20 +126,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function savePersonalization() {
-        console.log('savePersonalization');
         const selections = {};
-        
-        // Collect all selected options
-        optionButtons.forEach(button => {
-            if (button.classList.contains('active')) {
-                const group = button.getAttribute('data-group');
-                const value = button.getAttribute('data-value');
-                selections[group] = value;
-            }
-        });
-        
         console.log('Personalization saved:', selections);
-        
+    
         // Close modal after saving
         closeModal();
         

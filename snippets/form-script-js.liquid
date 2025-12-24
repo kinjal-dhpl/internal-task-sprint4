@@ -344,11 +344,10 @@
         if (action === 'open-modal') {
           // clear selection input
           const personalizedSummaryContainer = document.getElementById('personalization-summary');
-          // personalized radio buttons
-          const selectedNoPersonalization = document.querySelector('#no-personalization-radio');
-          let selectedPersonalization = document.querySelector('#personalization-radio');
 
           if (personalizedSummaryContainer && personalizedSummaryContainer.classList.contains('hidden')) {
+            console.log("do nothing");
+            const selectedPersonalization = document.querySelector('#personalization-radio');
             selectedPersonalization.checked = false;
           }
           // Call the global function to open modal
@@ -356,6 +355,7 @@
             window.openPersonalizationModal();
           }
         } else if (action === 'no-personalization') {
+          console.log("never comes here");
           handleNoPersonalization();
         }
       });
@@ -778,7 +778,7 @@
   const finalSummaryFormWrapper = document.getElementById('final-summary-form');
   //--------------- Input Change --------------------//
   // Combine all radio input NodeLists into one array
-  const formRadioAllInputs = [...personalizeFormOptionsCard, ...engravingChoiceCards];
+  const formRadioAllInputs = [...engravingChoiceCards];
   console.log('formRadioAllInputs', formRadioAllInputs);
   formRadioAllInputs.forEach((option) => {
     const optionParent = option.parentElement;
@@ -788,7 +788,10 @@
     option.addEventListener('click', (x) => {
       const optionInputs = optionParent.querySelectorAll('input');
       let isSomeInputSelected = Array.from(optionInputs).find((input) => input.checked);
-      if (isSomeInputSelected) enableNextForm(isFormContainer);
+      if (isSomeInputSelected) {
+        console.log("abhi 5", isSomeInputSelected);
+        enableNextForm(isFormContainer);
+      }
     });
   });
   document.addEventListener('DOMContentLoaded', (x) => {
