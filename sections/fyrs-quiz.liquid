@@ -1050,37 +1050,6 @@ function showStartScreen() {
 
     document.getElementById("btn-start").onclick = startQuiz;
 
-    // setTimeout(() => {
-    //     const content =document.getElementById("start-screen");
-    //     if (!content) return;
-
-    //     const rect = content.getBoundingClientRect();
-    //     const currentScroll = window.pageYOffset;
-    //     const viewportHeight = window.innerHeight;
-    //     const contentHeight = rect.height;
-
-    //     let scrollTop;
-
-    //     if (contentHeight < viewportHeight) {
-    //         // TRUE center
-    //         scrollTop =
-    //             currentScroll +
-    //             rect.top -
-    //             (viewportHeight / 2) +
-    //             (contentHeight / 2);
-    //     } else {
-    //         scrollTop =
-    //             currentScroll +
-    //             rect.top -
-    //             2; 
-    //     }
-    //     window.scrollTo({
-    //         top: Math.max(0, scrollTop),
-    //         behavior: "smooth"
-    //     });
-    // }, 50);
-
-
         setTimeout(() => {
             window.scrollTo({
                 top: 140,
