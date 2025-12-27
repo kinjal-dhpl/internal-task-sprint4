@@ -291,6 +291,16 @@
             "button_url": "https://ringsandi-book-your-visit.zohobookings.in/#/72654000002686128"
           }
         },
+        "row_NbB9Ny": {
+          "type": "row",
+          "settings": {
+            "image": "shopify://shop_images/Untitled_design_65.png",
+            "text1": "Mumbai Studio",
+            "text2": "1st Floor, Manubhai Jewellers, Rashmi Celestia, L.T. Rd, opp. Ganesh Darshan, Gautam Nagar, Borivali, Mumbai, Maharashtra 400092",
+            "button": "Book an Appointment",
+            "button_url": "Appointment-Booking-Borivali"
+          }
+        },
         "row_rHYjRn": {
           "type": "row",
           "settings": {
@@ -300,22 +310,12 @@
             "button": "Book an Appointment",
             "button_url": "https://ringsandi.com/pages/appointment"
           }
-        },
-        "row_NbB9Ny": {
-          "type": "row",
-          "settings": {
-            "image": "shopify://shop_images/Untitled_design_65.png",
-            "text1": "Mumbai Studio",
-            "text2": "1st Floor, Manubhai Jewellers, Rashmi Celestia, L.T. Rd, opp. Ganesh Darshan, Gautam Nagar, Borivali, Mumbai, Maharashtra 400092",
-            "button": "Book an Appointment",
-            "button_url": "https://ringsandi.com/pages/appointment-booking-mumbai"
-          }
         }
       },
       "block_order": [
         "col_jgaCj7",
-        "row_rHYjRn",
-        "row_NbB9Ny"
+        "row_NbB9Ny",
+        "row_rHYjRn"
       ],
       "custom_css": [
         ".slider-button {display: none;}",
