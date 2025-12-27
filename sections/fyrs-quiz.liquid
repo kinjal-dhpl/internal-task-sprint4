@@ -1694,13 +1694,13 @@ document.addEventListener("DOMContentLoaded", () => {
 }
 
 /* --------------------------Staring Page Css------------------------------ */
-       .fyrs-root {
+        .fyrs-root {
             font-weight: 500;
             font-style: normal;
             font-display: swap;
             min-height: 100vh;
             display: flex;
-            align-items: center;
+            align-items: center !important;
             justify-content: center;
             position: relative;
             font-family: 'Oregon LDO Medium';
@@ -1710,7 +1710,7 @@ document.addEventListener("DOMContentLoaded", () => {
             .fyrs-title {
                 white-space: normal !important;
                 line-height: 1.15;
-                text-align: center;
+                text-align: center !important;
                 letter-spacing: 0.04em;
                 font-family: 'Oregon LDO Medium';
             }
@@ -1719,6 +1719,9 @@ document.addEventListener("DOMContentLoaded", () => {
         @media (min-width:400px) {
             .fyrs-root {
                 overflow: hidden;
+            }
+            .fyrs-title{
+                margin-left:1em;
             }
         }
 
@@ -1738,7 +1741,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .fyrs {
             position: relative;
             z-index: 1;
-            text-align: center;
+            text-align: center !important;
             max-width: 680px;
             padding: 20px;
             font-family: 'Oregon LDO Medium', serif;
@@ -1760,8 +1763,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 0 0 8px rgba(255, 255, 255, 0.25),
                 0 2px 6px rgba(0, 0, 0, 0.3);
             filter: brightness(1.1);
-            font-family: 'Oregon LDO Medium';
-            margin-left:-0.8em;
+            font-family: 'Oregon LDO Medium';   
             margin-top:-1.7em;
         }
 
@@ -1851,8 +1853,6 @@ document.addEventListener("DOMContentLoaded", () => {
         inset 0 1px 0 rgba(255, 255, 255, .8);
 }
 
-
-
 .fyrs-root .fyrs-foot {
     margin-top: 14px;
     font-size: 10px;
@@ -1860,6 +1860,7 @@ document.addEventListener("DOMContentLoaded", () => {
     color: #c6beb4;
     font-weight: 500;
 }
+
 
 
 /* --------------------------------QUIZ FLOW CSS------------------------------- */
