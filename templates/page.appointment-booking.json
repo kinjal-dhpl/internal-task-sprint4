@@ -281,6 +281,16 @@
     "appointment_booking_desktop_MzkQcq": {
       "type": "appointment-booking-desktop",
       "blocks": {
+        "row_rHYjRn": {
+          "type": "row",
+          "settings": {
+            "image": "shopify://shop_images/IMG_2242.jpg",
+            "text1": "Andheri Mumbai Studio",
+            "text2": "Royal Classic, New Link Rd, next to Citi Mall, Phase D, Shastri Nagar, Andheri West, Mumbai, Maharashtra 400053",
+            "button": "Book an Appointment",
+            "button_url": "https://ringsandi-book-your-visit.zohobookings.in/#/72654000002686128"
+          }
+        },
         "col_jgaCj7": {
           "type": "col",
           "settings": {
@@ -300,22 +310,12 @@
             "button": "Book an Appointment",
             "button_url": "https://ringsandi.com/pages/appointment-booking-mumbai"
           }
-        },
-        "row_rHYjRn": {
-          "type": "row",
-          "settings": {
-            "image": "shopify://shop_images/Untitled_design_67.png",
-            "text1": "Andheri Mumbai Studio",
-            "text2": "Royal Classic, New Link Rd, next to Citi Mall, Phase D, Shastri Nagar, Andheri West, Mumbai, Maharashtra 400053",
-            "button": "Book an Appointment",
-            "button_url": "https://ringsandi-book-your-visit.zohobookings.in/#/72654000002686128"
-          }
         }
       },
       "block_order": [
+        "row_rHYjRn",
         "col_jgaCj7",
-        "row_NbB9Ny",
-        "row_rHYjRn"
+        "row_NbB9Ny"
       ],
       "custom_css": [
         ".slider-button {display: none;}",
