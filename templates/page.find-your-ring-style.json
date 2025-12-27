@@ -41,12 +41,20 @@
     },
     "custom_liquid_cn6KN7": {
       "type": "custom-liquid",
+      "disabled": true,
       "name": "Custom Quizell Liquid",
       "settings": {
         "custom_liquid": "<div id=\"wV5oS6\"\n          ></div>\n<script data-qz-key=\"wV5oS6\" src=\"https://api.quizell.com/js/qzembed.js?v=41959\"></script>",
         "color_scheme": "",
         "padding_top": 40,
         "padding_bottom": 52
+      }
+    },
+    "fyrs_quiz_NEk4jw": {
+      "type": "fyrs-quiz",
+      "name": "FYRS-Quiz",
+      "settings": {
+        "fyrs_quiz": ""
       }
     }
   },
@@ -55,6 +63,7 @@
     "170410171985c91777",
     "custom_liquid_T8DbW3",
     "1734408582f143e084",
-    "custom_liquid_cn6KN7"
+    "custom_liquid_cn6KN7",
+    "fyrs_quiz_NEk4jw"
   ]
 }
