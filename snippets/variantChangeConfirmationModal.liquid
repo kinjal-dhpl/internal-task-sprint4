@@ -1,4 +1,4 @@
-<!-- Engraving Modal -->
+<!-- variant change confirmation Modal -->
 <div id="var-change-confirmation-modal" class="modal-overlay">
   <div class="modal-content">
     <div class="modal-header">
@@ -6,14 +6,26 @@
       <button class="modal-close" data-action="close-var-change-confirmation-modal">&times;</button>
     </div>
 
-    <div class="modal-body">hello, hi what's up?
-        Lorem ipsum dol deletr
+    <div class="modal-body">hello, hi what's up? Lorem ipsum dol deletr</div>
+
+    <div
+      class="modal-footer"
+      style="
+        position: sticky;
+        bottom: 0;
+        display: flex;
+        margin: 0;
+        gap:4px;
+        justify-content: space-between;
+      "
+    >
+      <button class="modal-btn-one modal-action-btn" data-action="">Button 1</button
+      ><button class="modal-btn-two modal-action-btn" data-action="">Button 2</button>
     </div>
   </div>
 </div>
 
 <style>
-  /* Engraving Modal Styles */
   #var-change-confirmation-modal {
     position: fixed;
     top: 0;
@@ -21,7 +33,7 @@
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
-    display: block;
+    display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
@@ -42,8 +54,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 30px;
     border-bottom: 1px solid #eee;
+  }
+  #var-change-confirmation-modal {
+    .modal-header ,
+    .modal-body ,
+    .modal-footer{
+      padding: 20px 30px;
+    }
   }
   #var-change-confirmation-modal .modal-title {
     font-size: 24px;
@@ -104,6 +122,16 @@
     margin: 0;
     line-height: 1.4;
   }
+
+  {% comment %} footer action buttons {% endcomment %}
+  .modal-action-btn {
+    flex: 1;
+    padding: 1rem 0.2rem;
+    cursor: pointer;
+    border: 1px solid #3535;
+    border-radius: 5px;
+}
+
   /* Responsive */
   @media (max-width: 768px) {
     #var-change-confirmation-modal .modal-content {
@@ -113,6 +141,10 @@
 
     #var-change-confirmation-modal .instruction-text {
       padding: 15px 20px 10px 20px;
+    }
+
+    #var-change-confirmation-modal .modal-content{
+      max-height:65vh;
     }
   }
 </style>
