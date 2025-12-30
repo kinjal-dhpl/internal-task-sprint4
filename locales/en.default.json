@@ -566,5 +566,10 @@
       "signup_form_success": "We will send you an email right before we open!",
       "password_link": "Enter using password"
     }
+  },
+  "shopify": {
+    "errors": {
+      "reset_password_html": "test"
+    }
   }
 }
