@@ -811,8 +811,14 @@
         if(earlierSelected) {
           const isEarlierPlatinum = earlierSelected.parentElement.getAttribute("data-option1")?.toLowerCase().includes("platinum");
           const isNewPlatinum = selectedBox.parentElement.getAttribute("data-option1")?.toLowerCase().includes("platinum");
-          if(isEarlierPlatinum !== isNewPlatinum){
+          if(isEarlierPlatinum !== isNewPlatinum) {
             console.log("Other metal type variant selected abhi");
+            //only open modal if personalisation was added previously
+            const personalisationAdded = document.querySelector(".personalization-summary.hidden");
+            if(!personalisationAdded) {
+              console.log("Personalisation was added previously");
+              document.getElementById("var-change-confirmation-modal").classList.add("active");
+            }
           }
         }
 
