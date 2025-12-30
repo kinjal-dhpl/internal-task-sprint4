@@ -38,21 +38,19 @@
         {%- for field in form.errors -%}
           <li>
             {%- if field == 'form' -%}
-              {%- assign form_message = form.errors.messages.form | strip_html -%}
-              {%- assign form_message_down = form_message | downcase -%}
-              {%- if form_message_down contains 'already associated' or form_message_down contains 'already been taken' or form_message_down contains 'login#recover' -%}
+              {%- assign form_message = form.errors.messages.form | strip_html | downcase -%}
+              {%- if form_message contains 'login#recover' -%}
                 This email address is already associated with an account. If this account is yours, you can <a href="{{ routes.account_login_url }}#recover">reset your password</a>.
               {%- else -%}
-                {{ form_message | escape }}
+                {{ form.errors.messages.form | strip_html | escape }}
               {%- endif -%}
             {%- elsif field == 'email' -%}
               {{ form.errors.translated_fields.email | capitalize | escape }}
-              {%- assign email_message = form.errors.messages.email | strip_html -%}
-              {%- assign email_message_down = email_message | downcase -%}
-              {%- if email_message_down contains 'already associated' or email_message_down contains 'already been taken' -%}
+              {%- assign email_message = form.errors.messages.email | strip_html | downcase -%}
+              {%- if email_message contains 'login#recover' -%}
                 This email address is already associated with an account. If this account is yours, you can <a href="{{ routes.account_login_url }}#recover">reset your password</a>.
               {%- else -%}
-                {{ email_message | escape }}
+                {{ form.errors.messages.email | strip_html | escape }}
               {%- endif -%}
             {%- else -%}
               <a href="#RegisterForm-{{ field }}">
