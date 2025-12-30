@@ -42,7 +42,7 @@
             {%- else -%}
               <a href="#RegisterForm-{{ field }}">
                 {{ form.errors.translated_fields[field] | capitalize }}
-                {{ form.errors.messages[field] }}
+                {{ form.errors.messages[field] | escape }}
               </a>
             {%- endif -%}
           </li>
