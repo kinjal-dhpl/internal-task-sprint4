@@ -32,7 +32,7 @@
         <svg aria-hidden="true" focusable="false">
           <use href="#icon-error" />
         </svg>
-        {{ 'templates.contact.form.error_heading'   }}
+        {{ 'templates.contact.form.error_heading' | t | escape   }}
       </h2>
       <ul>
         {%- for field in form.errors -%}
@@ -41,8 +41,8 @@
               {{ form.errors.messages[field] }}
             {%- else -%}
               <a href="#RegisterForm-{{ field }}">
-                {{ form.errors.translated_fields[field] | capitalize  }}
-                {{ form.errors.messages[field] }}
+                {{ form.errors.translated_fields[field] | capitalize | escape }}
+                {{ form.errors.messages[field] | escape }}
               </a>
             {%- endif -%}
           </li>
@@ -106,8 +106,8 @@
         <svg aria-hidden="true" focusable="false">
           <use href="#icon-error" />
         </svg>
-        {{ form.errors.translated_fields.email | capitalize }}
-        {{ form.errors.messages.email }}.
+        {{ form.errors.translated_fields.email | capitalize  | escape }}
+        {{ form.errors.messages.email | escape }}.
       </span>
     {%- endif -%}
     <div class="field">
@@ -131,8 +131,8 @@
         <svg aria-hidden="true" focusable="false">
           <use href="#icon-error" />
         </svg>
-        {{ form.errors.translated_fields.password | capitalize }}
-        {{ form.errors.messages.password }}.
+        {{ form.errors.translated_fields.password | capitalize | escape  }}
+        {{ form.errors.messages.password | escape  }}.
       </span>
     {%- endif -%}
     <button>
