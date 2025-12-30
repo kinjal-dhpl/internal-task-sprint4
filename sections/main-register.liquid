@@ -37,18 +37,18 @@
       <ul>
         {%- for field in form.errors -%}
           <li>
-            {%- if field == 'form' -%}
-              {%- assign form_message = form.errors.messages.form | strip_html | downcase -%}
-              {%- if form_message contains 'login#recover' -%}
-                This email address is already associated with an account. If this account is yours, you can <a href="{{ routes.account_login_url }}#recover">reset your password</a>.
+            {%- assign error_message = form.errors.messages[field] | strip_html | downcase -%}
+            {%- if error_message contains 'login#recover' -%}
+              This email address is already associated with an account. If this account is yours, you can <a href="{{ routes.account_login_url }}#recover">reset your password</a>.
             {%- else -%}
+              {%- if field == 'form' -%}
                 {{ form.errors.messages[field] }}
+              {%- else -%}
+                <a href="#RegisterForm-{{ field }}">
+                  {{ form.errors.translated_fields[field] | capitalize }}
+                  {{ form.errors.messages[field] }}
+                </a>
               {%- endif -%}
-            {%- else -%}
-              <a href="#RegisterForm-{{ field }}">
-                {{ form.errors.translated_fields[field] | capitalize }}
-                {{ form.errors.messages[field] }}
-              </a>
             {%- endif -%}
           </li>
         {%- endfor -%}
