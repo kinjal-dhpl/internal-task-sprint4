@@ -41,15 +41,7 @@
               {%- assign form_message = form.errors.messages.form | strip_html | downcase -%}
               {%- if form_message contains 'login#recover' -%}
                 This email address is already associated with an account. If this account is yours, you can <a href="{{ routes.account_login_url }}#recover">reset your password</a>.
-              {%- else -%}
-                {{ form.errors.messages.form | strip_html | escape }}
-              {%- endif -%}
-            {%- elsif field == 'email' -%}
-              {{ form.errors.translated_fields.email | capitalize | escape }}
-              {%- assign email_message = form.errors.messages.email | strip_html | downcase -%}
-              {%- if email_message contains 'login#recover' -%}
-                This email address is already associated with an account. If this account is yours, you can <a href="{{ routes.account_login_url }}#recover">reset your password</a>.
-              {%- else -%}
+            {%- else -%}
                 {{ form.errors.messages.email | strip_html | escape }}
               {%- endif -%}
             {%- else -%}
