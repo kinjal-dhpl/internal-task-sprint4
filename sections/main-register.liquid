@@ -107,12 +107,7 @@
           <use href="#icon-error" />
         </svg>
         {{ form.errors.translated_fields.email | capitalize }}
-        {%- assign error_message = form.errors.messages.email -%}
-        {%- if error_message contains 'reset your password' -%}
-          {{ error_message | replace: 'reset your password', '<a href="/account/login#recover">reset your password</a>' }}.
-        {%- else -%}
-          {{ error_message }}.
-        {%- endif -%}
+        {{ form.errors.messages.email }}.
       </span>
     {%- endif -%}
     <div class="field">
