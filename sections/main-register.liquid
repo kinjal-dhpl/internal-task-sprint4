@@ -38,25 +38,20 @@
         {%- for field in form.errors -%}
           <li>
             {%- if field == 'form' -%}
-              {%- assign field_message = form.errors.messages[field] -%}
-              {%- if field_message contains '&lt;a' and field_message contains '&lt;/a&gt;' -%}
-                {%- assign field_prefix = field_message | split: '&lt;a' | first -%}
-                {%- assign field_inner = field_message | split: '&gt;' | last | replace: '&lt;/a&gt;', '' -%}
-                {{ field_prefix }}{{ field_inner }}
+              {{ form.errors.messages[field] | strip_html | escape }}
+            {%- elsif field == 'email' -%}
+              {{ form.errors.translated_fields.email | capitalize | escape }}
+              {%- assign email_message = form.errors.messages.email | strip_html -%}
+              {%- assign email_message_down = email_message | downcase -%}
+              {%- if email_message_down contains 'already associated' or email_message_down contains 'already been taken' -%}
+                This email address is already associated with an account. If this account is yours, you can <a href="/account/login#recover">reset your password</a>.
               {%- else -%}
-                {{ field_message | strip_html }}
+                {{ email_message | escape }}
               {%- endif -%}
             {%- else -%}
               <a href="#RegisterForm-{{ field }}">
                 {{ form.errors.translated_fields[field] | capitalize | escape }}
-                {%- assign field_message = form.errors.messages[field] -%}
-                {%- if field_message contains '&lt;a' and field_message contains '&lt;/a&gt;' -%}
-                  {%- assign field_prefix = field_message | split: '&lt;a' | first -%}
-                  {%- assign field_inner = field_message | split: '&gt;' | last | replace: '&lt;/a&gt;', '' -%}
-                  {{ field_prefix }}{{ field_inner }}
-                {%- else -%}
-                  {{ field_message | strip_html }}
-                {%- endif -%}
+                {{ form.errors.messages[field] | strip_html | escape }}
               </a>
             {%- endif -%}
           </li>
@@ -121,13 +116,12 @@
           <use href="#icon-error" />
         </svg>
         {{ form.errors.translated_fields.email | capitalize  | escape }}
-        {%- assign email_message = form.errors.messages.email -%}
-        {%- if email_message contains '&lt;a' and email_message contains '&lt;/a&gt;' -%}
-          {%- assign email_prefix = email_message | split: '&lt;a' | first -%}
-          {%- assign email_inner = email_message | split: '&gt;' | last | replace: '&lt;/a&gt;', '' -%}
-          {{ email_prefix }}{{ email_inner }}.
+        {%- assign email_message = form.errors.messages.email | strip_html -%}
+        {%- assign email_message_down = email_message | downcase -%}
+        {%- if email_message_down contains 'already associated' or email_message_down contains 'already been taken' -%}
+          This email address is already associated with an account. If this account is yours, you can <a href="/account/login#recover">reset your password</a>.
         {%- else -%}
-          {{ email_message | strip_html }}.
+          {{ email_message | escape }}.
         {%- endif -%}
       </span>
     {%- endif -%}
