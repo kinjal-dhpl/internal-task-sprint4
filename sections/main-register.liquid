@@ -38,11 +38,11 @@
         {%- for field in form.errors -%}
           <li>
             {%- if field == 'form' -%}
-              {{ form.errors.messages[field] }}
+              {{ form.errors.messages[field] | strip_html | escape }}
             {%- else -%}
               <a href="#RegisterForm-{{ field }}">
                 {{ form.errors.translated_fields[field] | capitalize | escape }}
-                {{ form.errors.messages[field] | escape }}
+                {{ form.errors.messages[field] | strip_html | escape }}
               </a>
             {%- endif -%}
           </li>
@@ -107,7 +107,7 @@
           <use href="#icon-error" />
         </svg>
         {{ form.errors.translated_fields.email | capitalize  | escape }}
-        {{ form.errors.messages.email | escape }}.
+        {{ form.errors.messages.email | strip_html | escape }}.
       </span>
     {%- endif -%}
     <div class="field">
