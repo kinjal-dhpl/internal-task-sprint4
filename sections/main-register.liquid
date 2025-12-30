@@ -107,13 +107,11 @@
           <use href="#icon-error" />
         </svg>
         {{ form.errors.translated_fields.email | capitalize }}
-         {{ form.errors.translated_fields.email | capitalize  | escape }}
-        {%- assign email_message = form.errors.messages.email | strip_html -%}
-        {%- assign email_message_down = email_message | downcase -%}
-        {%- if email_message_down contains 'already associated' or email_message_down contains 'already been taken' -%}
-          This email address is already associated with an account. If this account is yours, you can <a href="{{ routes.account_login_url }}#recover">reset your password</a>.
+        {%- assign error_message = form.errors.messages.email -%}
+        {%- if error_message contains 'reset your password' -%}
+          {{ error_message | replace: 'reset your password', '<a href="/account/login#recover">reset your password</a>' }}.
         {%- else -%}
-          {{ email_message | escape }}.
+          {{ error_message }}.
         {%- endif -%}
       </span>
     {%- endif -%}
