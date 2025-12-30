@@ -32,32 +32,17 @@
         <svg aria-hidden="true" focusable="false">
           <use href="#icon-error" />
         </svg>
-        {{ 'templates.contact.form.error_heading' | t | escape   }}
+        {{ 'templates.contact.form.error_heading' | t }}
       </h2>
       <ul>
         {%- for field in form.errors -%}
           <li>
             {%- if field == 'form' -%}
-              {%- assign form_message = form.errors.messages.form | strip_html -%}
-              {%- assign form_message_down = form_message | downcase -%}
-              {%- if form_message_down contains 'already associated' or form_message_down contains 'already been taken' or form_message_down contains 'login#recover' -%}
-                This email address is already associated with an account. If this account is yours, you can <a href="{{ routes.account_login_url }}#recover">reset your password</a>.
-              {%- else -%}
-                {{ form_message | escape }}
-              {%- endif -%}
-            {%- elsif field == 'email' -%}
-              {{ form.errors.translated_fields.email | capitalize | escape }}
-              {%- assign email_message = form.errors.messages.email | strip_html -%}
-              {%- assign email_message_down = email_message | downcase -%}
-              {%- if email_message_down contains 'already associated' or email_message_down contains 'already been taken' -%}
-                This email address is already associated with an account. If this account is yours, you can <a href="{{ routes.account_login_url }}#recover">reset your password</a>.
-              {%- else -%}
-                {{ email_message | escape }}
-              {%- endif -%}
+              {{ form.errors.messages[field] }}
             {%- else -%}
               <a href="#RegisterForm-{{ field }}">
-                {{ form.errors.translated_fields[field] | capitalize | escape }}
-                {{ form.errors.messages[field] | strip_html | escape }}
+                {{ form.errors.translated_fields[field] | capitalize }}
+                {{ form.errors.messages[field] }}
               </a>
             {%- endif -%}
           </li>
@@ -121,14 +106,8 @@
         <svg aria-hidden="true" focusable="false">
           <use href="#icon-error" />
         </svg>
-        {{ form.errors.translated_fields.email | capitalize  | escape }}
-        {%- assign email_message = form.errors.messages.email | strip_html -%}
-        {%- assign email_message_down = email_message | downcase -%}
-        {%- if email_message_down contains 'already associated' or email_message_down contains 'already been taken' -%}
-          This email address is already associated with an account. If this account is yours, you can <a href="{{ routes.account_login_url }}#recover">reset your password</a>.
-        {%- else -%}
-          {{ email_message | escape }}.
-        {%- endif -%}
+        {{ form.errors.translated_fields.email | capitalize }}
+        {{ form.errors.messages.email }}.
       </span>
     {%- endif -%}
     <div class="field">
@@ -152,8 +131,8 @@
         <svg aria-hidden="true" focusable="false">
           <use href="#icon-error" />
         </svg>
-        {{ form.errors.translated_fields.password | capitalize | escape  }}
-        {{ form.errors.messages.password | escape  }}.
+        {{ form.errors.translated_fields.password | capitalize }}
+        {{ form.errors.messages.password }}.
       </span>
     {%- endif -%}
     <button>
