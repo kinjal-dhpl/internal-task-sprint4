@@ -38,11 +38,25 @@
         {%- for field in form.errors -%}
           <li>
             {%- if field == 'form' -%}
-              {{ form.errors.messages[field] | strip_html | escape }}
+              {%- assign field_message = form.errors.messages[field] -%}
+              {%- if field_message contains '&lt;a' and field_message contains '&lt;/a&gt;' -%}
+                {%- assign field_prefix = field_message | split: '&lt;a' | first -%}
+                {%- assign field_inner = field_message | split: '&gt;' | last | replace: '&lt;/a&gt;', '' -%}
+                {{ field_prefix }}{{ field_inner }}
+              {%- else -%}
+                {{ field_message | strip_html }}
+              {%- endif -%}
             {%- else -%}
               <a href="#RegisterForm-{{ field }}">
                 {{ form.errors.translated_fields[field] | capitalize | escape }}
-                {{ form.errors.messages[field] | strip_html | escape }}
+                {%- assign field_message = form.errors.messages[field] -%}
+                {%- if field_message contains '&lt;a' and field_message contains '&lt;/a&gt;' -%}
+                  {%- assign field_prefix = field_message | split: '&lt;a' | first -%}
+                  {%- assign field_inner = field_message | split: '&gt;' | last | replace: '&lt;/a&gt;', '' -%}
+                  {{ field_prefix }}{{ field_inner }}
+                {%- else -%}
+                  {{ field_message | strip_html }}
+                {%- endif -%}
               </a>
             {%- endif -%}
           </li>
@@ -107,7 +121,14 @@
           <use href="#icon-error" />
         </svg>
         {{ form.errors.translated_fields.email | capitalize  | escape }}
-        {{ form.errors.messages.email | strip_html | escape }}.
+        {%- assign email_message = form.errors.messages.email -%}
+        {%- if email_message contains '&lt;a' and email_message contains '&lt;/a&gt;' -%}
+          {%- assign email_prefix = email_message | split: '&lt;a' | first -%}
+          {%- assign email_inner = email_message | split: '&gt;' | last | replace: '&lt;/a&gt;', '' -%}
+          {{ email_prefix }}{{ email_inner }}.
+        {%- else -%}
+          {{ email_message | strip_html }}.
+        {%- endif -%}
       </span>
     {%- endif -%}
     <div class="field">
