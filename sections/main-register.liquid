@@ -38,7 +38,7 @@
         {%- for field in form.errors -%}
           <li>
             {%- if field == 'form' -%}
-              {{ form.errors.messages[field] }}
+              {{ form.errors.messages[field] | raw }}
             {%- else -%}
               <a href="#RegisterForm-{{ field }}">
                 {{ form.errors.translated_fields[field] | capitalize }}
