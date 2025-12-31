@@ -3,11 +3,10 @@
   <div class="modal-content">
     <div class="modal-header">
       <h3 class="modal-title">Important</h3>
-      <button class="modal-close" data-action="close-var-change-confirmation-modal">&times;</button>
     </div>
 
     <div class="modal-main-body">
-      You have updated the variant. Please reselect your Metal Tone and Metal Finish to continue
+      You have changed the variant. Please reselect your Metal Tone and Metal Finish to continue
     </div>
 
     <div
@@ -29,19 +28,14 @@
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const modal = document.getElementById('var-change-confirmation-modal');
-    const closeModalButtons = modal.querySelectorAll("[data-action='close-var-change-confirmation-modal']");
-
-    closeModalButtons.forEach((button) => {
-      button.addEventListener('click', function () {
-        modal.classList.remove('active');
-      });
-    });
 
     const editPersonalisationButton = modal.querySelector('.edit-personalisation');
     editPersonalisationButton.addEventListener('click', function () {
       document.querySelector('.edit-button[data-action="edit-personalization"]').click();
       modal.classList.remove('active');
-      // abhi - handle the case where - If user has previously selected personalization and then changed variant, then close button should not work
+      document
+        .querySelectorAll('.modal-content [data-action="close-modal"]')
+        .forEach((btn) => btn.classList.add('hidden'));
     });
   });
 </script>
@@ -150,6 +144,7 @@
       cursor: pointer;
       border: 1px solid #3535;
       border-radius: 5px;
+      font-family: Oregon LDO Medium, serif;
   }
 
     /* Responsive */
@@ -165,6 +160,7 @@
 
       #var-change-confirmation-modal .modal-content{
         max-height:65vh;
+        height: fit-content;
       }
     }
 </style>

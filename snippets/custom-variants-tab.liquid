@@ -776,7 +776,7 @@
       },
       selectVariantById(variantId, triggerPriceUpdate = true) {
         // Update visual selection
-        const earlierSelected = document.querySelector(".variant-box.selected");
+        const earlierSelected = document.querySelector('.variant-box.selected');
         document.querySelectorAll('.variant-box').forEach((box) => {
           box.classList.remove('selected');
         });
@@ -808,16 +808,29 @@
           }
         }
         // Check for Platinum specific personalisation
-        if(earlierSelected) {
-          const isEarlierPlatinum = earlierSelected.parentElement.getAttribute("data-option1")?.toLowerCase().includes("platinum");
-          const isNewPlatinum = selectedBox.parentElement.getAttribute("data-option1")?.toLowerCase().includes("platinum");
-          if(isEarlierPlatinum !== isNewPlatinum) {
-            console.log("Other metal type variant selected abhi");
+        if (earlierSelected) {
+          const isEarlierPlatinum = earlierSelected.parentElement
+            .getAttribute('data-option1')
+            ?.toLowerCase()
+            .includes('platinum');
+          const isNewPlatinum = selectedBox.parentElement
+            .getAttribute('data-option1')
+            ?.toLowerCase()
+            .includes('platinum');
+          if (isEarlierPlatinum !== isNewPlatinum) {
             //only open modal if personalisation was added previously
-            const personalisationAdded = document.querySelector(".personalization-summary.hidden");
-            if(!personalisationAdded) {
-              console.log("Personalisation was added previously");
-              document.getElementById("var-change-confirmation-modal").classList.add("active");
+            const personalisationAdded = document.querySelector('.personalization-summary.hidden');
+            if (!personalisationAdded) {
+              console.log('Personalisation was added previously');
+              const modalMainBody = document.querySelector('#var-change-confirmation-modal .modal-main-body');
+              if (isNewPlatinum) {
+                modalMainBody.innerText =
+                  'You have changed the variant from Gold to Platinum. Please reselect your Metal Tone and Metal Finish to continue';
+              } else {
+                modalMainBody.innerText =
+                  'You have changed the variant from Platinum to Gold. Please reselect your Metal Tone and Metal Finish to continue';
+              }
+              document.getElementById('var-change-confirmation-modal').classList.add('active');
             }
           }
         }
@@ -1172,7 +1185,6 @@
         );
 
         const variant_id = selectedVariant.getAttribute('data-variant-id');
-        console.log('abhi', variant_id);
         document.querySelector('.choose-variant-btn').setAttribute('data-variant-id', variant_id);
 
         const variantName = selectedVariant.querySelector('.variant-name').textContent;
