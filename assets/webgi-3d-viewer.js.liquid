@@ -150,14 +150,12 @@ document.addEventListener(
           layerConfig[layerName] = `${name}-polish.pmat`;
         }
 
-        // Auto-select Champagne in Metal Tone 2 when Champagne is selected in Metal Tone 1 (if available)
         if (layerName === "Metal 01" && name === "champagne") {
           const metal02ColorContainer = document.querySelector(
             '[layer-name="Metal 02"][config-type="color"]'
           );
           
           if (metal02ColorContainer) {
-            // Check if Champagne option exists in Metal Tone 2
             const champagneButton = metal02ColorContainer.querySelector(
               '[mat-name="champagne"]'
             );
