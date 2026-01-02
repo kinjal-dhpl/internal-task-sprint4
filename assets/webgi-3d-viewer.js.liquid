@@ -184,9 +184,7 @@ document.addEventListener(
         applyLayerConfig(layerConfig);
         viewer.renderer.refreshPipeline();
 
-        // Check for warnings after applying changes
         setTimeout(() => {
-          // Check for Metal Tone 1 = White and Metal Tone 2 = Yellow or Rose
           const metal01ColorContainer = document.querySelector(
             '[layer-name="Metal 01"][config-type="color"]'
           );
