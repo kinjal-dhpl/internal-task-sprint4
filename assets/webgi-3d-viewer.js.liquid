@@ -499,13 +499,11 @@ document.addEventListener(
           '[layer-name="Metal 02"][config-type="color"]'
         );
         if (metal02ColorContainer) {
-          // Check if Champagne option exists in Metal Tone 2
           const champagneButton = metal02ColorContainer.querySelector(
             '[mat-name="champagne"]'
           );
           
           if (champagneButton) {
-            // Automatically select Champagne in Metal Tone 2
             metal02ColorContainer
               .querySelectorAll(".customContextGridItems.material-option-active")
               .forEach((el) => {
