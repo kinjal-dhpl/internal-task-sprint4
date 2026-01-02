@@ -150,31 +150,39 @@ document.addEventListener(
           layerConfig[layerName] = `${name}-polish.pmat`;
         }
 
-        // Auto-apply Champagne to Metal Tone 2 when Champagne is selected in Metal Tone 1
+        // Auto-select Champagne in Metal Tone 2 when Champagne is selected in Metal Tone 1 (if available)
         if (layerName === "Metal 01" && name === "champagne") {
-          const metal02FinishContainer = document.querySelector(
-            '[layer-name="Metal 02"][config-type="finish"]'
-          );
-          const metal02Finish = metal02FinishContainer
-            ?.querySelector(".material-option-active")
-            ?.getAttribute("mat-name") || "polish";
-          
-          layerConfig["Metal 02"] = `champagne-${metal02Finish}.pmat`;
-          
-          // Hide Metal Tone 2 color options when Champagne is selected in Metal Tone 1
           const metal02ColorContainer = document.querySelector(
             '[layer-name="Metal 02"][config-type="color"]'
           );
+          
           if (metal02ColorContainer) {
-            metal02ColorContainer.style.display = "none";
-          }
-        } else if (layerName === "Metal 01" && name !== "champagne") {
-          // Show Metal Tone 2 color options when non-Champagne is selected in Metal Tone 1
-          const metal02ColorContainer = document.querySelector(
-            '[layer-name="Metal 02"][config-type="color"]'
-          );
-          if (metal02ColorContainer) {
-            metal02ColorContainer.style.display = "";
+            // Check if Champagne option exists in Metal Tone 2
+            const champagneButton = metal02ColorContainer.querySelector(
+              '[mat-name="champagne"]'
+            );
+            
+            if (champagneButton) {
+              // Automatically select Champagne in Metal Tone 2
+              metal02ColorContainer
+                .querySelectorAll(".customContextGridItems.material-option-active")
+                .forEach((el) => {
+                  el.classList.remove("material-option-active");
+                });
+              
+              champagneButton.classList.add("material-option-active");
+              
+              // Apply the material
+              const metal02FinishContainer = document.querySelector(
+                '[layer-name="Metal 02"][config-type="finish"]'
+              );
+              const metal02Finish = metal02FinishContainer
+                ?.querySelector(".material-option-active")
+                ?.getAttribute("mat-name") || "polish";
+              
+              layerConfig["Metal 02"] = `champagne-${metal02Finish}.pmat`;
+            }
+            // If Champagne is not available in Metal Tone 2, do nothing (don't hide options)
           }
         }
 
@@ -191,12 +199,8 @@ document.addEventListener(
             '[layer-name="Metal 02"][config-type="color"]'
           );
 
-          // Only check if Metal Tone 2 is visible (not hidden by Champagne selection)
-          if (
-            metal01ColorContainer &&
-            metal02ColorContainer &&
-            metal02ColorContainer.style.display !== "none"
-          ) {
+          // Check Metal Tone combination
+          if (metal01ColorContainer && metal02ColorContainer) {
             const metal01Color = metal01ColorContainer
               .querySelector(".material-option-active")
               ?.getAttribute("mat-name")
@@ -251,7 +255,7 @@ document.addEventListener(
               if (window.showPersonalizationWarning) {
                 window.showPersonalizationWarning(
                   "Care Tip",
-                  "Matte finishes are softerminor scratches from regular wear may reveal the polished surface underneath. Handle with care to maintain the matte look."
+                  "Matte finishes are softer , minor scratches from regular wear may reveal the polished surface underneath. Handle with care to maintain the matte look."
                 );
               }
             }
@@ -493,7 +497,7 @@ document.addEventListener(
         container.append(filterContainer);
       }
 
-      // Check initial state: if Champagne is selected in Metal Tone 1, hide Metal Tone 2 and apply Champagne
+      // Check initial state: if Champagne is selected in Metal Tone 1, auto-select Champagne in Metal Tone 2 (if available)
       const metal01ColorContainer = document.querySelector(
         '[layer-name="Metal 01"][config-type="color"]'
       );
@@ -507,20 +511,35 @@ document.addEventListener(
           '[layer-name="Metal 02"][config-type="color"]'
         );
         if (metal02ColorContainer) {
-          metal02ColorContainer.style.display = "none";
-          
-          // Auto-apply Champagne to Metal Tone 2
-          const metal02FinishContainer = document.querySelector(
-            '[layer-name="Metal 02"][config-type="finish"]'
+          // Check if Champagne option exists in Metal Tone 2
+          const champagneButton = metal02ColorContainer.querySelector(
+            '[mat-name="champagne"]'
           );
-          const metal02Finish = metal02FinishContainer
-            ?.querySelector(".material-option-active")
-            ?.getAttribute("mat-name") || "polish";
           
-          const initialLayerConfig = {
-            "Metal 02": `champagne-${metal02Finish}.pmat`,
-          };
-          await applyLayerConfig(initialLayerConfig);
+          if (champagneButton) {
+            // Automatically select Champagne in Metal Tone 2
+            metal02ColorContainer
+              .querySelectorAll(".customContextGridItems.material-option-active")
+              .forEach((el) => {
+                el.classList.remove("material-option-active");
+              });
+            
+            champagneButton.classList.add("material-option-active");
+            
+            // Apply the material
+            const metal02FinishContainer = document.querySelector(
+              '[layer-name="Metal 02"][config-type="finish"]'
+            );
+            const metal02Finish = metal02FinishContainer
+              ?.querySelector(".material-option-active")
+              ?.getAttribute("mat-name") || "polish";
+            
+            const initialLayerConfig = {
+              "Metal 02": `champagne-${metal02Finish}.pmat`,
+            };
+            await applyLayerConfig(initialLayerConfig);
+          }
+          // If Champagne is not available in Metal Tone 2, do nothing (don't hide options)
         }
       }
 
