@@ -23,6 +23,109 @@
     </div>
 </div>
 
+<div id="personalization-warning-modal" class="warning-modal-overlay">
+    <div class="warning-modal-content">
+        <div class="warning-modal-header">
+            <h3 class="warning-modal-title" id="warning-modal-title">Warning</h3>
+        </div>
+        <div class="warning-modal-body">
+            <p class="warning-modal-message" id="warning-modal-message"></p>
+        </div>
+        <div class="warning-modal-footer">
+            <button class="warning-modal-ok-btn" id="warning-modal-ok-btn">OK</button>
+        </div>
+    </div>
+</div>
+
+<style>
+.warning-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 10300;
+}
+
+.warning-modal-overlay.show {
+    display: flex;
+}
+
+.warning-modal-content {
+    background: white;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    animation: scaleIn 0.3s ease;
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.warning-modal-header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid #eee;
+}
+
+.warning-modal-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+}
+
+.warning-modal-body {
+    padding: 20px 24px;
+}
+
+.warning-modal-message {
+    color: #333;
+    line-height: 1.6;
+    font-size: 16px;
+    margin: 0;
+}
+
+.warning-modal-footer {
+    padding: 16px 24px 20px;
+    display: flex;
+    justify-content: flex-end;
+    border-top: 1px solid #eee;
+}
+
+.warning-modal-ok-btn {
+    background: #000;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 24px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.warning-modal-ok-btn:hover {
+    background: #333;
+}
+
+.warning-modal-ok-btn:active {
+    background: #1a1a1a;
+}
+</style>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const modal = document.getElementById('personalization-modal');
@@ -137,5 +240,48 @@ document.addEventListener('DOMContentLoaded', function() {
         // Add your logic here for processing the personalization data
         // For example, you might want to update the product configuration
     }
+
+    window.showPersonalizationWarning = function(title, message) {
+        const warningModal = document.getElementById('personalization-warning-modal');
+        const titleEl = document.getElementById('warning-modal-title');
+        const messageEl = document.getElementById('warning-modal-message');
+        const okBtn = document.getElementById('warning-modal-ok-btn');
+        
+        if (warningModal && titleEl && messageEl) {
+            titleEl.textContent = title;
+            messageEl.textContent = message;
+            warningModal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+            
+            okBtn.onclick = function() {
+                warningModal.classList.remove('show');
+                document.body.style.overflow = '';
+            };
+            
+            warningModal.onclick = function(e) {
+                if (e.target === warningModal) {
+                    warningModal.classList.remove('show');
+                    document.body.style.overflow = '';
+                }
+            };
+
+            const escapeHandler = function(e) {
+                if (e.key === 'Escape' && warningModal.classList.contains('show')) {
+                    warningModal.classList.remove('show');
+                    document.body.style.overflow = '';
+                    document.removeEventListener('keydown', escapeHandler);
+                }
+            };
+            document.addEventListener('keydown', escapeHandler);
+        }
+    };
+
+    window.hidePersonalizationWarning = function() {
+        const warningModal = document.getElementById('personalization-warning-modal');
+        if (warningModal) {
+            warningModal.classList.remove('show');
+            document.body.style.overflow = '';
+        }
+    };
 });
 </script>
