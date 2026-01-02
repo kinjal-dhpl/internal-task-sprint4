@@ -253,21 +253,18 @@ document.addEventListener('DOMContentLoaded', function() {
             warningModal.classList.add('show');
             document.body.style.overflow = 'hidden';
             
-            // Close on OK button click
             okBtn.onclick = function() {
                 warningModal.classList.remove('show');
                 document.body.style.overflow = '';
             };
             
-            // Close on overlay click
             warningModal.onclick = function(e) {
                 if (e.target === warningModal) {
                     warningModal.classList.remove('show');
                     document.body.style.overflow = '';
                 }
             };
-            
-            // Close on Escape key
+
             const escapeHandler = function(e) {
                 if (e.key === 'Escape' && warningModal.classList.contains('show')) {
                     warningModal.classList.remove('show');
