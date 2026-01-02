@@ -217,7 +217,6 @@ document.addEventListener(
             }
           }
 
-          // Check for Matte finish in Metal Tone 1 or Metal Tone 2
           if (
             (layerName === "Metal 01" || layerName === "Metal 02") &&
             currentConfigType === "finish" &&
@@ -233,7 +232,6 @@ document.addEventListener(
             (layerName === "Metal 01" || layerName === "Metal 02") &&
             currentConfigType === "color"
           ) {
-            // Check if the corresponding finish is Matte
             const finishContainer = document.querySelector(
               `[layer-name="${layerName}"][config-type="finish"]`
             );
