@@ -86,7 +86,7 @@
       "type": "custom-liquid",
       "name": "t:sections.custom-liquid.presets.name",
       "settings": {
-        "custom_liquid": "<script>\n  // Ensure the DOM and FB Pixel are ready before running\n  document.addEventListener(\"DOMContentLoaded\", function() {\n    const searchParams = new URLSearchParams(window.location.search);\n    \n    // Fix casing: use 'bookingId' consistently\n    const bookingId = searchParams.get(\"booking_id\");\n\n    if (bookingId) {\n      console.log(\"Booking event triggering with booking id:\", bookingId);\n      \n      // Ensure fbq function exists before calling\n      if (typeof fbq === 'function') {\n        fbq('track', 'Appointment Booked - Shopify', {\n          booking_id: bookingId\n        });\n      }\n    } else {\n      console.log(\"booking not done\");\n    }\n  });\n</script>",
+        "custom_liquid": "<script>\nconsole.log('debug check');\n  // Ensure the DOM and FB Pixel are ready before running\n  document.addEventListener(\"DOMContentLoaded\", function() {\n    const searchParams = new URLSearchParams(window.location.search);\n    \n    // Fix casing: use 'bookingId' consistently\n    const bookingId = searchParams.get(\"booking_id\");\n\n    if (bookingId) {\n      console.log(\"Booking event triggering with booking id:\", bookingId);\n      \n      // Ensure fbq function exists before calling\n      if (typeof fbq === 'function') {\n        fbq('track', 'Appointment Booked - Shopify', {\n          booking_id: bookingId\n        });\n      }\n    } else {\n      console.log(\"booking not done\");\n    }\n  });\n</script>",
         "color_scheme": "",
         "padding_top": 0,
         "padding_bottom": 0
