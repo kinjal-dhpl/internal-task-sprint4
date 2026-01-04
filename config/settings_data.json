@@ -151,6 +151,11 @@
         "type": "shopify://apps/king-product-options-variant/blocks/app-embed/ce104259-52b1-4720-9ecf-76b34cae0401",
         "disabled": false,
         "settings": {}
+      },
+      "10012068959737676665": {
+        "type": "shopify://apps/gropulse-wishlist/blocks/gropulse-wishlist/d606b448-832c-4b0a-adbb-21c7fa132df1",
+        "disabled": false,
+        "settings": {}
       }
     },
     "color_schemes": {
