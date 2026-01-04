@@ -26,6 +26,22 @@
           "type": "title",
           "settings": {}
         },
+        "wishlist_hero_custom_product_button_W9V6XV": {
+          "type": "shopify://apps/wishlist-hero/blocks/custom-product-button/a9a5079b-59e8-47cb-b659-ecf1c60b9b72",
+          "settings": {
+            "displayButtonMode": "~",
+            "contentAlignment": "center",
+            "buttonAlignment": "center",
+            "overrideFont": false,
+            "customFont": "sans_serif_n4",
+            "buttonFullwidth": true,
+            "removeBoxShadowAndBorder": false,
+            "horizontalPadding": 20,
+            "iconTopOffset": 0,
+            "addedCssClassNames": "",
+            "addedContainerStyles": ""
+          }
+        },
         "price": {
           "type": "price",
           "disabled": true,
@@ -80,6 +96,7 @@
       },
       "block_order": [
         "title_x7JAg8",
+        "wishlist_hero_custom_product_button_W9V6XV",
         "price",
         "5a9d82df-5f8a-4c52-b13d-fcd4c17f2078",
         "variant_picker",
