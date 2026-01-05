@@ -1018,35 +1018,36 @@ function showStartScreen() {
     const startScreen = document.getElementById("start-screen");
 
     startScreen.innerHTML = `
-        <div class="fyrs-root">
-            <img class="fyrs-bg" src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/fyrs-cover-bg.png?v=1766821728"
-                        alt="Background" />
+        <section class="fyrs-root">
 
-            <img class="logo" src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/RINGS_I_Logo.png?v=1766821728"
-                alt="RINGS & I Logo" />
+        <img class="fyrs-bg" src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/fyrs-cover-bg.png?v=1766821728"
+            alt="Background" />
 
-            <div class="fyrs">
+        <img class="logo" src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/RINGS_I_Logo.png?v=1766821728"
+            alt="RINGS & I Logo" />
 
-                <div>
-                    <h1 class="fyrs-title">FIND YOUR RING STYLE</h1>
-                </div>
-                <div class="fyrs-description">
-                    <p class="fyrs-desc">
-                        <span class="fyrs-desc1">AI - Driven Style Mapping Quiz</span>
-                        <br>
-                        <!-- <span class="fyrs-desc2">Designed around your personality, lifestyle & occasion</span> -->
-                    </p>
+        <div class="fyrs">
 
-                </div>
-
-                <div style="margin-top: 30px;">
-                    <button class="fyrs-btn" id="btn-start">START THE QUIZ</button>
-                </div>
-
-                <!-- <div class="fyrs-foot">TAKES ONLY 2 MINUTES</div> -->
+            <div>
+                <h1 class="fyrs-title">FIND YOUR RING STYLE</h1>
             </div>
-     </div>
+            <div class="fyrs-description">
+                <p class="fyrs-desc">
+                    <span class="fyrs-desc1">AI - Driven Style Mapping Quiz</span>
+                    <br>
+                    <!-- <span class="fyrs-desc2">Designed around your personality, lifestyle & occasion</span> -->
+                </p>
+
+            </div>
+
+            <div style="margin-top: 30px;">
+                <button class="fyrs-btn" id="btn-start">START THE QUIZ</button>
+            </div>
+
+            <!-- <div class="fyrs-foot">TAKES ONLY 2 MINUTES</div> -->
         </div>
+
+    </section>
     `;
 
     document.getElementById("btn-start").onclick = startQuiz;
