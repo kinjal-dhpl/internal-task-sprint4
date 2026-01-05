@@ -1018,9 +1018,12 @@ function showStartScreen() {
     const startScreen = document.getElementById("start-screen");
 
     startScreen.innerHTML = `
-        <div class="fyrs-root">
-            <img class="fyrs-bg" src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/fyrs-cover-bg.png?v=1766821728"
-                        alt="Background" />
+      <div class="fyrs-root">
+        <section class="hero-section">
+
+            <img class="fyrs-bg"
+                src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/fyrs-cover-bg.png?v=1766821728"
+                alt="Background" />
 
             <img class="logo" src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/RINGS_I_Logo.png?v=1766821728"
                 alt="RINGS & I Logo" />
@@ -1036,19 +1039,87 @@ function showStartScreen() {
                         <br>
                         <!-- <span class="fyrs-desc2">Designed around your personality, lifestyle & occasion</span> -->
                     </p>
-
                 </div>
-
-                <div style="margin-top: 30px;">
-                    <button class="fyrs-btn" id="btn-start">START THE QUIZ</button>
-                </div>
-
-                <!-- <div class="fyrs-foot">TAKES ONLY 2 MINUTES</div> -->
             </div>
-      </div>
-        </div>
-    `;
 
+        </section>
+
+        <section class="video-section">
+            <video muted playsinline class="bg-video">
+                <!-- Mobile video -->
+                <source src="https://cdn.shopify.com/videos/c/o/v/94e9c7dfdbd249e8aaef2215474137cf.mp4"
+                    media="(max-width: 900px)" type="video/mp4">
+
+                <!-- Desktop / Tablet video -->
+                <source src="https://cdn.shopify.com/videos/c/o/v/432f6e1f647b4a4a8a8b55135e421905.mp4"
+                    type="video/mp4">
+            </video>
+        </section>
+
+        <section class="cards-section">
+            <div class="cards-container">
+                <!-- Card 1 -->
+                <div class="card" style="--card-index: 0">
+                    <div class="card-content">
+                        <div class="card-step">Step 1</div>
+                        <div class="card-icon">
+                            <i class="fas fa-gem"></i>
+                        </div>
+                        <div class="card-title">Choose The Occasion</div>
+                        <p>
+                            Select the moment you're buying the ring for.
+                            Engagement, Wedding, Anniversary, Self-Gift,
+                            Birthday, or a personal milestone.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="card" style="--card-index: 1">
+                    <div class="corner-decoration"></div>
+                    <div class="corner-decoration"></div>
+                    <div class="corner-decoration"></div>
+                    <div class="corner-decoration"></div>
+                    <div class="card-content">
+                        <div class="card-step">Step 2</div>
+                        <div class="card-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="card-title">Answer Lifestyle Questions</div>
+                        <p>
+                            Choose options that reflect your daily routine,
+                            profession, comfort level, and wearing.
+                            This ensures your ring style suits your lifestyle.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card 3 with Sparkle Icon -->
+                <div class="card" style="--card-index: 2">
+                    <div class="corner-decoration"></div>
+                    <div class="corner-decoration"></div>
+                    <div class="corner-decoration"></div>
+                    <div class="corner-decoration"></div>
+                    <div class="card-content">
+                        <div class="card-step">Step 3</div>
+                        <div class="card-icon">
+                            <i class="fas">✨</i>
+                            <!-- Only icon, no emoji -->
+                        </div>
+                        <div class="card-title">Discover Your Personality Style</div>
+                        <p>
+                            Answer personality-based questions inspired
+                            by the MBTI framework. This helps our AI
+                            understand how you think and express yourself.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <button class="fyrs-btn" id="btn-start">START THE QUIZ</button>
+    </div>
+    `;
+    initSnapScroll()
     document.getElementById("btn-start").onclick = startQuiz;
 
         setTimeout(() => {
@@ -1058,6 +1129,108 @@ function showStartScreen() {
             });
         },90);
 
+}
+
+function initSnapScroll() {
+    const sections = Array.from(document.querySelectorAll(
+        '.hero-section, .video-section, .cards-section'
+    ));
+    const video = document.querySelector('.bg-video');
+
+    if (sections.length < 2) return;
+
+    let activeIndex = 0;
+    let snapping = false;
+    let scrollIntent = 0;
+
+    /* ---------- TRACK ACTIVE SECTION ---------- */
+    const sectionObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                activeIndex = sections.indexOf(entry.target);
+            }
+        });
+    }, { threshold: 0.6 });
+
+    sections.forEach(sec => sectionObserver.observe(sec));
+
+    /* ---------- VIDEO PLAY / PAUSE ---------- */
+    if (video) {
+        const videoObserver = new IntersectionObserver(([entry]) => {
+            entry.isIntersecting
+                ? video.play().catch(() => {})
+                : video.pause();
+        }, { threshold: 0.6 });
+
+        videoObserver.observe(video);
+
+        video.addEventListener('ended', () => {
+            snapTo(activeIndex + 1);
+        });
+    }
+
+    /* ---------- SNAP FUNCTION ---------- */
+   function snapTo(index) {
+    if (snapping || index < 0 || index >= sections.length) return;
+
+    snapping = true;
+
+    const target = sections[index];
+
+    // 🔹 offset only for video section
+    const offset = target.classList.contains('video-section')
+        ? -80   // 👈 adjust this value (negative = scroll up more)
+        : 0;
+
+    const top =
+        target.getBoundingClientRect().top +
+        window.pageYOffset +
+        offset;
+
+    window.scrollTo({
+        top,
+        behavior: 'smooth'
+    });
+
+    setTimeout(() => snapping = false, 600);
+}
+
+
+    /* ---------- DESKTOP / TRACKPAD ---------- */
+    window.addEventListener('wheel', e => {
+        if (snapping) return;
+
+        scrollIntent += e.deltaY;
+
+        if (scrollIntent > 120) {
+            snapTo(activeIndex + 1);
+            scrollIntent = 0;
+        } else if (scrollIntent < -120) {
+            snapTo(activeIndex - 1);
+            scrollIntent = 0;
+        }
+    }, { passive: true });
+
+    /* ---------- MOBILE SWIPE ---------- */
+    let startY = 0;
+
+    window.addEventListener('touchstart', e => {
+        startY = e.touches[0].clientY;
+    }, { passive: true });
+
+    window.addEventListener('touchend', e => {
+        if (snapping) return;
+
+        const diff = startY - e.changedTouches[0].clientY;
+
+        if (diff > 60) snapTo(activeIndex + 1);
+        if (diff < -60) snapTo(activeIndex - 1);
+    }, { passive: true });
+
+    /* ---------- OPTIONAL AUTO SCROLL ---------- */
+    setTimeout(() => {
+        snapTo(1); // hero → video
+    }, 3000);
 }
 
 function startQuiz() {
@@ -1337,7 +1510,7 @@ function getUserInfo() {
                 <source src="https://cdn.shopify.com/videos/c/o/v/5d653fe2a86d4ec38624182436113385.mp4" type="video/mp4">
             </video>
         </div>
-        <div class="card">
+        <div class="input-card">
             <div class="card-header">You're almost there!</div>
             <form id="userform" class="form-input">
                 <div class="form-row mobile-field">
@@ -1687,7 +1860,7 @@ document.addEventListener("DOMContentLoaded", () => {
     showStartScreen();
 });
 </script>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 @font-face {
     font-family: 'Oregon LDO Medium';
@@ -1695,7 +1868,7 @@ document.addEventListener("DOMContentLoaded", () => {
 }
 
 /* --------------------------Staring Page Css------------------------------ */
-.fyrs-root {
+.hero-section {
     font-weight: 500;
     font-style: normal;
     font-display: swap;
@@ -1718,7 +1891,7 @@ document.addEventListener("DOMContentLoaded", () => {
 }
 
 @media (min-width:400px) {
-    .fyrs-root {
+    .hero-section {
         overflow: hidden;
     }
     .fyrs-title{
@@ -1726,7 +1899,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 }
 
-/* Background image */
 .fyrs-bg {
     position: absolute;
     inset: 0;
@@ -1738,7 +1910,6 @@ document.addEventListener("DOMContentLoaded", () => {
     overflow: hidden;
 }
 
-/* Foreground content */
 .fyrs {
     position: relative;
     z-index: 1;
@@ -1747,8 +1918,7 @@ document.addEventListener("DOMContentLoaded", () => {
     padding: 20px;
     font-family: 'Oregon LDO Medium', serif;
 
-    /* Push content slightly down like the reference image */
-    transform: translateY(110px);
+    /* transform: translateY(110px); */
         margin: 0 auto; /* force horizontal center */
 }
 
@@ -1784,12 +1954,9 @@ document.addEventListener("DOMContentLoaded", () => {
     padding: 15px 40px;
     border-radius: 15px;
     cursor: pointer;
-    /* background: linear-gradient(180deg, #e8d5b7 0%, #d9bc95 54%, #d1b087 100%); */
-    background: transparent;
-    box-shadow:
-        0 10px 24px rgba(0, 0, 0, .06),
-        0 2px 6px rgba(0, 0, 0, .05),
-        inset 0 1px 0 rgba(255, 255, 255, .65);
+    background: #252424a3;
+            box-shadow:
+                -3px 18px 24px rgba(0, 0, 0, .06), 0px 0px 6px rgb(0 0 0 / 22%), inset 0 1px 0 rgb(0 0 0 / 65%);
     color: rgba(255, 255, 255, .92);
     font-size: 12.6px;
     letter-spacing: .3px;
@@ -1797,13 +1964,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 }
 
-.fyrs-foot {
-    margin-top: 14px;
-    font-size: 10px;
-    letter-spacing: 1px;
-    color: #c6beb4;
-    font-weight: 500;
-}
 
 .fyrs-desc1 {
     font-size: clamp(18px, 2.2vw, 20px);
@@ -1818,49 +1978,477 @@ document.addEventListener("DOMContentLoaded", () => {
     width: auto;
     z-index: 2;
 }
+/* -----------------Video Section --------------*/
+        .video-section {
+            min-height: 95vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
 
-/* VIDEO SECTION — SAME STRUCTURE AS fyrs-root */
-.video-section {
-    min-height: 100vh;
-    width: 100%;
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+        }
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+        .bg-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
 
-    position: relative;
-    background: transparent;
-}
+            transform: translate(-50%, -50%);
+        }
 
-/* Responsive centered video */
-.fyrs-video {
-    min-width: auto;
-    min-height: auto;
-    max-width: 100%;
-    max-height: 100vh;
-    object-fit: cover;
-}
+        /* ================= Cards Section ================= */
+        .cards-section {
+            min-height: 100vh;
+            width: 100%;
+            padding: clamp(4.5em, 8vw, 8em) clamp(1em, 2vw, 2em);
+            background: #a0a0a0;
+            overflow-x: hidden;
+            box-sizing: border-box;
+            position: relative;
+        }
 
-@media (min-width: 1024px) {
-    .fyrs-video {
-        object-fit: contain;
-    }
-}
-.fyrs-root .fyrs-btn:hover {
-    filter: brightness(1.15);
-    box-shadow:
-        0 12px 28px rgba(0, 0, 0, .08),
-        0 4px 10px rgba(0, 0, 0, .06),
-        inset 0 1px 0 rgba(255, 255, 255, .8);
-}
+        .cards-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: clamp(2em, 4vw, 4em);
+            justify-items: center;
+            box-sizing: border-box;
+        }
 
-.fyrs-root .fyrs-foot {
-    margin-top: 14px;
-    font-size: 10px;
-    letter-spacing: 1px;
-    color: #c6beb4;
-    font-weight: 500;
-}
+        /* Card Base */
+        .card {
+            font-family: 'Oregon LDO Medium', serif;
+            box-sizing: border-box;
+            width: 100%;
+            max-width: 360px;
+            background: #ffffff;
+            border-radius: 22px;
+            padding: clamp(2em, 4vw, 3em) clamp(1.5em, 3vw, 2.5em);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+
+            /* Premium multi-layer shadow */
+            transform: translateY(-10px);
+            box-shadow:
+                0 1px 1px rgba(0, 0, 0, 0.04),
+                0 15px 35px rgba(193, 170, 96, 0.15),
+                0 25px 60px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            filter: brightness(1.02);
+
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        /* Gold border effect */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 22px;
+            padding: 2px;
+            background: linear-gradient(135deg,
+                    rgba(212, 175, 55, 0) 0%,
+                    rgba(212, 175, 55, 0.2) 50%,
+                    rgba(212, 175, 55, 0) 100%);
+            -webkit-mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Shine effect */
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.5),
+                    rgba(255, 255, 255, 0.7),
+                    rgba(255, 255, 255, 0.5),
+                    transparent);
+            transform: skewX(-15deg);
+            transition: left 0.8s ease;
+            z-index: 1;
+        }
+
+        /* .card:hover {
+            transform: translateY(-10px);
+            box-shadow:
+                0 1px 1px rgba(0, 0, 0, 0.04),
+                0 15px 35px rgba(212, 175, 55, 0.15),
+                0 25px 60px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            filter: brightness(1.02);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card:hover::after {
+            left: 100%;
+        } */
+
+        @media (max-width: 500px) {
+            .card-icon {
+                display: none !important;
+            }
+        }
+
+        /* Card Content */
+        .card-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Step label */
+        .card-step {
+            font-size: clamp(1em, 1.8vw, 1.2em);
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            color: #111;
+            margin-top: 0;
+            margin-bottom: clamp(1em, 1.1vw, 1em);
+            text-transform: uppercase;
+            position: relative;
+        }
+
+        .card-step::after {
+            content: '';
+            position: absolute;
+            bottom: -0.5em;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 1px;
+            background: linear-gradient(90deg,
+                    transparent 0%,
+                    rgba(212, 175, 55, 0.4) 50%,
+                    transparent 100%);
+            transition: width 0.3s ease;
+        }
+
+        /* 
+        .card:hover .card-step::after {
+            width: 60px;
+        } */
+
+        /* Icon Container - KEEPING YOUR SIZES */
+        .card-icon {
+            width: clamp(55px, 7.6vw, 70px);
+            height: clamp(55px, 7.6vw, 70px);
+            border-radius: 50%;
+            background: linear-gradient(135deg,
+                    rgba(255, 253, 240, 1) 0%,
+                    rgba(255, 248, 225, 1) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: clamp(1em, 1.1vw, 1em);
+            position: relative;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+
+            /* Enhanced shadow */
+            box-shadow:
+                inset 0 2px 4px rgba(255, 255, 255, 0.9),
+                inset 0 -1px 3px rgba(179, 139, 89, 0.08),
+                0 8px 20px rgba(179, 139, 89, 0.12),
+                0 4px 12px rgba(0, 0, 0, 0.04);
+
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        /* Icon glow */
+        .card-icon::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 50%;
+            background: linear-gradient(135deg,
+                    rgba(212, 175, 55, 0.08) 0%,
+                    rgba(212, 175, 55, 0) 50%,
+                    rgba(212, 175, 55, 0.08) 100%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Icon Styling - KEEPING YOUR SIZES */
+        .card-icon i {
+            font-size: clamp(1.2em, 1.8vw, 1.6em);
+            color: #d4af37;
+            position: relative;
+            z-index: 2;
+            transition: all 0.4s ease;
+        }
+
+        /* Sparkle icon special styling
+        .card:nth-child(3) .card-icon i {
+            color: #ffd700;
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+            display: block !important;
+        } */
+
+        .card-icon i::before {
+            display: block;
+        }
+
+        /* Title */
+        .card-title {
+            font-size: clamp(1.3em, 2.2vw, 1.6em);
+            letter-spacing: 0.08em;
+            font-weight: 600;
+            line-height: 1.35;
+            margin-bottom: clamp(1em, 1vw, 1em);
+            color: #000;
+            min-height: 2.7em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            position: relative;
+        }
+
+        .card-title::after {
+            content: '';
+            position: absolute;
+            bottom: -0.4em;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 1px;
+            background: linear-gradient(90deg,
+                    rgba(212, 175, 55, 0) 0%,
+                    rgba(212, 175, 55, 0.4) 50%,
+                    rgba(212, 175, 55, 0) 100%);
+            transition: width 0.3s ease;
+        }
+
+        /* .card:hover .card-title::after {
+            width: 50px;
+        } */
+
+        /* Description */
+        .card p {
+            font-size: clamp(0.95em, 1.6vw, 1.1em);
+            line-height: 1.6;
+            color: #6a6a6a;
+            margin: 0;
+        }
+
+        /* Decorative corners */
+        .card .corner-decoration {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            opacity: 0.03;
+            pointer-events: none;
+        }
+
+        .card .corner-decoration:nth-child(1) {
+            top: 12px;
+            left: 12px;
+            border-top: 1.5px solid #d4af37;
+            border-left: 1.5px solid #d4af37;
+        }
+
+        .card .corner-decoration:nth-child(2) {
+            top: 12px;
+            right: 12px;
+            border-top: 1.5px solid #d4af37;
+            border-right: 1.5px solid #d4af37;
+        }
+
+        .card .corner-decoration:nth-child(3) {
+            bottom: 12px;
+            left: 12px;
+            border-bottom: 1.5px solid #d4af37;
+            border-left: 1.5px solid #d4af37;
+        }
+
+        .card .corner-decoration:nth-child(4) {
+            bottom: 12px;
+            right: 12px;
+            border-bottom: 1.5px solid #d4af37;
+            border-right: 1.5px solid #d4af37;
+        }
+
+        /* ================= Tablet (850px - 1024px) ================= */
+        @media (max-width: 850px) {
+            .cards-container {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 2.5em;
+            }
+
+            .card-title {
+                min-height: 3.6em;
+                line-height: 1.35;
+            }
+
+            /* Further reduce icon size on tablet */
+            .card-icon {
+                width: 70px;
+                height: 70px;
+            }
+
+            .card-icon i {
+                font-size: 1.5em;
+            }
+        }
+
+        /* Special fix for card 1 title on medium tablets */
+        @media (min-width: 641px) and (max-width: 950px) {
+            .card:nth-child(1) .card-title {
+                line-height: 1.35;
+                min-height: 3.6em;
+            }
+        }
+
+        /* ================= Mobile (640px and below) ================= */
+        @media (max-width: 640px) {
+            .cards-container {
+                grid-template-columns: 1fr;
+                gap: 2.5em;
+                max-width: 400px;
+                margin-bottom: 30px;
+            }
+
+            .card {
+                max-width: 100%;
+                min-height: auto;
+                padding: clamp(1.5em, 4vw, 2em) clamp(1em, 3vw, 1.8em);
+            }
+
+            .card-title {
+                font-size: 1.4em;
+                margin-bottom: 1em;
+                min-height: auto;
+            }
+
+            .card p {
+                font-size: 1em;
+                line-height: 1.6;
+            }
+
+            /* Further reduce icon size on mobile */
+            .card-icon {
+                width: 65px;
+                height: 65px;
+                margin-bottom: 1em;
+            }
+
+            .card-icon i {
+                font-size: 1.4em;
+            }
+
+            .card-step {
+                font-size: 1.1em;
+                margin-bottom: 1em;
+            }
+        }
+
+        /* ================= Small Mobile (480px and below) ================= */
+        @media (max-width: 480px) {
+            .cards-section {
+                padding: 3em 1em;
+            }
+
+            .card {
+                padding: 1.8em 1.2em;
+            }
+
+            /* Smallest icon size for small mobile */
+            .card-icon {
+                width: 60px;
+                height: 60px;
+                margin-bottom: 1em;
+            }
+
+            .card-icon i {
+                font-size: 1.3em;
+            }
+
+            .card-title {
+                font-size: 1.3em;
+            }
+
+            .card p {
+                font-size: 0.95em;
+            }
+
+            .card-step {
+                font-size: 1em;
+                margin-bottom: 1.2em;
+            }
+
+            /* Hide decorative corners on small mobile */
+            .corner-decoration {
+                display: none;
+            }
+        }
+
+        /* ================= Card Animation ================= */
+        @keyframes cardEntrance {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card {
+            animation: cardEntrance 0.6s ease-out forwards;
+            animation-delay: calc(var(--card-index, 0) * 0.1s);
+            opacity: 0;
+            padding-top: 30px !important;
+            filter: brightness(1);
+        }
+
+        #btn-start {
+            position: fixed;
+            left: 50%;
+            bottom: 60px;
+            transform: translateX(-50%);
+            z-index: 2147483647;
+            /* force above video controls */
+        }
 
 
 
@@ -2202,7 +2790,7 @@ document.addEventListener("DOMContentLoaded", () => {
     background-color: #fdfdfd;
 }
 
-.user-info-container .card {
+.user-info-container .input-card {
     width: 100%;
     max-width: 700px;
     padding-top: 30px;
