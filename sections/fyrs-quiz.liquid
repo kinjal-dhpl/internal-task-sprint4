@@ -1045,7 +1045,7 @@ function showStartScreen() {
         </section>
 
         <section class="video-section">
-            <video muted playsinline class="bg-video">
+            <video playsinline class="bg-video">
                 <!-- Mobile video -->
                 <source src="https://cdn.shopify.com/videos/c/o/v/94e9c7dfdbd249e8aaef2215474137cf.mp4"
                     media="(max-width: 900px)" type="video/mp4">
@@ -1155,11 +1155,27 @@ function initSnapScroll() {
     sections.forEach(sec => sectionObserver.observe(sec));
 
     /* ---------- VIDEO PLAY / PAUSE ---------- */
-    if (video) {
+  if (video) {
+          /* ---------- MUTE CONTROL BASED ON SCREEN ---------- */
+        function updateVideoSound() {
+            if (window.innerWidth <= 900) {
+                video.muted = true;   // Mobile → muted
+            } else {
+                video.muted = false;  // Desktop → unmuted
+                video.volume = 1;
+            }
+        }
+
+        updateVideoSound();
+        window.addEventListener("resize", updateVideoSound);
+
+        /* ---------- VIDEO PLAY / PAUSE ---------- */
         const videoObserver = new IntersectionObserver(([entry]) => {
-            entry.isIntersecting
-                ? video.play().catch(() => {})
-                : video.pause();
+            if (entry.isIntersecting) {
+                video.play().catch(() => {});
+            } else {
+                video.pause();
+            }
         }, { threshold: 0.6 });
 
         videoObserver.observe(video);
@@ -1179,7 +1195,7 @@ function initSnapScroll() {
 
     // 🔹 offset only for video section
     const offset = target.classList.contains('video-section')
-        ? -80   // 👈 adjust this value (negative = scroll up more)
+        ? -10   // 👈 adjust this value (negative = scroll up more)
         : 0;
 
     const top =
@@ -1935,7 +1951,7 @@ document.addEventListener("DOMContentLoaded", () => {
         0 2px 6px rgba(0, 0, 0, 0.3);
     filter: brightness(1.1);
     font-family: 'Oregon LDO Medium';   
-    margin-top:-1.7em;
+    // margin-top:-1.7em;
 }
 
 .fyrs-desc {
@@ -2002,7 +2018,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
             transform: translate(-50%, -50%);
         }
-
+        @media (min-width:900px){
+          .bg-video{
+             transform: translate(-50%, -45%) !important;
+          }
+        }
         /* ================= Cards Section ================= */
         .cards-section {
             min-height: 100vh;
@@ -2042,7 +2062,7 @@ document.addEventListener("DOMContentLoaded", () => {
             cursor: pointer;
 
             /* Premium multi-layer shadow */
-            transform: translateY(-10px);
+            transform: translateY(-10%);
             box-shadow:
                 0 1px 1px rgba(0, 0, 0, 0.04),
                 0 15px 35px rgba(193, 170, 96, 0.15),
