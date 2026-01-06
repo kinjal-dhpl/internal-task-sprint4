@@ -1289,7 +1289,7 @@ function startQuiz() {
     loadQuestion(QuestionAnswers.questions);
     requestAnimationFrame(() => {
         window.scrollTo({
-            top: 80,
+            top: 88,
             left: 0,
             behavior: "smooth"
         });
@@ -1311,7 +1311,6 @@ function calculateTotalQuestions(startNode, count = 0) {
             }
         }
     }
-
     return count;
 }
 
@@ -1572,6 +1571,15 @@ function getUserInfo() {
 
     document.getElementById("userform").addEventListener("submit", userSubmit);
     document.getElementById("btn-back").addEventListener("click", backBtnHandler);
+
+    requestAnimationFrame(() => {
+        window.scrollTo({
+            top: 80,
+            left: 0,
+            behavior: "smooth"
+        });
+    });
+
 }
 
 /* ------------------------- SUBMIT USER INFO -------------------------- */
