@@ -857,12 +857,43 @@ document.addEventListener('DOMContentLoaded', function () {
     {{ 'chatbot.css' | asset_url | stylesheet_tag }}
     <script src="{{ 'chatbot.js' | asset_url }}" defer="defer"></script>
 
-        {% if template == 'product' %}
-    <script type="module" src="{{ "webgi-3d-viewer.js" | asset_url }}"></script>
+    {% if template == 'product' %}
+      <script type="module" src="{{ "webgi-3d-viewer.js" | asset_url }}"></script>
     {% endif %}
-</body>
-</html>
 
-    
+
+    <script>
+      (function(){ 
+        function formatPriceNumber(val){
+          const n = Number(val || 0);
+          const opts = { maximumFractionDigits: (n % 1 === 0) ? 0 : 2 };
+          return '₹ ' + new Intl.NumberFormat('en-IN', opts).format(n);
+        }
+
+        function formatPriceEl(el){
+          if(!el || el.dataset.formatted === '1') return;
+          let val = 0;
+          if (el.getAttribute && el.hasAttribute('data-paid')) {
+            val = parseFloat(el.getAttribute('data-paid')) || 0;
+          } else {
+            const cleaned = (el.textContent || '').replace(/[^0-9.\-]+/g, '');
+            val = parseFloat(cleaned) || 0;
+          }
+          el.textContent = formatPriceNumber(val);
+          el.dataset.formatted = '1';
+        }
+
+        function formatAllPrices(root = document){
+          const selectors = '[data-paid], .paid-amount, .product--paid--num, .product--esttotal--num, .product--remainingamount--num, .price__current, .price';
+          root.querySelectorAll(selectors).forEach(formatPriceEl);
+        }
+
+        window.formatPriceNumber = formatPriceNumber;
+        window.formatAllPrices = formatAllPrices;
+
+        document.addEventListener('DOMContentLoaded', function(){ formatAllPrices(); });
+      })();
+    </script>
+
 </body>
 </html>
