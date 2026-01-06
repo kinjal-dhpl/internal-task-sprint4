@@ -863,7 +863,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     <script>
-      (function(){ 
+      const formatPrices = (function(){ 
         function formatPriceNumber(val){
           const n = Number(val || 0);
           const opts = { maximumFractionDigits: (n % 1 === 0) ? 0 : 2 };

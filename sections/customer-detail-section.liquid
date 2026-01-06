@@ -2278,10 +2278,16 @@ function getPreferredPhoneNumber(orderData) {
 
               window.cartItemJson = JSON.stringify(itemPayload);
               
-              const cartPriceSummary = `<div class="summary-row"><span>Subtotal</span><span class="letter-spacing-two">₹ ${cartSubtotalElem.toFixed(2)}</span></div>
-                                        <div class="summary-row"><span>Shipping</span><span class="letter-spacing-two">₹ 0.00</span></div>
+              // Format prices using global formatter if present, otherwise fallback to local `formatPrice`
+              const formatFn = (typeof window !== 'undefined' && window.formatPriceNumber) ? window.formatPriceNumber : (val => '₹ ' + formatPrice(val));
+              const formattedSubtotal = formatFn(cartSubtotalElem);
+              const formattedShipping = formatFn(0);
+              const formattedTotal = formatFn(cartSubtotalElem);
+
+              const cartPriceSummary = `<div class="summary-row"><span>Subtotal</span><span class="letter-spacing-two">${formattedSubtotal}</span></div>
+                                        <div class="summary-row"><span>Shipping</span><span class="letter-spacing-two">${formattedShipping}</span></div>
                                       <div class="summary-row discount" style="display:none;"><span>Discounts</span><span class="letter-spacing-two"></span></div>
-                                        <div class="summary-row total"><span>Total</span><span class="letter-spacing-two">₹ ${cartSubtotalElem.toFixed(2)}</span></div>`;
+                                        <div class="summary-row total"><span>Total</span><span class="letter-spacing-two">${formattedTotal}</span></div>`;
 
               document.querySelector('div.product--summary--detail').innerHTML = itemHTML;
               
@@ -2291,7 +2297,7 @@ function getPreferredPhoneNumber(orderData) {
               const ringExpertHTML = document.querySelector('.ring-expert-section');
               const cartTotalValueAmt = result.items.reduce((sum, item) => {
               const priceString = item.properties?.price || '0';
-              // Remove "Rs.", commas, and any whitespace, then convert to number
+              // Remove "₹", commas, and any whitespace, then convert to number
               const priceNumber = parseFloat(priceString.replace(/Rs\.?\s?|,/g, ''));
               // Multiply by quantity to get total price for this item
               return sum + (isNaN(priceNumber) ? 0 : priceNumber * (item.quantity || 1));
@@ -2445,15 +2451,15 @@ function getPreferredPhoneNumber(orderData) {
             paymentInfoDiv.innerHTML = `
               <div class="price-row">
                 <span class="price-label">Estimated Price:</span>
-                <span class="price-value">Rs. ${formatPrice(estimatedPrice)}/-</span>
+                <span class="price-value">₹ ${formatPrice(estimatedPrice)}/-</span>
               </div>
               <div class="price-row">
                 <span class="price-label">Advance Payment Amount:</span>
-                <span class="price-value">Rs. ${formatPrice(advancePayment)}/-</span>
+                <span class="price-value">₹ ${formatPrice(advancePayment)}/-</span>
               </div>
               <div class="price-row">
                 <span class="price-label">Estimated Balance:</span>
-                <span class="price-value">Rs. ${formatPrice(estimatedBalance)}/-</span>
+                <span class="price-value">₹ ${formatPrice(estimatedBalance)}/-</span>
               </div>
               <div class="price-note">(Please note, this amount may change at actual post product manufacturing)</div>
             `;
@@ -2513,15 +2519,15 @@ function getPreferredPhoneNumber(orderData) {
       paymentInfoDiv.innerHTML = `
         <div class="price-row">
           <span class="price-label">Estimated Price:</span>
-          <span class="price-value">Rs. ${formattedEstimatedPrice}/-</span>
+          <span class="price-value">₹ ${formattedEstimatedPrice}/-</span>
         </div>
         <div class="price-row">
           <span class="price-label">Advance Payment Amount:</span>
-          <span class="price-value">Rs. ${formattedAdvance}/-</span>
+          <span class="price-value">₹ ${formattedAdvance}/-</span>
         </div>
         <div class="price-row">
           <span class="price-label">Estimated Balance:</span>
-          <span class="price-value">Rs. ${formattedRemaining}/-</span>
+          <span class="price-value">₹ ${formattedRemaining}/-</span>
         </div>
         <div class="price-note">(Please note, this amount may change at actual post product manufacturing)</div>
       `;
@@ -2979,15 +2985,15 @@ function validateFormAndCreatePayload() {
       <div class="advance-payment-info">
         <div class="price-row">
           <span class="price-label">Estimated Price:</span>
-          <span class="price-value">Rs. ${formattedEstimatedPrice}/-</span>
+          <span class="price-value">₹ ${formattedEstimatedPrice}/-</span>
         </div>
         <div class="price-row">
           <span class="price-label">Advance Payment Amount:</span>
-          <span class="price-value">Rs. ${formattedAdvance}/-</span>
+          <span class="price-value">₹ ${formattedAdvance}/-</span>
         </div>
         <div class="price-row">
           <span class="price-label">Estimated Balance:</span>
-          <span class="price-value">Rs. ${formattedRemaining}/-</span>
+          <span class="price-value">₹ ${formattedRemaining}/-</span>
         </div>
         <div class="price-note">(Please note, this amount may change at actual post product manufacturing)</div>
       </div>
