@@ -1423,12 +1423,10 @@ if (Array.isArray(customerAddress) && customerAddress.length > 0 && addressMainG
                                     <td class="order--name" onclick="openOrderDetail('${orderID.split('/Order/')[1]}')"> ${orderName || ''}</td>
                                     <td>${formattedDate || ''}</td>
                                     <td>${itemCount || ''}</td>
-                                    <td>Rs. ${(() => {
-  const str = String(orderTotalReceived || '0');
-  const cleaned = str.replace(/[^\d.]/g, '');
-  const num = parseFloat(cleaned);
-  return !isNaN(num) ? num.toFixed(2) : '0.00';
-})()}</td>
+                                    <td>₹ ${(() => {
+                                      const receivedNum = parseFloat(String(orderTotalReceived || '0').replace(/[^0-9.\-]+/g, '')) || 0;
+                                      return receivedNum.toLocaleString('en-IN', { maximumFractionDigits: 2 });
+                                    })()}</td>
 
                                 </tr>`
                                 console.log(typeof(orderTotalReceived),'orderTotalReceived')
@@ -1740,9 +1738,22 @@ if (Array.isArray(customerAddress) && customerAddress.length > 0 && addressMainG
             <td class="product--quantity">${item?.quantity || ''}</td>
             <td class="product--status--num currentstatus-${itemIdOnly}">${matchedCurrentStatus?.status || ''}</td>
             <td class="product--paymentstatus--num-${itemIdOnly} ${matchedPaymentStatus?.payment_status == 'paid'? 'green-text' : 'red-text'}">${matchedPaymentStatus?.payment_status || ''}</td>
-            <td class="product--paid--num">${paidValue?.toFixed(2) || ''}</td>
-            <td class="product--esttotal--num">${typeof estTotal === 'number' ? Number(estTotal).toFixed(2) : (estTotal?.value || estTotal || '')}</td>
-            <td class="product--remainingamount--num">${remainingAmount != null ? Number(remainingAmount).toFixed(2) : '0.00'}</td>
+            <td class="product--paid--num">₹ ${(() => {
+                const paid_value  = parseFloat(paidValue);
+                if (!isNaN(paid_value)) return paid_value.toLocaleString('en-IN', { maximumFractionDigits: 2 });
+                return paidValue ? String(paidValue) : '';
+              })()}</td>
+            <td class="product--esttotal--num">₹ ${(() => {
+                let est_total = NaN;
+                if (typeof estTotal === 'number') est_total = Number(estTotal);
+                else if (estTotal && typeof estTotal === 'object' && estTotal.value) est_total = parseFloat(estTotal.value);
+                else est_total = parseFloat(estTotal);
+                return !isNaN(est_total) ? est_total.toLocaleString('en-IN', { maximumFractionDigits: 2 }) : (estTotal?.value || estTotal || '');
+              })()}</td>
+            <td class="product--remainingamount--num">₹ ${(() => {
+                const remaining_amount  = parseFloat(remainingAmount);
+                return !isNaN(remaining_amount ) ? remaining_amount .toLocaleString('en-IN', { maximumFractionDigits: 2 }) : '0.00';
+              })()}</td>
             <!-- Status select stays separate -->
             <td class="product--status-select">
               <select class="status-dropdown dropdown-${itemIdOnly}" data-line-id="${itemIdOnly}" ${isDisabled ? 'disabled' : ''}>
