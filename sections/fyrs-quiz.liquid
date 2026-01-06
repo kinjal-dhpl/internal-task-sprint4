@@ -1287,6 +1287,12 @@ function startQuiz() {
     // Init quiz
     totalQuestions = calculateTotalQuestions(QuestionAnswers.questions);
     loadQuestion(QuestionAnswers.questions);
+    requestAnimationFrame(() => {
+        window.scrollTo({
+            top: 80,
+            left: 0,
+            behavior: "smooth"
+    });
 }
 
 /* ------------------------- CALCULATE TOTAL QUESTIONS -------------------------- */
