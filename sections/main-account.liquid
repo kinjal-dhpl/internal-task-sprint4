@@ -118,7 +118,7 @@
                   </td> {% endcomment %}
                   <td headers="RowOrder ColumnTotal" role="cell" data-label="Total Paid">
                     {% assign paid_amount = order.total_price | minus: order.total_outstanding %}
-                    {{ paid_amount | money_with_currency }}
+                    <span class="paid-amount" data-paid="{{ paid_amount | divided_by: 100 }}">{{ paid_amount | money_with_currency }}</span>
                   </td>
                 </tr>
               {%- endfor -%}
