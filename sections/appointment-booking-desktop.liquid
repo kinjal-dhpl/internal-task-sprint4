@@ -1,51 +1,48 @@
 <h3 data-aos="fade-zoom-in">{{ section.settings.title }}</h3>
-<p data-aos="fade-zoom-in" class="ready-to-buy__subtitle" >{{ section.settings.subtitle }}</p>
+<p data-aos="fade-zoom-in" class="ready-to-buy__subtitle">
+  {{ section.settings.subtitle }}
+</p>
+
 <div class="ready-to-buy__grid">
-    <div class="ready-to-buy__each ready-to-buy__each1">
-     {% assign col_blocks = section.blocks | where: 'type', 'col' %}
-     {% for block in col_blocks %}
-          <img src="{{ block.settings.image | image_url }}" width="100%" height="auto">
-          <span>
-            <span style="color: black; display: block; font-family: 'oregon-ldo-medium';">{{ block.settings.text1 }}</span>
-            <span style="display: block; font-family: 'oregon-ldo-medium';color: #A5A5A5; font-size: 16px;">{{ block.settings.text2 }}</span>
-          </span>
-          <a href="{{ block.settings.button_url }}">{{ block.settings.button }}</a>
-      {% endfor %}
-    </div>
-
-    {% assign row_blocks = section.blocks | where: 'type', 'row' %}
-    {% for block in row_blocks %}
-       <div class="ready-to-buy__each ready-to-buy__each2">
-           <div>
-              <div>
-                <span>
-                  <span style="color: black; display: block; font-family: 'oregon-ldo-medium';">{{ block.settings.text1 }}</span>
-                  <span style="display: block; font-family: 'oregon-ldo-medium'; color: #A5A5A5; font-size: 16px;">{{ block.settings.text2 }}</span>
-                </span>
-              </div>
-
-              <!-- Only for Row 2 -->
-              {% if forloop.index == 2 %}
-              <div style="margin-top: 10px; font-family: 'oregon-ldo-medium'; font-size: 16px; line-height: 24px; color: #A5A5A5;">
-                  <p style="color: black; margin-bottom: 10px;">
-                    What To Expect At Your Online Ring Consultation
-                  </p>
-                  <ul style="list-style-type: disc; margin-left: 20px; padding-left: 0; font-family: 'oregon-ldo-medium'; letter-spacing: normal; font-size: 16px; line-height: 24px; color: #A5A5A5;">
-                  <li style="margin-bottom: 5px;">A Complimentary 30-Minute Video Call</li>
-                  <li style="margin-bottom: 5px;">Understanding Rings & I Concept</li>
-                  <li style="margin-bottom: 5px;">Addressing Your Queries About Diamond</li>
-                  </ul>
-                
-              </div>
-              {% endif %}
-              
-              <a href="{{ block.settings.button_url }}">{{ block.settings.button }}</a>
-          </div>
-           <div>
-               <img src="{{ block.settings.image | image_url }}" width="100%" height="auto">
-           </div>
-       </div>
+  <div class="ready-to-buy__each ready-to-buy__each1">
+    {% assign col_blocks = section.blocks | where: 'type', 'col' %}
+    {% for block in col_blocks %}
+      <img src="{{ block.settings.image | image_url }}" width="100%" height="auto">
+      <span>
+        <span style="color: black; display: block; font-family: 'oregon-ldo-medium';">
+          {{ block.settings.text1 }}
+        </span>
+        <span style="display: block; font-family: 'oregon-ldo-medium'; color: #A5A5A5; font-size: 16px;">
+          {{ block.settings.text2 }}
+        </span>
+      </span>
+      <a href="{{ block.settings.button_url }}">{{ block.settings.button }}</a>
     {% endfor %}
+  </div>
+
+  {% assign row_blocks = section.blocks | where: 'type', 'row' %}
+  {% for block in row_blocks %}
+    <div class="ready-to-buy__each ready-to-buy__each2">
+      <div>
+        <div>
+          <span>
+            <span style="color: black; display: block; font-family: 'oregon-ldo-medium';">
+              {{ block.settings.text1 }}
+            </span>
+            <span style="display: block; font-family: 'oregon-ldo-medium'; color: #A5A5A5; font-size: 16px;">
+              {{ block.settings.text2 }}
+            </span>
+          </span>
+        </div>
+
+        <a href="{{ block.settings.button_url }}">{{ block.settings.button }}</a>
+      </div>
+
+      <div>
+        <img src="{{ block.settings.image | image_url }}" width="100%" height="auto">
+      </div>
+    </div>
+  {% endfor %}
 </div>
 
 {% schema %}

@@ -482,12 +482,14 @@
 {% assign pid2 = card_product.variants.first.id %}
 
 {% if template contains 'collection' %}
-  <script>window.setupTryOnButton = function(b) {
+  <script>
+    window.setupTryOnButton = function(b) {
       var d = document.createElement('script');
       d.onload = () => { return loadTryOnButton(b); };
       d.src = 'https://cdn.camweara.com/integrations/camweara_api.js';
       document.head.appendChild(d);
-    };</script>
+    };
+  </script>
 {% endif %}
 <!--
 <script>
@@ -506,4 +508,4 @@
     tryonButtonData:{text:'TRY ON',faIcon:'fa fa-camera'},
   })
 </script>
-<!-- camweara Code ends -->
+<!- camweara Code ends -->

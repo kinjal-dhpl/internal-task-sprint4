@@ -121,7 +121,7 @@
             "heading": "Borivali Mumbai Studio",
             "text": "<p>Megh CHS, Factory Ln, next to Manubhai Jewellers, Mini Zaveri Bazaar, Mhatre Wadi, Borivali West, Mumbai, Maharashtra 400092</p>",
             "button_label": "Book an Appointment",
-            "button_link": "shopify://pages/appointment-booking-borivali"
+            "button_link": "https://ringsandi-book-your-visit.zohobookings.in/#/72654000001606064"
           }
         },
         "row_EHnykx": {
@@ -284,11 +284,11 @@
         "col_jgaCj7": {
           "type": "col",
           "settings": {
-            "image": "shopify://shop_images/WhatsApp_Image_2024-12-15_at_7.21.38_PM.jpg",
-            "text1": "Pune Studio",
-            "text2": "301, 3rd Floor Silver Mist, Near Nilayam Theatre, Sadashiv Peth, Pune, Maharashtra, India 411030",
+            "image": "shopify://shop_images/IMG_2242.jpg",
+            "text1": "Andheri Mumbai Studio",
+            "text2": "Royal Classic, New Link Rd, next to Citi Mall, Phase D, Shastri Nagar, Andheri West, Mumbai, Maharashtra 400053",
             "button": "Book an Appointment",
-            "button_url": "https://ringsandi.com/pages/appointment"
+            "button_url": "https://ringsandi-book-your-visit.zohobookings.in/#/72654000002686128"
           }
         },
         "row_NbB9Ny": {
@@ -298,17 +298,17 @@
             "text1": "Mumbai Studio",
             "text2": "1st Floor, Manubhai Jewellers, Rashmi Celestia, L.T. Rd, opp. Ganesh Darshan, Gautam Nagar, Borivali, Mumbai, Maharashtra 400092",
             "button": "Book an Appointment",
-            "button_url": "https://ringsandi.com/pages/appointment-booking-mumbai"
+            "button_url": "https://ringsandi-book-your-visit.zohobookings.in/#/72654000001606064"
           }
         },
         "row_rHYjRn": {
           "type": "row",
           "settings": {
-            "image": "shopify://shop_images/Untitled_design_67.png",
-            "text1": "Virtual Appointment",
-            "text2": "Rings&I's Virtual Consultations, You Can View Your Favorite Pieces From The Comfort And Convenience Of Your Home While Getting Expert Advice.",
-            "button": "Book an Virtual Appointment",
-            "button_url": "https://ringsandi.com/pages/virtual-appointment"
+            "image": "shopify://shop_images/WhatsApp_Image_2024-12-15_at_7.21.38_PM.jpg",
+            "text1": "Pune Studio",
+            "text2": "301, 3rd Floor Silver Mist, Near Nilayam Theatre, Sadashiv Peth, Pune, Maharashtra, India 411030",
+            "button": "Book an Appointment",
+            "button_url": "https://ringsandi-book-your-visit.zohobookings.in/#/mof3thingstoknow"
           }
         }
       },

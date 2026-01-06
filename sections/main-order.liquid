@@ -194,26 +194,32 @@
                           Engraving: <span>{{ line_item.properties.engraving }}</span>
                         </p>
                         {% comment %} Display personalization images if they exist {% endcomment %}
-                        {% assign has_personalization_images = false %}
                         {% for i in (1..5) %}
                           {% assign img_key = 'personalization image ' | append: i %}
                           {% assign img_value = line_item.properties[img_key] %}
                           {% if img_value != blank %}
-                            {% assign has_personalization_images = true %}
-                            {% break %}
+                            {% assign is_url = false %}
+                            {% if img_value contains 'http://' or img_value contains 'https://' or img_value contains '/uploads/' %}
+                              {% assign is_url = true %}
+                            {% endif %}
+                            {% if is_url %}
+                              <p style="margin: 0.6rem 0 0;">
+                                <a href="{{ img_value }}" target="_blank" style="color: #0056b3; text-decoration: none;">{{ img_key }}</a>
+                              </p>
+                            {% endif %}
                           {% endif %}
                         {% endfor %}
-                        
-                        {% if has_personalization_images %}
-                          <div style="display: flex; gap: 4px; margin-top: 8px;">
-                            {% for i in (1..5) %}
-                              {% assign img_key = 'personalization image ' | append: i %}
-                              {% assign img_value = line_item.properties[img_key] %}
-                              {% if img_value != blank %}
-                                <img src="{{ img_value }}" alt="Personalization {{ i }}" style="width: 28px; height: 28px; object-fit: cover; border-radius: 3px; border: 1px solid #e0e0e0;" onerror="this.style.display='none'">
-                              {% endif %}
-                            {% endfor %}
-                          </div>
+                        {% assign fingerprint_value = line_item.properties['fingerprint'] %}
+                        {% if fingerprint_value != blank %}
+                          {% assign is_url = false %}
+                          {% if fingerprint_value contains 'http://' or fingerprint_value contains 'https://' or fingerprint_value contains '/uploads/' %}
+                            {% assign is_url = true %}
+                          {% endif %}
+                          {% if is_url %}
+                            <p style="margin: 0.6rem 0 0;">
+                              <a href="{{ fingerprint_value }}" target="_blank" style="color: #0056b3; text-decoration: none;">Fingerprint</a>
+                            </p>
+                          {% endif %}
                         {% endif %}
                         
                         <p

@@ -1,1 +1,103 @@
-{"sections":{"main":{"type":"main-page","disabled":true,"settings":{"padding_top":28,"padding_bottom":28}},"170410171985c91777":{"type":"apps","settings":{"include_margins":true}},"video_VzGNNV":{"type":"video","disabled":true,"settings":{"heading":"Video","heading_size":"h1","enable_video_looping":false,"video_url":"https:\/\/www.youtube.com\/watch?v=_9VUPq3SxOc","description":"","full_width":false,"color_scheme":"","padding_top":36,"padding_bottom":36}},"rich_text_xT6N84":{"type":"rich-text","blocks":{"heading_p6MH6J":{"type":"heading","settings":{"heading":"Thank You For Scheduling An Appointment","heading_size":"h2"}},"caption_GfEU8F":{"type":"caption","settings":{"caption":"We're Excited To Meet You!","text_style":"subtitle","text_size":"medium"}},"button_9CDN8g":{"type":"button","settings":{"button_label":"Continue Shopping","button_link":"https:\/\/ringsandi.com\/collections\/products","button_style_secondary":false,"button_label_2":"","button_link_2":"","button_style_secondary_2":false}}},"block_order":["heading_p6MH6J","caption_GfEU8F","button_9CDN8g"],"settings":{"desktop_content_position":"center","content_alignment":"center","color_scheme":"","full_width":true,"padding_top":40,"padding_bottom":52}}},"order":["main","170410171985c91777","video_VzGNNV","rich_text_xT6N84"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "170410171985c91777": {
+      "type": "apps",
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "video_VzGNNV": {
+      "type": "video",
+      "disabled": true,
+      "settings": {
+        "heading": "Video",
+        "heading_size": "h1",
+        "enable_video_looping": false,
+        "video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+        "description": "",
+        "full_width": false,
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "rich_text_xT6N84": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_p6MH6J": {
+          "type": "heading",
+          "settings": {
+            "heading": "Thank You For Scheduling An Appointment",
+            "heading_size": "h2"
+          }
+        },
+        "caption_GfEU8F": {
+          "type": "caption",
+          "settings": {
+            "caption": "We're Excited To Meet You!",
+            "text_style": "subtitle",
+            "text_size": "medium"
+          }
+        },
+        "button_9CDN8g": {
+          "type": "button",
+          "settings": {
+            "button_label": "Continue Shopping",
+            "button_link": "https://ringsandi.com/collections/products",
+            "button_style_secondary": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_p6MH6J",
+        "caption_GfEU8F",
+        "button_9CDN8g"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "custom_liquid_CYDQn8": {
+      "type": "custom-liquid",
+      "name": "t:sections.custom-liquid.presets.name",
+      "settings": {
+        "custom_liquid": "<script>\n(function() {\n  const searchParams = new URLSearchParams(window.location.search);\n  const bookingId = searchParams.get(\"booking_id\");\n\n  // Only proceed if the ID exists in the URL\n  if (!bookingId) {\n    console.log(\"Booking ID not found in URL; script stopped.\");\n    return;\n  }\n\n  function firePixelEvent() {\n    // Check if the Facebook Pixel function (fbq) is loaded and ready\n    if (typeof fbq === 'function') {\n      console.log(\"FB Pixel found. Triggering event for booking ID:\", bookingId);\n      \n      fbq('track', 'Appointment Booked - Shopify');\n    } else {\n      // If fbq is not found, wait 500ms and try again\n      console.log(\"FB Pixel (fbq) not found yet. Retrying in 500ms...\");\n      setTimeout(firePixelEvent, 500);\n    }\n  }\n\n  // Start the first check\n  firePixelEvent();\n})();\n</script>",
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "main",
+    "170410171985c91777",
+    "video_VzGNNV",
+    "rich_text_xT6N84",
+    "custom_liquid_CYDQn8"
+  ]
+}

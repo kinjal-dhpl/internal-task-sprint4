@@ -142,19 +142,36 @@
                           {%- for property in item.properties -%}
                             {%- assign property_first_char = property.first | slice: 0 -%}
                             {%- assign key = property.first | downcase -%}
+                            {%- assign is_image_property = false -%}
+                            {%- comment -%} Check for personalization image or fingerprint {%- endcomment -%}
+                            {%- if key contains 'personalization image' or key contains 'personalization_image' or key contains 'fingerprint' -%}
+                              {%- assign is_image_property = true -%}
+                            {%- endif -%}
                             {%- if property.last != blank and property_first_char != '_' -%}
+                              {%- assign is_url = false -%}
+                              {%- if property.last contains 'http://' or property.last contains 'https://' or property.last contains '/uploads/' -%}
+                                {%- assign is_url = true -%}
+                              {%- endif -%}
                               {% unless key == 'price' %}
                               <div class="product-option">
-                                <dt>{{ property.first }}:</dt>
-                                <dd>
-                                  {%- if property.last contains '/uploads/' -%}
-                                    <a href="{{ property.last }}" class="link" target="_blank">
-                                      {{ property.last | split: '/' | last }}
+                                {%- if is_image_property and is_url -%}
+                                  <dt>
+                                    <a href="{{ property.last }}" class="link" target="_blank" style="color: #0056b3;">
+                                      {{ property.first }}
                                     </a>
-                                  {%- else -%}
-                                    {{ property.last }}
-                                  {%- endif -%}
-                                </dd>
+                                  </dt>
+                                {%- else -%}
+                                  <dt>{{ property.first }}:</dt>
+                                  <dd>
+                                    {%- if property.last contains '/uploads/' or property.last contains 'http://' or property.last contains 'https://' -%}
+                                      <a href="{{ property.last }}" class="link" target="_blank" style="color: #0056b3;">
+                                        {{ property.last | split: '/' | last }}
+                                      </a>
+                                    {%- else -%}
+                                      {{ property.last }}
+                                    {%- endif -%}
+                                  </dd>
+                                {%- endif -%}
                               </div>
                             {% endunless %}
                             {%- endif -%}

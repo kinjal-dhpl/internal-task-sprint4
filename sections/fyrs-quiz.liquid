@@ -1,0 +1,3746 @@
+<script>
+const QuestionAnswers ={
+  "questions": {
+    "question": "Who Are You Purchasing For?",
+    "id": "Q1",
+    "type": "single_select",
+    "options": [
+      {
+        "index": 1,
+        "value": "Self",
+        "flow": [
+          {
+            "question": "Gender",
+            "id": "Q2",
+            "type": "single_select",
+            "options": [
+              {
+                "index": 1,
+                "value": "Male"
+              },
+              {
+                "index": 2,
+                "value": "Female"
+              }
+            ]
+          },
+          {
+            "question": "Profession",
+            "id": "Q3",
+            "type": "single_select",
+            "options": [
+              {
+                "index": 1,
+                "value": "Knowledge Based: IT/ Marketing/ Architect/ Lawyer/ Teacher/ Accountant"
+              },
+              {
+                "index": 2,
+                "value": "Skill Based/Manual: Home-maker/ Baker/ Make-up Artist/ Graphics & VFX/ Photographer"
+              },
+              {
+                "index": 3,
+                "value": "Creative: Interior Designer/ Content Writer/ Fashion Designer/ UI-UX Designer"
+              },
+              {
+                "index": 4,
+                "value": "Service & Hospitality: Retail Sales Person/ Hotel Staff/ Flight Attendants/ Chefs/ Nurses"
+              },
+              {
+                "index": 5,
+                "value": "Entrepreneur & Executive: Founder/ CEO/ CXO/ Board Member"
+              },
+              {
+                "index": 6,
+                "value": "Business Owner: Proprietor/ Partner"
+              }
+            ]
+          },
+          {
+            "question": "Occasion",
+            "id": "Q4",
+            "type": "single_select",
+            "options": [
+              {
+                "index": 1,
+                "value": "Anniversary"
+              },
+              {
+                "index": 2,
+                "value": "Birthday"
+              },
+              {
+                "index": 3,
+                "value": "Engagement"
+              },
+              {
+                "index": 4,
+                "value": "Graduation"
+              },
+              {
+                "index": 5,
+                "value": "Self-Gift"
+              },
+              {
+                "index": 6,
+                "value": "To Become a Parent"
+              },
+              {
+                "index": 7,
+                "value": "First Salary"
+              },
+              {
+                "index": 8,
+                "value": "Wedding"
+              },
+              {
+                "index": 9,
+                "value": "Celebrating a Win"
+              }
+            ]
+          },
+          {
+            "question": "Purpose",
+            "id": "Q5",
+            "type": "single_select",
+            "options": [
+              {
+                "index": 1,
+                "value": "Office Wear"
+              },
+              {
+                "index": 2,
+                "value": "Daily Wear"
+              },
+              {
+                "index": 3,
+                "value": "Party Wear"
+              },
+              {
+                "index": 4,
+                "value": "Investment"
+              },
+              {
+                "index": 5,
+                "value": "Festive/Function"
+              }
+            ]
+          },
+          {
+            "question": "How Would You Describe Your Typical Day?",
+            "id": "Q6",
+            "type": "single_select",
+            "options": [
+              {
+                "index": 1,
+                "value": "Calendarized Set Routine"
+              },
+              {
+                "index": 2,
+                "value": "Busy With a Lot of Activities"
+              },
+              {
+                "index": 3,
+                "value": "Spontaneous & Free Spirited"
+              },
+              {
+                "index": 4,
+                "value": "Relaxed & Undisturbed"
+              }
+            ]
+          },
+          {
+            "question": "How Do You Prefer to Spend Your Weekends?",
+            "id": "Q7",
+            "type": "single_select",
+            "options": [
+              {
+                "index": 1,
+                "value": "Relaxing at Home Solo"
+              },
+              {
+                "index": 2,
+                "value": "Going Out & Socialising"
+              },
+              {
+                "index": 3,
+                "value": "Engaging in Hobbies"
+              },
+              {
+                "index": 4,
+                "value": "Hustle to Build From Your Passion"
+              }
+            ]
+          },
+          {
+            "question": "How Do You Typically Dress For Work?",
+            "id": "Q8",
+            "type": "single_select",
+            "options": [
+              {
+                "index": 1,
+                "value": "Business Formals: Tie-Suit/ Skirt Blazer"
+              },
+              {
+                "index": 2,
+                "value": "Business Casuals: Shirt-Pants/ Trouser"
+              },
+              {
+                "index": 3,
+                "value": "Everyday Wear: Jeans & T-Shirt"
+              },
+              {
+                "index": 4,
+                "value": "Comfort Clothing: Lounge Wear"
+              },
+              {
+                "index": 5,
+                "value": "Stylish & Chic: Designer Clothing"
+              }
+            ]
+          },
+          {
+            "question": "How Do You Typically Dress For Social Events?",
+            "id": "Q9",
+            "type": "single_select",
+            "options": [
+              {
+                "index": 1,
+                "value": "Formals: Tie-Suit & Gown"
+              },
+              {
+                "index": 2,
+                "value": "Semi-Formals: Shirt-Pant & Dresses"
+              },
+              {
+                "index": 3,
+                "value": "Everyday Wear: Jeans & T-Shirt"
+              },
+              {
+                "index": 4,
+                "value": "Comfort Clothing: Lounge Wear"
+              },
+              {
+                "index": 5,
+                "value": "Stylish & Chic: Designer Clothing"
+              }
+            ]
+          },
+          {
+            "question": "On a Trip, How Do You Like to Organize Things?",
+            "id": "Q10",
+            "type": "single_select",
+            "options": [
+              {
+                "index": 1,
+                "value": "You Use an Itinerary and Adjust It"
+              },
+              {
+                "index": 2,
+                "value": "You Plan Everything Yourself From Scratch"
+              }
+            ]
+          },
+          {
+            "question": "You Are Waiting in a Long Line",
+            "id": "Q11",
+            "type": "single_select",
+            "options": [
+              {
+                "index": 1,
+                "value": "You Will Talk to People Nearby"
+              },
+              {
+                "index": 2,
+                "value": "You Prefer to Be On Your Own"
+              }
+            ]
+          },
+          {
+            "question": "Whenever You See a Piece of Artwork",
+            "id": "Q12",
+            "type": "single_select",
+            "options": [
+              {
+                "index": 1,
+                "value": "You Focus on the Artistic Details"
+              },
+              {
+                "index": 2,
+                "value": "You Value the Meaning of the Art & Origin"
+              }
+            ]
+          },
+          {
+            "question": "Your Mother is Not Feeling Well & You Have an Important Meeting to Attend",
+            "id": "Q13",
+            "type": "single_select",
+            "options": [
+              {
+                "index": 1,
+                "value": "You Will Cancel the Meeting to Care For Your Mother"
+              },
+              {
+                "index": 2,
+                "value": "You Will Arrange Care For Your Mother & Attend the Meeting"
+              }
+            ]
+          },
+          {
+            "question": "Last Minute Plans",
+            "id": "Q14",
+            "type": "single_select",
+            "options": [
+              {
+                "index": 1,
+                "value": "You Love Them & Adjust Your Day to Accommodate the Plan"
+              },
+              {
+                "index": 2,
+                "value": "You Dislike Last-Minute Plans & Prefer Planning Ahead"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "index": 2,
+        "value": "Others",
+        "flow": [
+          {
+            "question": "Select Gender of the Person You Are Buying For",
+            "id": "Q2",
+            "type": "single_select",
+            "options": [
+              {
+                "index": 1,
+                "value": "Male",
+                "flow": [
+                  {
+                    "question": "Your Relation to the Person You Are Buying For",
+                    "id": "Q3",
+                    "type": "single_select",
+                    "options": [
+                      {
+                        "index": 1,
+                        "value": "Fiancé"
+                      },
+                      {
+                        "index": 2,
+                        "value": "Mother"
+                      },
+                      {
+                        "index": 3,
+                        "value": "Father"
+                      },
+                      {
+                        "index": 4,
+                        "value": "Sister"
+                      },
+                      {
+                        "index": 5,
+                        "value": "Brother"
+                      },
+                      {
+                        "index": 6,
+                        "value": "Girlfriend"
+                      },
+                      {
+                        "index": 7,
+                        "value": "Wife"
+                      },
+                      {
+                        "index": 8,
+                        "value": "Mother in Law"
+                      },
+                      {
+                        "index": 9,
+                        "value": "Father in Law"
+                      },
+                      {
+                        "index": 10,
+                        "value": "Friend"
+                      },
+                      {
+                        "index": 11,
+                        "value": "Other"
+                      }
+                    ]
+                  },
+                  {
+                    "question": "His Profession",
+                    "id": "Q4",
+                    "type": "single_select",
+                    "options": [
+                      {
+                        "index": 1,
+                        "value": "Knowledge Based: IT/ Marketing/ Architect/ Lawyer/ Teacher/ Accountant"
+                      },
+                      {
+                        "index": 2,
+                        "value": "Skill Based/Manual: Home-maker/ Baker/ Make-up Artist/ Graphics & VFX/ Photographer"
+                      },
+                      {
+                        "index": 3,
+                        "value": "Creative: Interior Designer/ Content Writer/ Fashion Designer/ UI-UX Designer"
+                      },
+                      {
+                        "index": 4,
+                        "value": "Service & Hospitality: Retail Sales Person/ Hotel Staff/ Flight Attendants/ Chefs/ Nurses"
+                      },
+                      {
+                        "index": 5,
+                        "value": "Entrepreneur & Executive: Founder/ CEO/ CXO/ Board Member"
+                      },
+                      {
+                        "index": 6,
+                        "value": "Business Owner: Proprietor/ Partner"
+                      }
+                    ]
+                  },
+                  {
+                    "question": "The Occasion You Are Buying the Ring For",
+                    "id": "Q5",
+                    "type": "single_select",
+                    "options": [
+                      {
+                        "index": 1,
+                        "value": "Anniversary"
+                      },
+                      {
+                        "index": 2,
+                        "value": "Birthday"
+                      },
+                      {
+                        "index": 3,
+                        "value": "Engagement"
+                      },
+                      {
+                        "index": 4,
+                        "value": "Graduation"
+                      },
+                      {
+                        "index": 5,
+                        "value": "Self-Gift"
+                      },
+                      {
+                        "index": 6,
+                        "value": "To Become a Parent"
+                      },
+                      {
+                        "index": 7,
+                        "value": "First Salary"
+                      },
+                      {
+                        "index": 8,
+                        "value": "Wedding"
+                      },
+                      {
+                        "index": 9,
+                        "value": "Celebrating a Win"
+                      }
+                    ]
+                  },
+                  {
+                    "question": "The Purpose For Which the Ring is Needed",
+                    "id": "Q6",
+                    "type": "single_select",
+                    "options": [
+                      {
+                        "index": 1,
+                        "value": "Office Wear"
+                      },
+                      {
+                        "index": 2,
+                        "value": "Daily Wear"
+                      },
+                      {
+                        "index": 3,
+                        "value": "Party Wear"
+                      },
+                      {
+                        "index": 4,
+                        "value": "Investment"
+                      },
+                      {
+                        "index": 5,
+                        "value": "Festive/Function"
+                      }
+                    ]
+                  },
+                  {
+                    "question": "How Would You Describe His Typical Day?",
+                    "id": "Q7",
+                    "type": "single_select",
+                    "options": [
+                      {
+                        "index": 1,
+                        "value": "Calendarized Set Routine"
+                      },
+                      {
+                        "index": 2,
+                        "value": "Busy With a Lot of Activities"
+                      },
+                      {
+                        "index": 3,
+                        "value": "Spontaneous & Free Spirited"
+                      },
+                      {
+                        "index": 4,
+                        "value": "Relaxed & Undisturbed"
+                      }
+                    ]
+                  },
+                  {
+                    "question": "How Does He Prefer to Spend His Weekends?",
+                    "id": "Q8",
+                    "type": "single_select",
+                    "options": [
+                      {
+                        "index": 1,
+                        "value": "Relaxing at Home Solo"
+                      },
+                      {
+                        "index": 2,
+                        "value": "Going Out & Socialising"
+                      },
+                      {
+                        "index": 3,
+                        "value": "Engaging in Hobbies"
+                      },
+                      {
+                        "index": 4,
+                        "value": "Hustle to Build From His Passion"
+                      }
+                    ]
+                  },
+                  {
+                    "question": "How Does He Typically Dress For Work?",
+                    "id": "Q9",
+                    "type": "single_select",
+                    "options": [
+                      {
+                        "index": 1,
+                        "value": "Business Formals: Tie-Suit/ Skirt Blazer"
+                      },
+                      {
+                        "index": 2,
+                        "value": "Business Casuals: Shirt-Pants/ Trouser"
+                      },
+                      {
+                        "index": 3,
+                        "value": "Everyday Wear: Jeans & T-Shirt"
+                      },
+                      {
+                        "index": 4,
+                        "value": "Comfort Clothing: Lounge Wear"
+                      },
+                      {
+                        "index": 5,
+                        "value": "Stylish & Chic: Designer Clothing"
+                      }
+                    ]
+                  },
+                  {
+                    "question": "How Does He Typically Dress For Social Events?",
+                    "id": "Q10",
+                    "type": "single_select",
+                    "options": [
+                      {
+                        "index": 1,
+                        "value": "Formals: Tie-Suit & Gown"
+                      },
+                      {
+                        "index": 2,
+                        "value": "Semi-Formals: Shirt-Pant & Dresses"
+                      },
+                      {
+                        "index": 3,
+                        "value": "Everyday Wear: Jeans & T-Shirt"
+                      },
+                      {
+                        "index": 4,
+                        "value": "Comfort Clothing: Lounge Wear"
+                      },
+                      {
+                        "index": 5,
+                        "value": "Stylish & Chic: Designer Clothing"
+                      }
+                    ]
+                  },
+                  {
+                    "question": "On a Trip, How Does He Like to Organize Things?",
+                    "id": "Q11",
+                    "type": "single_select",
+                    "options": [
+                      {
+                        "index": 1,
+                        "value": "He Uses an Itinerary and Adjusts It"
+                      },
+                      {
+                        "index": 2,
+                        "value": "He Plans Everything Himself From Scratch"
+                      }
+                    ]
+                  },
+                  {
+                    "question": "He is Waiting in a Long Line",
+                    "id": "Q12",
+                    "type": "single_select",
+                    "options": [
+                      {
+                        "index": 1,
+                        "value": "He Will Talk to People Nearby"
+                      },
+                      {
+                        "index": 2,
+                        "value": "He Will Prefer to Be by Himself"
+                      }
+                    ]
+                  },
+                  {
+                    "question": "Whenever He Sees a Piece of Artwork",
+                    "id": "Q13",
+                    "type": "single_select",
+                    "options": [
+                      {
+                        "index": 1,
+                        "value": "He Will Focus On the Artistic Details"
+                      },
+                      {
+                        "index": 2,
+                        "value": "He Values the Meaning of the Art & Origin"
+                      }
+                    ]
+                  },
+                  {
+                    "question": "He Has an Important Meeting to Attend But His Mother is Unwell",
+                    "id": "Q14",
+                    "type": "single_select",
+                    "options": [
+                      {
+                        "index": 1,
+                        "value": "He Will Cancel the Meeting to Care For His Mother"
+                      },
+                      {
+                        "index": 2,
+                        "value": "He Will Arrange Care For His Mother & Attend the Meeting"
+                      }
+                    ]
+                  },
+                  {
+                    "question": "How Does He React to Last Minute Plans?",
+                    "id": "Q15",
+                    "type": "single_select",
+                    "options": [
+                      {
+                        "index": 1,
+                        "value": "He Loves Them & Adjusts His Day to Accommodate the Plan"
+                      },
+                      {
+                        "index": 2,
+                        "value": "He Dislikes Last-Minute Plans and Prefers Planning Ahead"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "index": 2,
+                "value": "Female",
+                "flow": [
+                  {
+                    "question": "Your Relation to the Person You Are Buying For",
+                    "id": "Q3",
+                    "type": "single_select",
+                    "options": [
+                      {
+                        "index": 1,
+                        "value": "Fiancée"
+                      },
+                      {
+                        "index": 2,
+                        "value": "Mother"
+                      },
+                      {
+                        "index": 3,
+                        "value": "Father"
+                      },
+                      {
+                        "index": 4,
+                        "value": "Sister"
+                      },
+                      {
+                        "index": 5,
+                        "value": "Brother"
+                      },
+                      {
+                        "index": 6,
+                        "value": "Husband"
+                      },
+                      {
+                        "index": 7,
+                        "value": "Boyfriend"
+                      },
+                      {
+                        "index": 8,
+                        "value": "Mother in Law"
+                      },
+                      {
+                        "index": 9,
+                        "value": "Father in Law"
+                      },
+                      {
+                        "index": 10,
+                        "value": "Friend"
+                      },
+                      {
+                        "index": 11,
+                        "value": "Other"
+                      }
+                    ]
+                  },
+                  {
+                    "question": "Her Profession",
+                    "id": "Q4",
+                    "type": "single_select",
+                    "options": [
+                      {
+                        "index": 1,
+                        "value": "Knowledge Based: IT/ Marketing/ Architect/ Lawyer/ Teacher/ Accountant"
+                      },
+                      {
+                        "index": 2,
+                        "value": "Skill Based/Manual: Home-maker/ Baker/ Make-up Artist/ Graphics & VFX/ Photographer"
+                      },
+                      {
+                        "index": 3,
+                        "value": "Creative: Interior Designer/ Content Writer/ Fashion Designer/ UI-UX Designer"
+                      },
+                      {
+                        "index": 4,
+                        "value": "Service & Hospitality: Retail Sales Person/ Hotel Staff/ Flight Attendants/ Chefs/ Nurses"
+                      },
+                      {
+                        "index": 5,
+                        "value": "Entrepreneur & Executive: Founder/ CEO/ CXO/ Board Member"
+                      },
+                      {
+                        "index": 6,
+                        "value": "Business Owner: Proprietor/ Partner"
+                      }
+                    ]
+                  },
+                  {
+                    "question": "The Occasion You Are Buying the Ring For",
+                    "id": "Q5",
+                    "type": "single_select",
+                    "options": [
+                      {
+                        "index": 1,
+                        "value": "Anniversary"
+                      },
+                      {
+                        "index": 2,
+                        "value": "Birthday"
+                      },
+                      {
+                        "index": 3,
+                        "value": "Engagement"
+                      },
+                      {
+                        "index": 4,
+                        "value": "Graduation"
+                      },
+                      {
+                        "index": 5,
+                        "value": "Self-Gift"
+                      },
+                      {
+                        "index": 6,
+                        "value": "To Become a Parent"
+                      },
+                      {
+                        "index": 7,
+                        "value": "First Salary"
+                      },
+                      {
+                        "index": 8,
+                        "value": "Wedding"
+                      },
+                      {
+                        "index": 9,
+                        "value": "Celebrating a Win"
+                      }
+                    ]
+                  },
+                  {
+                    "question": "The Purpose For Which the Ring is Needed",
+                    "id": "Q6",
+                    "type": "single_select",
+                    "options": [
+                      {
+                        "index": 1,
+                        "value": "Office Wear"
+                      },
+                      {
+                        "index": 2,
+                        "value": "Daily Wear"
+                      },
+                      {
+                        "index": 3,
+                        "value": "Party Wear"
+                      },
+                      {
+                        "index": 4,
+                        "value": "Investment"
+                      },
+                      {
+                        "index": 5,
+                        "value": "Festive/Function"
+                      }
+                    ]
+                  },
+                  {
+                    "question": "How Would You Describe Her Typical Day?",
+                    "id": "Q7",
+                    "type": "single_select",
+                    "options": [
+                      {
+                        "index": 1,
+                        "value": "Calendarized Set Routine"
+                      },
+                      {
+                        "index": 2,
+                        "value": "Busy With a Lot of Activities"
+                      },
+                      {
+                        "index": 3,
+                        "value": "Spontaneous & Free Spirited"
+                      },
+                      {
+                        "index": 4,
+                        "value": "Relaxed & Undisturbed"
+                      }
+                    ]
+                  },
+                  {
+                    "question": "How Does She Prefer to Spend Her Weekends?",
+                    "id": "Q8",
+                    "type": "single_select",
+                    "options": [
+                      {
+                        "index": 1,
+                        "value": "Relaxing at Home Solo"
+                      },
+                      {
+                        "index": 2,
+                        "value": "Going Out & Socialising"
+                      },
+                      {
+                        "index": 3,
+                        "value": "Engaging in Hobbies"
+                      },
+                      {
+                        "index": 4,
+                        "value": "Hustle to Build From Her Passion"
+                      }
+                    ]
+                  },
+                  {
+                    "question": "How Does She Typically Dress For Work?",
+                    "id": "Q9",
+                    "type": "single_select",
+                    "options": [
+                      {
+                        "index": 1,
+                        "value": "Business Formals: Tie-Suit/ Skirt Blazer"
+                      },
+                      {
+                        "index": 2,
+                        "value": "Business Casuals: Shirt-Pants/ Trouser"
+                      },
+                      {
+                        "index": 3,
+                        "value": "Everyday Wear: Jeans & T-Shirt"
+                      },
+                      {
+                        "index": 4,
+                        "value": "Comfort Clothing: Lounge Wear"
+                      },
+                      {
+                        "index": 5,
+                        "value": "Stylish & Chic: Designer Clothing"
+                      }
+                    ]
+                  },
+                  {
+                    "question": "How Does She Typically Dress For Social Events?",
+                    "id": "Q10",
+                    "type": "single_select",
+                    "options": [
+                      {
+                        "index": 1,
+                        "value": "Formals: Tie-Suit & Gown"
+                      },
+                      {
+                        "index": 2,
+                        "value": "Semi-Formals: Shirt-Pant & Dresses"
+                      },
+                      {
+                        "index": 3,
+                        "value": "Everyday Wear: Jeans & T-Shirt"
+                      },
+                      {
+                        "index": 4,
+                        "value": "Comfort Clothing: Lounge Wear"
+                      },
+                      {
+                        "index": 5,
+                        "value": "Stylish & Chic: Designer Clothing"
+                      }
+                    ]
+                  },
+                  {
+                    "question": "On a Trip, How Does She Like to Organize Things?",
+                    "id": "Q11",
+                    "type": "single_select",
+                    "options": [
+                      {
+                        "index": 1,
+                        "value": "She Uses an Itinerary and Adjusts It"
+                      },
+                      {
+                        "index": 2,
+                        "value": "She Plans Everything Herself From Scratch"
+                      }
+                    ]
+                  },
+                  {
+                    "question": "She is Waiting in a Long Line",
+                    "id": "Q12",
+                    "type": "single_select",
+                    "options": [
+                      {
+                        "index": 1,
+                        "value": "She Will Talk to People Nearby"
+                      },
+                      {
+                        "index": 2,
+                        "value": "She Will Prefer to Be by Herself"
+                      }
+                    ]
+                  },
+                  {
+                    "question": "Whenever She Sees a Piece of Artwork",
+                    "id": "Q13",
+                    "type": "single_select",
+                    "options": [
+                      {
+                        "index": 1,
+                        "value": "She Will Focus On the Artistic Details"
+                      },
+                      {
+                        "index": 2,
+                        "value": "She Values the Meaning of the Art & Origin"
+                      }
+                    ]
+                  },
+                  {
+                    "question": "She Has an Important Meeting to Attend But Her Mother is Unwell",
+                    "id": "Q14",
+                    "type": "single_select",
+                    "options": [
+                      {
+                        "index": 1,
+                        "value": "She Will Cancel the Meeting to Care For Her Mother"
+                      },
+                      {
+                        "index": 2,
+                        "value": "She Will Arrange Care For Her Mother & Attend the Meeting"
+                      }
+                    ]
+                  },
+                  {
+                    "question": "How Does She React to Last Minute Plans?",
+                    "id": "Q15",
+                    "type": "single_select",
+                    "options": [
+                      {
+                        "index": 1,
+                        "value": "She Loves Them & Adjusts Her Day to Accommodate the Plan"
+                      },
+                      {
+                        "index": 2,
+                        "value": "She Dislikes Last-Minute Plans and Prefers Planning Ahead"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "meta": [
+    {
+      "question": "name",
+      "type": "input"
+    },
+    {
+      "question": "email",
+      "type": "input"
+    },
+    {
+      "question": "birth_date",
+      "type": "input"
+    },
+    {
+      "question": "phonenumber",
+      "type": "input"
+    }
+  ]
+};
+
+/* ------------------------- VARIABLES -------------------------- */
+let currentQuestion = null;
+let currentFlowIndex = 0;
+let currentFlowList = null;
+const QuestionStack = [];
+const userAnswers = [];
+let isOnUserInfoPage = false;
+let finalQuizResponse = null;
+let totalQuestions = 0;
+let currentQuestionIndex = 0;
+
+function showStartScreen() {
+    const startScreen = document.getElementById("start-screen");
+
+    startScreen.innerHTML = `
+      <div class="fyrs-root">
+        <section class="hero-section">
+
+            <img class="fyrs-bg"
+                src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/fyrs-cover-bg.png?v=1766821728"
+                alt="Background" />
+
+            <img class="logo" src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/RINGS_I_Logo.png?v=1766821728"
+                alt="RINGS & I Logo" />
+
+            <div class="fyrs">
+
+                <div>
+                    <h1 class="fyrs-title">FIND YOUR RING STYLE</h1>
+                </div>
+                <div class="fyrs-description">
+                    <p class="fyrs-desc">
+                        <span class="fyrs-desc1">AI - Driven Style Mapping Quiz</span>
+                        <br>
+                        <!-- <span class="fyrs-desc2">Designed around your personality, lifestyle & occasion</span> -->
+                    </p>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="video-section">
+            <video playsinline class="bg-video">
+                <!-- Mobile video -->
+                <source src="https://cdn.shopify.com/videos/c/o/v/94e9c7dfdbd249e8aaef2215474137cf.mp4"
+                    media="(max-width: 900px)" type="video/mp4">
+
+                <!-- Desktop / Tablet video -->
+                <source src="https://cdn.shopify.com/videos/c/o/v/432f6e1f647b4a4a8a8b55135e421905.mp4"
+                    type="video/mp4">
+            </video>
+        </section>
+
+        <section class="cards-section">
+            <div class="cards-container">
+                <!-- Card 1 -->
+                <div class="card" style="--card-index: 0">
+                    <div class="card-content">
+                        <div class="card-step">Step 1</div>
+                        <div class="card-icon">
+                            <i class="fas fa-gem"></i>
+                        </div>
+                        <div class="card-title">Choose The Occasion</div>
+                        <p>
+                            Select the moment you're buying the ring for.
+                            Engagement, Wedding, Anniversary, Self-Gift,
+                            Birthday, or a personal milestone.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="card" style="--card-index: 1">
+                    <div class="corner-decoration"></div>
+                    <div class="corner-decoration"></div>
+                    <div class="corner-decoration"></div>
+                    <div class="corner-decoration"></div>
+                    <div class="card-content">
+                        <div class="card-step">Step 2</div>
+                        <div class="card-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="card-title">Answer Lifestyle Questions</div>
+                        <p>
+                            Choose options that reflect your daily routine,
+                            profession, comfort level, and wearing.
+                            This ensures your ring style suits your lifestyle.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card 3 with Sparkle Icon -->
+                <div class="card" style="--card-index: 2">
+                    <div class="corner-decoration"></div>
+                    <div class="corner-decoration"></div>
+                    <div class="corner-decoration"></div>
+                    <div class="corner-decoration"></div>
+                    <div class="card-content">
+                        <div class="card-step">Step 3</div>
+                        <div class="card-icon">
+                            <i class="fas">✨</i>
+                            <!-- Only icon, no emoji -->
+                        </div>
+                        <div class="card-title">Discover Your Personality Style</div>
+                        <p>
+                            Answer personality-based questions inspired
+                            by the MBTI framework. This helps our AI
+                            understand how you think and express yourself.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <button class="fyrs-btn" id="btn-start">START THE QUIZ</button>
+    </div>
+    `;
+    initSnapScroll()
+    document.getElementById("btn-start").onclick = startQuiz;
+
+        setTimeout(() => {
+            window.scrollTo({
+                top: 140,
+                behavior: "smooth"
+            });
+        },90);
+
+}
+
+function initSnapScroll() {
+    const sections = Array.from(document.querySelectorAll(
+        '.hero-section, .video-section, .cards-section'
+    ));
+    const video = document.querySelector('.bg-video');
+
+    if (sections.length < 2) return;
+
+    let activeIndex = 0;
+    let snapping = false;
+    let scrollIntent = 0;
+
+    /* ---------- TRACK ACTIVE SECTION ---------- */
+    const sectionObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                activeIndex = sections.indexOf(entry.target);
+            }
+        });
+    }, { threshold: 0.6 });
+
+    sections.forEach(sec => sectionObserver.observe(sec));
+
+    /* ---------- VIDEO PLAY / PAUSE ---------- */
+  if (video) {
+          /* ---------- MUTE CONTROL BASED ON SCREEN ---------- */
+        function updateVideoSound() {
+            if (window.innerWidth <= 900) {
+                video.muted = true;   // Mobile → muted
+            } else {
+                video.muted = false;  // Desktop → unmuted
+                video.volume = 1;
+            }
+        }
+
+        updateVideoSound();
+        window.addEventListener("resize", updateVideoSound);
+
+        /* ---------- VIDEO PLAY / PAUSE ---------- */
+        const videoObserver = new IntersectionObserver(([entry]) => {
+            if (entry.isIntersecting) {
+                video.play().catch(() => {});
+            } else {
+                video.pause();
+            }
+        }, { threshold: 0.6 });
+
+        videoObserver.observe(video);
+
+        video.addEventListener('ended', () => {
+            snapTo(activeIndex + 1);
+        });
+    }
+
+    /* ---------- SNAP FUNCTION ---------- */
+   function snapTo(index) {
+    if (snapping || index < 0 || index >= sections.length) return;
+
+    snapping = true;
+
+    const target = sections[index];
+
+    // 🔹 offset only for video section
+    const offset = target.classList.contains('video-section')
+        ? -10   // 👈 adjust this value (negative = scroll up more)
+        : 0;
+
+    const top =
+        target.getBoundingClientRect().top +
+        window.pageYOffset +
+        offset;
+
+    window.scrollTo({
+        top,
+        behavior: 'smooth'
+    });
+
+    setTimeout(() => snapping = false, 600);
+}
+
+
+    /* ---------- DESKTOP / TRACKPAD ---------- */
+    window.addEventListener('wheel', e => {
+        if (snapping) return;
+
+        scrollIntent += e.deltaY;
+
+        if (scrollIntent > 120) {
+            snapTo(activeIndex + 1);
+            scrollIntent = 0;
+        } else if (scrollIntent < -120) {
+            snapTo(activeIndex - 1);
+            scrollIntent = 0;
+        }
+    }, { passive: true });
+
+    /* ---------- MOBILE SWIPE ---------- */
+    let startY = 0;
+
+    window.addEventListener('touchstart', e => {
+        startY = e.touches[0].clientY;
+    }, { passive: true });
+
+    window.addEventListener('touchend', e => {
+        if (snapping) return;
+
+        const diff = startY - e.changedTouches[0].clientY;
+
+        if (diff > 60) snapTo(activeIndex + 1);
+        if (diff < -60) snapTo(activeIndex - 1);
+    }, { passive: true });
+
+    /* ---------- OPTIONAL AUTO SCROLL ---------- */
+    setTimeout(() => {
+        snapTo(1); // hero → video
+    }, 3000);
+}
+
+function startQuiz() {
+    // Hide start screen
+    document.getElementById("start-screen").style.display = "none";
+
+    // Show quiz
+    const quizBody = document.getElementById("quiz-body");
+    quizBody.style.display = "block";
+
+    // Build quiz structure
+    quizBody.innerHTML = `
+    <div class="qna-body" id="qna-body">
+        <div class="progress-bar-container" id="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <div class="btn-section" style="text-align:left;">
+            <button class="btn-back" id="btn-back" style="display: none;">
+                <img
+                    src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/back-button.png?v=1766126502"
+                    alt="Back"
+                    class="btn-back-img" style="
+                        height: 3em;
+                        margin-left: 2em;
+                    "
+                />
+            </button>
+        </div>
+
+        <div class="questions" id="questions"></div>
+        <div class="options" id="options"></div>
+
+</div>
+    `;
+
+    document.getElementById("btn-back").onclick = backBtnHandler;
+
+    // Init quiz
+    totalQuestions = calculateTotalQuestions(QuestionAnswers.questions);
+    loadQuestion(QuestionAnswers.questions);
+    requestAnimationFrame(() => {
+        window.scrollTo({
+            top: 88,
+            left: 0,
+            behavior: "smooth"
+        });
+    });
+}
+
+/* ------------------------- CALCULATE TOTAL QUESTIONS -------------------------- */
+function calculateTotalQuestions(startNode, count = 0) {
+    if (!startNode || !startNode.options) return count;
+
+    // Count this question
+    count++;
+
+    // Check all options for nested flows
+    for (const option of startNode.options) {
+        if (option.flow && option.flow.length > 0) {
+            for (const nestedQuestion of option.flow) {
+                count = calculateTotalQuestions(nestedQuestion, count);
+            }
+        }
+    }
+    return count;
+}
+
+/* ------------------------- UPDATE PROGRESS BAR -------------------------- */
+function updateProgressBar() {
+    const progressBar = document.getElementById("progress-bar");
+
+    if (progressBar) {
+        const progress = ((currentQuestionIndex) / 14) * 100;
+        progressBar.style.width = `${progress}%`;
+    }
+}
+
+/* ------------------------- LOAD QUESTION -------------------------- */
+function loadQuestion(node, flowlist = null, flowindex = 0) {
+    if (!node || !node.question) return;
+
+    currentQuestion = node;
+    currentFlowIndex = flowindex;
+    currentFlowList = flowlist;
+    currentQuestionIndex++;
+
+    // Update progress bar
+    updateProgressBar();
+        // Show or hide back button based on question index
+    const backButton = document.getElementById("btn-back");
+    if (backButton) {
+        // Show back button only if we're not on the first question
+        if (currentQuestionIndex > 1) {
+            backButton.style.display = "inline-block";
+        } else {
+            backButton.style.display = "none";
+        }
+    }
+
+    document.getElementById("questions").innerHTML = `<h2 style="text-align: center; margin-bottom: 30px; color:rgb(255, 251, 251);">${node.question}</h2>`;
+
+    const optionDiv = document.getElementById("options");
+    optionDiv.innerHTML = "";
+
+    // Check if this question has images for options
+    const hasImages = node.options && node.options.some(option => option.img && option.img.trim() !== "");
+
+    // Add a flag to prevent multiple clicks
+    let isProcessingClick = false;
+
+    if (hasImages) {
+        // Use image-based layout
+        optionDiv.className = "options image-option-style";
+
+        const imageContainer = document.createElement("div");
+        imageContainer.className = "image-options-container";
+
+        node.options?.forEach(option => {
+            const optionWrapper = document.createElement("div");
+            optionWrapper.className = "image-option";
+
+            // Create image
+            const img = document.createElement("img");
+            img.src = option.img || "../rings images/test_img.png";
+            img.alt = option.value;
+            img.className = "option-image";
+
+            // Create glass button for text
+            const glassButton = document.createElement("button");
+            glassButton.className = "glass-button";
+            glassButton.innerHTML = `<span class="glass-button-text">${option.value}</span>`;
+
+            optionWrapper.appendChild(img);
+            optionWrapper.appendChild(glassButton);
+
+            // Click handler for the entire option
+            const clickHandler = () => {
+                if (isProcessingClick) return;
+                isProcessingClick = true;
+                // Remove selection from all options
+                document.querySelectorAll(".glass-button").forEach(el => {
+                    el.classList.remove("selected");
+                });
+
+                // Add selection to clicked button
+                glassButton.classList.add("selected");
+
+                // Add slight delay for visual feedback
+                setTimeout(() => {
+                    userAnswers.push({
+                        id: node.id,
+                        type: node.type,
+                        text: node.question,
+                        selectedOption: {
+                            index: option.index,
+                            value: option.value
+                        }
+                    });
+
+                    QuestionStack.push({ node, flowlist, flowindex });
+                    nextStep(option);
+                    setTimeout(() => {
+                        isProcessingClick = false;
+                    }, 500);
+                }, 300);
+            };
+
+            // Add click handlers to both image and button
+            img.onclick = clickHandler;
+            glassButton.onclick = clickHandler;
+
+            imageContainer.appendChild(optionWrapper);
+        });
+
+        optionDiv.appendChild(imageContainer);
+    } else {
+        // Use text-only layout with glass buttons
+        optionDiv.className = "options";
+
+        const textContainer = document.createElement("div");
+        textContainer.className = "text-options-container";
+
+        node.options?.forEach(option => {
+            const optionWrapper = document.createElement("div");
+            optionWrapper.className = "text-option";
+
+            // Create glass button
+            const glassButton = document.createElement("button");
+            glassButton.className = "glass-button";
+            glassButton.innerHTML = `<span class="glass-button-text">${option.value}</span>`;
+
+            optionWrapper.appendChild(glassButton);
+            textContainer.appendChild(optionWrapper);
+
+            glassButton.onclick = () => {
+
+                if (isProcessingClick) return;
+                isProcessingClick = true;
+                // Remove selection from all buttons
+                document.querySelectorAll(".glass-button").forEach(el => {
+                    el.classList.remove("selected");
+                });
+
+                // Add selection to clicked button
+                glassButton.classList.add("selected");
+
+                // Add slight delay for visual feedback
+                setTimeout(() => {
+                    userAnswers.push({
+                        id: node.id,
+                        type: node.type,
+                        text: node.question,
+                        selectedOption: {
+                            index: option.index,
+                            value: option.value
+                        }
+                    });
+
+                    QuestionStack.push({ node, flowlist, flowindex });
+                    nextStep(option);
+                    // Reset click flag after processing
+                    setTimeout(() => {
+                        isProcessingClick = false;
+                    }, 500);
+                }, 300);
+            };
+        });
+
+        optionDiv.appendChild(textContainer);
+    }
+}
+
+/* ------------------------- NEXT STEP -------------------------- */
+function nextStep(option) {
+    if (option.flow && option.flow.length > 0) {
+        loadQuestion(option.flow[0], option.flow, 0);
+        return;
+    }
+
+    if (currentFlowList && currentFlowIndex + 1 < currentFlowList.length) {
+        loadQuestion(
+            currentFlowList[currentFlowIndex + 1],
+            currentFlowList,
+            currentFlowIndex + 1
+        );
+        return;
+    }
+
+    getUserInfo();
+}
+
+/* ------------------------- USER INFO PAGE -------------------------- */
+function getUserInfo() {
+    isOnUserInfoPage = true;
+
+    const quizBody = document.getElementById("quiz-body");
+    quizBody.innerHTML = ''; 
+
+
+    const progressContainer = document.getElementById("progress-container");
+    if (progressContainer) {
+        progressContainer.style.display = "none";
+    }
+
+    const container = document.createElement('div');
+    container.className = "user-info-container";
+
+    container.innerHTML = `
+        <div class="floating-video video-left">
+            <div class="btn-section inputPage-backBtn" style="text-align:left;">
+                <button class="btn-back" id="btn-back"  display: inline-block; style="filter: brightness(0) invert(0.6); margin-top:30px; ">
+                    <img
+                        src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/back-button.png?v=1766126502"
+                        alt="Back"
+                        class="btn-back-img" style="
+                            height: 3em;
+                            margin-left: 2em;
+                        "
+                    />
+                </button>
+            </div>
+            <video autoplay muted loop playsinline style="margin-top: clamp(200px, 30vh, 350px);">
+                <source src="https://cdn.shopify.com/videos/c/o/v/5d653fe2a86d4ec38624182436113385.mp4" type="video/mp4">
+            </video>
+        </div>
+        <div class="input-card">
+            <div class="card-header">You're almost there!</div>
+            <form id="userform" class="form-input">
+                <div class="form-row mobile-field">
+                    <input type="text" id="username" placeholder=" " required />
+                    <label>Name*</label>
+                </div>
+                <div class="form-row mobile-field">
+                    <input type="email" id="email" placeholder=" " required />
+                    <label>Email*</label>
+                </div>
+                <div class="form-row dob-field mobile-field">
+                    <input type="date" id="date" class="dob-input" required />
+                    <label class="dob-label">Date of Birth*</label>
+                </div>
+                <div class="form-row mobile-field">
+                    <input type="tel" id="number" pattern="[0-9]{10}" placeholder=" " required />
+                    <label>WhatsApp No.*</label>
+                </div>
+                <div class="submit-button">
+                    <button type="submit" id='btn-submit'>Submit</button>
+                </div>
+ 
+            </form>
+        </div>
+        <div class="floating-video video-right">
+            <video autoplay muted loop playsinline>
+                <source src="https://cdn.shopify.com/videos/c/o/v/cc8da2d43bd44043b536139cb181c648.mp4" type="video/mp4">
+            </video>
+        </div>
+    `;
+
+    document.getElementById("quiz-body").appendChild(container);
+
+    // Remove the grey background class from quiz-body
+    quizBody.classList.remove("qna-body");
+
+    document.getElementById("userform").addEventListener("submit", userSubmit);
+    document.getElementById("btn-back").addEventListener("click", backBtnHandler);
+
+    requestAnimationFrame(() => {
+        window.scrollTo({
+            top: 80,
+            left: 0,
+            behavior: "smooth"
+        });
+    });
+
+}
+
+/* ------------------------- SUBMIT USER INFO -------------------------- */
+function userSubmit(e) {
+    e.preventDefault();
+    e.stopPropagation(); // Prevent event bubbling
+
+    const username = document.getElementById('username');
+    const email = document.getElementById('email');
+    const date = document.getElementById('date');
+    const number = document.getElementById('number');
+
+    if (!username || !email || !date || !number) {
+        console.error("Form fields not found!");
+        return;
+    }
+
+    const meta = {
+        name: username.value,
+        email: email.value,
+        birth_date: date.value,
+        phonenumber: number.value,
+        request_id: 'SHPY' + Math.random().toString(36) + Date.now().toString(36)
+    };
+
+    finalQuizResponse = JSON.stringify({ answers: userAnswers, meta }, null, 2);
+    console.log("Final quiz response:", finalQuizResponse);
+
+    showLoadingAndFetchResponse();
+}
+
+/* ------------------------- SHOW LOADING AND FETCH RESPONSE -------------------------- */
+function showLoadingAndFetchResponse() {
+    const quizBody = document.getElementById("quiz-body");
+    quizBody.innerHTML = '';
+
+    const container = document.createElement('div');
+    container.className = "response-container";
+    container.style.textAlign = "center";
+    container.style.padding = "50px";
+
+    container.innerHTML = `
+            <div id="loader" class="loading-overlay">
+                <p class="loader-text">
+                    Hang in there
+                    <span>Your personalized result is almost ready to sparkle!</span>
+                </p>
+            </div>
+    `;
+
+    quizBody.appendChild(container);
+
+    fetchResponse();
+}
+
+/* ------------------------- FETCH PREDICTION -------------------------- */
+async function fetchResponse() {
+    try {
+        const res = await fetch("https://projectaiapi-hxaahsajd4aegqf6.centralindia-01.azurewebsites.net/predict", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: finalQuizResponse
+        });
+
+        if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+        }
+
+        const data = await res.json();
+
+        if (!data || !data.data) {
+            throw new Error("Invalid response structure from server");
+        }
+
+        // Get the quiz body container
+        const quizBody = document.getElementById("quiz-body");
+
+         quizBody.innerHTML = `
+            <div class="main-wrapper">
+                <div class="page-container">
+                    <div class="left-section">
+                        <div class="code-title" style="margin-top: 0.5em;">${data.data.mbti_personality_type}</div>
+                        <h2>MBTI Personality Type</h2>
+                        <div class="code-title">${data.data.mbti_personality_code}</div>
+                        <h2>MBTI Personality Code</h2>
+                        <div class="description-text" id="description">${data.data.description}</div>
+                        <div class="celeb">${data.data.similar_personality_1} & ${data.data.similar_personality_2}</div>
+                        <div class="mobile-right-wrapper">
+                            <div class="mobile-ring-columns">
+                                <div class="mobile-col">
+                                    <a href="${data.data.collection_1.link}" class="mobile-title">
+                                        ${data.data.collection_1.name}
+                                    </a>
+                                    <img src="${data.data.collection_1.image}" class="mobile-ring" alt="Collection 1">
+                                </div>
+                                <div class="mobile-col">
+                                    <a href="${data.data.collection_2?.link}" class="mobile-title">
+                                        ${data.data.collection_2.name}
+                                    </a>
+                                    <img src="${data.data.collection_2.image}" class="mobile-ring" alt="Collection 2">
+                                </div>
+                            </div>
+                            <div class="mobile-advised">Advised Ring Style</div>
+                        </div>
+                        <div style="display: flex;">
+                            <div>
+                                <button id="btn-restart" class="btn-restart">RETAKE QUIZ</button>
+                            </div>
+                            <a href="https://ringsandi.com/collections/products" class="proceed-btn">
+                                PROCEED TO VIEW ALL DESIGNS
+                            </a>
+                        </div>
+
+                    </div>
+                    <div class="right-section">
+                        <a href="${data.data.collection_1.link}" class="right-title">
+                            ${data.data.collection_1.name}
+                        </a>
+                        <img src="${data.data.collection_1.image}" class="right-img" alt="Collection 1">
+                        <a href="${data.data.collection_2.link}" class="right-title">
+                            ${data.data.collection_2.name}
+                        </a>
+                        <img src="${data.data.collection_2.image}" class="right-img" alt="Collection 2">
+                        <div class="advised-box">Advised Ring Style</div>
+                    </div>
+                </div>
+            </div>
+
+        `;
+
+        // Add restart button event listener
+        document.getElementById("btn-restart").addEventListener("click", restartQuiz);
+
+        setTimeout(() => {
+            window.scrollTo({
+                top: 110,
+                behavior: "smooth"
+            });
+        }, 50);
+
+        setTimeout(applyDescriptionToggle, 50);
+
+    } catch (err) {
+        console.error("Fetch error:", err);
+
+        // Show error message within quiz-body
+        const quizBody = document.getElementById("quiz-body");
+        quizBody.innerHTML = `
+            <div class="error-container" style="text-align: center; padding: 50px;">
+                <p style="color:red; font-size: 18px;">Error: ${err.message}</p>
+                <p style="margin: 20px 0;">Sorry, we couldn't fetch your prediction at this time.</p>
+                <button id="btn-restart-error" class="btn-restart">Try Again</button>
+            </div>
+        `;
+        document.getElementById("btn-restart-error").addEventListener("click", restartQuiz);
+    }
+}
+
+function applyDescriptionToggle() {
+    const desc = document.getElementById("description");
+    if (!desc) return;
+
+    const text = desc.textContent.trim();
+    const WORD_LIMIT = 25;
+
+    if (window.innerWidth > 1024 || text.split(" ").length <= WORD_LIMIT) return;
+
+    const preview = text.split(" ").slice(0, WORD_LIMIT).join(" ");
+    const extra = text.split(" ").slice(WORD_LIMIT).join(" ");
+
+    desc.innerHTML = `
+        ${preview} 
+        <span id="extraDesc" style="display:none;"> ${extra}</span>
+        <button id="toggleDesc" class="show-more-toggle">Show More</button>
+    `;
+
+    document.getElementById("toggleDesc").onclick = () => {
+        const extraSpan = document.getElementById("extraDesc");
+        const btn = document.getElementById("toggleDesc");
+        const expanded = extraSpan.style.display === "inline";
+        extraSpan.style.display = expanded ? "none" : "inline";
+        btn.textContent = expanded ? "Show More" : "Show Less";
+    };
+}
+
+/* ------------------------- BACK BUTTON -------------------------- */
+function backBtnHandler() {
+    if (isOnUserInfoPage) {
+        isOnUserInfoPage = false;
+
+        // Clear the user info page
+        const quizBody = document.getElementById("quiz-body");
+        quizBody.innerHTML = '';
+        
+        // Restore the quiz structure
+        quizBody.classList.add("qna-body");
+        quizBody.style.backgroundColor = "";
+        quizBody.style.padding = "";
+        
+        // Rebuild the quiz structure
+        quizBody.innerHTML = `
+            <div class="qna-body" id="qna-body">
+                <div class="progress-bar-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
+                <div class="btn-section" style="text-align:left;">
+                    <button class="btn-back" id="btn-back" style="display: inline-block;">
+                        <img
+                            src="https://cdn.shopify.com/s/files/1/0843/6917/8903/files/back-button.png?v=1766126502"
+                            alt="Back"
+                            class="btn-back-img" style="
+                                height: 3em;
+                                margin-left: 2em;
+                            "
+                        />
+                    </button>
+                </div>
+                <div class="questions" id="questions"></div>
+                <div class="options" id="options"></div>
+
+            </div>
+        `;
+
+        // Reattach back button event listener
+        document.getElementById("btn-back").onclick = backBtnHandler;
+
+        // Get the last question from the stack
+        if (QuestionStack.length > 0) {
+            // Get and remove the last item from stack
+            const lastItem = QuestionStack.pop();
+            
+            // Remove the corresponding answer
+            if (userAnswers.length > 0) {
+                userAnswers.pop();
+            }
+            
+            // Decrement question index
+            currentQuestionIndex--;
+            
+            // Load the last question
+            loadQuestion(lastItem.node, lastItem.flowlist, lastItem.flowindex);
+        } else {
+            // If stack is empty, go to first question
+            currentQuestionIndex = 1;
+            loadQuestion(QuestionAnswers.questions);
+        }
+        return;
+    }
+
+    // Handle back button in quiz
+    if (!QuestionStack.length) return;
+
+    // Remove last answer
+    if (userAnswers.length > 0) {
+        userAnswers.pop();
+    }
+
+    // Get previous question from stack
+    const prev = QuestionStack.pop();
+    if (prev) {
+        currentQuestionIndex--;
+        loadQuestion(prev.node, prev.flowlist, prev.flowindex);
+        
+        // After loading, check if we need to hide the back button
+        const backButton = document.getElementById("btn-back");
+        if (backButton && currentQuestionIndex <= 1) {
+            backButton.style.display = "none";
+        }
+    }
+}
+
+/* ------------------------- RESTART QUIZ -------------------------- */
+function restartQuiz() {
+    // Reset all variables
+    currentQuestion = null;
+    currentFlowIndex = 0;
+    currentFlowList = null;
+    currentQuestionIndex = 0;
+    QuestionStack.length = 0;
+    userAnswers.length = 0;
+    isOnUserInfoPage = false;
+    finalQuizResponse = null;
+
+    // Clear and hide the quiz-body content
+    const quizBody = document.getElementById("quiz-body");
+    if (quizBody) {
+        quizBody.innerHTML = '';
+        quizBody.style.display = "none";
+    }
+
+    // Show the start screen again
+    const startScreen = document.getElementById("start-screen");
+    if (startScreen) {
+        startScreen.style.display = "block";
+        showStartScreen();
+    }
+}
+
+
+/* ------------------------- INIT -------------------------- */
+document.addEventListener("DOMContentLoaded", () => {
+    // Calculate total questions in the quiz
+    totalQuestions = calculateTotalQuestions(QuestionAnswers.questions);
+
+    // Show start screen first
+    showStartScreen();
+});
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+@font-face {
+    font-family: 'Oregon LDO Medium';
+    src: url('https://cdn.shopify.com/s/files/1/0843/6917/8903/files/oregon_ldo_medium.ttf?v=1716311295') format('truetype');
+}
+
+/* --------------------------Staring Page Css------------------------------ */
+.hero-section {
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+    min-height: 100vh;
+    display: flex;
+    align-items: center !important;
+    justify-content: center;
+    position: relative;
+    font-family: 'Oregon LDO Medium';
+}   
+
+@media (max-width: 399px) {
+    .fyrs-title {
+        white-space: normal !important;
+        line-height: 1.15;
+        text-align: center !important;
+        letter-spacing: 0.04em;
+        font-family: 'Oregon LDO Medium';
+    }
+}
+
+@media (min-width:400px) {
+    .hero-section {
+        overflow: hidden;
+    }
+    .fyrs-title{
+        margin-left:1em;
+    }
+}
+
+.fyrs-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+    z-index: 0;
+    filter: brightness(0.7);
+    overflow: hidden;
+}
+
+.fyrs {
+    position: relative;
+    z-index: 1;
+    text-align: center !important;
+    max-width: 680px;
+    padding: 20px;
+    font-family: 'Oregon LDO Medium', serif;
+
+    /* transform: translateY(110px); */
+        margin: 0 auto; /* force horizontal center */
+}
+
+.fyrs-title {
+    font-size: clamp(36px, 6.3vw, 70px);
+    line-height: 1.05;
+    color: #ffffff;
+    margin: 0 ;
+    font-weight: 500;
+    white-space: nowrap;
+    letter-spacing: 0.08em;
+    text-shadow:
+        0 0 8px rgba(255, 255, 255, 0.25),
+        0 2px 6px rgba(0, 0, 0, 0.3);
+    filter: brightness(1.1);
+    font-family: 'Oregon LDO Medium';   
+    // margin-top:-1.7em;
+}
+
+.fyrs-desc {
+    margin-top: 60px;
+    font-size: clamp(14px, 2vw, 16px);
+    line-height: 1.65;
+    color: #ffffff;
+    /* color: white; */
+    font-weight: 500;
+}
+
+.fyrs-btn {
+    font-family: 'oregon ldo medium', serif;
+    margin-top: 35px;
+    border: 1px solid white;
+    padding: 15px 40px;
+    border-radius: 15px;
+    cursor: pointer;
+    background: #252424a3;
+            box-shadow:
+                -3px 18px 24px rgba(0, 0, 0, .06), 0px 0px 6px rgb(0 0 0 / 22%), inset 0 1px 0 rgb(0 0 0 / 65%);
+    color: rgba(255, 255, 255, .92);
+    font-size: 12.6px;
+    letter-spacing: .3px;
+    font-weight: 500;
+
+}
+
+
+.fyrs-desc1 {
+    font-size: clamp(18px, 2.2vw, 20px);
+}
+
+.logo {
+    position: absolute;
+    top: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 150px;
+    width: auto;
+    z-index: 2;
+}
+/* -----------------Video Section --------------*/
+        .video-section {
+            min-height: 95vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .bg-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+
+            transform: translate(-50%, -50%);
+        }
+        @media (min-width:900px){
+          .bg-video{
+             transform: translate(-50%, -45%) !important;
+          }
+        }
+        /* ================= Cards Section ================= */
+        .cards-section {
+            min-height: 100vh;
+            width: 100%;
+            padding: clamp(4.5em, 8vw, 8em) clamp(1em, 2vw, 2em);
+            background: #a0a0a0;
+            overflow-x: hidden;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .cards-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: clamp(2em, 4vw, 4em);
+            justify-items: center;
+            box-sizing: border-box;
+        }
+
+        /* Card Base */
+        .card {
+            font-family: 'Oregon LDO Medium', serif;
+            box-sizing: border-box;
+            width: 100%;
+            max-width: 360px;
+            background: #ffffff;
+            border-radius: 22px;
+            padding: clamp(2em, 4vw, 3em) clamp(1.5em, 3vw, 2.5em);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+
+            /* Premium multi-layer shadow */
+            transform: translateY(-10%);
+            box-shadow:
+                0 1px 1px rgba(0, 0, 0, 0.04),
+                0 15px 35px rgba(193, 170, 96, 0.15),
+                0 25px 60px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            filter: brightness(1.02);
+
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        /* Gold border effect */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 22px;
+            padding: 2px;
+            background: linear-gradient(135deg,
+                    rgba(212, 175, 55, 0) 0%,
+                    rgba(212, 175, 55, 0.2) 50%,
+                    rgba(212, 175, 55, 0) 100%);
+            -webkit-mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Shine effect */
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.5),
+                    rgba(255, 255, 255, 0.7),
+                    rgba(255, 255, 255, 0.5),
+                    transparent);
+            transform: skewX(-15deg);
+            transition: left 0.8s ease;
+            z-index: 1;
+        }
+
+        /* .card:hover {
+            transform: translateY(-10px);
+            box-shadow:
+                0 1px 1px rgba(0, 0, 0, 0.04),
+                0 15px 35px rgba(212, 175, 55, 0.15),
+                0 25px 60px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            filter: brightness(1.02);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card:hover::after {
+            left: 100%;
+        } */
+
+        @media (max-width: 500px) {
+            .card-icon {
+                display: none !important;
+            }
+        }
+
+        /* Card Content */
+        .card-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Step label */
+        .card-step {
+            font-size: clamp(1em, 1.8vw, 1.2em);
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            color: #111;
+            margin-top: 0;
+            margin-bottom: clamp(1em, 1.1vw, 1em);
+            text-transform: uppercase;
+            position: relative;
+        }
+
+        .card-step::after {
+            content: '';
+            position: absolute;
+            bottom: -0.5em;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 1px;
+            background: linear-gradient(90deg,
+                    transparent 0%,
+                    rgba(212, 175, 55, 0.4) 50%,
+                    transparent 100%);
+            transition: width 0.3s ease;
+        }
+
+        /* 
+        .card:hover .card-step::after {
+            width: 60px;
+        } */
+
+        /* Icon Container - KEEPING YOUR SIZES */
+        .card-icon {
+            width: clamp(55px, 7.6vw, 70px);
+            height: clamp(55px, 7.6vw, 70px);
+            border-radius: 50%;
+            background: linear-gradient(135deg,
+                    rgba(255, 253, 240, 1) 0%,
+                    rgba(255, 248, 225, 1) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: clamp(1em, 1.1vw, 1em);
+            position: relative;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+
+            /* Enhanced shadow */
+            box-shadow:
+                inset 0 2px 4px rgba(255, 255, 255, 0.9),
+                inset 0 -1px 3px rgba(179, 139, 89, 0.08),
+                0 8px 20px rgba(179, 139, 89, 0.12),
+                0 4px 12px rgba(0, 0, 0, 0.04);
+
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        /* Icon glow */
+        .card-icon::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 50%;
+            background: linear-gradient(135deg,
+                    rgba(212, 175, 55, 0.08) 0%,
+                    rgba(212, 175, 55, 0) 50%,
+                    rgba(212, 175, 55, 0.08) 100%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Icon Styling - KEEPING YOUR SIZES */
+        .card-icon i {
+            font-size: clamp(1.2em, 1.8vw, 1.6em);
+            color: #d4af37;
+            position: relative;
+            z-index: 2;
+            transition: all 0.4s ease;
+        }
+
+        /* Sparkle icon special styling
+        .card:nth-child(3) .card-icon i {
+            color: #ffd700;
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+            display: block !important;
+        } */
+
+        .card-icon i::before {
+            display: block;
+        }
+
+        /* Title */
+        .card-title {
+            font-size: clamp(1.3em, 2.2vw, 1.6em);
+            letter-spacing: 0.08em;
+            font-weight: 600;
+            line-height: 1.35;
+            margin-bottom: clamp(1em, 1vw, 1em);
+            color: #000;
+            min-height: 2.7em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            position: relative;
+        }
+
+        .card-title::after {
+            content: '';
+            position: absolute;
+            bottom: -0.4em;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 1px;
+            background: linear-gradient(90deg,
+                    rgba(212, 175, 55, 0) 0%,
+                    rgba(212, 175, 55, 0.4) 50%,
+                    rgba(212, 175, 55, 0) 100%);
+            transition: width 0.3s ease;
+        }
+
+        /* .card:hover .card-title::after {
+            width: 50px;
+        } */
+
+        /* Description */
+        .card p {
+            font-size: clamp(0.95em, 1.6vw, 1.1em);
+            line-height: 1.6;
+            color: #6a6a6a;
+            margin: 0;
+        }
+
+        /* Decorative corners */
+        .card .corner-decoration {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            opacity: 0.03;
+            pointer-events: none;
+        }
+
+        .card .corner-decoration:nth-child(1) {
+            top: 12px;
+            left: 12px;
+            border-top: 1.5px solid #d4af37;
+            border-left: 1.5px solid #d4af37;
+        }
+
+        .card .corner-decoration:nth-child(2) {
+            top: 12px;
+            right: 12px;
+            border-top: 1.5px solid #d4af37;
+            border-right: 1.5px solid #d4af37;
+        }
+
+        .card .corner-decoration:nth-child(3) {
+            bottom: 12px;
+            left: 12px;
+            border-bottom: 1.5px solid #d4af37;
+            border-left: 1.5px solid #d4af37;
+        }
+
+        .card .corner-decoration:nth-child(4) {
+            bottom: 12px;
+            right: 12px;
+            border-bottom: 1.5px solid #d4af37;
+            border-right: 1.5px solid #d4af37;
+        }
+
+        /* ================= Tablet (850px - 1024px) ================= */
+        @media (max-width: 850px) {
+            .cards-container {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 2.5em;
+            }
+
+            .card-title {
+                min-height: 3.6em;
+                line-height: 1.35;
+            }
+
+            /* Further reduce icon size on tablet */
+            .card-icon {
+                width: 70px;
+                height: 70px;
+            }
+
+            .card-icon i {
+                font-size: 1.5em;
+            }
+        }
+
+        /* Special fix for card 1 title on medium tablets */
+        @media (min-width: 641px) and (max-width: 950px) {
+            .card:nth-child(1) .card-title {
+                line-height: 1.35;
+                min-height: 3.6em;
+            }
+        }
+
+        /* ================= Mobile (640px and below) ================= */
+        @media (max-width: 640px) {
+            .cards-container {
+                grid-template-columns: 1fr;
+                gap: 2.5em;
+                max-width: 400px;
+                margin-bottom: 30px;
+            }
+
+            .card {
+                max-width: 100%;
+                min-height: auto;
+                padding: clamp(1.5em, 4vw, 2em) clamp(1em, 3vw, 1.8em);
+            }
+
+            .card-title {
+                font-size: 1.4em;
+                margin-bottom: 1em;
+                min-height: auto;
+            }
+
+            .card p {
+                font-size: 1em;
+                line-height: 1.6;
+            }
+
+            /* Further reduce icon size on mobile */
+            .card-icon {
+                width: 65px;
+                height: 65px;
+                margin-bottom: 1em;
+            }
+
+            .card-icon i {
+                font-size: 1.4em;
+            }
+
+            .card-step {
+                font-size: 1.1em;
+                margin-bottom: 1em;
+            }
+        }
+
+        /* ================= Small Mobile (480px and below) ================= */
+        @media (max-width: 480px) {
+            .cards-section {
+                padding: 3em 1em;
+            }
+
+            .card {
+                padding: 1.8em 1.2em;
+            }
+
+            /* Smallest icon size for small mobile */
+            .card-icon {
+                width: 60px;
+                height: 60px;
+                margin-bottom: 1em;
+            }
+
+            .card-icon i {
+                font-size: 1.3em;
+            }
+
+            .card-title {
+                font-size: 1.3em;
+            }
+
+            .card p {
+                font-size: 0.95em;
+            }
+
+            .card-step {
+                font-size: 1em;
+                margin-bottom: 1.2em;
+            }
+
+            /* Hide decorative corners on small mobile */
+            .corner-decoration {
+                display: none;
+            }
+        }
+
+        /* ================= Card Animation ================= */
+        @keyframes cardEntrance {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card {
+            animation: cardEntrance 0.6s ease-out forwards;
+            animation-delay: calc(var(--card-index, 0) * 0.1s);
+            opacity: 0;
+            padding-top: 30px !important;
+            filter: brightness(1);
+        }
+
+        #btn-start {
+            position: fixed;
+            left: 50%;
+            bottom: 60px;
+            transform: translateX(-50%);
+            z-index: 2147483647;
+            /* force above video controls */
+        }
+
+
+
+/* --------------------------------QUIZ FLOW CSS------------------------------- */
+.quiz-body {
+    font-family: 'Oregon LDO Medium';
+    justify-content: center;
+    min-height: 90vh;
+    display: block;
+}
+
+.qna-body {
+    width:100%;
+    font-family: 'Oregon LDO Medium';
+    background-color: #585D5D;
+    display: block;
+    justify-content: center;
+    min-height: 90vh;
+}
+
+}
+/* Add to your CSS */
+.btn-back.hidden {
+    display: none !important;
+}
+
+
+/* ===== PROGRESS BAR ===== */
+.progress-bar-container {
+    width: 100%;
+    height: 4px;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
+    margin-bottom: 30px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: #000;
+    border-radius: 2px;
+    transition: width 0.5s ease;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+/* ===== QUESTIONS ===== */
+.questions {
+    padding: 20px;
+    font-size: 20px;
+    color: rgb(221, 221, 221);
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* ===== OPTIONS CONTAINER ===== */
+.options {
+    font-family: 'Oregon LDO Medium';
+    display: block;
+    font-size: 15px;
+
+    height: auto;
+    padding: 10px 10px;
+}
+
+.image-options-container,
+.text-options-container {
+    max-height: 100%;
+}
+
+
+
+.text-options-container,
+.image-options-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    /* 👈 vertical centering */
+}
+
+
+/* ===== IMAGE OPTIONS LAYOUT ===== */
+.image-options-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* Individual image option */
+.image-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 150px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    transform-origin: center;
+}
+
+.image-option:hover {
+    transform: scale(1.05);
+}
+
+.image-option:hover .option-image {
+    transform: scale(1.05);
+}
+
+/* Option image styling */
+.option-image {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+    transform-origin: center;
+    padding: 8px;
+    background: transparent;
+}
+
+/* ===== TRANSPARENT BUTTON (NO BLUR) ===== */
+.glass-button {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 20px;
+    font-family: 'Oregon LDO Medium';
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    color:rgb(255, 251, 251);
+
+    /* TRANSPARENT background */
+    background: transparent;
+
+    /* REMOVE BLUR */
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 10px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s ease;
+
+    box-shadow:
+        inset -1px -1px 5px rgba(255, 255, 255, 0.6);
+
+    margin: 5px 0;
+    min-width: 140px;
+    max-width: 100%;
+    text-align: center;
+}
+.glass-button:hover {
+    transform: scale(1.009);
+    box-shadow:
+        0 6px 20px rgba(0, 0, 0, 0.15),
+        inset 0 1px 1px rgba(255, 255, 255, 0.31);
+    border: 1px solid rgba(0, 0, 0, 0.86);
+     background: rgba(255, 255, 255, 0.08);
+}
+.glass-button:active {
+    transform: scale(1);
+}
+
+.glass-button.selected {
+    background: transparent;
+    border-color: rgba(255, 255, 255, 0.6);
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.2),
+        inset 0 1px 1px rgba(255, 255, 255, 0.7);
+}
+.glass-button:hover {
+   
+}
+
+.glass-button-text {
+    position: relative;   /* ensures it stays above button visuals */
+    z-index: 1;
+    text-align: center;
+    width: 100%;
+    line-height: 1.3;
+    pointer-events: none; /* click handled by button, not text */
+}
+
+
+/* ===== TEXT-ONLY OPTIONS ===== */
+.text-options-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.text-option {
+    display: inline-block;
+    transform-origin: center;
+    transition: transform 0.3s ease;
+}
+
+.text-option:hover {
+    transform: scale(1.05);
+}
+
+/* ===== BUTTON SECTION ===== */
+.btn-section {
+    font-family: 'Oregon LDO Medium';
+    padding-top: 20px;
+    text-align: left;
+}
+
+.inputPage-backBtn{
+    padding-top:0 !important; 
+    gap:0 !important
+
+}
+
+/* Invisible button wrapper */
+.btn-back {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: inline-block;
+}
+
+/* Image: WHITE by default */
+.btn-back-img {
+    height: 3em;
+    max-height: 48px;
+    min-height: 24px;
+    margin-left: 2em;
+    display: block;
+
+    /* makes PNG white */
+    filter: brightness(0) invert(1);
+
+    transition: 
+        filter 0.3s ease,
+        transform 0.3s ease;
+}
+
+/* Brighter on hover */
+.btn-back:hover .btn-back-img {
+    filter: brightness(1.4) invert(1);
+    transform: translateX(-5px);
+}
+
+/* Stronger feedback on click / tap */
+.btn-back:active .btn-back-img {
+    filter: brightness(1.6) invert(1);
+    transform: translateX(-8px);
+}
+@media (max-width: 768px) {
+    .btn-back-img {
+        height: 2.5em;
+        margin-left: 1.2em;
+    }
+}
+
+@media (max-width: 480px) {
+    .btn-back-img {
+        height: 2.2em;
+        margin-left: 0.8em;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .btn-back {
+        padding: 6px;
+    }
+}
+
+
+
+
+
+
+
+/* For user info page back button */
+#btn-back-user {
+    font-family: 'Oregon LDO Medium';
+    background-color: rgb(39, 38, 37);
+    color: #ebe5e5;
+    padding: 12px 25px 12px 20px;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+#btn-back-user::before {
+    content: "←";
+    margin-right: 8px;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+#btn-back-user:hover {
+    background-color: rgb(20, 20, 20);
+    transform: translateY(-2px);
+    padding-left: 25px;
+    padding-right: 15px;
+}
+
+#btn-back-user:hover::before {
+    transform: translateX(-5px);
+}
+
+#btn-back-user:active {
+    transform: translateY(0);
+}
+
+#btn-back-user:active::before {
+    transform: translateX(-8px);
+}
+
+/* ==+++++++++++++++++++++++++=== USER INFO PAGE ===+++++++++++++++++++++++++++== */
+.user-info-container {
+    display: flex;
+    justify-content: center;
+    font-family: 'Oregon LDO Medium', Arial, sans-serif;
+    background-color: #fdfdfd;
+}
+
+.user-info-container .input-card {
+    width: 100%;
+    max-width: 700px;
+    padding-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 2;
+    /* Ensure card is above videos */
+}
+
+/* ================= GLASS HEADER ================= */
+
+.user-info-container .card-header,#btn-submit  {
+    margin-bottom: 50px;
+    padding: 12px 70px;
+    font-family: 'Oregon LDO Medium', Arial, sans-serif;
+    font-size: clamp(26px, 22px, 22px);
+    /* RESPONSIVE TEXT */
+    color: #4f4f4f;
+    text-align: center;
+
+    /* NEW GLASS EFFECT */
+    background: radial-gradient(75% 75% at 89% 10%,
+            rgba(101, 103, 104, 0.1) 0%,
+            rgba(1, 1, 3, 0.1) 100%);
+    box-shadow:
+        inset -5px 5px 5px 0px rgba(255, 255, 255, 0.1),
+        inset 0px -5px 5px 0px rgba(26, 56, 227, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.submit-button{
+    display:flex !important;
+    justify-content:center;
+}
+
+#btn-submit{
+    text-align: center !important;
+    justify-content:center !important;
+}
+#btn-submit:hover{
+      filter: brightness(1.15);
+}
+
+/* ================= FORM (DESKTOP) ================= */
+
+.user-info-container .form-input {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+}
+
+.user-info-container .form-row {
+    display: flex;
+    align-items: center;
+}
+
+.user-info-container .form-row label,
+.user-info-container .dob-label {
+    width: 150px;
+    font-family: 'Oregon LDO Medium', Arial, sans-serif;
+    font-size: clamp(18px, 1.4vw, 22px);
+    /* RESPONSIVE TEXT */
+    color: #4f4f4f;
+}
+
+.user-info-container .form-row input {
+    flex: 1;
+    height: 34px;
+    font-family: 'Oregon LDO Medium', Arial, sans-serif;
+    background: #c9ced3;
+    border: none;
+    border-radius: 4px;
+    padding: 0 12px;
+    font-size: clamp(16px, 1.3vw, 19px);
+    /* RESPONSIVE TEXT */
+    color: #4f4f4f;
+    outline: none;
+    border: 1px solid transparent;
+    transition: border 0.2s ease;
+}
+
+/* Add border color to all inputs when focused */
+.user-info-container .form-row input:focus {
+    border: 1px solid #5264AE;
+}
+
+/* ================= DATE OF BIRTH FIX ================= */
+
+.user-info-container input[type="date"] {
+    font-family: 'Oregon LDO Medium', Arial, sans-serif;
+    background: #c9ced3;
+    color: #4f4f4fcd;
+}
+
+.user-info-container input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 1;
+    cursor: pointer;
+    filter: invert(35%);
+    margin-right: 6px;
+}
+
+.user-info-container input[type="date"] {
+    padding-right: 36px;
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 768px) {
+
+    .user-info-container .card {
+        width: 100%;
+        margin-top: -10px;
+        max-width: 360px;
+        padding-left: 20px;
+        padding-right: 20px;
+        border-radius: 12px;
+
+    }
+
+    .user-info-container .form-input {
+        border-radius: 12px;
+
+        width: 100%;
+        max-width: 360px;
+        padding: 40px 30px;
+        max-width: 360px;
+        box-shadow:
+            3px 3px 7px #1c1a1a73,
+            3px 3px 5px rgba(94, 104, 121, 0.288);
+    }
+
+    .user-info-container .card-header {
+        font-size: clamp(22px, 5vw, 26px);
+        padding: 12px 42px;
+    }
+
+    .user-info-container .form-row {
+        flex-direction: column;
+        position: relative;
+        height: 52px;
+        box-shadow:
+            3px 3px 3px #61616173,
+            3px 3px 3px rgba(102, 102, 104, 0.288);
+    }
+
+    .user-info-container .form-row label {
+        position: absolute;
+        top: 50%;
+        left: 22px;
+        transform: translateY(-50%);
+        pointer-events: none;
+        width: auto;
+        font-family: 'Oregon LDO Medium', Arial, sans-serif;
+        font-size: 16px;
+        color: #666;
+        transition: 0.2s ease all;
+    }
+
+    .user-info-container .form-row input {
+        width: 100%;
+        height: 100%;
+        padding-left: 22px;
+        font-family: 'Oregon LDO Medium', Arial, sans-serif;
+        font-size: 17px;
+        background: #dde1e7;
+        border-radius: 26px;
+        box-shadow:
+            inset 2px 2px 5px #BABECC,
+            inset -5px -5px 10px #ffffff73;
+        border: 1px solid transparent;
+        transition: border 0.2s ease;
+    }
+
+    /* Keep label visible when typing */
+    .user-info-container .form-row input:focus+label,
+    .user-info-container .form-row input:not(:placeholder-shown)+label {
+        top: -12px;
+        font-size: 17px;
+        color: #5264AE;
+    }
+
+    /* Add border color to all inputs when focused */
+    .user-info-container .form-row input:focus {
+        border: 1px solid #5264AE;
+    }
+}
+
+/* ================= DESKTOP FIX ================= */
+
+@media (min-width: 769px) {
+    .user-info-container .mobile-field {
+        position: static;
+        height: auto;
+    }
+
+    .user-info-container .mobile-field label {
+        position: static;
+        transform: none;
+        width: 150px;
+        margin-right: 12px;
+        opacity: 1;
+    }
+
+    .user-info-container .mobile-field input {
+        padding: 0 12px;
+        height: 34px;
+        border-radius: 4px;
+        box-shadow: none;
+        border: 1px solid transparent;
+        transition: border 0.2s ease;
+    }
+
+    /* Add border color to all inputs when focused on desktop */
+    .user-info-container .mobile-field input:focus {
+        border: 1px solid #eaf29f;
+    }
+
+    .user-info-container .form-row label {
+        order: 1;
+    }
+
+    .user-info-container .form-row input {
+        order: 2;
+    }
+
+    .btn-wrapper {
+        margin-top: 60px !important;
+        margin-left: 20px !important;
+    }
+}
+
+/* ================= DOB MOBILE FIX ================= */
+
+@media (max-width: 768px) {
+    .floating-video {
+        display: none;
+    }
+
+    .user-info-container .form-input {
+        gap: 33px;
+        /* You can adjust this value as needed */
+    }
+
+    .user-info-container .mobile-field {
+        position: relative;
+        height: 56px;
+    }
+
+    .user-info-container .mobile-field input {
+        width: 100%;
+        height: 100%;
+        padding: 20px 18px 6px 18px;
+        font-family: 'Oregon LDO Medium', Arial, sans-serif;
+        font-size: 16px;
+        border-radius: 14px;
+        border: 1px solid transparent;
+        outline: none;
+        transition: border 0.2s ease;
+    }
+
+    .user-info-container .mobile-field label {
+        position: absolute;
+        left: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-family: 'Oregon LDO Medium', Arial, sans-serif;
+        font-size: 16px;
+        color: #777;
+        pointer-events: none;
+        transition: 0.2s ease all;
+    }
+
+    /* Keep label visible when typing for DOB field */
+    .user-info-container .mobile-field input:focus+label,
+    .user-info-container .mobile-field input:not(:placeholder-shown)+label {
+        top: -12px;
+        font-size: 17px;
+        color: #5264AE;
+        left: -2px;
+    }
+
+    .user-info-container .dob-label {
+        display: none;
+    }
+
+    .user-info-container .dob-input:focus {
+        border: 1px solid #aea652;
+    }
+}
+
+/* ================= FLOATING VIDEOS ================= */
+
+.user-info-container~.floating-video {
+    position: fixed;
+    z-index: 1;
+    /* stays behind the card */
+}
+
+/* LEFT video — left bottom, 25% up from bottom */
+.user-info-container~.floating-video.video-left {
+    left: 3vw;
+    top: 50%;
+    transform: none;
+    border: transparent;
+    bottom: auto;
+    right: auto;
+}
+
+/* RIGHT video — right top, 25% down from top */
+.user-info-container~.floating-video.video-right {
+    right: 3vw;
+    top: 25vh;
+    bottom: auto;
+    left: auto;
+}
+
+/* shared video styles */
+.floating-video video {
+    width: clamp(180px, 20vw, 320px);
+    height: auto;
+    border-radius: 16px;
+    object-fit: cover;
+    border: transparent;
+}
+
+/* hide videos on very small screens */
+@media (max-width: 768px) {
+    .floating-video video {
+        width: clamp(140px, 30vw, 200px);
+    }
+}
+/* ---------------------------------------Loading Page-------------------  */
+
+.loading-overlay {
+    font-family: 'Oregon LDO Medium';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #f9f9f9;
+    /* Matches the section background color */
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.loader-text {
+    font-family: 'Oregon LDO Medium';
+    font-size: 24px;
+    /* Larger size for "Hang in there" */
+    font-weight: bold;
+    color: #333;
+    padding: 10px 20px;
+}
+
+.loader-text span {
+    display: block;
+    font-size: 18px;
+    /* Slightly smaller size for the second line */
+    font-weight: normal;
+    margin-top: 10px;
+}
+@media (max-width: 768px) {
+    .loader-text {
+        font-family: 'Oregon LDO Medium';
+        font-size: 20px;
+        /* Adjusted for smaller screens */
+    }
+
+    .loader-text span {
+        font-size: 16px;
+        /* Adjusted size for mobile */
+    }
+}
+    
+
+/* -----------------------------------------RESULT PAGE CSS--------------------------------------- */
+
+@font-face {
+    font-family: 'Oregon LDO Medium';
+    src: url('https://cdn.shopify.com/s/files/1/0843/6917/8903/files/oregon_ldo_medium.ttf?v=1716311295') format('truetype');
+}
+
+/* ==================== BASE STYLES ==================== */
+.quiz-body {
+    font-family: 'Oregon LDO Medium';
+    background: white;
+
+}
+
+.main-wrapper {
+    min-height: 90vh;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 90vh;
+    font-family: 'Oregon LDO Medium';
+    background:
+        radial-gradient(circle at left center, #dcdcdcc5 0, transparent 51%),
+        radial-gradient(circle at right center, #f6eedc 0, transparent 51%),
+        white;
+    animation: fadeInCenter 0.6s ease-out forwards;
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+/* ==================== LAYOUT ==================== */
+.page-container {
+    width: 90%;
+    max-width: 1400px;
+    margin: 15px auto 0;
+    display: flex;
+    gap: 40px;
+    align-items: stretch;
+}
+
+/* ==================== LEFT SECTION ==================== */
+.left-section {
+    width: 60%;
+    color: #121212;
+    display: flex;
+    flex-direction: column;
+}
+.mbti_type{
+    margin-bottom:2px;
+}
+
+.left-section h1,
+.code-title {
+    font-size: clamp(26px, 2.8vw, 34px);
+    line-height: 1.2;
+}
+
+.left-section h2 {
+    font-size: clamp(13px, 1.4vw, 15px);
+    margin: 4px 0 18px;
+    color: #555;
+}
+
+.description-text {
+    font-size: clamp(13px, 1.3vw, 14px);
+    line-height: 1.5;
+    margin-top: 4px;
+    text-align: justify;
+}
+
+.celeb {
+    font-size: clamp(15px, 1.5vw, 17px);
+    margin-top: 14px;
+    padding: 12px 16px;
+    text-align: center;
+    border-radius: 10px;
+    background: radial-gradient(circle, #bfbfbf 0%, #e0e0e0 40%, #fff 100%);
+    margin-bottom: 1em;
+}
+
+/* ==================== RIGHT SECTION ==================== */
+.right-section {
+    width: 40%;
+    padding: 16px;
+    border-radius: 25px;
+    border: 3px solid #D4AF37;
+    background: #fff;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-top:10px;
+}
+
+/* .right-img {
+    max-width: 180px;
+    height: 150px;
+    object-fit: contain;
+    margin: 0 auto;
+} */
+/* -------------------------video styling---------------*/
+
+.right-img {
+    width: 100%;
+    max-width: 220px;
+    aspect-ratio: 3 / 2;
+    height: auto;
+    object-fit: contain;
+    margin: 0 auto;
+
+}
+
+.mobile-ring {
+    width: 100%;
+    max-width: 220px;
+    aspect-ratio: 3 / 2;
+    height: auto;
+    object-fit: contain;
+}
+
+@media (min-width:1025) {
+
+    .right-img,
+    .mobile-ring {
+        transform: scale(1.1);
+        /* 👈 default zoom */
+        transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+        will-change: transform;
+    }
+
+}
+
+
+
+@media (max-width: 1024px) {
+    .right-img {
+        max-width: 140px;
+    }
+
+    .mobile-ring {
+        max-width: 160px;
+    }
+}
+
+@media (max-width: 600px) {
+    .mobile-ring {
+        max-width: 130px;
+    }
+}
+
+.right-img,
+.mobile-ring {
+    transition: max-width 0.3s ease;
+}
+
+
+
+/* @media screen and (min-width: 1024px) and (max-width: 1151px) {
+    .advised-box {
+        
+        margin-bottom: -8px !important;
+    }
+} */
+
+/* ==================== BUTTON SYSTEM (CRITICAL FIX) ==================== */
+/* Flex wrapper (inline style override) */
+.left-section>div[style*="display: flex"] {
+    display: flex !important;
+    align-items: stretch;
+    gap: 12px;
+    margin-top: auto;
+}
+
+/* Inner wrapper for Retake (30%) */
+.left-section>div[style*="display: flex"]>div {
+    flex: 0 0 30%;
+    display: flex;
+}
+
+/* SHARED BUTTON BASE */
+.btn-restart,
+.proceed-btn {
+    height: 52px !important;
+    padding: 0 12px !important;
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    background: black;
+    color: white;
+    border-radius: 8px;
+    font-size: clamp(13px, 1.2vw, 15px);
+    line-height: 1.2;
+    white-space: normal;
+    text-align: center;
+    box-sizing: border-box;
+    text-decoration: none;
+    cursor: pointer;
+    font-family: 'Oregon LDO Medium';
+}
+
+/* WIDTH CONTROL (DESKTOP / TABLET) */
+.btn-restart {
+    width: 100%;
+    padding: 0 4em !important;
+}
+
+.proceed-btn {
+    flex: 0 0 70%;
+    min-height: 52px;
+}
+
+/* ==================== COLLECTION TITLES ==================== */
+.right-title,
+.mobile-title {
+    width: 95%;
+    font-weight: 600;
+    background: rgb(216 216 216 / 93%);
+    color: #040404;
+    padding: 8px 0;
+    border-radius: 22px;
+    text-align: center;
+    font-size: 16px;
+    text-decoration: none;
+    cursor: pointer;
+    display: block;
+}
+
+.right-title {
+    margin-bottom: 12px;
+}
+
+.right-img {
+    margin-bottom: 16px;
+}
+
+
+/* ==================== MOBILE SECTION ==================== */
+.mobile-right-wrapper {
+    display: none;
+    width: 100%;
+    border: 3px solid #D4AF37;
+    border-radius: 20px;
+    padding: 20px;
+    background: white;
+    margin: 15px 0;
+    box-sizing: border-box;
+}
+
+.mobile-ring-columns {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+}
+
+.mobile-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.mobile-ring {
+    width: 100%;
+    max-width: 200px;
+    border-radius: 10px;
+    display: block;
+    margin: 0 auto;
+}
+
+.mobile-advised {
+    margin: 14px auto 0;
+    background: #e8d7a9;
+    padding: 10px 40px;
+    border-radius: 20px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+    width: 60%;
+}
+
+/* ==================== SHOW MORE TOGGLE ==================== */
+.show-more-toggle {
+    border: none;
+    font-family: 'Oregon LDO Medium';
+    background: none;
+    color: #888;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 5px;
+    display: inline;
+}
+
+/* ==================== ANIMATIONS ==================== */
+@keyframes fadeInCenter {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==================== RESPONSIVE ==================== */
+
+/* Tablet & Mobile */
+@media (max-width: 1024px) {
+    .page-container {
+        flex-direction: column;
+        width: 100% !important;
+        padding: 0 16px !important;
+        margin: 0 auto !important;
+        gap: 20px;
+    }
+
+    .left-section {
+        width: 100% !important;
+    }
+
+    .right-section {
+        display: none !important;
+    }
+
+    .mobile-right-wrapper {
+        display: block !important;
+        margin: 20px 0 !important;
+    }
+
+    /* Stack buttons */
+    .left-section>div[style*="display: flex"] {
+        flex-direction: column;
+    }
+
+    /* Proceed first */
+    .proceed-btn {
+        order: 1;
+        width: 100%;
+    }
+
+    /* Retake second */
+    .left-section>div[style*="display: flex"]>div {
+        order: 2;
+        width: 100%;
+        flex: none;
+    }
+
+    .btn-restart {
+        width: 100%;
+    }
+
+    .left-section h1 {
+        font-size: 32px;
+    }
+
+    .left-section h2 {
+        font-size: 16px;
+    }
+
+    .description-text {
+        font-size: 14px;
+    }
+
+    .celeb {
+        font-size: 17px;
+    }
+
+    .main-wrapper {
+        padding-top: 40px !important;
+    }
+}
+
+/* Small Mobile */
+@media (max-width: 600px) {
+    .mobile-ring-columns {
+        flex-direction: column;
+    }
+
+    .mobile-ring {
+        width: 80%;
+    }
+
+    .mobile-advised {
+        font-size: 14px;
+        width: 60%;
+    }
+
+    .left-section ,
+    .code-title {
+        font-size: 26px;
+    }
+
+    .description-text {
+        font-size: 13px;
+    }
+}
+
+/* Large Desktop */
+@media (min-width: 1440px) {
+    .page-container {
+        max-width: 1600px;
+        gap: 60px;
+    }
+
+    .left-section ,
+    .code-title {
+        font-size: 36px;
+    }
+
+    .description-text {
+        font-size: 14px;
+    }
+}
+
+/* ==================== GLASS BUTTON STYLE FOR TITLES ONLY ==================== */
+.right-title,
+.mobile-title {
+    position: relative;
+    overflow: hidden;
+    font-weight: 600;
+    background: rgb(216 216 216 / 93%);
+    border: 1px solid rgb(59, 55, 55);
+
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+
+    box-shadow: inset 1px -16px 18px rgba(128, 126, 126, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+    will-change: transform, box-shadow;
+    transition:
+        transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+        background 0.3s ease;
+}
+
+/* Hover (desktop only) */
+@media (hover: hover) {
+
+    .right-title:hover,
+    .mobile-title:hover {
+        transform: translateY(-2px) scale(1.02);
+        background: rgba(202, 202, 202, 0.75);
+        box-shadow:
+            0 14px 40px rgba(0, 0, 0, 0.35),
+            inset 0 1px 0 rgba(255, 255, 255, 0.55);
+    }
+}
+
+/* Tap feedback */
+.right-title:active,
+.mobile-title:active {
+    transform: scale(0.97);
+}
+
+/* Glass highlight */
+.right-title::before,
+.mobile-title::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(to bottom,
+            rgba(255, 255, 255, 0.45),
+            rgba(255, 255, 255, 0.08),
+            transparent);
+    pointer-events: none;
+}
+
+/* Shimmer */
+.right-title::after,
+.mobile-title::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg,
+            transparent 35%,
+            rgba(255, 255, 255, 0.6),
+            transparent 65%);
+    transform: translateX(-120%);
+    animation: titleShimmer 3s infinite;
+    pointer-events: none;
+}
+
+@keyframes titleShimmer {
+    from {
+        transform: translateX(-120%);
+    }
+
+    to {
+        transform: translateX(120%);
+    }
+}
+
+/* Motion safety */
+@media (prefers-reduced-motion: reduce) {
+
+    .right-title::after,
+    .mobile-title::after {
+        animation: none;
+    }
+}
+.advised-box {
+    margin-top: auto;   /* locks it to bottom */
+    padding: 10px 0;
+    background: #eddca1;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+</style>
+
+
+<div id="start-screen"></div>
+<div class="quiz-body" id="quiz-body"  style="display: none;">
+</div>
+
+
+{% schema %}
+{
+  "name": "FYRS-Quiz",
+  "settings": [
+    {
+      "type": "liquid",
+      "id": "fyrs_quiz",
+      "label": "FYRS-Quiz",
+      "info": "Add app snippets or other liquid code here."
+    }
+  ],
+  "presets": [
+    {
+      "name": "FYRS-Quiz"
+    }
+  ]
+}
+{% endschema %}

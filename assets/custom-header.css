@@ -58,7 +58,7 @@ nav.main-navigation .field::before, nav.main-navigation .field::after {
     border-radius: 200px;
     color: #fff !important;
     opacity: 1;
-    font-family: oregon-ldo-medium;
+    font-family: 'oregon-ldo-medium';
     display: none;
     text-align: center;
     padding: 10px 0;
@@ -117,13 +117,14 @@ ul.icons-grid li:last-child img {
 .bk-ap a {
     font-size: 16px;
     text-decoration: none;
-    font-family: oregon-ldo-medium;
+    font-family: 'oregon-ldo-medium';
     letter-spacing: normal;
     line-height: 28px;
     color: #fff;
     background-color: #1c1c1c;
     border-radius: 35px;
     padding: 8px 20px 8px 20px;
+    text-transform: capitalize;
 }
 /* .c-header nav {
     display: flex;
@@ -144,7 +145,7 @@ nav.main-navigation ul.menu a {
   padding: 7px 15px;
   font-size: 14px;
   font-weight: 500;
-  font-family: oregon-ldo-medium;
+  font-family: 'oregon-ldo-medium';
   letter-spacing: normal;
   text-transform: uppercase;
   transition: 0.2s all ease-in-out;
