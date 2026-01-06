@@ -777,10 +777,12 @@
       },
       selectVariantById(variantId, triggerPriceUpdate = true) {
         // Update visual selection
+        const earlierSelected = document.querySelector('.variant-box.selected');
         document.querySelectorAll('.variant-box').forEach((box) => {
           box.classList.remove('selected');
         });
         const selectedBox = document.querySelector(`.variant-box[data-variant-id="${variantId}"]`);
+
         if (selectedBox) {
           selectedBox.classList.add('selected');
         }
@@ -806,6 +808,34 @@
             window.ProductState.updateURL();
           }
         }
+        // Check for Platinum specific personalisation
+        if (earlierSelected) {
+          const isEarlierPlatinum = earlierSelected.parentElement
+            .getAttribute('data-option1')
+            ?.toLowerCase()
+            .includes('platinum');
+          const isNewPlatinum = selectedBox.parentElement
+            .getAttribute('data-option1')
+            ?.toLowerCase()
+            .includes('platinum');
+          if (isEarlierPlatinum !== isNewPlatinum) {
+            //only open modal if personalisation was added previously
+            const personalisationAdded = document.querySelector('.personalization-summary.hidden');
+            if (!personalisationAdded) {
+              console.log('Personalisation was added previously');
+              const modalMainBody = document.querySelector('#var-change-confirmation-modal .modal-main-body');
+              if (isNewPlatinum) {
+                modalMainBody.innerText =
+                  'You have changed the variant from Gold to Platinum. Please reselect your Metal Tone and Metal Finish to continue';
+              } else {
+                modalMainBody.innerText =
+                  'You have changed the variant from Platinum to Gold. Please reselect your Metal Tone and Metal Finish to continue';
+              }
+              document.getElementById('var-change-confirmation-modal').classList.add('active');
+            }
+          }
+        }
+
         // Notify other components that variant changed
         try {
           document.dispatchEvent(new CustomEvent('pdp:variant-changed', { detail: { variantId } }));
@@ -1003,10 +1033,10 @@
         const otherDiamondsPrice = otherDiamonds.reduce((sum, d) => sum + (d.price || 0), 0);
         if (otherDiamonds.length) {
           const totalCarat = otherDiamonds.reduce((sum, d) => sum + (d.carat || 0), 0);
-          diamondModal.querySelector('.round-diamond-card').classList.remove('hidden');
-          diamondModal.querySelector('.round-diamond-price').textContent = `₹${formatPrice(otherDiamondsPrice)}`;
-          diamondModal.querySelector('.round-diamond-carat').textContent = `Carat: ${totalCarat} ct`;
-          diamondModal.querySelector('.round-diamond-grade').textContent = `Grade: ${priceData.diamond.color || '—'}-${
+          diamondModal.querySelector('.other-diamond-card').classList.remove('hidden');
+          diamondModal.querySelector('.other-diamond-price').textContent = `₹${formatPrice(otherDiamondsPrice)}`;
+          diamondModal.querySelector('.other-diamond-carat').textContent = `Carat: ${totalCarat} ct`;
+          diamondModal.querySelector('.other-diamond-grade').textContent = `Grade: ${priceData.diamond.color || '—'}-${
             priceData.diamond.clarity || '—'
           }`;
         }
@@ -1156,7 +1186,6 @@
         );
 
         const variant_id = selectedVariant.getAttribute('data-variant-id');
-        console.log('abhi', variant_id);
         document.querySelector('.choose-variant-btn').setAttribute('data-variant-id', variant_id);
 
         const variantName = selectedVariant.querySelector('.variant-name').textContent;

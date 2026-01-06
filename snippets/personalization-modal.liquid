@@ -131,7 +131,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const modal = document.getElementById('personalization-modal');
     const closeButtons = document.querySelectorAll('[data-action="close-modal"]');
     const saveButton = document.querySelector('[data-action="save-personalization"]');
-    const optionButtons = document.querySelectorAll('.option-btn');
     // personalized radio buttons
     const selectedNoPersonalization = document.querySelector("#no-personalization-radio");
     const selectedPersonalization = document.querySelector("#personalization-radio");
@@ -152,35 +151,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Close modal when clicking overlay
-    modal.addEventListener('click', function(e) {
-        if (e.target === modal) {
-            closeModal();
-        }
-    });
-    
-    // Handle save button
-//    saveButton.addEventListener('click', function() {
-//        savePersonalization();
-//    });
-    
-    // Handle option button selections
-    optionButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const group = this.getAttribute('data-group');
-            const value = this.getAttribute('data-value');
-            
-            // Remove active class from all buttons in the same group
-            const groupButtons = document.querySelectorAll(`[data-group="${group}"]`);
-            groupButtons.forEach(btn => btn.classList.remove('active'));
-            
-            // Add active class to clicked button
-            this.classList.add('active');
-            
-            console.log(`Selected ${group}: ${value}`);
-        });
-    });
-    
     // Keyboard support
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape' && modal.classList.contains('active')) {
@@ -190,6 +160,43 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Global functions for modal control
     window.openPersonalizationModal = function() {
+        const selectedVariant = document.querySelector('.variant-box.selected');
+        if (
+          selectedVariant &&
+          selectedVariant.parentElement.getAttribute('data-option1')?.toLowerCase().includes('platinum')
+        ) {
+          Array.from(document.querySelector('#mconfigurator').querySelectorAll('.customContextGrid'))
+            .filter(
+              (x) =>
+                ['Metal 01', 'Metal 02', 'Metal 03'].includes(x.getAttribute('layer-name')) &&
+                x.getAttribute('config-type') === 'color'
+            )
+            .forEach((x) => {
+              x.querySelectorAll('.customContextGridItems').forEach((option) => {
+                if (option.getAttribute('mat-name') === 'white-gold') {
+                  option.click();
+                } else {
+                  option.classList.add('hidden');
+                }
+              });
+            });
+        } else {
+          Array.from(document.querySelector('#mconfigurator').querySelectorAll('.customContextGrid'))
+            .filter(
+              (x) =>
+                ['Metal 01', 'Metal 02', 'Metal 03'].includes(x.getAttribute('layer-name')) &&
+                x.getAttribute('config-type') === 'color'
+            )
+            .forEach((x) => {
+              x.querySelectorAll('.customContextGridItems').forEach((option, i) => {
+                if (i === 0) {
+                  option.click();
+                }
+                option.classList.remove('hidden');
+              });
+            });
+        }
+
         modal.classList.add('active');
         document.body.style.overflow = 'hidden'; // Prevent background scrolling
         if(window.innerWidth > 786) {
@@ -215,20 +222,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function savePersonalization() {
-        console.log('savePersonalization');
         const selections = {};
-        
-        // Collect all selected options
-        optionButtons.forEach(button => {
-            if (button.classList.contains('active')) {
-                const group = button.getAttribute('data-group');
-                const value = button.getAttribute('data-value');
-                selections[group] = value;
-            }
-        });
-        
         console.log('Personalization saved:', selections);
-        
+    
         // Close modal after saving
         closeModal();
         

@@ -691,6 +691,11 @@ document.addEventListener(
             const personalizationPDPformEl =
               personalizationSummaryEl.closest(".pdp-form");
 
+            // Restore close buttons once successfully saved, if they are hidden
+            document
+              .querySelectorAll('.modal-content .hidden[data-action="close-modal"]')
+              .forEach((btn) => btn.classList.remove("hidden"));
+
             // enable next form ( engraving )
             enableNextForm(personalizationPDPformEl);
 
