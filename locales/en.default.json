@@ -570,6 +570,11 @@
   "shopify": {
     "errors": {
       "reset_password_html": "This email address is already associated with an account. If this account is yours, you can <a href=\"/account/login#recover\">reset your password</a>"
+    },
+    "checkout": {
+      "order_summary": {
+        "vat_label_html": "abhishek"
+      }
     }
   }
 }
