@@ -261,6 +261,7 @@ a.product__text {
   color: rgb(var(--color-foreground));
   text-decoration: none;
   text-decoration: underline;
+  line-height: 3px;
 }
 
 .product__check-variation-button:hover,
