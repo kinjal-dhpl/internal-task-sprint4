@@ -127,13 +127,13 @@
                     </h2>
                   </a>
                   {% if product.metafields.custom.collection_picker != blank and product.metafields.custom.collection_picker.value != blank %}
-                   ywefdr672473256
-                    <p
+                   
+                    <a
                       href="{{ product.metafields.custom.collection_picker.value.url }}"
                       class="button product__check-variation-button"
                     >
                       Check variation
-                    </p>
+                    </a>
                   {% endif %}
                 </div>
               {% when 'custom_size' %}
