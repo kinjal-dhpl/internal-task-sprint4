@@ -867,7 +867,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const formatPrices = (function(){ 
         function formatPriceNumber(val){
           const n = Number(val || 0);
-          const opts = { maximumFractionDigits: (n % 1 === 0) ? 0 : 2 };
+          const opts = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
           return '₹ ' + new Intl.NumberFormat('en-IN', opts).format(n);
         }
 
