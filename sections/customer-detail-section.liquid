@@ -967,6 +967,12 @@
     }
   }
 
+  // Price formatting helper: always show exactly two decimals
+  const digits = 2;
+  function formatTwoDecimals(n) {
+    return Number(n || 0).toLocaleString('en-IN', { minimumFractionDigits: digits, maximumFractionDigits: digits });
+  }
+
   function normalizeDisplayStatus(status) {
     // Normalize specific status texts for consistent UI display
     if (status && typeof status === 'string') {
@@ -1425,7 +1431,7 @@ if (Array.isArray(customerAddress) && customerAddress.length > 0 && addressMainG
                                     <td>${itemCount || ''}</td>
                                     <td>₹ ${(() => {
                                       const receivedNum = parseFloat(String(orderTotalReceived || '0').replace(/[^0-9.\-]+/g, '')) || 0;
-                                      return receivedNum.toLocaleString('en-IN', { maximumFractionDigits: 2 });
+                                      return formatTwoDecimals(receivedNum);
                                     })()}</td>
 
                                 </tr>`
@@ -1680,8 +1686,8 @@ if (Array.isArray(customerAddress) && customerAddress.length > 0 && addressMainG
         console.log(remainingAmount,'remainingAmount')
         let timelineData = matchedTimeline?.timeline || [];
         {% comment %} end here {% endcomment %}
-        let itemPrice = Number(item.originalUnitPrice).toLocaleString('en-IN', { maximumFractionDigits: 2 });
-        let itemOriginalPrice =   Number(item.originalTotal).toLocaleString('en-IN', { maximumFractionDigits: 2});                            
+        let itemPrice = formatTwoDecimals(Number(item.originalUnitPrice));
+        let itemOriginalPrice = formatTwoDecimals(Number(item.originalTotal));                            
         // Example array of dynamic options
         const { options: statusOptions, disabled: isDisabled } = getStatusOptions(lastStatus);
 
@@ -1740,7 +1746,7 @@ if (Array.isArray(customerAddress) && customerAddress.length > 0 && addressMainG
             <td class="product--paymentstatus--num-${itemIdOnly} ${matchedPaymentStatus?.payment_status == 'paid'? 'green-text' : 'red-text'}">${matchedPaymentStatus?.payment_status || ''}</td>
             <td class="product--paid--num">₹ ${(() => {
                 const paid_value  = parseFloat(paidValue);
-                if (!isNaN(paid_value)) return paid_value.toLocaleString('en-IN', { maximumFractionDigits: 2 });
+                if (!isNaN(paid_value)) return formatTwoDecimals(paid_value);
                 return paidValue ? String(paidValue) : '';
               })()}</td>
             <td class="product--esttotal--num">₹ ${(() => {
@@ -1748,11 +1754,11 @@ if (Array.isArray(customerAddress) && customerAddress.length > 0 && addressMainG
                 if (typeof estTotal === 'number') est_total = Number(estTotal);
                 else if (estTotal && typeof estTotal === 'object' && estTotal.value) est_total = parseFloat(estTotal.value);
                 else est_total = parseFloat(estTotal);
-                return !isNaN(est_total) ? est_total.toLocaleString('en-IN', { maximumFractionDigits: 2 }) : (estTotal?.value || estTotal || '');
+                return !isNaN(est_total) ? formatTwoDecimals(est_total) : (estTotal?.value || estTotal || '');
               })()}</td>
             <td class="product--remainingamount--num">₹ ${(() => {
                 const remaining_amount  = parseFloat(remainingAmount);
-                return !isNaN(remaining_amount ) ? remaining_amount .toLocaleString('en-IN', { maximumFractionDigits: 2 }) : '0.00';
+                return !isNaN(remaining_amount ) ? formatTwoDecimals(remaining_amount) : '0.00';
               })()}</td>
             <!-- Status select stays separate -->
             <td class="product--status-select">
@@ -2085,10 +2091,10 @@ function getPreferredPhoneNumber(orderData) {
         if(orderRowEntry){
           document.querySelector('.order--detail--page--body').innerHTML = orderRowEntry;
         }
-        const subTotalPrice = Number(orderData.subtotalPrice).toLocaleString('en-IN', { maximumFractionDigits: 2 }); 
+        const subTotalPrice = formatTwoDecimals(Number(orderData.subtotalPrice)); 
         let shippingPrice ='';  
         const discountPrice = Number(orderData.totalDiscountsSet.shopMoney.amount).toLocaleString('en-IN', {maximumFractionDigits: 2}); 
-        const orderTotalPrice = Number(orderData.totalPrice).toLocaleString('en-IN', { maximumFractionDigits: 2 });                                                                                             
+        const orderTotalPrice = formatTwoDecimals(Number(orderData.totalPrice));                                                                                             
         const orderSummaryTotalHTML = `<span class="order--subtotal"><span>${subTotalPrice ? 'SUBTOTAL' : '' }</span> <span>₹${subTotalPrice || '' }</span></span>
                                      <span class="order--discount"><span>${Number(orderData.totalDiscountsSet.shopMoney.amount) > 0 ? 'Discount' : '' }</span><span>${Number(orderData.totalDiscountsSet.shopMoney.amount) > 0 ? '₹' : '' }${Number(orderData.totalDiscountsSet.shopMoney.amount) > 0 ?  discountPrice: ''}</span></span>
                                      <div class="row--divider"></div>
@@ -2188,8 +2194,8 @@ function getPreferredPhoneNumber(orderData) {
             const response = await fetch('/cart.js');
             const result = await response.json();
             const cartItems = result.items;
-            const cartSubtotal =  Number(result.items_subtotal_price / 100).toLocaleString('en-IN', { maximumFractionDigits: 2 });
-            const cartTotal = Number(result.total_price / 100).toLocaleString('en-IN', { maximumFractionDigits: 2 });
+            const cartSubtotal =  formatTwoDecimals(Number(result.items_subtotal_price / 100));
+            const cartTotal = formatTwoDecimals(Number(result.total_price / 100));
             const itemPayload = [];
             if (cartItems.length > 0) {
               let itemHTML = "";
@@ -2230,7 +2236,7 @@ function getPreferredPhoneNumber(orderData) {
                     properties: normalizedProps
                   });
             
-                let itemPrice = Number(item.price / 100).toLocaleString('en-IN', { maximumFractionDigits: 2 });
+                let itemPrice = formatTwoDecimals(Number(item.price / 100));
                 // Build properties list
                   let propertiesHTML = '';
                   if (item.properties && Object.keys(item.properties).length > 0) {
@@ -2907,8 +2913,8 @@ function validateFormAndCreatePayload() {
             renderCustomCheckOutPrice(draftOrder)
 
   const draftLineItems = draftOrder.lineItems?.nodes || [];
-  const cartSubtotal = Number(draftOrder.subtotalPrice || 0).toLocaleString('en-IN', { maximumFractionDigits: 2 });
-  const cartTotal = Number(draftOrder.totalPrice || 0).toLocaleString('en-IN', { maximumFractionDigits: 2 });
+  const cartSubtotal = formatTwoDecimals(Number(draftOrder.subtotalPrice || 0));
+  const cartTotal = formatTwoDecimals(Number(draftOrder.totalPrice || 0));
   if(cartTotal) {
     
   }
@@ -2916,7 +2922,7 @@ function validateFormAndCreatePayload() {
     let itemHTML = "";
 
     draftLineItems.forEach(item => {
-      const itemPrice = Number(item.originalTotal || 0).toLocaleString('en-IN', { maximumFractionDigits: 2 });
+      const itemPrice = formatTwoDecimals(Number(item.originalTotal || 0));
       itemHTML += `
         <div class="cart--product--summary">
           <img src="${item.image?.url || ''}" alt="${item.image?.alt || ''}" class="product-thumbnail">
@@ -2928,7 +2934,7 @@ function validateFormAndCreatePayload() {
         </div>`;
     });
 
-    let discountPriceValue = Number(draftOrder.totalDiscountsSet.shopMoney.amount || 0).toLocaleString('en-IN', { maximumFractionDigits: 2 });;
+    let discountPriceValue = formatTwoDecimals(Number(draftOrder.totalDiscountsSet.shopMoney.amount || 0));
     const appliedDiscount = draftOrder.appliedDiscount;
 
     if (appliedDiscount) {
@@ -2981,7 +2987,7 @@ function validateFormAndCreatePayload() {
         <span>Discounts</span>
         <span class="letter-spacing-two">${(Number(draftOrder.totalDiscountsSet.shopMoney.amount) > 0) ? '₹ ' + discountPriceValue : ''}</span>
       </div>
-      <div class="summary-row total"><span>Total</span><span class="letter-spacing-two">₹ ${cartTotal}</span></div>
+      <div class="summary-row total vivek"><span>Total</span><span class="letter-spacing-two">₹ ${cartTotal}</span></div>
       <div class="advance-payment-info">
         <div class="price-row">
           <span class="price-label">Estimated Price:</span>
