@@ -238,8 +238,8 @@
 <div class="card-information">
   {%- if size_variant -%}
     <div class="price" style="margin-bottom: 5px;"> <!-- Added inline style for bottom margin -->
-      <span class="price__current">
-        {{ size_variant.price | money_without_trailing_zeros }}
+      <span class="price__current"  data-paid="{{ size_variant.price | divided_by: 100.0 }}">
+        {{ size_variant.price | divided_by: 100 | round: 2 }}
       </span>
     </div>
   {%- else -%}

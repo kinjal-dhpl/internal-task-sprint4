@@ -967,6 +967,12 @@
     }
   }
 
+  // Price formatting helper: always show exactly two decimals
+  const digits = 2;
+  function formatTwoDecimals(n) {
+    return Number(n || 0).toLocaleString('en-IN', { minimumFractionDigits: digits, maximumFractionDigits: digits });
+  }
+
   function normalizeDisplayStatus(status) {
     // Normalize specific status texts for consistent UI display
     if (status && typeof status === 'string') {
@@ -1423,12 +1429,10 @@ if (Array.isArray(customerAddress) && customerAddress.length > 0 && addressMainG
                                     <td class="order--name" onclick="openOrderDetail('${orderID.split('/Order/')[1]}')"> ${orderName || ''}</td>
                                     <td>${formattedDate || ''}</td>
                                     <td>${itemCount || ''}</td>
-                                    <td>Rs. ${(() => {
-  const str = String(orderTotalReceived || '0');
-  const cleaned = str.replace(/[^\d.]/g, '');
-  const num = parseFloat(cleaned);
-  return !isNaN(num) ? num.toFixed(2) : '0.00';
-})()}</td>
+                                    <td>₹ ${(() => {
+                                      const receivedNum = parseFloat(String(orderTotalReceived || '0').replace(/[^0-9.\-]+/g, '')) || 0;
+                                      return formatTwoDecimals(receivedNum);
+                                    })()}</td>
 
                                 </tr>`
                                 console.log(typeof(orderTotalReceived),'orderTotalReceived')
@@ -1682,8 +1686,8 @@ if (Array.isArray(customerAddress) && customerAddress.length > 0 && addressMainG
         console.log(remainingAmount,'remainingAmount')
         let timelineData = matchedTimeline?.timeline || [];
         {% comment %} end here {% endcomment %}
-        let itemPrice = Number(item.originalUnitPrice).toLocaleString('en-IN', { maximumFractionDigits: 2 });
-        let itemOriginalPrice =   Number(item.originalTotal).toLocaleString('en-IN', { maximumFractionDigits: 2});                            
+        let itemPrice = formatTwoDecimals(Number(item.originalUnitPrice));
+        let itemOriginalPrice = formatTwoDecimals(Number(item.originalTotal));                            
         // Example array of dynamic options
         const { options: statusOptions, disabled: isDisabled } = getStatusOptions(lastStatus);
 
@@ -1740,9 +1744,22 @@ if (Array.isArray(customerAddress) && customerAddress.length > 0 && addressMainG
             <td class="product--quantity">${item?.quantity || ''}</td>
             <td class="product--status--num currentstatus-${itemIdOnly}">${matchedCurrentStatus?.status || ''}</td>
             <td class="product--paymentstatus--num-${itemIdOnly} ${matchedPaymentStatus?.payment_status == 'paid'? 'green-text' : 'red-text'}">${matchedPaymentStatus?.payment_status || ''}</td>
-            <td class="product--paid--num">${paidValue?.toFixed(2) || ''}</td>
-            <td class="product--esttotal--num">${typeof estTotal === 'number' ? Number(estTotal).toFixed(2) : (estTotal?.value || estTotal || '')}</td>
-            <td class="product--remainingamount--num">${remainingAmount != null ? Number(remainingAmount).toFixed(2) : '0.00'}</td>
+            <td class="product--paid--num">₹ ${(() => {
+                const paid_value  = parseFloat(paidValue);
+                if (!isNaN(paid_value)) return formatTwoDecimals(paid_value);
+                return paidValue ? String(paidValue) : '';
+              })()}</td>
+            <td class="product--esttotal--num">₹ ${(() => {
+                let est_total = NaN;
+                if (typeof estTotal === 'number') est_total = Number(estTotal);
+                else if (estTotal && typeof estTotal === 'object' && estTotal.value) est_total = parseFloat(estTotal.value);
+                else est_total = parseFloat(estTotal);
+                return !isNaN(est_total) ? formatTwoDecimals(est_total) : (estTotal?.value || estTotal || '');
+              })()}</td>
+            <td class="product--remainingamount--num">₹ ${(() => {
+                const remaining_amount  = parseFloat(remainingAmount);
+                return !isNaN(remaining_amount ) ? formatTwoDecimals(remaining_amount) : '0.00';
+              })()}</td>
             <!-- Status select stays separate -->
             <td class="product--status-select">
               <select class="status-dropdown dropdown-${itemIdOnly}" data-line-id="${itemIdOnly}" ${isDisabled ? 'disabled' : ''}>
@@ -2074,10 +2091,10 @@ function getPreferredPhoneNumber(orderData) {
         if(orderRowEntry){
           document.querySelector('.order--detail--page--body').innerHTML = orderRowEntry;
         }
-        const subTotalPrice = Number(orderData.subtotalPrice).toLocaleString('en-IN', { maximumFractionDigits: 2 }); 
+        const subTotalPrice = formatTwoDecimals(Number(orderData.subtotalPrice)); 
         let shippingPrice ='';  
         const discountPrice = Number(orderData.totalDiscountsSet.shopMoney.amount).toLocaleString('en-IN', {maximumFractionDigits: 2}); 
-        const orderTotalPrice = Number(orderData.totalPrice).toLocaleString('en-IN', { maximumFractionDigits: 2 });                                                                                             
+        const orderTotalPrice = formatTwoDecimals(Number(orderData.totalPrice));                                                                                             
         const orderSummaryTotalHTML = `<span class="order--subtotal"><span>${subTotalPrice ? 'SUBTOTAL' : '' }</span> <span>₹${subTotalPrice || '' }</span></span>
                                      <span class="order--discount"><span>${Number(orderData.totalDiscountsSet.shopMoney.amount) > 0 ? 'Discount' : '' }</span><span>${Number(orderData.totalDiscountsSet.shopMoney.amount) > 0 ? '₹' : '' }${Number(orderData.totalDiscountsSet.shopMoney.amount) > 0 ?  discountPrice: ''}</span></span>
                                      <div class="row--divider"></div>
@@ -2177,8 +2194,8 @@ function getPreferredPhoneNumber(orderData) {
             const response = await fetch('/cart.js');
             const result = await response.json();
             const cartItems = result.items;
-            const cartSubtotal =  Number(result.items_subtotal_price / 100).toLocaleString('en-IN', { maximumFractionDigits: 2 });
-            const cartTotal = Number(result.total_price / 100).toLocaleString('en-IN', { maximumFractionDigits: 2 });
+            const cartSubtotal =  formatTwoDecimals(Number(result.items_subtotal_price / 100));
+            const cartTotal = formatTwoDecimals(Number(result.total_price / 100));
             const itemPayload = [];
             if (cartItems.length > 0) {
               let itemHTML = "";
@@ -2219,7 +2236,7 @@ function getPreferredPhoneNumber(orderData) {
                     properties: normalizedProps
                   });
             
-                let itemPrice = Number(item.price / 100).toLocaleString('en-IN', { maximumFractionDigits: 2 });
+                let itemPrice = formatTwoDecimals(Number(item.price / 100));
                 // Build properties list
                   let propertiesHTML = '';
                   if (item.properties && Object.keys(item.properties).length > 0) {
@@ -2267,10 +2284,16 @@ function getPreferredPhoneNumber(orderData) {
 
               window.cartItemJson = JSON.stringify(itemPayload);
               
-              const cartPriceSummary = `<div class="summary-row"><span>Subtotal</span><span class="letter-spacing-two">₹ ${cartSubtotalElem.toFixed(2)}</span></div>
-                                        <div class="summary-row"><span>Shipping</span><span class="letter-spacing-two">₹ 0.00</span></div>
+              // Format prices using global formatter if present, otherwise fallback to local `formatPrice`
+              const formatFn = (typeof window !== 'undefined' && window.formatPriceNumber) ? window.formatPriceNumber : (val => '₹ ' + formatPrice(val));
+              const formattedSubtotal = formatFn(cartSubtotalElem);
+              const formattedShipping = formatFn(0);
+              const formattedTotal = formatFn(cartSubtotalElem);
+
+              const cartPriceSummary = `<div class="summary-row"><span>Subtotal</span><span class="letter-spacing-two">${formattedSubtotal}</span></div>
+                                        <div class="summary-row"><span>Shipping</span><span class="letter-spacing-two">${formattedShipping}</span></div>
                                       <div class="summary-row discount" style="display:none;"><span>Discounts</span><span class="letter-spacing-two"></span></div>
-                                        <div class="summary-row total"><span>Total</span><span class="letter-spacing-two">₹ ${cartSubtotalElem.toFixed(2)}</span></div>`;
+                                        <div class="summary-row total"><span>Total</span><span class="letter-spacing-two">${formattedTotal}</span></div>`;
 
               document.querySelector('div.product--summary--detail').innerHTML = itemHTML;
               
@@ -2280,7 +2303,7 @@ function getPreferredPhoneNumber(orderData) {
               const ringExpertHTML = document.querySelector('.ring-expert-section');
               const cartTotalValueAmt = result.items.reduce((sum, item) => {
               const priceString = item.properties?.price || '0';
-              // Remove "Rs.", commas, and any whitespace, then convert to number
+              // Remove "₹", commas, and any whitespace, then convert to number
               const priceNumber = parseFloat(priceString.replace(/Rs\.?\s?|,/g, ''));
               // Multiply by quantity to get total price for this item
               return sum + (isNaN(priceNumber) ? 0 : priceNumber * (item.quantity || 1));
@@ -2434,15 +2457,15 @@ function getPreferredPhoneNumber(orderData) {
             paymentInfoDiv.innerHTML = `
               <div class="price-row">
                 <span class="price-label">Estimated Price:</span>
-                <span class="price-value">Rs. ${formatPrice(estimatedPrice)}/-</span>
+                <span class="price-value">₹ ${formatPrice(estimatedPrice)}/-</span>
               </div>
               <div class="price-row">
                 <span class="price-label">Advance Payment Amount:</span>
-                <span class="price-value">Rs. ${formatPrice(advancePayment)}/-</span>
+                <span class="price-value">₹ ${formatPrice(advancePayment)}/-</span>
               </div>
               <div class="price-row">
                 <span class="price-label">Estimated Balance:</span>
-                <span class="price-value">Rs. ${formatPrice(estimatedBalance)}/-</span>
+                <span class="price-value">₹ ${formatPrice(estimatedBalance)}/-</span>
               </div>
               <div class="price-note">(Please note, this amount may change at actual post product manufacturing)</div>
             `;
@@ -2502,15 +2525,15 @@ function getPreferredPhoneNumber(orderData) {
       paymentInfoDiv.innerHTML = `
         <div class="price-row">
           <span class="price-label">Estimated Price:</span>
-          <span class="price-value">Rs. ${formattedEstimatedPrice}/-</span>
+          <span class="price-value">₹ ${formattedEstimatedPrice}/-</span>
         </div>
         <div class="price-row">
           <span class="price-label">Advance Payment Amount:</span>
-          <span class="price-value">Rs. ${formattedAdvance}/-</span>
+          <span class="price-value">₹ ${formattedAdvance}/-</span>
         </div>
         <div class="price-row">
           <span class="price-label">Estimated Balance:</span>
-          <span class="price-value">Rs. ${formattedRemaining}/-</span>
+          <span class="price-value">₹ ${formattedRemaining}/-</span>
         </div>
         <div class="price-note">(Please note, this amount may change at actual post product manufacturing)</div>
       `;
@@ -2890,8 +2913,8 @@ function validateFormAndCreatePayload() {
             renderCustomCheckOutPrice(draftOrder)
 
   const draftLineItems = draftOrder.lineItems?.nodes || [];
-  const cartSubtotal = Number(draftOrder.subtotalPrice || 0).toLocaleString('en-IN', { maximumFractionDigits: 2 });
-  const cartTotal = Number(draftOrder.totalPrice || 0).toLocaleString('en-IN', { maximumFractionDigits: 2 });
+  const cartSubtotal = formatTwoDecimals(Number(draftOrder.subtotalPrice || 0));
+  const cartTotal = formatTwoDecimals(Number(draftOrder.totalPrice || 0));
   if(cartTotal) {
     
   }
@@ -2899,7 +2922,7 @@ function validateFormAndCreatePayload() {
     let itemHTML = "";
 
     draftLineItems.forEach(item => {
-      const itemPrice = Number(item.originalTotal || 0).toLocaleString('en-IN', { maximumFractionDigits: 2 });
+      const itemPrice = formatTwoDecimals(Number(item.originalTotal || 0));
       itemHTML += `
         <div class="cart--product--summary">
           <img src="${item.image?.url || ''}" alt="${item.image?.alt || ''}" class="product-thumbnail">
@@ -2911,7 +2934,7 @@ function validateFormAndCreatePayload() {
         </div>`;
     });
 
-    let discountPriceValue = Number(draftOrder.totalDiscountsSet.shopMoney.amount || 0).toLocaleString('en-IN', { maximumFractionDigits: 2 });;
+    let discountPriceValue = formatTwoDecimals(Number(draftOrder.totalDiscountsSet.shopMoney.amount || 0));
     const appliedDiscount = draftOrder.appliedDiscount;
 
     if (appliedDiscount) {
@@ -2968,15 +2991,15 @@ function validateFormAndCreatePayload() {
       <div class="advance-payment-info">
         <div class="price-row">
           <span class="price-label">Estimated Price:</span>
-          <span class="price-value">Rs. ${formattedEstimatedPrice}/-</span>
+          <span class="price-value">₹ ${formattedEstimatedPrice}/-</span>
         </div>
         <div class="price-row">
           <span class="price-label">Advance Payment Amount:</span>
-          <span class="price-value">Rs. ${formattedAdvance}/-</span>
+          <span class="price-value">₹ ${formattedAdvance}/-</span>
         </div>
         <div class="price-row">
           <span class="price-label">Estimated Balance:</span>
-          <span class="price-value">Rs. ${formattedRemaining}/-</span>
+          <span class="price-value">₹ ${formattedRemaining}/-</span>
         </div>
         <div class="price-note">(Please note, this amount may change at actual post product manufacturing)</div>
       </div>

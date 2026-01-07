@@ -92,13 +92,13 @@
         const estimatedBalanceEl = document.getElementById('estimated-balance');
 
         if (estimatedPriceEl) {
-          estimatedPriceEl.textContent = `Rs. ${formatPrice(estimatedPrice)}/-`;
+          estimatedPriceEl.textContent = `₹ ${formatPrice(estimatedPrice)}/-`;
         }
         if (advancePaymentEl) {
-          advancePaymentEl.textContent = `Rs. ${formatPrice(advancePayment)}/-`;
+          advancePaymentEl.textContent = `₹ ${formatPrice(advancePayment)}/-`;
         }
         if (estimatedBalanceEl) {
-          estimatedBalanceEl.textContent = `Rs. ${formatPrice(estimatedBalance)}/-`;
+          estimatedBalanceEl.textContent = `₹ ${formatPrice(estimatedBalance)}/-`;
         }
       }
     } catch (error) {

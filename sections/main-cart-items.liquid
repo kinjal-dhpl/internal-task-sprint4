@@ -439,10 +439,10 @@
                               | remove: "," 
                               | strip 
                             -%}
-                            {%- assign item_price = clean_price | times: 100 -%}
-                            {%- assign total_item_price = item_price | times: item.quantity -%}
-                            <span class="price price--end"><span data-ymq-item-key="{{ item.key }}" class='ymq_item_original_line_price'>{{ total_item_price | money_with_currency }}</span>
-                          </span>
+                            {%- assign total_item_price = clean_price | times: item.quantity -%}
+                            <span class="price price--end">
+                              <span data-ymq-item-key="{{ item.key }}" class='ymq_item_original_line_price' data-paid="{{ total_item_price | strip }}">{{ total_item_price | strip }}</span>
+                            </span>
                           {% endif %} 
                           {% endfor %}
 
@@ -483,7 +483,44 @@
     </form>
   </div>
 </cart-items>
+<script>
+  (function(){
+        function runFormat(root){
+      try{
+        if (window && window.formatAllPrices) window.formatAllPrices(root || document);
+      } catch(e){ console.error('formatAllPrices error', e); }
+    }
 
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function(){ runFormat(document); });
+    } else {
+      runFormat(document);
+    }
+    // Observe cart area for dynamic changes (AJAX updates) and re-run formatting
+    const cartContainer =
+    document.getElementById('main-cart-items') ||
+    document.querySelector('.cart__items');
+
+  if (cartContainer && typeof MutationObserver === 'function') {
+    let debounce;
+
+    const mo = new MutationObserver(() => {
+      clearTimeout(debounce);
+      debounce = setTimeout(() => {
+        runFormat(cartContainer);
+      }, 50);
+    });
+
+    mo.observe(cartContainer, {
+      childList: true,
+      subtree: true
+    });
+
+    // optional: expose for debugging
+    window._cartPriceFormatObserver = mo;
+  }
+  })();
+</script>
 {% schema %}
 {
   "name": "t:sections.main-cart-items.name",

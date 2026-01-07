@@ -147,15 +147,15 @@
                           <div class="price-box">
                             <div class="price-row">
                               <span class="price-label">Estimated Price:</span>
-                              <span class="price-value" id="estimated-price">Rs. --,---/-</span>
+                              <span class="price-value" id="estimated-price">₹ --,---/-</span>
                             </div>
                             <div class="price-row">
                               <span class="price-label">Advance Payment Amount:</span>
-                              <span class="price-value" id="advance-payment">Rs. --,---/-</span>
+                              <span class="price-value" id="advance-payment">₹ --,---/-</span>
                             </div>
                             <div class="price-row">
                               <span class="price-label">Estimated Balance:</span>
-                              <span class="price-value" id="estimated-balance">Rs. --,---/-</span>
+                              <span class="price-value" id="estimated-balance">₹ --,---/-</span>
                             </div>
                             <div class="price-divider"></div>
                             <div class="price-note">(Please note, this amount may change at actual post product manufacturing)</div>
@@ -251,7 +251,7 @@
   // Local price formatter (fallback if global `formatPrice` isn't available)
   function formatPrice(num) {
     if (typeof num === 'undefined' || num === null || isNaN(Number(num))) return '0.00';
-    return Number(num).toLocaleString('en-IN', { maximumFractionDigits: 2 });
+    return '₹ ' + Number(num).toLocaleString('en-IN', { maximumFractionDigits: 2 });
   }
 
   // Helpers: show/hide the inline loader
@@ -307,9 +307,9 @@
       const advancePaymentEl = document.getElementById('advance-payment');
       const estimatedBalanceEl = document.getElementById('estimated-balance');
 
-      if (estimatedPriceEl) estimatedPriceEl.textContent = `Rs. ${formatPrice(totalOfTotalPrice)}/-`;
-      if (advancePaymentEl) advancePaymentEl.textContent = `Rs. ${formatPrice(totalOfPartialPrice)}/-`;
-      if (estimatedBalanceEl) estimatedBalanceEl.textContent = `Rs. ${formatPrice(totalEstimatedBalance)}/-`;
+      if (estimatedPriceEl) estimatedPriceEl.textContent = `${formatPrice(totalOfTotalPrice)}/-`;
+      if (advancePaymentEl) advancePaymentEl.textContent = `${formatPrice(totalOfPartialPrice)}/-`;
+      if (estimatedBalanceEl) estimatedBalanceEl.textContent = `${formatPrice(totalEstimatedBalance)}/-`;
     } catch (err) {
       console.error('Error updating partial prices:', err);
     } finally {

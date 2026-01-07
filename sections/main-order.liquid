@@ -271,14 +271,14 @@
                   {% endif %}
 
                   {% if payment and payment.payment_status == 'paid' and est_total_for_paid %}
-                    <p class="line-item-paid-value line-item-normal-text">Rs. {{ est_total_for_paid | round: 2 }}</p>
+                    <p class="line-item-paid-value line-item-normal-text" data-paid="{{ est_total_for_paid }}"> {{ est_total_for_paid | round: 2 }}</p>
                   {% elsif payment and payment.partial_paid_value %}
-                    <p class="line-item-paid-value line-item-normal-text">
-                      Rs. {{ payment.partial_paid_value | round: 2 }}
+                    <p class="line-item-paid-value line-item-normal-text" data-paid="{{ payment.partial_paid_value }}">
+                      {{ payment.partial_paid_value | round: 2 }}
                     </p>
                   {% else %}
-                    <p class="line-item-paid-value line-item-normal-text">
-                      Rs. {{ line_item.price | money_without_currency | strip_html }}
+                    <p class="line-item-paid-value line-item-normal-text"  data-paid="{{ line_item.price }}">
+                       {{ line_item.price | money_without_currency | strip_html }}
                     </p>
                   {% endif %}
                 </div>
@@ -288,15 +288,15 @@
                     {% assign est_total = line_item.properties._total_payment_amount %}
                   {% endif %}
                   {% if est_total %}
-                    <p class="line-item-est-total line-item-normal-text">Rs. {{ est_total | round: 2 }}</p>
+                    <p class="line-item-est-total line-item-normal-text"  data-paid="{{ est_total }}"> {{ est_total | round: 2 }}</p>
                   {% else %}
                     <p class="line-item-est-total line-item-normal-text">-</p>
                   {% endif %}
                 </div>
                 <div class="custom-table_data">
                   {% if payment and payment.remaining_amount %}
-                    <p class="line-item-remaining-amount line-item-normal-text">
-                      Rs. {{ payment.remaining_amount | round: 2 }}
+                    <p class="line-item-remaining-amount line-item-normal-text"  data-paid="{{ payment.remaining_amount | times: 100 | round: 0 }}">
+                       {{ payment.remaining_amount | round: 2 }}
                     </p>
                   {% elsif est_total %}
                     {% assign paid = 0 %}
@@ -306,7 +306,7 @@
                       {% assign paid = line_item.price | divided_by: 100.0 %}
                     {% endif %}
                     {% assign remaining = est_total | minus: paid %}
-                    <p class="line-item-remaining-amount line-item-normal-text">Rs. {{ remaining | round: 2 }}</p>
+                    <p class="line-item-remaining-amount line-item-normal-text"  data-paid="{{ remaining }}"> {{ remaining | round: 2 }}</p>
                   {% else %}
                     <p class="line-item-remaining-amount line-item-normal-text">-</p>
                   {% endif %}
@@ -609,7 +609,7 @@
                       {% assign est_total = line_item.properties._total_payment_amount %}
                     {% endif %}
                     {% if est_total %}
-                      <p class="mobile-value">Rs. {{ est_total | round: 2 }}</p>
+                      <p class="mobile-value"  data-paid="{{ est_total }}"> {{ est_total | round: 2 }}</p>
                     {% else %}
                       <p class="mobile-value">-</p>
                     {% endif %}
@@ -628,17 +628,17 @@
                     {% endif %}
 
                     {% if payment and payment.payment_status == 'paid' and est_total_for_paid %}
-                      <p class="mobile-value">Rs. {{ est_total_for_paid | round: 2 }}</p>
+                      <p class="mobile-value" data-paid="{{ est_total_for_paid | round: 2 }}"> {{ est_total_for_paid | round: 2 }}</p>
                     {% elsif payment and payment.partial_paid_value %}
-                      <p class="mobile-value">Rs. {{ payment.partial_paid_value | round: 2 }}</p>
+                      <p class="mobile-value" data-paid="{{ payment.partial_paid_value | round: 2 }}"> {{ payment.partial_paid_value | round: 2 }}</p>
                     {% else %}
-                      <p class="mobile-value">Rs. {{ line_item.price | money_without_currency | strip_html }}</p>
+                      <p class="mobile-value"> {{ line_item.price | money_without_currency | strip_html }}</p>
                     {% endif %}
                   </div>
                   <div class="mobile-card-col">
                     <p class="mobile-label">Remaining Price</p>
                     {% if payment and payment.remaining_amount %}
-                      <p class="mobile-value">Rs. {{ payment.remaining_amount | round: 2 }}</p>
+                      <p class="mobile-value" data-paid="{{ payment.remaining_amount | round: 2 }}"> {{ payment.remaining_amount | round: 2 }}</p>
                     {% elsif est_total %}
                       {% assign paid = 0 %}
                       {% if payment and payment.partial_paid_value %}
@@ -647,7 +647,7 @@
                         {% assign paid = line_item.price | divided_by: 100.0 %}
                       {% endif %}
                       {% assign remaining = est_total | minus: paid %}
-                      <p class="mobile-value">Rs. {{ remaining | round: 2 }}</p>
+                      <p class="mobile-value"  data-paid="{{ remaining | round: 2 }}"> {{ remaining | round: 2 }}</p>
                     {% else %}
                       <p class="mobile-value">-</p>
                     {% endif %}
@@ -676,20 +676,20 @@
           <div class="mobile-order-summary">
             <div class="mobile-summary-row">
               <p class="mobile-summary-label">Subtotal</p>
-              <p class="mobile-summary-value">Rs. {{ subtotal | round: 2 }}</p>
+              <p class="mobile-summary-value"  data-paid="{{ subtotal }}"> {{ subtotal | round: 2 }}</p>
             </div>
             <div class="mobile-summary-row">
               <p class="mobile-summary-label">Shipping (Standard)</p>
-              <p class="mobile-summary-value">{{ order.shipping_price | money }}</p>
+              <p class="mobile-summary-value" data-paid="{{ order.shipping_price }}">{{ order.shipping_price | money }}</p>
             </div>
             <div class="mobile-summary-row">
               <p class="mobile-summary-label">Tax (CGST 3.0%)</p>
-              <p class="mobile-summary-value">Rs. {{ tax_total | round: 2 }}</p>
+              <p class="mobile-summary-value"  data-paid="{{ tax_total }}"> {{ tax_total | round: 2 }}</p>
             </div>
             <div class="mobile-summary-row mobile-summary-total">
               <p class="mobile-summary-label">Total</p>
-              <p class="mobile-summary-value">
-                Rs. {{ subtotal | plus: tax_total | plus: order.shipping_price | round: 2 }}
+              <p class="mobile-summary-value" data-paid="{{ subtotal | plus: tax_total | plus: order.shipping_price }}">
+                 {{ subtotal | plus: tax_total | plus: order.shipping_price | round: 2 }}
               </p>
             </div>
           </div>
@@ -698,20 +698,20 @@
         <div class="custom-table_footer">
           <div class="custom-table_footer_row">
             <p class="custom-table_footer_row_heading">Subtotal</p>
-            <p class="custom-table_footer_row_value">Rs. {{ subtotal | round: 2 }}</p>
+            <p class="custom-table_footer_row_value"  data-paid="{{ subtotal }}"> {{ subtotal | round: 2 }}</p>
           </div>
           <div class="custom-table_footer_row">
             <p class="custom-table_footer_row_heading">Shipping (Standard)</p>
-            <p class="custom-table_footer_row_value">{{ order.shipping_price | money }}</p>
+            <p class="custom-table_footer_row_value" data-paid="{{ order.shipping_price }}">{{ order.shipping_price | money }}</p>
           </div>
           <div class="custom-table_footer_row">
             <p class="custom-table_footer_row_heading">Tax (CGST 3.0%)</p>
-            <p class="custom-table_footer_row_value">Rs. {{ tax_total | round: 2 }}</p>
+            <p class="custom-table_footer_row_value"  data-paid="{{ tax_total }}"> {{ tax_total | round: 2 }}</p>
           </div>
           <div class="custom-table_footer_row total_price">
             <p class="custom-table_footer_row_heading">Total</p>
-            <p class="custom-table_footer_row_value">
-              Rs. {{ subtotal | plus: tax_total | plus: order.shipping_price | round: 2 }}
+            <p class="custom-table_footer_row_value"  data-paid="{{ subtotal | plus: tax_total | plus: order.shipping_price }}">
+               {{ subtotal | plus: tax_total | plus: order.shipping_price | round: 2 }}
             </p>
           </div>
         </div>
