@@ -271,7 +271,7 @@ a.product__text {
 }
 .product__check-variation-button .text_span{font-size: 18px;
   color: #666;
-  font-weight: 400;}
+  font-weight: 400;    line-height: normal;}
 
 .product__check-variation-icon {
   display: inline-flex;
