@@ -126,15 +126,21 @@
                       {{ product.title | escape }}
                     </h2>
                   </a>
-                </div>
-
-{% if product.metafields.custom.collection_picker != blank and product.metafields.custom.collection_picker.value != blank %}
+                  {% if product.metafields.custom.collection_picker != blank and product.metafields.custom.collection_picker.value != blank %}
                     <a
                       href="{{ product.metafields.custom.collection_picker.value.url }}"
+                      class="product__check-variation-button"
                     >
-                      Check variation
+                      <span class="product__check-variation-icon" aria-hidden="true">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M6 12.5L10 16.5L18 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
+                        </svg>
+                      </span>
+                      <span>Check variations</span>
                     </a>
                   {% endif %}
+                </div>
 
               {% when 'custom_size' %}
                 {% render 'custom-size-variants', product: product, block: block, product_form_id: product_form_id %}
