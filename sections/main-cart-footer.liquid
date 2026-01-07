@@ -298,9 +298,9 @@
       let totalEstimatedBalance = 0;
       dataArray.forEach(item => {
         let qty = parseFloat(item.quantity);
-        totalOfTotalPrice += parseFloat(item.totalPrice?.total || 0) * qty;
-        totalOfPartialPrice += parseFloat(item.partialPrice?.total || 0) * qty;
-        totalEstimatedBalance += parseFloat(item.estimatedBalance || 0) * qty;
+        totalOfTotalPrice += parseFloat(item.totalPrice?.total || 0);
+        totalOfPartialPrice += parseFloat(item.partialPrice?.total || 0);
+        totalEstimatedBalance += parseFloat(item.estimatedBalance || 0);
       });
 
       const estimatedPriceEl = document.getElementById('estimated-price');
