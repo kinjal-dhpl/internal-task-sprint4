@@ -126,6 +126,14 @@
                       {{ product.title | escape }}
                     </h2>
                   </a>
+                  {% if product.metafields.custom.collection_picker != blank and product.metafields.custom.collection_picker.value != blank %}
+                    <a
+                      href="{{ product.metafields.custom.collection_picker.value.url }}"
+                      class="button product__check-variation-button"
+                    >
+                      Check variation
+                    </a>
+                  {% endif %}
                 </div>
               {% when 'custom_size' %}
                 {% render 'custom-size-variants', product: product, block: block, product_form_id: product_form_id %}
