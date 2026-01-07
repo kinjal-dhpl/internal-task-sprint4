@@ -363,7 +363,7 @@ div.endless--container{width: 75%;}
 
           <label for="{{ block.settings.input-label}}">{{ block.settings.input-label}}{% if block.settings.required-field %}<span style="color: red;"> *</span>{% endif %}</label>
 
-              <input type="text" id="{{ block.settings.input-label}}" name="{{block.settings.input-name}}" {% if block.settings.required-field %} required {% endif %} placeholder="{{ block.settings.placeholder}}"/>
+              <input type="text" id="{{ block.settings.input-label}}" name="{{block.settings.input-name}}" {% if block.settings.required-field %} required {% endif %} placeholder="{{ block.settings.placeholder}}" {% if block.settings['input-name'] == 'phone' %} maxlength="10" {% endif %}/>
 
             </div>
 
