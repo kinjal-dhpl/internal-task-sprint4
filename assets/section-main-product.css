@@ -256,9 +256,7 @@ a.product__text {
 .product__check-variation-button {
   display: inline-flex;
   align-items: center;
-  gap: 0.8rem;
-  margin-top: 0.4rem;
-  padding: 0.4rem 0;
+  gap: 3px;
   font-weight: 600;
   color: rgb(var(--color-foreground));
   text-decoration: none;
