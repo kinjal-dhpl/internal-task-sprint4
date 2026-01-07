@@ -2640,14 +2640,19 @@ function getPreferredPhoneNumber(orderData) {
 
 
 
-  function showToast(message) {
+  function showToast(message, isError = false) {
     const toast = document.createElement("div");
-    toast.className = "toast-message";
+    toast.className = "toast-message" + (isError ? ' toast-error' : '');
     toast.innerText = message;
+    if (isError) {
+      toast.style.backgroundColor = '#c62828';
+      toast.style.color = '#fff';
+    }
     document.body.appendChild(toast);
     setTimeout(() => toast.remove(), 3000);
   }
-
+  // Expose globally so other scripts can use it safely
+  window.showToast = showToast;
 
   function getSelectedStoreId() {
     const selectedStore = document.querySelector('.shipping-section .store-list input[type="radio"]:checked');
@@ -2679,13 +2684,13 @@ function getPreferredPhoneNumber(orderData) {
 
     if (!firstName || !lastName || !address1 || !address2 || !city || !province || !country || !pincode || !phone) {
       offGlobalLoader();
-      showToast("Please fill in all required fields.");
+      showToast("Please fill in all required fields.", true);
       return false;
     }
 
     if (phone.length !== 10) {
       offGlobalLoader();
-      showToast("Phone number must be exactly 10 digits.");
+      showToast("Phone number must be exactly 10 digits.", true);
       return false;
     }
 
@@ -2751,7 +2756,7 @@ function validateFormAndCreatePayload() {
     if (ringExpertRequired) {
       if (!ringExpertValue) {
         offGlobalLoader();
-        showToast("Please enter ring expert name.");
+        showToast("Please enter ring expert name.", true);
         return;
       }
       payload.ringExpert = ringExpertValue;
@@ -2761,7 +2766,7 @@ function validateFormAndCreatePayload() {
     if (panCardRequired) {
       if (!panCardValue) {
         offGlobalLoader();
-        showToast("Please enter your PAN card number.");
+        showToast("Please enter your PAN card number.", true);
         return;
       }
       payload.panCard = panCardValue;
@@ -2771,7 +2776,7 @@ function validateFormAndCreatePayload() {
     const storeId = getSelectedStoreId();
     if (!storeId) {
       offGlobalLoader();
-      showToast("Please select a pickup store.");
+      showToast("Please select a pickup store.", true);
       return;
     }
     if (!validateFields('billing')) return;
@@ -2783,7 +2788,7 @@ function validateFormAndCreatePayload() {
     if (ringExpertRequired) {
       if (!ringExpertValue) {
         offGlobalLoader();
-        showToast("Please enter ring expert name.");
+        showToast("Please enter ring expert name.", true);
         return;
       }
       payload.ringExpert = ringExpertValue;
@@ -2793,7 +2798,7 @@ function validateFormAndCreatePayload() {
     if (panCardRequired) {
       if (!panCardValue) {
         offGlobalLoader();
-        showToast("Please enter your PAN card number.");
+        showToast("Please enter your PAN card number.", true);
         return;
       }
       payload.panCard = panCardValue;
@@ -2825,7 +2830,7 @@ function validateFormAndCreatePayload() {
       .then((response) => {
             if (!response.ok) {
               offGlobalLoader();
-              showToast("Server error , please try again later");
+              showToast("Server error , please try again later", true);
               throw new Error(`HTTP error! Status: ${response.status}`);
             }
             return response.json(); 
@@ -2843,7 +2848,7 @@ function validateFormAndCreatePayload() {
             offGlobalLoader();
             console.error("Fetch error -->", error);
            
-            showToast("Unable to proceed to payment , please try again later");
+            showToast("Unable to proceed to payment , please try again later", true);
       });
   }
 

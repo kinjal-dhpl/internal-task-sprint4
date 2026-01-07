@@ -145,10 +145,14 @@
 
 <script>
 // Toast message function
-function showToast(message) {
+function showToast(message, isError = false) {
   const toast = document.createElement("div");
-  toast.className = "toast-message";
+  toast.className = "toast-message" + (isError ? ' toast-error' : '');
   toast.innerText = message;
+  if (isError) {
+    toast.style.backgroundColor = '#c62828';
+    toast.style.color = '#fff';
+  }
   document.body.appendChild(toast);
   setTimeout(() => toast.remove(), 3000);
 }
