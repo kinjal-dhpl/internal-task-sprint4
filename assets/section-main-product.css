@@ -253,6 +253,33 @@ a.product__text {
   
 }
 
+.product__check-variation-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: 0.4rem;
+  padding: 0.4rem 0;
+  font-weight: 600;
+  color: rgb(var(--color-foreground));
+  text-decoration: none;
+}
+
+.product__check-variation-button:hover,
+.product__check-variation-button:focus {
+  color: rgba(var(--color-foreground), 0.8);
+  text-decoration: underline;
+}
+
+.product__check-variation-icon {
+  display: inline-flex;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 50%;
+  background: rgba(var(--color-foreground), 0.06);
+  align-items: center;
+  justify-content: center;
+}
+
 .product__title > * {
   margin: 0;
 }
