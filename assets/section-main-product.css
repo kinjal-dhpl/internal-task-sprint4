@@ -269,6 +269,10 @@ a.product__text {
   color: rgba(var(--color-foreground), 0.8);
   text-decoration: underline;
 }
+.product__check-variation-button span{font-size: 18px;
+  color: #666;
+  margin: 0 0 10px;
+  font-weight: 400;}
 
 .product__check-variation-icon {
   display: inline-flex;
