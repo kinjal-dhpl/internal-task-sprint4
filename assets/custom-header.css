@@ -288,7 +288,8 @@ ul.fbn-gridd .curr-ac{
   ul.icons-grid li {
       display: none;
   }
-  ul.icons-grid li:nth-child(3), ul.icons-grid li:nth-child(4) {
+  /* keep the last three icons visible (includes mapping, cart, account) */
+  ul.icons-grid li:nth-last-child(-n+3) {
       display: block;
   }
   ul.icons-grid li:nth-child(4) img {
@@ -300,7 +301,7 @@ ul.fbn-gridd .curr-ac{
       color: #fff;
   }
   .header-top {
-      padding: 9px 70px 5px 70px;
+      padding: 9px 35px 5px 70px;
   }
   .header-top .logo img {
       max-width: 130px;
