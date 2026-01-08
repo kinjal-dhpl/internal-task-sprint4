@@ -35,6 +35,27 @@
   .main-customer-details-wrapper h2 {
     margin-top: 0 !important;
   }
+  .customer-details{
+    margin-left: 1.5rem;
+  }
+  .account-details-heading{
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+  .customer-email{
+    text-transform: unset !important; 
+    margin-bottom: 1rem !important;
+  }
+  .default-address{
+    margin-bottom: 1rem !important;
+    text-decoration: underline;
+  }
+  .customer-name{
+    font-size: 2rem;
+  }
+  .order-history{
+    margin-top: 12px !important;
+  }
 
   @media screen and (min-width: 750px) {
     .section-{{ section.id }}-padding {
@@ -56,8 +77,30 @@
   </div>
 
   <div class="main-order-wrapper">
+    <div class="main-customer-details-wrapper">
+      <h2 class="account-details-heading">{{ 'customer.account.details' | t }}</h2>
+      <div class="customer-details">
+      <h2 class="customer-name"> {{ customer.name }} </h2>
+      <p class="customer-email"> {{ customer.email }} </p>
+      <p> 
+        {% if customer.phone %}
+          {{ customer.phone }} 
+        {% elsif customer.default_address.phone %}
+          {{ customer.default_address.phone }}
+        {% else %}
+          N/A
+        {% endif %}
+      </p>
+    
+    <p class="default-address"> Default Address : </p>
+      {{ customer.default_address | format_address }}
+      <a href="{{ routes.account_addresses_url }}">
+        {{ 'customer.account.view_addresses' | t }} ({{ customer.addresses_count }})
+      </a>
+    </div>
+    </div>
     <div>
-      <h2>{{ 'customer.orders.title' | t }}</h2>
+      <h2 class="order-history">{{ 'customer.orders.title' | t }}</h2>
 
       {% paginate customer.orders by 20 %}
         {%- if customer.orders.size > 0 -%}
@@ -177,15 +220,7 @@
       {% endpaginate %}
     </div>
 
-    <div class="main-customer-details-wrapper">
-      <h2>{{ 'customer.account.details' | t }}</h2>
-
-      {{ customer.default_address | format_address }}
-
-      <a href="{{ routes.account_addresses_url }}">
-        {{ 'customer.account.view_addresses' | t }} ({{ customer.addresses_count }})
-      </a>
-    </div>
+    
   </div>
 </div>
 </div>
