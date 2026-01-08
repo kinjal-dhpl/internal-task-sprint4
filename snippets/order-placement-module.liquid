@@ -851,12 +851,7 @@ button.apply-btn {
     const numericTotal = parseFloat(rawTotal.replace(/[^0-9.-]+/g, '')) || 0;
 
     // Prefer theme-provided formatter `window.formatPriceNumber`, fallback to local INR formatting
-    const formatFn = (typeof window !== 'undefined' && typeof window.formatPriceNumber === 'function')
-      ? window.formatPriceNumber
-      : (val => {
-          const num = Number(val || 0);
-          return `₹ ${num.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}/-`;
-        });
+    const formatFn = window.formatPriceNumber;
 
     const displayTotal = formatFn(numericTotal);
 
