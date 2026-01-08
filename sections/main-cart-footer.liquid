@@ -251,7 +251,7 @@
   // Local price formatter (fallback if global `formatPrice` isn't available)
   function formatPrice(num) {
     if (typeof num === 'undefined' || num === null || isNaN(Number(num))) return '0.00';
-    return '₹ ' + Number(num).toLocaleString('en-IN', { maximumFractionDigits: 2 });
+    return '₹ ' + Number(num).toLocaleString('en-IN', { maximumFractionDigits: 2 }) + '/-';
   }
 
   // Helpers: show/hide the inline loader

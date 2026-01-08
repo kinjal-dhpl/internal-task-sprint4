@@ -405,7 +405,7 @@
       <div class="price-breakdown-option" id="diamondInfo">
         <div class="pointer-info">
           <p class="pointer-heading">Diamonds</p>
-          <p class="pointer-price">₹${formatPrice(totalPrice)}</p>
+          <p class="pointer-price">₹ ${formatPrice(totalPrice)}/-</p>
         </div>
         <small class="pointer-type">${diamonds.type || 'Natural'}</small>
         <div class="pointer-details">
@@ -428,7 +428,7 @@
       <div class="price-breakdown-option" id="solitaireDiamondInfo">
         <div class="pointer-info">
           <p class="pointer-heading">Solitaire Diamond</p>
-          <p class="pointer-price">₹${formatPrice(price)}</p>
+          <p class="pointer-price">₹ ${formatPrice(price)}/-</p>
         </div>
         <small class="pointer-type">${solitaire.type || 'Natural'}</small>
         <div class="pointer-details">
@@ -452,7 +452,7 @@
       <div class="price-breakdown-option" id="gemstonesInfo">
         <div class="pointer-info">
           <p class="pointer-heading">Gemstones</p>
-          <p class="pointer-price">₹${formatPrice(totalPrice)}</p>
+          <p class="pointer-price">₹ ${formatPrice(totalPrice)}/-</p>
         </div>
         <small class="pointer-type">${gemstones.length} stone(s)</small>
         <div class="pointer-details">
@@ -470,7 +470,7 @@
       <div class="price-breakdown-option" id="metalInfo">
         <div class="pointer-info">
           <p class="pointer-heading">Metal</p>
-          <p class="pointer-price">₹${formatPrice(price)}</p>
+          <p class="pointer-price">₹ ${formatPrice(price)}</p>
         </div>
         <small class="pointer-type">${metal?.type || 'Gold'}</small>
         <div class="pointer-details">
@@ -487,7 +487,7 @@
       <div class="price-breakdown-option" id="makingCharges">
         <div class="pointer-info">
           <p class="pointer-heading">Making Charges</p>
-          <p class="pointer-price">₹${formatPrice(makingCharges)}</p>
+          <p class="pointer-price">₹ ${formatPrice(makingCharges)}/-</p>
         </div>
         <small class="pointer-type">Labour, craftmanship, certification logistics</small>
         <div class="pointer-details">
@@ -504,7 +504,7 @@
       <div class="price-breakdown-option" id="GSTCharges">
         <div class="pointer-info">
           <p class="pointer-heading">GST</p>
-          <p class="pointer-price">₹${formatPrice(gst)}</p>
+          <p class="pointer-price">₹ ${formatPrice(gst)}/-</p>
         </div>
         <small class="pointer-type">Goods and services tax (3%)</small>
         <div class="pointer-details">
@@ -520,7 +520,7 @@
     return `
       <div class="modal-footer price-row">
         <span>Total Price</span>
-        <span id="totalPrice">₹${formatPrice(totalPrice)}</span>
+        <span id="totalPrice">₹ ${formatPrice(totalPrice)}/-</span>
       </div>
     `;
   }
