@@ -1898,21 +1898,21 @@ function calculateAndDisplayPaymentTotals() {
   const orderSummaryHTML = `
     <span class="order--subtotal">
       <span>SUBTOTAL</span>
-      <span>₹${formattedSubTotal}/-</span>
+      <span>₹ ${formattedSubTotal}/-</span>
     </span>
     <span class="order--shipping">
       <span>Shipping</span>
-      <span>₹${formattedShipping}/-</span>
+      <span>₹ ${formattedShipping}/-</span>
     </span>
     <div class="row--divider"></div>
     <span class="order--tax" style="display: flex; align-item: center; justify-content: space-between;">
       <span>Tax (CGST 3%)</span>
-      <span>₹${formattedTax}/-</span>
+      <span>₹ ${formattedTax}/-</span>
     </span>
     <div class="row--divider"></div>
     <span class="order--total">
       <span><strong>TOTAL</strong></span>
-      <span><strong>₹${finalTotal.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}/-</strong></span>
+      <span><strong>₹ ${finalTotal.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}/-</strong></span>
     </span>
   `;
   
@@ -2095,10 +2095,31 @@ function getPreferredPhoneNumber(orderData) {
         let shippingPrice ='';  
         const discountPrice = Number(orderData.totalDiscountsSet.shopMoney.amount).toLocaleString('en-IN', {maximumFractionDigits: 2}); 
         const orderTotalPrice = formatTwoDecimals(Number(orderData.totalPrice));                                                                                             
-        const orderSummaryTotalHTML = `<span class="order--subtotal"><span>${subTotalPrice ? 'SUBTOTAL' : '' }</span> <span>₹${subTotalPrice || '' }/-</span></span>
-                                     <span class="order--discount"><span>${Number(orderData.totalDiscountsSet.shopMoney.amount) > 0 ? 'Discount' : '' }</span><span>${Number(orderData.totalDiscountsSet.shopMoney.amount) > 0 ? '₹' : '' }${Number(orderData.totalDiscountsSet.shopMoney.amount) > 0 ?  discountPrice: ''}/-</span></span>
-                                     <div class="row--divider"></div>
-                                     <span class="order--total"><span><strong>${orderTotalPrice ? 'TOTAL' : '' }</strong></span><span><strong>₹ ${orderTotalPrice || '' }/-</strong></span></span>`
+        const orderSummaryTotalHTML = `
+          ${subTotalPrice
+            ? `<span class="order--subtotal">
+                <span>SUBTOTAL</span>
+                <span>₹ ${subTotalPrice}/-</span>
+              </span>`
+            : ''}
+
+          ${Number(orderData.totalDiscountsSet.shopMoney.amount) > 0
+            ? `<span class="order--discount">
+                <span>Discount</span>
+                <span>₹ ${discountPrice}/-</span>
+              </span>`
+            : ''}
+
+          <div class="row--divider"></div>
+
+          ${orderTotalPrice
+            ? `<span class="order--total">
+                <span><strong>TOTAL</strong></span>
+                <span><strong>₹ ${orderTotalPrice}/-</strong></span>
+              </span>`
+            : ''}
+        `;
+
         document.querySelector('.order-summary-totals').innerHTML = orderSummaryTotalHTML;
         let shippingAddressHTML = "";
 
@@ -2132,8 +2153,8 @@ function getPreferredPhoneNumber(orderData) {
         const outStandingAmount = Number(totalAmountOfOrder - amountReceived);
         const netAmountReceived = Number(amountReceived).toLocaleString('en-IN', {maximumFractionDigits: 2}); 
         const netOutStandingAmount = Number(outStandingAmount).toLocaleString('en-IN', {maximumFractionDigits: 2}); 
-        const paidStatusEle = `<span>Paid</span><span>₹${netAmountReceived}/-</span>`;
-        const outstandingStatusEle = `<span>${outStandingAmount > 0 ? 'Balance' : ''}</span><span>${outStandingAmount > 0 ? '₹' : ''}${outStandingAmount > 0 ? netOutStandingAmount : ''}/-</span>`;
+        const paidStatusEle = `<span>Paid</span><span>₹ ${netAmountReceived}/-</span>`;
+        const outstandingStatusEle = `${outStandingAmount > 0 ? `<span>Balance</span><span>₹ ${netOutStandingAmount}/-</span>` : ''}`;
         const paymentLinkButton = document.querySelector('button.payment-button');
         if((outStandingAmount == 0)){
             paymentLinkButton.classList.add('disable');
