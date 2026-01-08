@@ -1432,7 +1432,7 @@ if (Array.isArray(customerAddress) && customerAddress.length > 0 && addressMainG
                                     <td>₹ ${(() => {
                                       const receivedNum = parseFloat(String(orderTotalReceived || '0').replace(/[^0-9.\-]+/g, '')) || 0;
                                       return formatTwoDecimals(receivedNum);
-                                    })()}</td>
+                                    })()}/-</td>
 
                                 </tr>`
                                 console.log(typeof(orderTotalReceived),'orderTotalReceived')
@@ -1748,18 +1748,18 @@ if (Array.isArray(customerAddress) && customerAddress.length > 0 && addressMainG
                 const paid_value  = parseFloat(paidValue);
                 if (!isNaN(paid_value)) return formatTwoDecimals(paid_value);
                 return paidValue ? String(paidValue) : '';
-              })()}</td>
+              })()}/-</td>
             <td class="product--esttotal--num">₹ ${(() => {
                 let est_total = NaN;
                 if (typeof estTotal === 'number') est_total = Number(estTotal);
                 else if (estTotal && typeof estTotal === 'object' && estTotal.value) est_total = parseFloat(estTotal.value);
                 else est_total = parseFloat(estTotal);
                 return !isNaN(est_total) ? formatTwoDecimals(est_total) : (estTotal?.value || estTotal || '');
-              })()}</td>
+              })()}/-</td>
             <td class="product--remainingamount--num">₹ ${(() => {
                 const remaining_amount  = parseFloat(remainingAmount);
                 return !isNaN(remaining_amount ) ? formatTwoDecimals(remaining_amount) : '0.00';
-              })()}</td>
+              })()}/-</td>
             <!-- Status select stays separate -->
             <td class="product--status-select">
               <select class="status-dropdown dropdown-${itemIdOnly}" data-line-id="${itemIdOnly}" ${isDisabled ? 'disabled' : ''}>
@@ -1887,32 +1887,32 @@ function calculateAndDisplayPaymentTotals() {
   }
   
   if (paidStatus) {
-    paidStatus.innerHTML = `Total Paid: ₹ ${formattedPaid}`;
+    paidStatus.innerHTML = `Total Paid: ₹ ${formattedPaid}/-`;
   }
   
   if (balanceStatus) {
-    balanceStatus.innerHTML = `Balance Due: ₹ ${formattedRemaining}`;
+    balanceStatus.innerHTML = `Balance Due: ₹ ${formattedRemaining}/-`;
   }
   
   // Update order summary
   const orderSummaryHTML = `
     <span class="order--subtotal">
       <span>SUBTOTAL</span>
-      <span>₹${formattedSubTotal}</span>
+      <span>₹${formattedSubTotal}/-</span>
     </span>
     <span class="order--shipping">
       <span>Shipping</span>
-      <span>₹${formattedShipping}</span>
+      <span>₹${formattedShipping}/-</span>
     </span>
     <div class="row--divider"></div>
     <span class="order--tax" style="display: flex; align-item: center; justify-content: space-between;">
       <span>Tax (CGST 3%)</span>
-      <span>₹${formattedTax}</span>
+      <span>₹${formattedTax}/-</span>
     </span>
     <div class="row--divider"></div>
     <span class="order--total">
       <span><strong>TOTAL</strong></span>
-      <span><strong>₹${finalTotal.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</strong></span>
+      <span><strong>₹${finalTotal.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}/-</strong></span>
     </span>
   `;
   
@@ -2095,10 +2095,10 @@ function getPreferredPhoneNumber(orderData) {
         let shippingPrice ='';  
         const discountPrice = Number(orderData.totalDiscountsSet.shopMoney.amount).toLocaleString('en-IN', {maximumFractionDigits: 2}); 
         const orderTotalPrice = formatTwoDecimals(Number(orderData.totalPrice));                                                                                             
-        const orderSummaryTotalHTML = `<span class="order--subtotal"><span>${subTotalPrice ? 'SUBTOTAL' : '' }</span> <span>₹${subTotalPrice || '' }</span></span>
-                                     <span class="order--discount"><span>${Number(orderData.totalDiscountsSet.shopMoney.amount) > 0 ? 'Discount' : '' }</span><span>${Number(orderData.totalDiscountsSet.shopMoney.amount) > 0 ? '₹' : '' }${Number(orderData.totalDiscountsSet.shopMoney.amount) > 0 ?  discountPrice: ''}</span></span>
+        const orderSummaryTotalHTML = `<span class="order--subtotal"><span>${subTotalPrice ? 'SUBTOTAL' : '' }</span> <span>₹${subTotalPrice || '' }/-</span></span>
+                                     <span class="order--discount"><span>${Number(orderData.totalDiscountsSet.shopMoney.amount) > 0 ? 'Discount' : '' }</span><span>${Number(orderData.totalDiscountsSet.shopMoney.amount) > 0 ? '₹' : '' }${Number(orderData.totalDiscountsSet.shopMoney.amount) > 0 ?  discountPrice: ''}/-</span></span>
                                      <div class="row--divider"></div>
-                                     <span class="order--total"><span><strong>${orderTotalPrice ? 'TOTAL' : '' }</strong></span><span><strong>₹${orderTotalPrice || '' }</strong></span></span>`
+                                     <span class="order--total"><span><strong>${orderTotalPrice ? 'TOTAL' : '' }</strong></span><span><strong>₹ ${orderTotalPrice || '' }/-</strong></span></span>`
         document.querySelector('.order-summary-totals').innerHTML = orderSummaryTotalHTML;
         let shippingAddressHTML = "";
 
@@ -2132,8 +2132,8 @@ function getPreferredPhoneNumber(orderData) {
         const outStandingAmount = Number(totalAmountOfOrder - amountReceived);
         const netAmountReceived = Number(amountReceived).toLocaleString('en-IN', {maximumFractionDigits: 2}); 
         const netOutStandingAmount = Number(outStandingAmount).toLocaleString('en-IN', {maximumFractionDigits: 2}); 
-        const paidStatusEle = `<span>Paid</span><span>₹${netAmountReceived}</span>`;
-        const outstandingStatusEle = `<span>${outStandingAmount > 0 ? 'Balance' : ''}</span><span>${outStandingAmount > 0 ? '₹' : ''}${outStandingAmount > 0 ? netOutStandingAmount : ''}</span>`;
+        const paidStatusEle = `<span>Paid</span><span>₹${netAmountReceived}/-</span>`;
+        const outstandingStatusEle = `<span>${outStandingAmount > 0 ? 'Balance' : ''}</span><span>${outStandingAmount > 0 ? '₹' : ''}${outStandingAmount > 0 ? netOutStandingAmount : ''}/-</span>`;
         const paymentLinkButton = document.querySelector('button.payment-button');
         if((outStandingAmount == 0)){
             paymentLinkButton.classList.add('disable');
@@ -2285,18 +2285,15 @@ function getPreferredPhoneNumber(orderData) {
               window.cartItemJson = JSON.stringify(itemPayload);
               
               // Format prices using global formatter if present, otherwise fallback to local `formatPrice`
-              const formatFn = (typeof window !== 'undefined' && window.formatPriceNumber) ? window.formatPriceNumber : (val => '₹ ' + formatPrice(val));
+              const formatFn = (typeof window !== 'undefined' && window.formatPriceNumber) ? window.formatPriceNumber : (val => `₹ ${formatPrice(val)}/-` );
               const formattedSubtotal = formatFn(cartSubtotalElem);
               const formattedShipping = formatFn(0);
               const formattedTotal = formatFn(cartSubtotalElem);
-
-              const cartPriceSummary = `<div class="summary-row"><span>Subtotal</span><span class="letter-spacing-two">${formattedSubtotal}</span></div>
+              const cartPriceSummary = `<div class="summary-row"><span>Subtotal</span><span class="letter-spacing-two subtotal">${formattedSubtotal}</span></div>
                                         <div class="summary-row"><span>Shipping</span><span class="letter-spacing-two">${formattedShipping}</span></div>
                                       <div class="summary-row discount" style="display:none;"><span>Discounts</span><span class="letter-spacing-two"></span></div>
                                         <div class="summary-row total"><span>Total</span><span class="letter-spacing-two">${formattedTotal}</span></div>`;
-
               document.querySelector('div.product--summary--detail').innerHTML = itemHTML;
-              
               document.querySelector('.order-details div.order-summary').innerHTML = cartPriceSummary;
 
               const pancardHTML = document.querySelector('.pan-card-section');
@@ -2916,7 +2913,7 @@ function validateFormAndCreatePayload() {
           <div class="product-info">
             <h3 class="title">${item.title || ''}</h3>
             <p class="quantext">${item.quantity ? 'Quantity: ' + item.quantity : ''}</p>
-            <p class="product-price">${item.originalTotal ? '₹ ' + itemPrice : ''}</p>
+            <p class="product-price">${item.originalTotal ? '₹ ' + itemPrice + '/-' : ''}</p>
           </div>
         </div>`;
     });
@@ -2966,15 +2963,14 @@ function validateFormAndCreatePayload() {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2
     });
-
     const cartPriceSummary = `
       <div class="summary-row"><span>Subtotal</span><span class="letter-spacing-two">₹ ${cartTotal || cartSubtotal}</span></div>
       <div class="summary-row"><span>Shipping</span><span class="letter-spacing-two">₹ 0.00</span></div>
       <div class="summary-row discount" style="display: ${(Number(draftOrder.totalDiscountsSet.shopMoney.amount) > 0) ? 'flex' : 'none'}">
         <span>Discounts</span>
-        <span class="letter-spacing-two">${(Number(draftOrder.totalDiscountsSet.shopMoney.amount) > 0) ? '₹ ' + discountPriceValue : ''}</span>
+        <span class="letter-spacing-two">${(Number(draftOrder.totalDiscountsSet.shopMoney.amount) > 0) ? '₹ ' + discountPriceValue + '/-' : ''}</span>
       </div>
-      <div class="summary-row total"><span>Total</span><span class="letter-spacing-two">₹ ${cartTotal}</span></div>
+      <div class="summary-row total"><span>Total</span><span class="letter-spacing-two">₹ ${cartTotal}/-</span></div>
       <div class="advance-payment-info">
         <div class="price-row">
           <span class="price-label">Estimated Price:</span>
