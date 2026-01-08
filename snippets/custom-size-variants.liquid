@@ -252,6 +252,36 @@ let currentVariants = []; // this will always hold latest 12 variants data
       return this.variantPrices[variantId] || null;
     }
   };
+  const resetPricingUI = (size) => {
+      console.warn('Resetting API-based pricing for size:', size);
+
+      // reset state
+      currentVariants = [];
+      delete window.ProductState.productPricingBySize[size];
+
+      // reset variant-level pricing
+      document.querySelectorAll('.variant-link .variant-price')
+        .forEach(el => el.textContent = '');
+
+      // restore variant names if API overwrote them
+      document.querySelectorAll('.variant-link .variant-name')
+        .forEach(el => {
+          el.textContent = el.dataset.originalName || '';
+        });
+
+      // reset main price display
+      document.querySelectorAll('.price-item.main_price')
+        .forEach(el => {
+          el.textContent = 'Price unavailable';
+          el.style.opacity = '1';
+        });
+
+      // reset weight info
+      const weightEl = document.querySelector('.single-info-value.product-info-weight');
+      if (weightEl) weightEl.textContent = '';
+
+    };
+
 
   // Price management
   const PriceManager = {
@@ -315,13 +345,12 @@ let currentVariants = []; // this will always hold latest 12 variants data
           window.ProductState.productPricingBySize[size] = apiResponse;
           // Update price display
           this.updatePriceFromCache(variantId, size);
-        } else {
-          throw new Error("Invalid API response");
         }
       })
       .catch(error => {
         console.error("❌ API call failed:", error);
         this.fallbackToShopifyPrice(variantId, size); // CHANGED: Use Shopify price fallback
+        resetPricingUI(size);
       });
     },
 
