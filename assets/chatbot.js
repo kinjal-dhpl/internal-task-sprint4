@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let sessionId = localStorage.getItem("session_id") || null;
     function createSession() {
         if (!sessionId) {
-            sessionId = 'sid_' + Math.random().toString(36).substr(2, 5) + Date.now().toString(36);
+            sessionId = 'sid_' + crypto.randomUUID().replace(/-/g, '').slice(0, -10);
             localStorage.setItem("session_id", sessionId);
             console.log("New SessionId: ", sessionId);
         } else {
