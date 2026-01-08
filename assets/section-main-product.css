@@ -262,6 +262,7 @@ a.product__text {
   text-decoration: none;
   text-decoration: underline;
   line-height: 3px;
+  margin: 0;
 }
 
 .product__check-variation-button:hover,
@@ -269,9 +270,12 @@ a.product__text {
   color: rgba(var(--color-foreground), 0.8);
   text-decoration: underline;
 }
-.product__check-variation-button .text_span{font-size: 18px;
+.product__check-variation-button .text_span{
+  font-size: 17px;
   color: #666;
-  font-weight: 400;    line-height: normal;}
+  font-weight: 400;
+  line-height: normal;
+}
 
 .product__check-variation-icon {
   display: inline-flex;
