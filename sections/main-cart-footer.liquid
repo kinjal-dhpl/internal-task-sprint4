@@ -307,9 +307,9 @@
       const advancePaymentEl = document.getElementById('advance-payment');
       const estimatedBalanceEl = document.getElementById('estimated-balance');
 
-      if (estimatedPriceEl) estimatedPriceEl.textContent = `${formatPrice(totalOfTotalPrice)}/-`;
-      if (advancePaymentEl) advancePaymentEl.textContent = `${formatPrice(totalOfPartialPrice)}/-`;
-      if (estimatedBalanceEl) estimatedBalanceEl.textContent = `${formatPrice(totalEstimatedBalance)}/-`;
+      if (estimatedPriceEl) estimatedPriceEl.textContent = `${formatPrice(totalOfTotalPrice)}`;
+      if (advancePaymentEl) advancePaymentEl.textContent = `${formatPrice(totalOfPartialPrice)}`;
+      if (estimatedBalanceEl) estimatedBalanceEl.textContent = `${formatPrice(totalEstimatedBalance)}`;
     } catch (err) {
       console.error('Error updating partial prices:', err);
     } finally {
