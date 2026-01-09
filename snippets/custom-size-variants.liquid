@@ -338,7 +338,7 @@ let currentVariants = []; // this will always hold latest 12 variants data
               `.variant-link[data-variant-id="${variantIds}"] .variant-price`
             );
             if (priceEl) {
-              priceEl.textContent = `₹ ${Number(totalPrice).toLocaleString('en-IN')}`;
+              priceEl.textContent = `₹ ${Number(totalPrice).toLocaleString('en-IN')}/-`;
             }
           });
           // Cache the data

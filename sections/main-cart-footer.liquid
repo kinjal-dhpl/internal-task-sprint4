@@ -251,7 +251,7 @@
   // Local price formatter (fallback if global `formatPrice` isn't available)
   function formatPrice(num) {
     if (typeof num === 'undefined' || num === null || isNaN(Number(num))) return '0.00';
-    return '₹ ' + Number(num).toLocaleString('en-IN', { maximumFractionDigits: 2 });
+    return '₹ ' + Number(num).toLocaleString('en-IN', { maximumFractionDigits: 2 }) + '/-';
   }
 
   // Helpers: show/hide the inline loader
@@ -307,9 +307,9 @@
       const advancePaymentEl = document.getElementById('advance-payment');
       const estimatedBalanceEl = document.getElementById('estimated-balance');
 
-      if (estimatedPriceEl) estimatedPriceEl.textContent = `${formatPrice(totalOfTotalPrice)}/-`;
-      if (advancePaymentEl) advancePaymentEl.textContent = `${formatPrice(totalOfPartialPrice)}/-`;
-      if (estimatedBalanceEl) estimatedBalanceEl.textContent = `${formatPrice(totalEstimatedBalance)}/-`;
+      if (estimatedPriceEl) estimatedPriceEl.textContent = `${formatPrice(totalOfTotalPrice)}`;
+      if (advancePaymentEl) advancePaymentEl.textContent = `${formatPrice(totalOfPartialPrice)}`;
+      if (estimatedBalanceEl) estimatedBalanceEl.textContent = `${formatPrice(totalEstimatedBalance)}`;
     } catch (err) {
       console.error('Error updating partial prices:', err);
     } finally {

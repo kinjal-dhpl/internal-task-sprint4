@@ -207,15 +207,28 @@
       }
     }
     
+    function formatFn(value) {
+      const cleaned = String(value || '').replace(/[^\d.]/g, '').replace(/\.(?=.*\.)/g, ''); 
+      const num = parseFloat(cleaned);
+      if (isNaN(num)) return '';
+
+      const formatted = new Intl.NumberFormat('en-IN', {
+        maximumFractionDigits: 2,
+        minimumFractionDigits: 2
+      }).format(num);
+
+      return `₹ ${formatted}/-`;
+    }
     // Update Estimates
     if (lineItem.estimates) {
       const estimatesTable = modal.querySelector('.order-details-section:nth-child(7) .order-details-table tbody');
       if (estimatesTable) {
         const est = lineItem.estimates;
+        let formattedCost = formatFn(est.estimated_cost);
         estimatesTable.innerHTML = `
           <tr>
             <td class="estimated-delivery">${est.estimated_delivery_date || 'N/A'}</td>
-            <td class="estimated-cost">${est.estimated_cost || 'N/A'}</td>
+            <td class="estimated-cost">${formatFn(est.estimated_cost) || "N/A"}</td>
           </tr>
         `;
       }
@@ -226,7 +239,7 @@
     if (advancePaymentTable && lineItem.advance_payment) {
       advancePaymentTable.innerHTML = `
         <tr>
-          <td class="advance-payment">${lineItem.advance_payment.amount || 'N/A'}</td>
+          <td class="advance-payment">${formatFn(lineItem.advance_payment.amount) || 'N/A'}</td>
         </tr>
       `;
     }
@@ -234,9 +247,9 @@
     const ratesTable = modal.querySelector('.two-column-section .column-right .order-details-table tbody');
     if (ratesTable && orderDetails.rates) {
       const rates = orderDetails.rates;
-      const gold14kt = rates.goldRates?.['14KT'] ? `Rs. ${rates.goldRates['14KT'].toLocaleString('en-IN', { maximumFractionDigits: 2 })}` : 'N/A';
-      const gold18kt = rates.goldRates?.['18KT'] ? `Rs. ${rates.goldRates['18KT'].toLocaleString('en-IN', { maximumFractionDigits: 2 })}` : 'N/A';
-      const platinum = rates.platinumRates?.['Platinum 950'] ? `Rs. ${rates.platinumRates['Platinum 950'].toLocaleString('en-IN', { maximumFractionDigits: 2 })}` : 'N/A';
+      const gold14kt = rates.goldRates?.['14KT'] ? ` ${formatFn(rates.goldRates['14KT'])}` : 'N/A';
+      const gold18kt = rates.goldRates?.['18KT'] ? ` ${formatFn(rates.goldRates['18KT'])}` : 'N/A';
+      const platinum = rates.platinumRates?.['Platinum 950'] ? ` ${formatFn(rates.platinumRates['Platinum 950'])}` : 'N/A';
       
       ratesTable.innerHTML = `
         <tr>

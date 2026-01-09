@@ -846,8 +846,19 @@ button.apply-btn {
 <script>
   function renderCustomCheckOutPrice(draftOrder) {
   if (draftOrder?.totalPrice) {
-    document.querySelectorAll('.order-summary.cusotm-checkout .letter-spacing-two')[0].innerText = draftOrder?.totalPrice;
-    document.querySelector('.order-summary.cusotm-checkout .summary-row.total .letter-spacing-two').innerText = draftOrder?.totalPrice;
+    // Normalize numeric total
+    const rawTotal = String(draftOrder.totalPrice || '0');
+    const numericTotal = parseFloat(rawTotal.replace(/[^0-9.-]+/g, '')) || 0;
+
+    // Prefer theme-provided formatter `window.formatPriceNumber`, fallback to local INR formatting
+    const formatFn = window.formatPriceNumber;
+
+    const displayTotal = formatFn(numericTotal);
+
+    const letterElems = document.querySelectorAll('.order-summary.cusotm-checkout .letter-spacing-two');
+    if (letterElems && letterElems.length > 0) letterElems[0].innerText = displayTotal;
+    const totalElem = document.querySelector('.order-summary.cusotm-checkout .summary-row.total .letter-spacing-two');
+    if (totalElem) totalElem.innerText = displayTotal;
   }
   
   if (cartTotalValueAmt && draftOrder?.totalPrice) {
@@ -1292,7 +1303,7 @@ document.addEventListener('DOMContentLoaded', function() {
     valueType: selectedType,
     description: selectedType === "PERCENTAGE"
       ? `${discountValue}% discount applied`
-      : `₹${discountValue} discount applied`
+      : `₹ ${discountValue}/- discount applied`
   };
 
   applyBtn.disabled = true;

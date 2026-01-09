@@ -978,7 +978,7 @@
         if (solitaireDetails.length !== 0) {
           const totalPrice = solitaireDetails.reduce((sum, d) => sum + (d.price || 0), 0);
           const totalCarat = solitaireDetails.reduce((sum, d) => sum + (d.carat || 0), 0);
-          priceBreakupModal.querySelector('.solitaire-price').textContent = `₹${formatPrice(totalPrice)}`;
+          priceBreakupModal.querySelector('.solitaire-price').textContent = `₹ ${formatPrice(totalPrice)}/-`;
           priceBreakupModal.querySelector('.solitaire-shape').textContent = details.diamondType;
           priceBreakupModal.querySelector('.solitaire-details').textContent = `${totalCarat} ct | ${
             solitaireDetails[0].color
@@ -987,7 +987,7 @@
           priceBreakupModal.querySelector('.solitaire-section').classList.remove('hidden');
         }
         // --- Diamond Section ---
-        priceBreakupModal.querySelector('.diamond-price').textContent = `₹${formatPrice(diamondTotalPrice)}`;
+        priceBreakupModal.querySelector('.diamond-price').textContent = `₹ ${formatPrice(diamondTotalPrice)}/-`;
         priceBreakupModal.querySelector('.diamond-type').textContent = details.diamondType;
         priceBreakupModal.querySelector(
           '.diamond-details'
@@ -995,17 +995,17 @@
           details.diamondShape ? ' | ' + details.diamondShape : ''
         }`;
         // --- Metal Section ---
-        priceBreakupModal.querySelector('.metal-price').textContent = `₹${formatPrice(priceData.metal_price)}`;
+        priceBreakupModal.querySelector('.metal-price').textContent = `₹ ${formatPrice(priceData.metal_price)}/-`;
         priceBreakupModal.querySelector('.metal-type').textContent = details.metalType;
         priceBreakupModal.querySelector(
           '.metal-details'
         ).textContent = `${details.metalPurity} | ${details.metalWeight} gm`;
         // --- Making Charges ---
-        priceBreakupModal.querySelector('.making-price').textContent = `₹${formatPrice(priceData.making_charges)}`;
+        priceBreakupModal.querySelector('.making-price').textContent = `₹ ${formatPrice(priceData.making_charges)}/-`;
         // --- GST ---
-        priceBreakupModal.querySelector('.gst-price').textContent = `₹${formatPrice(priceData.gst)}`;
+        priceBreakupModal.querySelector('.gst-price').textContent = `₹ ${formatPrice(priceData.gst)}/-`;
         // --- Total Price ---
-        priceBreakupModal.querySelector('.total-price').textContent = `₹${formatPrice(priceData.total_price_with_gst)}`;
+        priceBreakupModal.querySelector('.total-price').textContent = `₹ ${formatPrice(priceData.total_price_with_gst)}/-`;
         // Show modal
         priceBreakupModal?.classList.remove('hidden');
         pbOverlay?.classList.remove('hidden');
@@ -1021,7 +1021,7 @@
         if (roundDiamonds.length) {
           const totalCarat = roundDiamonds.reduce((sum, d) => sum + (d.carat || 0), 0);
           diamondModal.querySelector('.round-diamond-card').classList.remove('hidden');
-          diamondModal.querySelector('.round-diamond-price').textContent = `₹${formatPrice(roundDiamondsPrice)}`;
+          diamondModal.querySelector('.round-diamond-price').textContent = `₹ ${formatPrice(roundDiamondsPrice)}/-`;
           diamondModal.querySelector('.round-diamond-carat').textContent = `Carat: ${totalCarat} ct`;
           diamondModal.querySelector('.round-diamond-grade').textContent = `Grade: ${priceData.diamond.color || '—'}-${
             priceData.diamond.clarity || '—'
@@ -1034,7 +1034,7 @@
         if (otherDiamonds.length) {
           const totalCarat = otherDiamonds.reduce((sum, d) => sum + (d.carat || 0), 0);
           diamondModal.querySelector('.other-diamond-card').classList.remove('hidden');
-          diamondModal.querySelector('.other-diamond-price').textContent = `₹${formatPrice(otherDiamondsPrice)}`;
+          diamondModal.querySelector('.other-diamond-price').textContent = `₹ ${formatPrice(otherDiamondsPrice)}/-`;
           diamondModal.querySelector('.other-diamond-carat').textContent = `Carat: ${totalCarat} ct`;
           diamondModal.querySelector('.other-diamond-grade').textContent = `Grade: ${priceData.diamond.color || '—'}-${
             priceData.diamond.clarity || '—'
@@ -1046,9 +1046,9 @@
           0
         );
         diamondModal.querySelector('.total-pieces').textContent = `${totalDiamondsCount} pieces`;
-        diamondModal.querySelector('.total-value').textContent = `₹${formatPrice(
+        diamondModal.querySelector('.total-value').textContent = `₹ ${formatPrice(
           otherDiamondsPrice + roundDiamondsPrice
-        )}`;
+        )}/-`;
       });
     });
     // 🧠 Helper: Extract diamond & metal details
