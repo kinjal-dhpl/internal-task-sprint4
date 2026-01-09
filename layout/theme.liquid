@@ -866,9 +866,11 @@ document.addEventListener('DOMContentLoaded', function () {
     <script>
       const formatPrices = (function(){ 
         function formatPriceNumber(val){
-          const n = Number(val || 0);
+          const sanitized = String(val ?? '').replace(/[^\d.\-]/g, '');
+          const n = sanitized === '' ? 0 : Number(sanitized);
+          const safe = Number.isFinite(n) ? n : 0;
           const opts = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
-          return `₹ ${new Intl.NumberFormat('en-IN', opts).format(n)}/-`;
+          return `₹ ${new Intl.NumberFormat('en-IN', opts).format(safe)}/-`;
         }
 
         function formatPriceEl(el){
