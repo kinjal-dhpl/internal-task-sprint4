@@ -1601,7 +1601,7 @@ function userSubmit(e) {
         email: email.value,
         birth_date: date.value,
         phonenumber: number.value,
-        request_id: 'SHPY_' + crypto.randomUUID().replace(/-/g, '').slice(0, -10)
+        request_id: 'SHPY_' + crypto.randomUUID().replace(/-/g, '').slice(0, -6)
     };
 
     finalQuizResponse = JSON.stringify({ answers: userAnswers, meta }, null, 2);
