@@ -1,6 +1,20 @@
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
     console.log("DOM fully loaded");
+
+    function publishShopifyEvent(eventName, data = {}) {
+  try {
+    if (window.Shopify && window.Shopify.analytics && typeof window.Shopify.analytics.publish === "function") {
+      window.Shopify.analytics.publish("custom_event", {
+        event_name: eventName,
+        ...data
+      });
+    }
+  } catch (e) {
+    console.log("publish failed", e);
+  }
+}
+
     
     //SessionId created
     let sessionId = localStorage.getItem("session_id") || null;
@@ -17,11 +31,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Configuration
      // const API_URL = "https://ringexpert-backend.azurewebsites.net/ask";
-    const API_URL = "http://newflaskappbot-dab5eve4d2emdyhw.centralindia-01.azurewebsites.net/ask";
+    const API_URL = "http://127.0.0.1:5000/ask";
     const TIMEOUT = 30000;
     const DB_API = "http://loginfunc-gaerhedqavacb3h2.centralindia-01.azurewebsites.net";
   
-    const SPEECH_API = "http://newflaskappbot-dab5eve4d2emdyhw.centralindia-01.azurewebsites.net/speech_to_text";
+    const SPEECH_API = "http://127.0.0.1:5000/speech_to_text";
 
     // DOM Elements
     const chatbotIcon = document.getElementById('chatbot-icon');
@@ -314,7 +328,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const response = await fetch(API_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                body: JSON.stringify({ question }),
+                body: JSON.stringify({ question, session_id: sessionId  }),
                 signal: controller.signal
             });
 
@@ -341,12 +355,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Follow-up questions mapping
     const FOLLOW_UP_QUESTIONS = {
-        "What Is RINGS & I?": [
+        "What is RINGS & I?": [
             "Why is RINGS & I different?",
             "Can I Book a Free Consultation"
         ],
-        "Where Is Your Studio?": [
-            "How to Reach the Studio?",
+        "Where is Your Studio Location?": [
+            "How to Reach the Studio Location?",
             "Can I Book an Appointment Now"
         ],
         "What Are Your Working Days?": [
@@ -364,12 +378,12 @@ document.addEventListener('DOMContentLoaded', function () {
             "See Designs by Budget"
         ],
         "Which Metals Do You Use?": [
-            "Can I Mix Metal Colors?",
-            "Which One Is Best for Daily Wear?",
+            "Can i Mix Metal Colors?",
+            "Which Metal is Best for Daily Wear?",
             "Gold vs Platinum What to Choose?"
         ],
         "Which Metal Purities Do You Offer?": [
-            "Which Karat Is Better?",
+            "Which Carat Is Better?",
             "Can I Choose Based on Budget?",
             "Gold or Platinum Which Lasts Longer?"
         ],
@@ -382,23 +396,23 @@ document.addEventListener('DOMContentLoaded', function () {
             "Are your Engagement Rings Certified?",
             "How much do Engagement Rings cost at RINGS & I?"
         ],
-        "Can I Personalize My Ring?": [
+        "Can I Personalise My Ring?": [
             "How Does Personalization Work?",
-            "See Past Personalize Designs",
+            "See Past Personalise Designs",
             "Can I Talk to your Ring Designer"
         ],
         "How Can I Book an Appointment?": [
-            "Book Appointment in Pune Store",
-            "Book Appointment in Mumbai Store",
-            "What's Included in the Appointment?",
+            "Book Appointment in Pune Studio",
+            "Book Appointment in Mumbai Studio",
+            "What happens during an Appointment?",
             "Can I Reschedule Later?"
         ],
         "*": [
             "What's the difference between Natural and Lab-grown Diamonds?",
-            "What affects the Price of Rings?",
+            "What Affects the Price of Rings?",
             "Can I see some Engagement Ring Designs?",
             "How do I Book an Appointment?",
-            "What's your Studio Location?",
+            "Where's your Studio Location?",
             "What Metals do you work with?",
             "How do I choose the right Diamond?",
             "Do you offer Payment Plans?"
@@ -414,18 +428,18 @@ document.addEventListener('DOMContentLoaded', function () {
             "How to check Diamond Authenticity?"
         ],
         'price': [
-            "What's your most Affordable Ring option?",
+            "What is your starting Ring Price?",
             "Do you offer Payment Plans?",
             "How can I get the best value?",
             "Why are your Prices lower than others?",
-            "Show me Budget-Friendly Rings options"
+            "Can I see Rings by Price Range?"
         ],
         'Personalization': [
             "Can I Engrave my Ring?",
             "What Metal finishes are Available?",
             "Can I change the Center Stone?",
-            "How long does Personalization take?",
-            "Can I see examples of Personalize Rings?"
+            "How long does Personalisation take?",
+            "Can I see examples of Personalise Rings?"
         ],
         'delivery': [
             "How safe is Shipping?",
@@ -435,7 +449,7 @@ document.addEventListener('DOMContentLoaded', function () {
             "Can someone else receive my order?"
         ],
         'appointment': [
-            "What's included in the Appointment?",
+            "What happens during an Appointment?",
             "How long does it last?",
             "Can I do a Virtual Appointment?",
             "What should I bring to my Appointment?",
@@ -457,6 +471,12 @@ document.addEventListener('DOMContentLoaded', function () {
         chatbotIcon.addEventListener('click', function () {
             console.log("Chat icon clicked");
             const isOpening = chatbotModal.style.display === 'none' || chatbotModal.style.display === '';
+            if (isOpening) {
+                publishShopifyEvent("chatbot_opened", {
+                    session_id: sessionId
+                });
+            }
+
             chatbotModal.style.display = isOpening ? 'flex' : 'none';
             chatbotIcon.style.display = isOpening ? 'none' : 'flex';
 
@@ -666,13 +686,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Map legacy/variant slugs → canonical appointment page
         const SLUG_FIXES = {
-            '/appointments': '/pages/appointment-booking',
-            '/appointment': '/pages/appointment-booking',
-            '/book-appointment': '/pages/appointment-booking',
+            // '/appointments': '/pages/appointments',
+            // '/appointment': '/pages/appointment-booking',
+             '/book-appointment': '/pages/appointment-booking',
             '/book-consultation': '/pages/appointment-booking',
             '/consultation': '/pages/appointment-booking',
-            '/pages/appointments': '/pages/appointment-booking',
-            '/pages/appointment': '/pages/appointment-booking',
+            // '/pages/appointments': '/pages/appointment-booking',
+            // '/pages/appointment': '/pages/appointment-booking',
             '/pages/appointment-booking': '/pages/appointment-booking', // idempotent
         };
 
@@ -748,9 +768,16 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!u || u === '#' || u === '#/') return label; // no placeholder links
             return `<a href="${u}" target="_blank" rel="noopener noreferrer" class="response-link highlight-link">${label}</a>`;
         });
+        html = html.replace(
+        /(^|[^">])(https?:\/\/[^\s<]+)/g,
+        (match, prefix, url) =>
+            `${prefix}<a href="${url}" target="_blank" rel="noopener noreferrer" class="response-link highlight-link">Explore here</a>`
+        );
 
         // 3) Normalize links (standardize domain, add ?return=chatbot, etc.)
         html = normalizeShopLink(html);
+
+        html = html.replace(/(<a\b[^>]*>[\s\S]*?<\/a>)|\b([A-Z][a-zA-Z&-]*)\b/g,(match, link, word) => link ? link : `<strong>${word}</strong>`);
 
         // 4) Build proper lists so you don't get "• 1." double bullets
         const lines = html.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
@@ -769,6 +796,44 @@ document.addEventListener('DOMContentLoaded', function () {
         // Default: single paragraph, no injected bullets
         return `<div class="response-content">${lines.join('<br>')}</div>`;
     }
+
+    function applySeeMore(container) {
+    const content = container.querySelector('.response-content');
+    if (!content) return;
+
+    // Clone to measure real height
+    const clone = content.cloneNode(true);
+    clone.style.position = 'absolute';
+    clone.style.visibility = 'hidden';
+    clone.style.display = 'block';
+    clone.style.webkitLineClamp = 'unset';
+    clone.style.maxHeight = 'none';
+
+    document.body.appendChild(clone);
+
+    const lineHeight = parseFloat(getComputedStyle(content).lineHeight);
+    const lines = Math.round(clone.scrollHeight / lineHeight);
+
+    document.body.removeChild(clone);
+
+    // 🔥 Only if more than 5 lines
+    if (lines <= 5) return;
+
+    content.classList.add('collapsed');
+
+    const toggle = document.createElement('div');
+    toggle.className = 'response-toggle';
+    toggle.textContent = 'See more';
+
+    toggle.addEventListener('click', () => {
+        const collapsed = content.classList.toggle('collapsed');
+        toggle.textContent = collapsed ? 'See More' : 'See Less';
+    });
+
+    container.appendChild(toggle);
+    }
+
+
 
     let messageQueue = [];
     let isProcessing = false;
@@ -830,6 +895,8 @@ document.addEventListener('DOMContentLoaded', function () {
             responseContainer.innerHTML = cleanedReply;
             messageContainer.appendChild(responseContainer);
 
+            // ✅ Apply See more / See less
+            applySeeMore(responseContainer);
 
             // 7. Save bot reply with the same audio flag as the user message
             await saveMessage(sessionId, 'bot', stripHtml(botReply), isAudio);
@@ -1148,7 +1215,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
-
+    
     // Initialize
     initChat();
 });
