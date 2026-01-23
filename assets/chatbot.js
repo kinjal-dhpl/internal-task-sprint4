@@ -31,11 +31,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Configuration
      // const API_URL = "https://ringexpert-backend.azurewebsites.net/ask";
-    const API_URL = "http://127.0.0.1:5000/ask";
+    const API_URL = "http://newflaskappbot-dab5eve4d2emdyhw.centralindia-01.azurewebsites.net/ask";
     const TIMEOUT = 30000;
     const DB_API = "http://loginfunc-gaerhedqavacb3h2.centralindia-01.azurewebsites.net";
   
-    const SPEECH_API = "http://127.0.0.1:5000/speech_to_text";
+    const SPEECH_API = "http://newflaskappbot-dab5eve4d2emdyhw.centralindia-01.azurewebsites.net/speech_to_text";
 
     // DOM Elements
     const chatbotIcon = document.getElementById('chatbot-icon');
