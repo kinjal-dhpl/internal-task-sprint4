@@ -288,8 +288,23 @@ let currentVariants = []; // this will always hold latest 12 variants data
     updatePrice(variantId, size) {
       const priceElements = document.querySelectorAll('.price-item.main_price');
       const variantElements = document.querySelectorAll('.variant-link');
-      
-      // Show loading state
+
+
+      const cachedConfig = window.ProductState.getConfig(variantId, size);
+      if (cachedConfig && cachedConfig.total_price_with_gst) {
+        this.displayPrice(cachedConfig.total_price_with_gst);
+        this.updateHiddenInputs(cachedConfig.total_price_with_gst, size);
+
+        if (window.renderVariantMetaInfo) {
+          window.renderVariantMetaInfo(cachedConfig);
+        }
+
+        document.dispatchEvent(new CustomEvent('priceUpdated', {
+          detail: { variantId, size, config: cachedConfig, price: cachedConfig.total_price_with_gst }
+        }));
+        return;
+      }
+
       priceElements.forEach(el => {
         el.textContent = 'Calculating...';
         el.style.opacity = '0.6';

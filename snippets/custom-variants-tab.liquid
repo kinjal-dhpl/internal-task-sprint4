@@ -772,7 +772,7 @@
         }
         if (variantToSelect) {
           const variantId = variantToSelect.getAttribute('data-variant-id');
-          this.selectVariantById(variantId, false); // Don't trigger price update yet
+          this.selectVariantById(variantId, true);
         }
       },
       selectVariantById(variantId, triggerPriceUpdate = true) {
@@ -803,6 +803,12 @@
         if (window.ProductState) {
           if (triggerPriceUpdate) {
             window.ProductState.updateVariant(variantId);
+            // Force price update to ensure the hidden price input is updated
+            setTimeout(() => {
+              if (window.ProductState.selectedSize) {
+                window.ProductState.updatePrice();
+              }
+            }, 100);
           } else {
             window.ProductState.selectedVariantId = variantId;
             window.ProductState.updateURL();
