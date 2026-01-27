@@ -1483,3 +1483,16 @@ body {
 .chat-option:active {
     background-color: rgb(244, 244, 244) !important; /* original background */
 }
+/* 🔹 Override ONLY bot responses */
+#ringexpert-chatbot .response-container,
+#ringexpert-chatbot .response-container * {
+    /* font-family: 'Oregon LDO Medium', serif !important; */
+    font-weight: 400 !important;
+}
+
+/* 🔹 Bold only important words inside responses */
+#ringexpert-chatbot .response-container strong,
+#ringexpert-chatbot .response-container b {
+    font-family: 'Oregon LDO Bold', serif !important;
+    font-weight: 500 !important;
+}

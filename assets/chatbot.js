@@ -777,7 +777,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // 3) Normalize links (standardize domain, add ?return=chatbot, etc.)
         html = normalizeShopLink(html);
 
-        html = html.replace(/(<a\b[^>]*>[\s\S]*?<\/a>)|\b([A-Z][a-zA-Z&-]*)\b/g,(match, link, word) => link ? link : `<strong>${word}</strong>`);
+        html = html.replace(/(<a\b[^>]*>[\s\S]*?<\/a>)|(Rings\s*&\s*I)|(\b[A-Z][A-Za-z-]*\b|\b\d+\b|&amp;|%)/g,(m,l,r,t)=>l?l:r?'<strong>Rings&I</strong>':t==='&amp;'?'<strong>&</strong>':`<strong>${t}</strong>`);
 
         // 4) Build proper lists so you don't get "• 1." double bullets
         const lines = html.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
