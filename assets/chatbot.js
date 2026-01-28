@@ -428,7 +428,7 @@ document.addEventListener('DOMContentLoaded', function () {
             "How to check Diamond Authenticity?"
         ],
         'price': [
-            "What is your starting Ring Price?",
+            "What is your Ring Prices?",
             "Do you offer Payment Plans?",
             "How can I get the best value?",
             "Why are your Prices lower than others?",
