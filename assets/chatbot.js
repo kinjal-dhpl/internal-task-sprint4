@@ -777,8 +777,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // 3) Normalize links (standardize domain, add ?return=chatbot, etc.)
         html = normalizeShopLink(html);
         html = html
-        .replace(/(^|[^>])(\d+\s*KT)/gi, (m,p,v)=>`${p}<strong>${v}</strong>`)
-        .replace(/(^|[^>])(\d+)/g, (m,p,n)=>`${p}<strong>${n}</strong>`);
+        .replace(/(^|[^>])(\d+\s*KT)/gi, (m,p,v)=>`${p}<strong>${v}</strong>`);
 
         html = html.replace(/(<a\b[^>]*>[\s\S]*?<\/a>)|(Rings\s*&\s*I)|(\b[A-Z][A-Za-z-]*\b|\b\d+\b|&amp;|%)/g,(m,l,r,t)=>l?l:r?'<strong>Rings&I</strong>':t==='&amp;'?'<strong>&</strong>':`<strong>${t}</strong>`);
 
