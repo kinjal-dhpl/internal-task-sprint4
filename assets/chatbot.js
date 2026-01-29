@@ -767,6 +767,7 @@ document.addEventListener('DOMContentLoaded', function () {
         "Find Your Ring Style Quiz",
         "Book a Studio Appointment",
         "Gold",
+        "Appointment:",
         "Natural",
         "14KT",
         "18KT",
