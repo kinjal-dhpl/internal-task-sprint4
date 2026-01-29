@@ -790,7 +790,7 @@ document.addEventListener('DOMContentLoaded', function () {
         "Pricing",
         "personalise",
         "Tier",
-        "Pricing Tires",
+        "Pricing Tiers",
         "Buy-back",
         "Certification",
         "Studio Location",
