@@ -816,7 +816,7 @@ document.addEventListener('DOMContentLoaded', function () {
         html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
          html = html.replace(
         /\b(rings\s*&\s*i|rings&i|rings\s+and\s+i)\b/gi,
-        '<strong>Rings&I</strong>'
+        '<strong>Rings & I</strong>'
         );
         // 2) Convert [label](url) to anchors
         html = html.replace(/\[([\s\S]+?)\]\((.*?)\)/g, (m, label, url) => {
