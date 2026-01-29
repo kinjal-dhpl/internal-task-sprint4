@@ -804,6 +804,8 @@ document.addEventListener('DOMContentLoaded', function () {
         "Make-To-Order",
         "Natural Diamonds",
         "Lab-Grown Diamonds",
+        "Natural Diamond Tiers",
+        "Lab-Grown Diamond Tiers",
         "BIS",
         "Hallmarked",
         "GIA",
