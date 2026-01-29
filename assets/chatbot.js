@@ -810,7 +810,8 @@ document.addEventListener('DOMContentLoaded', function () {
         "Hallmarked",
         "GIA",
         "IGI",
-        "SGL"
+        "SGL",
+        "EGL"
         ];
 
 
