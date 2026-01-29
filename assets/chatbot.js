@@ -777,7 +777,7 @@ document.addEventListener('DOMContentLoaded', function () {
         "Certifications",
         "Certifed",
         "Craft",
-        "crafting",
+        "Crafting",
         "Designed",
         "Design",
         "4C",
