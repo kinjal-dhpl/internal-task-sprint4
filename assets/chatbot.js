@@ -759,6 +759,74 @@ document.addEventListener('DOMContentLoaded', function () {
     function formatResponse(text) {
         let html = String(text || '');
 
+        const KEYWORDS = [
+        "RINGS & I",
+        "Ring",
+        "Diamond Rings",
+        "Rings",
+        "Gold",
+        "14KT",
+        "18KT",
+        "Platinum",
+        "Platinum",
+        "P950",
+        "Color",
+        "Tone",
+        "Purity",
+        "Clarity",
+        "Certifications",
+        "Certifed",
+        "Craft",
+        "crafting",
+        "Designed",
+        "Design",
+        "4C",
+        "4Cs",
+        "Experts",
+        "Expert",
+        "Alloys",
+        "Hypoallergenic",
+        "Purities",
+        "Quality",
+        "Metal",
+        "Small",
+        "Smaller",
+        "Weight",
+        "Size",
+        "Appointment",
+        "Location",
+        "Authenticity",
+        "Diamonds",
+        "Diamond",
+        "Exchange",
+        "Buy-Back",
+        "Styles",
+        "Style",
+        "Pricing",
+        "Tier",
+        "Buy-back",
+        "Lifetime",
+        "Personality",
+        "Lifestyle",
+        "Natural",
+        "Certification",
+        "Occasion",
+        "Occasions",
+        "Studio",
+        "Studio Appointment",
+        "Appointment Booking",
+        "Personalised",
+        "Make-To-Order",
+        "Natural Diamonds",
+        "Lab-Grown Diamonds",
+        "BIS",
+        "Hallmarked",
+        "GIA",
+        "IGI",
+        "SGL"
+        ];
+
+
         // 1) Convert **bold** to <strong>
         html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
 
@@ -768,6 +836,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!u || u === '#' || u === '#/') return label; // no placeholder links
             return `<a href="${u}" target="_blank" rel="noopener noreferrer" class="response-link highlight-link">${label}</a>`;
         });
+
         html = html.replace(
         /(^|[^">])(https?:\/\/[^\s<]+)/g,
         (match, prefix, url) =>
@@ -776,8 +845,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // 3) Normalize links (standardize domain, add ?return=chatbot, etc.)
         html = normalizeShopLink(html);
+
         html = html
         .replace(/(^|[^>])(\d+\s*KT)/gi, (m,p,v)=>`${p}<strong>${v}</strong>`);
+        
+        // Bold only defined keywords, keep links safe
+        KEYWORDS.forEach(word => {
+        const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const regex = new RegExp(`(<a\\b[^>]*>[\\s\\S]*?<\\/a>)|\\b${escaped}\\b`, 'gi');
+        html = html.replace(regex, (m, link) => link ? link : `<strong>${word}</strong>`);
+        });
+
+
 
         html = html.replace(/(<a\b[^>]*>[\s\S]*?<\/a>)|(Rings\s*&\s*I)|(\b[A-Z][A-Za-z-]*\b|\b\d+\b|&amp;|%)/g,(m,l,r,t)=>l?l:r?'<strong>Rings&I</strong>':t==='&amp;'?'<strong>&</strong>':`<strong>${t}</strong>`);
 
