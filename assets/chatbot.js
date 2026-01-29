@@ -756,63 +756,48 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Format the response with professional styling and points
+    // Format the response with professional styling and points
     function formatResponse(text) {
         let html = String(text || '');
 
         const KEYWORDS = [
         "RINGS & I",
-        "Ring",
+        "Rings & I",
         "Diamond Rings",
-        "Rings",
+        "Find Your Ring Style Quiz",
+        "Book a Studio Appointment",
         "Gold",
+        "Natural",
         "14KT",
         "18KT",
         "Platinum",
         "Platinum",
         "P950",
-        "Color",
-        "Tone",
         "Purity",
         "Clarity",
         "Certifications",
-        "Certifed",
-        "Craft",
-        "Crafting",
-        "Designed",
-        "Design",
         "4C",
         "4Cs",
-        "Experts",
-        "Expert",
         "Alloys",
         "Hypoallergenic",
         "Purities",
-        "Quality",
-        "Metal",
-        "Small",
-        "Smaller",
-        "Weight",
-        "Size",
-        "Appointment",
-        "Location",
+        "Cut",
+        "Color",
+        "Carat",
         "Authenticity",
-        "Diamonds",
-        "Diamond",
         "Exchange",
         "Buy-Back",
-        "Styles",
-        "Style",
         "Pricing",
+        "personalise",
         "Tier",
         "Buy-back",
-        "Lifetime",
-        "Personality",
-        "Lifestyle",
-        "Natural",
         "Certification",
-        "Occasion",
-        "Occasions",
-        "Studio",
+        "Studio Location",
+        "Pune",
+        "Mumbai",
+        "Andheri",
+        "Borivali",
+        "AI-Driven Style Mapping Quiz",
         "Studio Appointment",
         "Appointment Booking",
         "Personalised",
@@ -829,7 +814,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // 1) Convert **bold** to <strong>
         html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-
+         html = html.replace(
+        /\b(rings\s*&\s*i|rings&i|rings\s+and\s+i)\b/gi,
+        '<strong>Rings&I</strong>'
+        );
         // 2) Convert [label](url) to anchors
         html = html.replace(/\[([\s\S]+?)\]\((.*?)\)/g, (m, label, url) => {
             const u = (url || '').trim();
@@ -858,7 +846,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-        html = html.replace(/(<a\b[^>]*>[\s\S]*?<\/a>)|(Rings\s*&\s*I)|(\b[A-Z][A-Za-z-]*\b|\b\d+\b|&amp;|%)/g,(m,l,r,t)=>l?l:r?'<strong>Rings&I</strong>':t==='&amp;'?'<strong>&</strong>':`<strong>${t}</strong>`);
+        // html = html.replace(/(<a\b[^>]*>[\s\S]*?<\/a>)|(Rings\s*&\s*I)|(\b[A-Z][A-Za-z-]*\b|\b\d+\b|&amp;|%)/g,(m,l,r,t)=>l?l:r?'<strong>Rings&I</strong>':t==='&amp;'?'<strong>&</strong>':`<strong>${t}</strong>`);
 
         // 4) Build proper lists so you don't get "• 1." double bullets
         const lines = html.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
