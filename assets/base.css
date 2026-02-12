@@ -5,6 +5,14 @@
 /* h1, h2, h3, h4, h5, h6{
   font-family: 'oregon-ldo-medium';
 } */
+ @font-face {
+  font-family: 'lato-numbers';
+  src: url('Lato-Regular.woff2') format('woff2'),
+       url('Lato-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  unicode-range: U+0030-0039; /* digits only */
+}
 
 :root {
   --alpha-button-background: 1;
